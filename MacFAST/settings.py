@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
+import dj_database_url
 
 from dotenv import load_dotenv
 
@@ -39,6 +40,8 @@ ALLOWED_HOSTS = []
 # Set to frontend's local server
 CORS_ALLOWED_ORIGINS = [os.getenv("ALLOWED_ORIGIN")]
 
+# DB URL for PostgreSQL
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Application definition
 
@@ -90,10 +93,13 @@ WSGI_APPLICATION = "MacFAST.wsgi.application"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    # "default": {
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": BASE_DIR / "db.sqlite3",
+    # }
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
+    )
 }
 
 
