@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
+    "mozilla_django_oidc",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
@@ -97,11 +98,22 @@ DATABASES = {
     #     "ENGINE": "django.db.backends.sqlite3",
     #     "NAME": BASE_DIR / "db.sqlite3",
     # }
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
-    )
+    "default": dj_database_url.config(default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
 }
 
+# OIDC environment configuration
+# https://mozilla-django-oidc.readthedocs.io/en/stable/installation.html
+# AUTHENTICATION_BACKENDS = ("mozilla_django_oidc.auth.OIDCAuthenticationBackend",)
+
+# OIDC_RP_CLIENT_ID = os.environ["OIDC_RP_CLIENT_ID"]
+# OIDC_RP_CLIENT_SECRET = os.environ["OIDC_RP_CLIENT_SECRET"]
+
+# OIDC_OP_AUTHORIZATION_ENDPOINT = "<URL of the OIDC OP authorization endpoint>"
+# OIDC_OP_TOKEN_ENDPOINT = "<URL of the OIDC OP token endpoint>"
+# OIDC_OP_USER_ENDPOINT = "<URL of the OIDC OP userinfo endpoint>"
+
+# LOGIN_REDIRECT_URL = "<URL path to redirect to after login>"
+# LOGOUT_REDIRECT_URL = "<URL path to redirect to after logout>"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
