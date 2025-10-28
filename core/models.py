@@ -1,19 +1,17 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-class User(models.Model):
-    # TODO: Anything for auth later?
-    username = models.TextField(unique=True)
-    email = models.EmailField(unique=True)
+class User(AbstractUser):
+    # Typical user fields are in AbstractUser
     ability_score = models.FloatField(default=0)
-    is_admin = models.BooleanField(default=False)
 
 class SavedForLater(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)
     question = models.ForeignKey("Question", on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField()
 
 class Course(models.Model):
-    name = models.TextField()
+    name = models.CharField(max_length=255)
     code = models.CharField(max_length=10)
     year = models.IntegerField()
     semester = models.IntegerField()
@@ -24,10 +22,13 @@ class Course(models.Model):
 class Enrollment(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)
     course = models.ForeignKey("Course", on_delete=models.CASCADE)
+    is_instructor = models.BooleanField(default=False)
+    class Meta:
+        unique_together = ('user', 'course')
 
-class InstructorAssignment(models.Model):
-    user = models.ForeignKey("User", on_delete=models.CASCADE)
-    course = models.ForeignKey("Course", on_delete=models.CASCADE)
+class QuestionGroup(models.Model):
+    group_name = models.TextField()
+    questions = models.ManyToManyField("Question")
 
 class Unit(models.Model):
     course = models.ForeignKey("Course", on_delete=models.CASCADE)
@@ -35,10 +36,6 @@ class Unit(models.Model):
     question_group = models.ForeignKey("QuestionGroup", on_delete=models.CASCADE)
     class Meta:
         unique_together = ('course', 'name')
-
-class QuestionGroup(models.Model):
-    group_name = models.TextField()
-    question_id = models.ManyToManyField("Question", on_delete=models.CASCADE)
 
 class Question(models.Model):
     serial_number = models.CharField(max_length=255, unique=True)
@@ -50,14 +47,15 @@ class QuestionComment(models.Model):
     question = models.ForeignKey("Question", on_delete=models.CASCADE)
     user = models.ForeignKey("User", on_delete=models.CASCADE)
     comment_text = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField()
 
 class QuestionAnalytics(models.Model):
     question = models.ForeignKey("Question", on_delete=models.CASCADE)
     user = models.ForeignKey("User", on_delete=models.CASCADE)
+    timestamp = models.DateTimeField()
     answered_correctly = models.BooleanField()
     updated_ability_score = models.FloatField()
-    time_spent = models.FloatField(default=0.0)
+    time_spent = models.FloatField()
 
 class QuestionOption(models.Model):
     question = models.ForeignKey("Question", on_delete=models.CASCADE)
