@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 class User(AbstractUser):
     # Typical user fields are in AbstractUser
-    ability_score = models.DecimalField(max_digits=2, decimal_places=4, default=0.50)
+    ability_score = models.DecimalField(max_digits=5, decimal_places=4, default=0.50)
 
 class SavedForLater(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)
