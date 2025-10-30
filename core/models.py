@@ -67,7 +67,7 @@ class QuestionAnalytics(models.Model):
 class QuestionOption(models.Model):
     content = models.TextField()
     is_answer = models.BooleanField(default=False)
-
+    images = models.ManyToManyField("QuestionImage", blank=True)
     class Meta:
         unique_together = ('question', 'content')
 
