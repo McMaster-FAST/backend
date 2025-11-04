@@ -1,7 +1,6 @@
 from django.db import models
 from django.conf import settings
 
-
 # Create your models here.
 
 class SavedForLater(models.Model):
@@ -9,33 +8,9 @@ class SavedForLater(models.Model):
     question = models.ForeignKey("Question", on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
-class Course(models.Model):
-    name = models.CharField(max_length=255)
-    code = models.CharField(max_length=10)
-    year = models.IntegerField()
-    semester = models.IntegerField()
-
-    class Meta:
-        unique_together = ('code', 'year', 'semester')
-
-class Enrollment(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    course = models.ForeignKey("Course", on_delete=models.CASCADE)
-    is_instructor = models.BooleanField(default=False)
-    class Meta:
-        unique_together = ('user', 'course')
-
 class QuestionGroup(models.Model):
     group_name = models.TextField()
     questions = models.ManyToManyField("Question")
-
-class Unit(models.Model):
-    course = models.ForeignKey("Course", on_delete=models.CASCADE)
-    name = models.TextField()
-    number = models.IntegerField()
-    question_group = models.ForeignKey("QuestionGroup", on_delete=models.CASCADE)
-    class Meta:
-        unique_together = ('course', 'name')
 
 class Question(models.Model):
     serial_number = models.CharField(max_length=255, unique=True)
