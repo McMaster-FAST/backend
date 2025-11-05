@@ -15,7 +15,7 @@ class QuestionGroup(models.Model):
 class Question(models.Model):
     serial_number = models.CharField(max_length=255, unique=True)
     content = models.TextField()
-    difficulty = models.DecimalField(max_digits=5, decimal_places=4, default=0.50)
+    difficulty = models.DecimalField(max_digits=3, decimal_places=2, default=0.50)
     is_flagged = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_verified = models.BooleanField(default=False)

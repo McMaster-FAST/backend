@@ -17,10 +17,16 @@ class Unit(models.Model):
     course = models.ForeignKey("Course", on_delete=models.CASCADE)
     name = models.TextField()
     number = models.IntegerField()
-    question_group = models.ForeignKey(QuestionGroup, on_delete=models.CASCADE)
     class Meta:
         unique_together = ('course', 'name')
-    
+
+class UnitSubTopic(models.Model):
+    unit = models.ForeignKey("Unit", on_delete=models.CASCADE)
+    name = models.TextField()
+    question_group = models.ForeignKey(QuestionGroup, on_delete=models.CASCADE)
+    class Meta:
+        unique_together = ('unit', 'name')
+
 class Enrollment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     course = models.ForeignKey("Course", on_delete=models.CASCADE)
