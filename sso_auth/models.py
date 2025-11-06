@@ -3,5 +3,4 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 class MacFastUser(AbstractUser):
-    # Typical user fields are in AbstractUser
-    ability_score = models.DecimalField(max_digits=3, decimal_places=2, default=0.00)
+    pass

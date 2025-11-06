@@ -27,6 +27,13 @@ class UnitSubTopic(models.Model):
     class Meta:
         unique_together = ('unit', 'name')
 
+class UserScoreForTopic(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    unit_sub_topic = models.ForeignKey("UnitSubTopic", on_delete=models.CASCADE)
+    score = models.DecimalField(max_digits=3, decimal_places=2, default=0.00)
+    class Meta:
+        unique_together = ('user', 'unit_sub_topic')
+
 class Enrollment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     course = models.ForeignKey("Course", on_delete=models.CASCADE)
