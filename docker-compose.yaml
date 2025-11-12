@@ -1,3 +1,25 @@
+x-django-service: &django-service
+  build:
+    context: .
+    dockerfile: Dockerfile
+    target: runner
+  volumes:
+    - .:/app # Mount the application code
+  environment:
+    - DEBUG=${DEBUG}
+    - SECRET_KEY=${SECRET_KEY}
+    - ALLOWED_HOSTS=localhost,127.0.0.1
+    - CORS_ALLOWED_ORIGINS=${ALLOWED_ORIGIN}
+    - ALLOWED_ORIGIN=${ALLOWED_ORIGIN}--
+    - DATABASE_URL=${DATABASE_URL}
+    - CELERY_BROKER_URL=amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@rabbitmq:5672/
+  restart: unless-stopped
+  depends_on:
+    db:
+      condition: service_healthy
+    rabbitmq:
+      condition: service_healthy
+
 name: mac-fast-backend
 services:
   db:
@@ -9,7 +31,11 @@ services:
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -h localhost -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -h localhost -U ${POSTGRES_USER} -d ${POSTGRES_DB}",
+        ]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -17,11 +43,25 @@ services:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
 
+  rabbitmq:
+    image: rabbitmq:4.1.4-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    restart: unless-stopped
+
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: runner
+    <<: *django-service
     command: >
       sh -c "
       uv run python manage.py migrate &&
@@ -31,21 +71,25 @@ services:
       - .:/app
       - static_volume:/app/staticfiles
       - media_volume:/app/media
-    environment:
-      - DEBUG=${DEBUG} 
-      - SECRET_KEY=${SECRET_KEY}
-      - DATABASE_URL=${DATABASE_URL}
-      - ALLOWED_HOSTS=localhost,127.0.0.1
-      - CORS_ALLOWED_ORIGINS=${ALLOWED_ORIGIN}
-      - ALLOWED_ORIGIN=${ALLOWED_ORIGIN}
     ports:
       - "8000:8000"
-    depends_on:
-      db:
-        condition: service_healthy
-    restart: unless-stopped
+
+  worker:
+    <<: *django-service # Inherit from the base service
+    command: >
+      sh -c "
+      uv run celery -A MacFAST worker -l info
+      "
+
+  beat:
+    <<: *django-service # Inherit from the base service
+    command: >
+      sh -c "
+      uv run celery -A MacFAST beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+      "
 
 volumes:
   postgres_data:
+  rabbitmq_data:
   static_volume:
   media_volume:
