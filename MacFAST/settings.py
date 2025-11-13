@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     "courses",
     "sso_auth",
     "rest_framework",
+    "django_celery_beat",
+    "django_celery_results",
 ]
 
 MIDDLEWARE = [
@@ -158,3 +160,19 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "sso_auth.MacFastUser"
+
+# Celery Configuration Options
+
+# Use the Django DB as the result backend
+CELERY_RESULT_BACKEND = "django-db"
+
+# Use JSON as the serializer
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+
+# Set timezone for Celery (optional, but good practice)
+CELERY_TIMEZONE = "UTC"  # Or your preferred timezone
+
+# Tell Celery Beat to use the Django database scheduler
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
