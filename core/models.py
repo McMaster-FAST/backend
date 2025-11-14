@@ -23,13 +23,13 @@ class Question(models.Model):
 
 class QuestionComment(models.Model):
     question = models.ForeignKey("Question", on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     comment_text = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
 class QuestionAnalytics(models.Model):
     question = models.ForeignKey("Question", on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     answered_correctly = models.BooleanField()
     updated_ability_score = models.FloatField()

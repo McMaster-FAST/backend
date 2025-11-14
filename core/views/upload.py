@@ -2,9 +2,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
 
 from ..serializers import FileUploadSerializer
+from ..tasks import parse_file
 
 class UploadView(APIView):
     """
@@ -21,9 +21,10 @@ class UploadView(APIView):
 
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
-        uploaded_file = serializer.validated_data['file']
-        
-        # TODO: Implement file processing logic here
-            
-        return Response({"message": "File uploaded successfully."}, status=status.HTTP_201_CREATED)
+
+        uploaded_file = serializer.validated_data["file"]
+        parse_file.delay(file_name=uploaded_file.name, file_data=uploaded_file.read())
+
+        return Response(
+            {"message": "File uploaded successfully."}, status=status.HTTP_201_CREATED
+        )
