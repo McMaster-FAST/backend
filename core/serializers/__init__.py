@@ -1,1 +1,2 @@
 from .upload_serializer import FileUploadSerializer
+from .adaptive_test_serializer import AdaptiveTestSerializer

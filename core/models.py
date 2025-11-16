@@ -9,7 +9,7 @@ class SavedForLater(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
 class QuestionGroup(models.Model):
-    group_name = models.TextField()
+    group_name = models.TextField(unique=True)
     questions = models.ManyToManyField("Question")
 
 class Question(models.Model):
