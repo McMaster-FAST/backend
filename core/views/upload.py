@@ -23,7 +23,9 @@ class UploadView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         uploaded_file = serializer.validated_data["file"]
-        parse_file.delay(file_name=uploaded_file.name, file_data=uploaded_file.read())
+        group_name = serializer.validated_data.get("group_name")
+
+        parse_file.delay(file_name=uploaded_file.name, file_data=uploaded_file.read(), group_name=group_name)
 
         return Response(
             {"message": "File uploaded successfully."}, status=status.HTTP_201_CREATED

@@ -3,7 +3,7 @@ from celery import shared_task
 from io import BytesIO
 
 from django.db import transaction
-from ..models import Question, QuestionComment, QuestionOption
+from ..models import Question, QuestionComment, QuestionOption, QuestionGroup
 
 CHOSEN_FREQUENCY = "freq"
 
@@ -29,15 +29,21 @@ class DocxParsingError(Exception):
     pass
 
 @shared_task
-def parse_file(file_name: str, file_data: bytes):
-    print(file_name)
-    print(len(file_data))
+def parse_file(file_name: str, file_data: bytes, group_name: str) -> None:
+    question_group = None
+    if group_name is None:
+        pass # TODO: handle automatically grouping based on coures unit and subtopic
+    else:
+        with transaction.atomic():
+            question_group, created = QuestionGroup.objects.get_or_create(group_name=group_name)
+
     if file_name.endswith(".docx"):
-        return parse_questions_from_docx(file_data)
+        parse_questions_from_docx(file_data, question_group)
 
 
-def parse_questions_from_docx(file_data: bytes):
+def parse_questions_from_docx(file_data: bytes, question_group: QuestionGroup) -> None:
     document = Document(BytesIO(file_data))
+    question_count = 0
     for table in document.tables:
         table_data = {}
         for i, data_names in enumerate(docx_table_format):
@@ -57,9 +63,11 @@ def parse_questions_from_docx(file_data: bytes):
                 
                 table_data.setdefault(f"{data_names[0]}-{name}", cells[j + 1].text.strip())
         with transaction.atomic():
-            insert_data(table_data)
+            insert_data(table_data, question_group)
+            question_count += 1
+    return question_count
 
-def insert_data(table_data):
+def insert_data(table_data: dict, question_group: QuestionGroup) -> None:
     answer_freq_key = f"{str(table_data.get("answer")).lower()}-{CHOSEN_FREQUENCY}"
 
     answer_freq = table_data.get(answer_freq_key)
@@ -94,3 +102,7 @@ def insert_data(table_data):
             comment_text=table_data.get("comment"),
             # TODO: Something about not including timestamp if inserted from file upload?
         ).save()
+    
+    if question_group is not None:
+        question_group.questions.add(question)
+        question_group.save()
