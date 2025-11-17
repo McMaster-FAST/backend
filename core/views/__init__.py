@@ -1,3 +1,4 @@
 from .ping import PingView
 from .upload import UploadView
-from .adaptive_test import AdaptiveTestView
+from .next_test_question import NextTestQuestionView
+from .submit_test_answer import SubmitTestAnswerView
