@@ -106,17 +106,28 @@ DATABASES = {
 
 # OIDC environment configuration
 # https://mozilla-django-oidc.readthedocs.io/en/stable/installation.html
-# AUTHENTICATION_BACKENDS = ("mozilla_django_oidc.auth.OIDCAuthenticationBackend",)
+AUTHENTICATION_BACKENDS = ("sso_auth.backends.MyOIDCBackend",)
 
-# OIDC_RP_CLIENT_ID = os.environ["OIDC_RP_CLIENT_ID"]
-# OIDC_RP_CLIENT_SECRET = os.environ["OIDC_RP_CLIENT_SECRET"]
+OIDC_BASE_URL = "dev-s3rx1onlkeck3uo3.us.auth0.com"
 
-# OIDC_OP_AUTHORIZATION_ENDPOINT = "<URL of the OIDC OP authorization endpoint>"
-# OIDC_OP_TOKEN_ENDPOINT = "<URL of the OIDC OP token endpoint>"
-# OIDC_OP_USER_ENDPOINT = "<URL of the OIDC OP userinfo endpoint>"
+OIDC_OP_ISSUER = f"https://{OIDC_BASE_URL}/"
+OIDC_USE_NONCE = False
 
-# LOGIN_REDIRECT_URL = "<URL path to redirect to after login>"
-# LOGOUT_REDIRECT_URL = "<URL path to redirect to after logout>"
+OIDC_RP_CLIENT_ID = os.environ["OIDC_RP_CLIENT_ID"]
+OIDC_RP_CLIENT_SECRET = os.environ["OIDC_RP_CLIENT_SECRET"]
+
+OIDC_OP_AUTHORIZATION_ENDPOINT = f"https://{OIDC_BASE_URL}/authorize"
+OIDC_OP_TOKEN_ENDPOINT = f"https://{OIDC_BASE_URL}/oauth/token"
+OIDC_OP_USER_ENDPOINT = f"https://{OIDC_BASE_URL}/userinfo"
+
+OIDC_RP_SIGN_ALGO = "RS256"
+
+OIDC_OP_JWKS_ENDPOINT = f"https://{OIDC_BASE_URL}/.well-known/jwks.json"
+
+LOGIN_URL = "oidc_authentication_init"
+
+LOGIN_REDIRECT_URL = "/admin"
+LOGOUT_REDIRECT_URL = "/"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

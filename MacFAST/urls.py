@@ -16,9 +16,16 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, reverse_lazy
+from django.views.generic import RedirectView
 
 urlpatterns = [
+    path(
+        "admin/login/",
+        RedirectView.as_view(
+            url=reverse_lazy("oidc_authentication_init"), permanent=False
+        ),
+    ),
     path("admin/", admin.site.urls),
     path("oidc/", include("mozilla_django_oidc.urls")),
     path("api/core/", include("core.urls")),
