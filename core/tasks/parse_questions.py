@@ -48,9 +48,8 @@ def parse_questions_from_docx(file_data: bytes, question_group: QuestionGroup) -
         table_data = {}
         for i, data_names in enumerate(docx_table_format):
             cells = table.row_cells(i)
-            # When I learn why the cell length is weird I can add this back
-            # if len(cells) != len(data_names):
-            #     raise DocxParsingError(f"Row {i} does not match expected format.")
+            # TODO: When the issue with unexpected cell length is understood,
+            # validate the row structure here and handle format errors.
             table_data.setdefault(data_names[0], cells[1].text.strip())
             if len(data_names) == 1:
                 continue
