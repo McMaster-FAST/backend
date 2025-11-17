@@ -83,14 +83,15 @@ def insert_data(table_data: dict, question_group: QuestionGroup) -> None:
     question.save()
 
     for option_row in [row for row in docx_table_format[docx_table_options[0]:docx_table_options[1]]]:
-        option_name = option_row[0]
+        option_name = option_row[0].lower()
         option_freq_key = f"{option_name}-{CHOSEN_FREQUENCY}"
         option_freq = table_data.get(option_freq_key)
         selection_frequency = float(option_freq) if option_freq != "" else 0.0
+        is_answer = option_name == str(table_data.get("answer")).lower()
         QuestionOption(
                 question=Question.objects.get(id=question.id),
                 content=table_data.get(option_name),
-                is_answer=(option_name == table_data.get("answer")),
+                is_answer=is_answer,
                 selection_frequency=selection_frequency,
                 # TODO Support images
             ).save()
