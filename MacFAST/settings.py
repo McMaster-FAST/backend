@@ -110,6 +110,8 @@ AUTHENTICATION_BACKENDS = ("sso_auth.backends.MyOIDCBackend",)
 
 OIDC_BASE_URL = "dev-s3rx1onlkeck3uo3.us.auth0.com"
 
+OIDC_RP_SCOPES = "openid email profile"
+
 OIDC_OP_ISSUER = f"https://{OIDC_BASE_URL}/"
 OIDC_USE_NONCE = False
 

@@ -1,64 +1,68 @@
-# In sso_auth/backends.py
-
 from mozilla_django_oidc.auth import OIDCAuthenticationBackend
 import json
-import traceback  # We'll use this to see the full error
+import traceback
 
-# This URL MUST EXACTLY MATCH the 'namespace' you defined in your Auth0 Action.
 ROLES_CLAIM_URL = "https://chemfast.ca/roles"
 
 
 class MyOIDCBackend(OIDCAuthenticationBackend):
 
     def verify_claims(self, claims):
-        """
-        This is the method that is failing. We are overriding it
-        to print the claims data *before* it fails.
-        """
-
-        # --- START NUCLEAR DEBUG ---
+        # ... Your existing debug logic ...
         print("\n" + "=" * 30)
-        print("--- DEBUG: verify_claims (THIS IS THE SPOT!) ---")
-        print("Claims received from token. We will compare this to settings.py:")
+        print("--- DEBUG: verify_claims ---")
         print(json.dumps(claims, indent=2))
         print("=" * 30 + "\n")
-        # --- END NUCLEAR DEBUG ---
 
-        try:
-            # Run the original verification from the library
-            return super().verify_claims(claims)
-        except Exception as e:
-            # --- START NUCLEAR DEBUG ---
-            print("\n" + "!" * 30)
-            print(f"--- VERIFICATION FAILED! Error: {e}")
-            print("Traceback:")
-            traceback.print_exc()
-            print("!" * 30 + "\n")
-            # --- END NUCLEAR DEBUG ---
-            raise  # Re-raise the exception so the login fails as normal
+        return super().verify_claims(claims)
 
-    # --- The functions below are NOT being reached yet, ---
-    # --- but we leave them here for when verify_claims works. ---
+    def create_user(self, claims):
+        """
+        Create the user using the username from claims (nickname)
+        instead of the default hash/email logic.
+        """
+        print("--- DEBUG: create_user (NEW USER) ---")
+
+        # 1. Get the email
+        email = claims.get("email")
+
+        # 2. Get the username.
+        # Auth0/GitHub usually puts the username in 'nickname'.
+        # Standard OIDC uses 'preferred_username'. We try both.
+        username = claims.get("nickname") or claims.get("preferred_username")
+
+        # Fallback: If no username exists, split the email
+        if not username:
+            username = email.split("@")[0]
+
+        # 3. Create the user instance directly using your Custom User Model
+        # Note: We use self.UserModel to ensure we use MacFastUser
+        user = self.UserModel.objects.create_user(username=username, email=email)
+
+        # 4. Set permissions
+        self._set_user_flags(user, claims)
+
+        return user
+
+    def update_user(self, user, claims):
+        print("--- DEBUG: update_user (EXISTING USER) ---")
+
+        # Set permissions on every login to keep them synced
+        self._set_user_flags(user, claims)
+
+        return user
 
     def _set_user_flags(self, user, claims):
         roles = claims.get(ROLES_CLAIM_URL, [])
+
+        # Reset flags first
         user.is_staff = False
         user.is_superuser = False
+
         if "admin" in roles:
             user.is_staff = True
             user.is_superuser = True
         elif "staff" in roles:
             user.is_staff = True
+
         user.save()
-
-    def create_user(self, claims):
-        print("--- DEBUG: create_user (NEW USER) ---")
-        user = super().create_user(claims)
-        self._set_user_flags(user, claims)
-        return user
-
-    def update_user(self, user, claims):
-        print("--- DEBUG: update_user (EXISTING USER) ---")
-        user = super().update_user(user, claims)
-        self._set_user_flags(user, claims)
-        return user
