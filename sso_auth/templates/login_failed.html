@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Access Denied</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        padding: 50px;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      h1 {
+        color: #d9534f;
+      }
+      p {
+        line-height: 1.5;
+      }
+      .btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background: #0275d8;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      .btn:hover {
+        background: #025aa5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Access Denied</h1>
+      <p>We could not verify your account permissions.</p>
+
+      <p>
+        <strong>Why am I seeing this?</strong><br />
+        This usually happens if your GitHub email is private or if you have not
+        been granted access to the system.
+      </p>
+
+      <a href="/oidc/authenticate/" class="btn">Try Again</a>
+    </div>
+  </body>
+</html>

@@ -129,7 +129,8 @@ OIDC_OP_JWKS_ENDPOINT = f"https://{OIDC_BASE_URL}/.well-known/jwks.json"
 LOGIN_URL = "oidc_authentication_init"
 
 LOGIN_REDIRECT_URL = "/admin"
-LOGOUT_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/auth/logged-out/"
+LOGIN_REDIRECT_URL_FAILURE = "/auth/login-failed/"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
