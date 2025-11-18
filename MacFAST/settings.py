@@ -132,6 +132,12 @@ LOGIN_REDIRECT_URL = "/admin"
 LOGOUT_REDIRECT_URL = "/auth/logged-out/"
 LOGIN_REDIRECT_URL_FAILURE = "/auth/login-failed/"
 
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ]
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
