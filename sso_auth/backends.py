@@ -8,61 +8,78 @@ ROLES_CLAIM_URL = "https://chemfast.ca/roles"
 class MyOIDCBackend(OIDCAuthenticationBackend):
 
     def verify_claims(self, claims):
-        # ... Your existing debug logic ...
+        """
+        Verify that we have at least a Subject ID.
+        We do NOT call super() here because super() fails if email is missing.
+        """
         print("\n" + "=" * 30)
         print("--- DEBUG: verify_claims ---")
         print(json.dumps(claims, indent=2))
         print("=" * 30 + "\n")
 
-        return super().verify_claims(claims)
+        # If 'sub' (Subject ID) is present, the token is valid enough for us.
+        # We skip the email check.
+        return "sub" in claims
 
-    def create_user(self, claims):
+    def filter_users_by_claims(self, claims):
         """
-        Create the user using the username from claims (nickname)
-        instead of the default hash/email logic.
+        Attempt to find an existing user.
+        Standard logic tries email. We will try nickname (username) as a fallback.
         """
-        print("--- DEBUG: create_user (NEW USER) ---")
-
-        # 1. Get the email
         email = claims.get("email")
-
-        # 2. Get the username.
-        # Auth0/GitHub usually puts the username in 'nickname'.
-        # Standard OIDC uses 'preferred_username'. We try both.
         username = claims.get("nickname") or claims.get("preferred_username")
 
-        # Fallback: If no username exists, split the email
-        if not username:
+        # 1. Try finding by email (if we have one)
+        if email:
+            users = self.UserModel.objects.filter(email__iexact=email)
+            if users.exists():
+                print(f"--- DEBUG: Found user by email: {email} ---")
+                return users
+
+        # 2. Try finding by username (if email search failed or no email)
+        if username:
+            users = self.UserModel.objects.filter(username__iexact=username)
+            if users.exists():
+                print(f"--- DEBUG: Found user by username: {username} ---")
+                return users
+
+        return self.UserModel.objects.none()
+
+    def create_user(self, claims):
+        print("--- DEBUG: create_user (NEW USER) ---")
+
+        email = claims.get("email")
+        # Get username from nickname (GitHub) or preferred_username
+        username = claims.get("nickname") or claims.get("preferred_username")
+
+        # FALLBACK 1: If no username, use part of the email
+        if not username and email:
             username = email.split("@")[0]
 
-        # 3. Create the user instance directly using your Custom User Model
-        # Note: We use self.UserModel to ensure we use MacFastUser
+        # FALLBACK 2: If no email (GitHub Private Mode), generate a dummy one
+        if not email:
+            # We create a fake email using the username to satisfy Django requirements
+            print("--- WARNING: No email in claims. Generating placeholder. ---")
+            email = f"{username}@no-email.chemfast.ca"
+
+        # Create the user
         user = self.UserModel.objects.create_user(username=username, email=email)
 
-        # 4. Set permissions
         self._set_user_flags(user, claims)
-
         return user
 
     def update_user(self, user, claims):
         print("--- DEBUG: update_user (EXISTING USER) ---")
-
-        # Set permissions on every login to keep them synced
         self._set_user_flags(user, claims)
-
         return user
 
     def _set_user_flags(self, user, claims):
         roles = claims.get(ROLES_CLAIM_URL, [])
-
-        # Reset flags first
         user.is_staff = False
         user.is_superuser = False
-
         if "admin" in roles:
             user.is_staff = True
             user.is_superuser = True
         elif "staff" in roles:
             user.is_staff = True
-
         user.save()
