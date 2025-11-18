@@ -4,3 +4,4 @@ from .adaptive_test_question_serializer import AdaptiveTestQuestionSerializer, A
 from .adaptive_test_option_serializer import AdaptiveTestOptionSerializer
 from .question_image_serializer import QuestionImageSerializer
 from .answer_serializer import AnswerSerializer
+from .question_serializer import QuestionSerializer
