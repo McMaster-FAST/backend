@@ -1,5 +1,6 @@
 from mozilla_django_oidc.auth import OIDCAuthenticationBackend
 import json
+from django.conf import settings
 
 
 ROLES_CLAIM_URL = "https://chemfast.ca/roles"
@@ -12,10 +13,11 @@ class MyOIDCBackend(OIDCAuthenticationBackend):
         Verify that we have at least a Subject ID.
         We do NOT call super() here because super() fails if email is missing.
         """
-        print("\n" + "=" * 30)
-        print("--- DEBUG: verify_claims ---")
-        print(json.dumps(claims, indent=2))
-        print("=" * 30 + "\n")
+        if settings.DEBUG:
+            print("\n" + "=" * 30)
+            print("--- DEBUG: verify_claims ---")
+            print(json.dumps(claims, indent=2))
+            print("=" * 30 + "\n")
 
         # If 'sub' (Subject ID) is present, the token is valid enough for us.
         # We skip the email check.
