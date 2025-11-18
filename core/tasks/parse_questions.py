@@ -48,9 +48,8 @@ def parse_questions_from_docx(file_data: bytes, question_group: QuestionGroup) -
         table_data = {}
         for i, data_names in enumerate(docx_table_format):
             cells = table.row_cells(i)
-            # When I learn why the cell length is weird I can add this back
-            # if len(cells) != len(data_names):
-            #     raise DocxParsingError(f"Row {i} does not match expected format.")
+            # TODO: When the issue with unexpected cell length is understood,
+            # validate the row structure here and handle format errors.
             table_data.setdefault(data_names[0], cells[1].text.strip())
             if len(data_names) == 1:
                 continue
@@ -84,14 +83,15 @@ def insert_data(table_data: dict, question_group: QuestionGroup) -> None:
     question.save()
 
     for option_row in [row for row in docx_table_format[docx_table_options[0]:docx_table_options[1]]]:
-        option_name = option_row[0]
+        option_name = option_row[0].lower()
         option_freq_key = f"{option_name}-{CHOSEN_FREQUENCY}"
         option_freq = table_data.get(option_freq_key)
         selection_frequency = float(option_freq) if option_freq != "" else 0.0
+        is_answer = option_name == str(table_data.get("answer")).lower()
         QuestionOption(
                 question=Question.objects.get(id=question.id),
                 content=table_data.get(option_name),
-                is_answer=(option_name == table_data.get("answer")),
+                is_answer=is_answer,
                 selection_frequency=selection_frequency,
                 # TODO Support images
             ).save()
