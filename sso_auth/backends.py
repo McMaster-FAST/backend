@@ -48,7 +48,8 @@ class MyOIDCBackend(OIDCAuthenticationBackend):
         return self.UserModel.objects.none()
 
     def create_user(self, claims):
-        print("--- DEBUG: create_user (NEW USER) ---")
+        if settings.DEBUG:
+            print("--- DEBUG: create_user (NEW USER) ---")
 
         email = claims.get("email")
         # Get username from nickname (GitHub) or preferred_username
@@ -71,7 +72,8 @@ class MyOIDCBackend(OIDCAuthenticationBackend):
         return user
 
     def update_user(self, user, claims):
-        print("--- DEBUG: update_user (EXISTING USER) ---")
+        if settings.DEBUG:
+            print("--- DEBUG: update_user (EXISTING USER) ---")
         self._set_user_flags(user, claims)
         return user
 
