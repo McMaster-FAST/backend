@@ -10,7 +10,7 @@ x-django-service: &django-service
     - SECRET_KEY=${SECRET_KEY}
     - ALLOWED_HOSTS=localhost,127.0.0.1
     - CORS_ALLOWED_ORIGINS=${ALLOWED_ORIGIN}
-    - ALLOWED_ORIGIN=${ALLOWED_ORIGIN}--
+    - ALLOWED_ORIGIN=${ALLOWED_ORIGIN}
     - DATABASE_URL=${DATABASE_URL}
     - CELERY_BROKER_URL=amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@rabbitmq:5672/
   restart: unless-stopped
