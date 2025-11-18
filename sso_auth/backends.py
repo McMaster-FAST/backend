@@ -1,6 +1,6 @@
 from mozilla_django_oidc.auth import OIDCAuthenticationBackend
 import json
-import traceback
+
 
 ROLES_CLAIM_URL = "https://chemfast.ca/roles"
 
