@@ -1,12 +1,11 @@
 from django.db import models
 from django.conf import settings
-from core.models import QuestionGroup
 
 # Create your models here.
 
 class Course(models.Model):
     name = models.CharField(max_length=255)
-    code = models.CharField(max_length=10)
+    code = models.CharField(max_length=15)
     description = models.TextField(blank=True)
     year = models.IntegerField()
     semester = models.IntegerField()
