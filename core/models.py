@@ -19,6 +19,7 @@ class Question(models.Model):
     subtopic = models.ForeignKey("courses.UnitSubTopic", on_delete=models.CASCADE, null=True)
     serial_number = models.CharField(max_length=255, unique=True)
     content = models.TextField()
+    answer_explanation = models.TextField(blank=True)
 
     selection_frequency = models.DecimalField(max_digits=5, decimal_places=4, default=0)
 
@@ -50,7 +51,6 @@ class QuestionOption(models.Model):
     question = models.ForeignKey("Question", on_delete=models.CASCADE)
     content = models.TextField()
     is_answer = models.BooleanField(default=False)
-    answer_explanation = models.TextField(blank=True)
     selection_frequency =  models.DecimalField(max_digits=5, decimal_places=4, default=0)
 
     images = models.ManyToManyField("QuestionImage", blank=True)
