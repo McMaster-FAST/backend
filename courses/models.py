@@ -7,6 +7,7 @@ from core.models import QuestionGroup
 class Course(models.Model):
     name = models.CharField(max_length=255)
     code = models.CharField(max_length=10)
+    description = models.TextField(blank=True)
     year = models.IntegerField()
     semester = models.IntegerField()
 
@@ -15,22 +16,30 @@ class Course(models.Model):
 
 class Unit(models.Model):
     course = models.ForeignKey("Course", on_delete=models.CASCADE)
-    name = models.TextField()
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
     number = models.IntegerField()
+
     class Meta:
         unique_together = ('course', 'name')
 
 class UnitSubTopic(models.Model):
     unit = models.ForeignKey("Unit", on_delete=models.CASCADE)
-    name = models.TextField()
-    question_group = models.ForeignKey(QuestionGroup, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
     class Meta:
         unique_together = ('unit', 'name')
+
+class StudyAid(models.Model):
+    subtopic = models.ForeignKey("UnitSubTopic", on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    reference = models.TextField()
 
 class UserScoreForTopic(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     unit_sub_topic = models.ForeignKey("UnitSubTopic", on_delete=models.CASCADE)
-    score = models.DecimalField(max_digits=3, decimal_places=2, default=0.00)
+    score = models.DecimalField(max_digits=5, decimal_places=4, default=0.00)
     class Meta:
         unique_together = ('user', 'unit_sub_topic')
 
@@ -38,5 +47,6 @@ class Enrollment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     course = models.ForeignKey("Course", on_delete=models.CASCADE)
     is_instructor = models.BooleanField(default=False)
+    is_ta = models.BooleanField(default=False)
     class Meta:
         unique_together = ('user', 'course')
