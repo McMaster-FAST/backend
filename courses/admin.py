@@ -9,7 +9,6 @@ class UnitSubTopicInline(admin.TabularInline):
 
     model = UnitSubTopic
     extra = 1  # Show one blank slot for a new sub-topic
-    autocomplete_fields = ["question_group"]
 
 
 class UnitInline(admin.StackedInline):
@@ -60,9 +59,9 @@ class UnitAdmin(admin.ModelAdmin):
 
 @admin.register(UnitSubTopic)
 class UnitSubTopicAdmin(admin.ModelAdmin):
-    list_display = ("name", "unit", "question_group")
+    list_display = ("name", "unit")
     search_fields = ("name", "unit__name")
-    autocomplete_fields = ["unit", "question_group"]
+    autocomplete_fields = ["unit"]
 
 
 @admin.register(UserScoreForTopic)
