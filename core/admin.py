@@ -4,7 +4,6 @@ from .models import (
     QuestionGroup,
     Question,
     QuestionComment,
-    QuestionAnalytics,
     QuestionOption,
     QuestionImage,
 )
@@ -53,12 +52,6 @@ class QuestionGroupAdmin(admin.ModelAdmin):
 class QuestionOptionAdmin(admin.ModelAdmin):
     list_display = ("content", "question", "is_answer", "selection_frequency")
     list_filter = ("is_answer",)
-
-
-@admin.register(QuestionAnalytics)
-class QuestionAnalyticsAdmin(admin.ModelAdmin):
-    list_display = ("user", "question", "answered_correctly", "time_spent", "timestamp")
-    list_filter = ("answered_correctly", "timestamp")
 
 
 @admin.register(QuestionComment)

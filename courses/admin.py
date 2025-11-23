@@ -1,13 +1,13 @@
 from django.contrib import admin
-from .models import Course, Unit, UnitSubTopic, UserScoreForTopic, Enrollment
+from .models import Course, Unit, UnitSubtopic, Enrolment, StudyAid, AidType
 
 
-class UnitSubTopicInline(admin.TabularInline):
+class UnitSubtopicInline(admin.TabularInline):
     """
-    Allows adding/editing UnitSubTopics directly inside the Unit admin page.
+    Allows adding/editing UnitSubtopics directly inside the Unit admin page.
     """
 
-    model = UnitSubTopic
+    model = UnitSubtopic
     extra = 1  # Show one blank slot for a new sub-topic
 
 
@@ -15,7 +15,7 @@ class UnitInline(admin.StackedInline):
     """
     Allows adding/editing Units directly inside the Course admin page.
     We use StackedInline here because each Unit will also show
-    its own 'UnitSubTopicInline' beneath it, giving a full tree view.
+    its own 'UnitSubtopicInline' beneath it, giving a full tree view.
     """
 
     model = Unit
@@ -23,13 +23,13 @@ class UnitInline(admin.StackedInline):
     show_change_link = True
 
 
-class EnrollmentInline(admin.TabularInline):
+class EnrolmentInline(admin.TabularInline):
     """
-    Allows adding/editing Enrollments (students/instructors)
+    Allows adding/editing Enrolments (students/instructors)
     directly inside the Course admin page.
     """
 
-    model = Enrollment
+    model = Enrolment
     extra = 1
     autocomplete_fields = ["user"]
 
@@ -43,8 +43,8 @@ class CourseAdmin(admin.ModelAdmin):
     search_fields = ("name", "code")
     list_filter = ("year", "semester")
 
-    # From one Course page, you can manage all its Units and Enrollments.
-    inlines = [UnitInline, EnrollmentInline]
+    # From one Course page, you can manage all its Units and Enrolments.
+    inlines = [UnitInline, EnrolmentInline]
 
 
 @admin.register(Unit)
@@ -54,30 +54,33 @@ class UnitAdmin(admin.ModelAdmin):
     list_filter = ("course__name",)
     autocomplete_fields = ["course"]
 
-    inlines = [UnitSubTopicInline]
+    inlines = [UnitSubtopicInline]
 
 
-@admin.register(UnitSubTopic)
-class UnitSubTopicAdmin(admin.ModelAdmin):
+@admin.register(UnitSubtopic)
+class UnitSubtopicAdmin(admin.ModelAdmin):
     list_display = ("name", "unit")
     search_fields = ("name", "unit__name")
     autocomplete_fields = ["unit"]
 
 
-@admin.register(UserScoreForTopic)
-class UserScoreForTopicAdmin(admin.ModelAdmin):
-    list_display = ("user", "unit_sub_topic", "score")
-    search_fields = (
-        "user__username",
-        "unit_sub_topic__name",
-    )  # Assumes user has 'username'
-    list_filter = ("score",)
-    autocomplete_fields = ["user", "unit_sub_topic"]
-
-
-@admin.register(Enrollment)
-class EnrollmentAdmin(admin.ModelAdmin):
+@admin.register(Enrolment)
+class EnrolmentAdmin(admin.ModelAdmin):
     list_display = ("user", "course", "is_instructor")
     search_fields = ("user__username", "course__name")
     list_filter = ("is_instructor", "course__name")
     autocomplete_fields = ["user", "course"]
+
+
+@admin.register(StudyAid)
+class StudyAidAdmin(admin.ModelAdmin):
+    list_display = ("name", "subtopic", "aid_type")
+    search_fields = ("name", "subtopic__name", "aid_type__name")
+    list_filter = ("aid_type__name",)
+    autocomplete_fields = ["subtopic", "aid_type"]
+
+
+@admin.register(AidType)
+class AidTypeAdmin(admin.ModelAdmin):
+    list_display = ("name", "description")
+    search_fields = ("name",)

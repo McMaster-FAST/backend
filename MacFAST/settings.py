@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "core",
     "courses",
+    "analytics",
     "sso_auth",
     "rest_framework",
     "django_celery_beat",
