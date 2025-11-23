@@ -5,20 +5,18 @@ from django.conf import settings
 
 
 class Course(models.Model):
-
-    SEMESTER_CHOICES = [
-        ("Fall", "Fall"),
-        ("Winter", "Winter"),
-        ("Spring", "Spring"),
-        ("Summer", "Summer"),
-        ("Multi-term", "Multi-term"),
-    ]
+    class SemesterChoices(models.TextChoices):
+        FALL = "FALL", "Fall"
+        WINTER = "WINTER", "Winter"
+        SPRING = "SPRING", "Spring"
+        SUMMER = "SUMMER", "Summer"
+        MULTI_TERM = "MULTI_TERM", "Multi-term"
 
     name = models.CharField(max_length=255)
     code = models.CharField(max_length=15)
     description = models.TextField(blank=True)
     year = models.IntegerField()
-    semester = models.CharField(choices=SEMESTER_CHOICES, max_length=20)
+    semester = models.CharField(choices=SemesterChoices.choices, max_length=20)
     is_archived = models.BooleanField(default=False)
 
     class Meta:
@@ -63,15 +61,13 @@ class AidType(models.Model):
     """
     Restrict Study Aids to specific types (e.g., Video, PDF, Download).
     """
+    class AidTypeChoices(models.TextChoices):
+        PDF = "PDF", "PDF Document"
+        VIDEO = "VIDEO", "Video Tutorial"
+        LINK = "LINK", "External Link"
+        AUDIO = "AUDIO", "Audio Recording"
 
-    AID_TYPE_CHOICES = [
-        ("PDF", "PDF Document"),
-        ("VIDEO", "Video Tutorial"),
-        ("LINK", "External Link"),
-        ("AUDIO", "Audio Recording"),
-    ]
-
-    name = models.CharField(max_length=50, choices=AID_TYPE_CHOICES, unique=True)
+    name = models.CharField(max_length=50, choices=AidTypeChoices.choices, unique=True)
     description = models.TextField(blank=True)
 
     class Meta:
