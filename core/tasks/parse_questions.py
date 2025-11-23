@@ -3,106 +3,92 @@ from celery import shared_task
 from io import BytesIO
 
 from django.db import transaction
-from ..models import Question, QuestionComment, QuestionOption, QuestionGroup
 
-CHOSEN_FREQUENCY = "freq"
+from core.models import Question, QuestionComment, QuestionOption
+from courses.models import Course, Unit, UnitSubTopic
+from .docx.parser import parse_questions_from_docx
+from .docx.formats import docx_table_format_a
 
-docx_table_format = [
-    ["question_number"],
-    ["serial_number"],
-    ["unit"],
-    ["used"],
-    ["content"],
-    ["a", "freq"],
-    ["b", "freq"],
-    ["c", "freq"],
-    ["d", "freq"],
-    ["answer"],
-    ["variants"],
-    ["comment"],
-]
-
-docx_table_options = (5, 9)
-
+from math import log
 
 class DocxParsingError(Exception):
     pass
 
 @shared_task
-def parse_file(file_name: str, file_data: bytes, group_name: str) -> None:
-    question_group = None
-    if group_name is None:
-        pass # TODO: handle automatically grouping based on coures unit and subtopic
-    else:
-        with transaction.atomic():
-            question_group, created = QuestionGroup.objects.get_or_create(group_name=group_name)
+def parse_file(file_name: str, file_data: bytes, course: dict) -> None:
+    """
+    Celery task to parse uploaded question bank files. Determines file type and processes accordingly.
+    """
+    try:
+        course = Course.objects.get(
+            code=course.get("code"), 
+            year=course.get("year"), 
+            semester=course.get("semester")
+        )
+    except Course.DoesNotExist:
+        raise ValueError(f"No course found with code: {course.get('code')}, year: {course.get('year')}, semester: {course.get('semester')}")
 
     if file_name.endswith(".docx"):
-        parse_questions_from_docx(file_data, question_group)
+        document = Document(BytesIO(file_data))
+        for question_data in parse_questions_from_docx(document, docx_table_format_a):
+            try:
+                insert_data(question_data, course)
+            except Exception as e:
+                print(f"Failed inserting {question_data.get('serial_number')} with: {e}")
+    else:
+        raise ValueError("Unsupported file format. Only .docx files are supported.")
 
-
-def parse_questions_from_docx(file_data: bytes, question_group: QuestionGroup) -> None:
-    document = Document(BytesIO(file_data))
-    question_count = 0
-    for table in document.tables:
-        table_data = {}
-        for i, data_names in enumerate(docx_table_format):
-            cells = table.row_cells(i)
-            # TODO: When the issue with unexpected cell length is understood,
-            # validate the row structure here and handle format errors.
-            table_data.setdefault(data_names[0], cells[1].text.strip())
-            if len(data_names) == 1:
-                continue
-
-            for j, name in enumerate(data_names[1:], 1):
-                # The first element is the header in this case (Q #, Serial #, A), etc.) so ignore it
-                # Grab the rest of the columns if we name them in docx_table_format
-                if j + 1 >= len(cells):
-                    break # TODO: More informative error handling
-                
-                table_data.setdefault(f"{data_names[0]}-{name}", cells[j + 1].text.strip())
-        with transaction.atomic():
-            insert_data(table_data, question_group)
-            question_count += 1
-    return question_count
-
-def insert_data(table_data: dict, question_group: QuestionGroup) -> None:
-    answer_freq_key = f"{str(table_data.get("answer")).lower()}-{CHOSEN_FREQUENCY}"
-
-    answer_freq = table_data.get(answer_freq_key)
-    difficulty = float(answer_freq) if answer_freq != "" else 0.0
-    question = Question(
-            content=table_data.get("content"),
-            difficulty=difficulty,
-            serial_number=table_data.get("serial_number", "UNKNOWN"),
-            is_flagged=False, 
-            is_active=True, 
-            is_verified=True,
-            # TODO Support images
-        )
-    question.save()
-
-    for option_row in [row for row in docx_table_format[docx_table_options[0]:docx_table_options[1]]]:
-        option_name = option_row[0].lower()
-        option_freq_key = f"{option_name}-{CHOSEN_FREQUENCY}"
-        option_freq = table_data.get(option_freq_key)
-        selection_frequency = float(option_freq) if option_freq != "" else 0.0
-        is_answer = option_name == str(table_data.get("answer")).lower()
-        QuestionOption(
-                question=Question.objects.get(id=question.id),
-                content=table_data.get(option_name),
-                is_answer=is_answer,
-                selection_frequency=selection_frequency,
-                # TODO Support images
-            ).save()
-
-    QuestionComment(
-            question=Question.objects.get(id=question.id),
-            user=None,  # TODO Support user association
-            comment_text=table_data.get("comment"),
-            # TODO: Something about not including timestamp if inserted from file upload?
-        ).save()
+def insert_data(question_data: dict, course: Course, create_required: bool = True) -> None:
+    """
+    Inserts parsed question data into the database.
     
-    if question_group is not None:
-        question_group.questions.add(question)
-        question_group.save()
+    :param question_data: Dictionary containing question details.
+    :param course: Course instance that will be referenced in the unit the question belongs to.
+    :param create_required: If True, creates Unit and UnitSubTopic if they do not exist. Otherwise, it expects them to exist.
+    """
+    answer_index = ord(question_data.get("answer").upper()) - ord("A")
+    selection_frequency = float(question_data.get("option_selection_frequencies")[answer_index])
+    unit_name = question_data.get("unit")
+    subtopic_name = question_data.get("subtopic")
+    unit_number = int(question_data.get("unit_number"))
+
+    with transaction.atomic():
+        if create_required:
+            unit, _ = Unit.objects.get_or_create(course=course, name=unit_name, number=unit_number)
+            subtopic, _ = UnitSubTopic.objects.get_or_create(unit=unit, name=subtopic_name)
+        else:
+            unit = Unit.objects.get(course=course, name=unit_name, number=unit_number)
+            subtopic = UnitSubTopic.objects.get(unit=unit, name=subtopic_name)
+
+        question = Question.objects.create(
+            subtopic=subtopic,
+            serial_number=question_data.get("serial_number"),
+            content=question_data.get("content", ""),
+            answer_explanation=question_data.get("explanation", ""),
+            selection_frequency=float(selection_frequency) if selection_frequency else 0.0,
+            difficulty=calculate_difficulty_for_test(selection_frequency)
+        )
+
+        for idx, option_content in enumerate(question_data.get("options", [])):
+            is_answer = (idx == answer_index)
+            option_selection_frequency = float(question_data.get("option_selection_frequencies")[idx])
+            QuestionOption.objects.create(
+                question=question,
+                content=option_content,
+                selection_frequency=option_selection_frequency,
+                is_answer=is_answer,   
+            )
+        
+        QuestionComment.objects.create(
+            question=question,
+            comment_text=question_data.get("comments", "")
+        )
+
+def calculate_difficulty_for_test(selection_frequency: float) -> float:
+    if selection_frequency <= 0 or selection_frequency >= 1:
+        return 0.0
+    try:
+        difficulty = -log((1 / selection_frequency) - 1)
+        return round(difficulty, 4)
+    except ValueError:
+        return 0.0
