@@ -80,6 +80,9 @@ services:
       sh -c "
       uv run celery -A MacFAST worker -l info
       "
+    volumes:
+      - .:/app
+      - media_volume:/app/media
 
   beat:
     <<: *django-service # Inherit from the base service

@@ -4,4 +4,4 @@ from ..models import QuestionImage
 class QuestionImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestionImage
-        fields = "__all__"
+        fields = ['image_file', 'alt_text']

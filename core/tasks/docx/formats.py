@@ -1,5 +1,5 @@
 class DocxDataIdentifier:
-    def __init__(self, x, y, cells_range=0, regexp=None):
+    def __init__(self, x:int , y:int, cells_range: int=0, regexp: str=None, images: bool=False):
         """
             An identifier for data in a Word Doc Table
 
@@ -12,17 +12,18 @@ class DocxDataIdentifier:
         self.y = y
         self.range = cells_range
         self.regexp = regexp
+        self.images = images
 
 docx_table_format_a = {
     "question_number": DocxDataIdentifier(1, 0),
     "serial_number": DocxDataIdentifier(1, 1),
-    "unit_number": DocxDataIdentifier(1, 2, regexp=r"^(.*?)\."),
-    "unit": DocxDataIdentifier(1, 2, regexp=r" (.*) - "),
-    "subtopic": DocxDataIdentifier(1, 2, regexp=r" - (.*)$"),
-    "content": DocxDataIdentifier(1, 4),
-    "options": DocxDataIdentifier(1, 5, cells_range=4),
+    "unit_number": DocxDataIdentifier(1, 2, regexp=r"^(\d*?)\."),
+    "unit": DocxDataIdentifier(1, 2, regexp=r"(\D*) [-\u2013\u2014] "),
+    "subtopic": DocxDataIdentifier(1, 2, regexp=r" - (\D*)$"),
+    "content": DocxDataIdentifier(1, 4, images=True),
+    "options": DocxDataIdentifier(1, 5, cells_range=4, images=True),
     "option_selection_frequencies": DocxDataIdentifier(2, 5, cells_range=4),
     "answer": DocxDataIdentifier(1, 9),
-    "explanation": DocxDataIdentifier(1, 10),
+    "explanation": DocxDataIdentifier(1, 10, images=True),
     "comments": DocxDataIdentifier(1, 11)
 }

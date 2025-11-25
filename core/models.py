@@ -93,7 +93,7 @@ class QuestionOption(models.Model):
 
 
 class QuestionImage(models.Model):
-    image_file = models.ImageField(upload_to="question_images/")
+    image_file = models.ImageField(upload_to="question_images/", unique=True)
     alt_text = models.TextField(blank=True)
 
     class Meta:
