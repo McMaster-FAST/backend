@@ -3,7 +3,7 @@ from ..models import QuestionOption
 from ..serializers.question_image_serializer import QuestionImageSerializer
 
 class AdaptiveTestOptionSerializer(serializers.ModelSerializer):
-    images = QuestionImageSerializer(many=True, required=False)
+    images = QuestionImageSerializer(many=True)
     class Meta:
         model = QuestionOption
-        fields = ['id', 'content', 'images']
+        fields = ["public_id", "content", "images"]

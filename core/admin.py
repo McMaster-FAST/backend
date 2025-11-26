@@ -6,6 +6,7 @@ from .models import (
     QuestionComment,
     QuestionOption,
     QuestionImage,
+    TestSession,
 )
 
 
@@ -70,3 +71,7 @@ class SavedForLaterAdmin(admin.ModelAdmin):
 @admin.register(QuestionImage)
 class QuestionImageAdmin(admin.ModelAdmin):
     list_display = ("id", "alt_text", "image_file")
+
+@admin.register(TestSession)
+class TestSessionAdmin(admin.ModelAdmin):
+    list_display = ("user", "subtopic")
