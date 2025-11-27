@@ -54,7 +54,6 @@ class Question(models.Model):
     class Meta:
         verbose_name = "Question"
         verbose_name_plural = "Questions"
-        unique_together = ("subtopic", "serial_number")
 
     def __str__(self):
         return f"{self.serial_number}"
@@ -107,18 +106,3 @@ class QuestionImage(models.Model):
 
     def __str__(self):
         return f"{self.alt_text}"
-    
-
-class TestSession(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    subtopic = models.ForeignKey("courses.UnitSubtopic", on_delete=models.CASCADE)
-
-    questions = models.ManyToManyField("Question")
-
-    class Meta:
-        verbose_name = "Test Session"
-        verbose_name_plural = "Test Sessions"
-        unique_together = ("user", "subtopic")
-
-    def __str__(self):
-        return f"Test Session for {self.user} - Subtopic: {self.subtopic}"

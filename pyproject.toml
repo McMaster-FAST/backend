@@ -18,6 +18,7 @@ dependencies = [
     "django-celery-results>=2.6.0",
     "python-docx>=1.2.0",
     "numpy>=2.3.5",
+    "scipy>=1.16.3",
 ]
 
 [dependency-groups]
