@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+import uuid
 
 # Create your models here.
 
@@ -31,6 +32,7 @@ class QuestionGroup(models.Model):
 
 
 class Question(models.Model):
+    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     subtopic = models.ForeignKey(
         "courses.UnitSubtopic", on_delete=models.CASCADE, null=True
     )
@@ -40,7 +42,7 @@ class Question(models.Model):
 
     selection_frequency = models.DecimalField(max_digits=5, decimal_places=4, default=0)
 
-    discrimination = models.DecimalField(max_digits=5, decimal_places=4, default=0)
+    discrimination = models.DecimalField(max_digits=5, decimal_places=4, default=1)
     difficulty = models.DecimalField(max_digits=5, decimal_places=4, default=0)
     guessing = models.DecimalField(max_digits=5, decimal_places=4, default=0)
 
@@ -58,6 +60,7 @@ class Question(models.Model):
 
 
 class QuestionComment(models.Model):
+    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     question = models.ForeignKey("Question", on_delete=models.CASCADE)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True
@@ -77,6 +80,7 @@ class QuestionComment(models.Model):
 
 
 class QuestionOption(models.Model):
+    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     question = models.ForeignKey("Question", on_delete=models.CASCADE)
     content = models.TextField()
     is_answer = models.BooleanField(default=False)
