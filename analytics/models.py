@@ -25,6 +25,8 @@ class QuestionAttempt(models.Model):
 class UserTopicAbilityScore(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     unit_sub_topic = models.ForeignKey("courses.UnitSubtopic", on_delete=models.CASCADE)
+    # Default to average ability with high uncertainty
+    variance = models.DecimalField(max_digits=6, decimal_places=4, default=10.000)
     score = models.DecimalField(max_digits=5, decimal_places=4, default=0.00)
 
     class Meta:
