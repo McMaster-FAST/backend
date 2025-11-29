@@ -12,7 +12,6 @@ class DocxDataIdentifier:
         self.y = y
         self.range = cells_range
         self.regexp = regexp
-        self.images = images
 
 docx_table_format_a = {
     "question_number": DocxDataIdentifier(1, 0),
@@ -20,10 +19,10 @@ docx_table_format_a = {
     "unit_number": DocxDataIdentifier(1, 2, regexp=r"^(\d*?)\."),
     "unit": DocxDataIdentifier(1, 2, regexp=r"(\D*) [-\u2013\u2014] "),
     "subtopic": DocxDataIdentifier(1, 2, regexp=r" - (\D*)$"),
-    "content": DocxDataIdentifier(1, 4, images=True),
-    "options": DocxDataIdentifier(1, 5, cells_range=4, images=True),
+    "content": DocxDataIdentifier(1, 4),
+    "options": DocxDataIdentifier(1, 5, cells_range=4),
     "option_selection_frequencies": DocxDataIdentifier(2, 5, cells_range=4),
     "answer": DocxDataIdentifier(1, 9),
-    "explanation": DocxDataIdentifier(1, 10, images=True),
+    "explanation": DocxDataIdentifier(1, 10),
     "comments": DocxDataIdentifier(1, 11)
 }

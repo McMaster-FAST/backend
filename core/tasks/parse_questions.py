@@ -1,18 +1,16 @@
-import tempfile
-from docx import Document
+from zipfile import ZipFile
 from celery import shared_task
 from io import BytesIO
 
-from django.utils.text import slugify
 from django.db import transaction
 from django.core.files.images import ImageFile
-from django.conf import settings
 from core.models import Question, QuestionComment, QuestionOption, QuestionImage
 from courses.models import Course, Unit, UnitSubtopic
 from .docx.parser import parse_questions_from_docx
 from .docx.formats import docx_table_format_a
 
 import os
+import tempfile
 
 from math import log
 
@@ -34,18 +32,18 @@ def parse_file(file_name: str, file_data: bytes, course: dict, create_required: 
         course = Course.objects.get(**course)
     except Course.DoesNotExist:
         raise ValueError(f"No course found with identifiers: {course}")
-    with tempfile.TemporaryDirectory(dir=settings.MEDIA_ROOT) as tmpdirname:
-        if file_name.endswith(".docx"):
-            document = Document(BytesIO(file_data))
-            for index, question_data in enumerate(parse_questions_from_docx(document, docx_table_format_a, tmpdirname)):
+    if file_name.endswith(".docx"):
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".docx") as temp_file:
+            temp_file.write(file_data)
+            for question_data in parse_questions_from_docx(temp_file.name, docx_table_format_a):
                 try:
-                    insert_data(question_data, course, create_required, index, tmpdirname)
+                    insert_data(question_data, course, create_required, temp_file.name)
                 except Exception as e:
                     print(f"Failed inserting {question_data.get('serial_number')} with: {e}")
-        else:
-            raise ValueError("Unsupported file format. Only .docx files are supported.")
+    else:
+        raise ValueError("Unsupported file format. Only .docx files are supported.")
 
-def insert_data(question_data: dict, course: Course, create_required: bool, index: int, tmpdirname: str) -> None:
+def insert_data(question_data: dict, course: Course, create_required: bool, temp_file_name: str) -> None:
     """
     Inserts parsed question data into the database.
     
@@ -53,41 +51,29 @@ def insert_data(question_data: dict, course: Course, create_required: bool, inde
     :param course: Course instance that will be referenced in the unit the question belongs to.
     :param create_required: If True, creates Unit and UnitSubtopic if they do not exist. Otherwise, it expects them to exist.
     """
-    # print(f"Inserting question...")
-    # print(question_data)
     answer_index = ord(question_data.get("answer").upper()) - ord("A")
     selection_frequency = float(question_data.get("option_selection_frequencies")[answer_index])
     unit_name = question_data.get("unit").strip()
     subtopic_name = question_data.get("subtopic").strip()
-    raw_unit_number = question_data.get("unit_number").strip()
-    unit_number = int(raw_unit_number) if raw_unit_number not in (None, "") else -1
+    # raw_unit_number = question_data.get("unit_number").strip()
+    # unit_number = int(raw_unit_number) if raw_unit_number not in (None, "") else -1
     with transaction.atomic():
         if create_required:
-            unit, _ = Unit.objects.get_or_create(course=course, name=unit_name, number=unit_number)
+            unit, _ = Unit.objects.get_or_create(course=course, name=unit_name)
             subtopic, _ = UnitSubtopic.objects.get_or_create(unit=unit, name=subtopic_name)
         else:
-            unit = Unit.objects.get(course=course, name=unit_name, number=unit_number)
+            unit = Unit.objects.get(course=course, name=unit_name)
             subtopic = UnitSubtopic.objects.get(unit=unit, name=subtopic_name)
 
-        # Collect created QuestionImage instances so we can associate them with the question.
-        created_images = []
-        images_dir = os.path.join(tmpdirname, str(index))
-        if os.path.isdir(images_dir):
-            img_files = os.listdir(images_dir)
-            for img_name in img_files:
-                img_path = os.path.join(images_dir, img_name)
-                # Open the file and give it a safe basename when saving to storage.
-                with open(img_path, "rb") as fh:
-                    # Use the original filename only (basename) to avoid passing absolute paths
-                    # to Django storage which triggers path traversal checks.
-                    file_name_serial_number = slugify(question_data.get("serial_number"))
-                    img_name = f"{file_name_serial_number}_{img_name}"
-                    created = QuestionImage.objects.create(
-                        image_file=ImageFile(fh, name=os.path.basename(img_name)),
-                    )
-                    created_images.append(created)
+        question = create_question(question_data, selection_frequency, subtopic)
+        created_images = save_images(question_data, question.public_id, temp_file_name)
+        question.images.set(created_images)
 
-        question = Question.objects.create(
+        create_question_options(question_data, answer_index, question)
+        create_question_comments(question_data, question)
+
+def create_question(question_data, selection_frequency, subtopic):
+    question = Question.objects.create(
             subtopic=subtopic,
             serial_number=question_data.get("serial_number"),
             content=question_data.get("content", ""),
@@ -95,27 +81,48 @@ def insert_data(question_data: dict, course: Course, create_required: bool, inde
             selection_frequency=float(selection_frequency) if selection_frequency else 0.0,
             difficulty=calculate_difficulty_for_test(selection_frequency),
         )
-        # Associate the created image instances with the question.
-        if created_images:
-            question.images.set(created_images)
+    return question
 
-        for idx, option_content in enumerate(question_data.get("options", [])):
-            is_answer = (idx == answer_index)
-            option_selection_frequency = float(question_data.get("option_selection_frequencies")[idx])
-            QuestionOption.objects.create(
+def create_question_comments(question_data, question):
+    comment_text = question_data.get("comments", "")
+    if comment_text != "":
+        QuestionComment.objects.create(
+                question=question,
+                comment_text=comment_text
+            )
+
+def create_question_options(question_data, answer_index, question):
+    for idx, option_content in enumerate(question_data.get("options", [])):
+        is_answer = (idx == answer_index)
+        option_selection_frequency = float(question_data.get("option_selection_frequencies")[idx])
+        QuestionOption.objects.create(
                 question=question,
                 content=option_content,
                 selection_frequency=option_selection_frequency,
                 is_answer=is_answer,   
             )
-        
-        comment_text = question_data.get("comments", "")
-        if comment_text != "":
-            QuestionComment.objects.create(
-                question=question,
-                comment_text=comment_text
+
+def save_images(question_data, question_public_id, file_name):
+    question_images = question_data.get("images", [])
+    saved_images = []
+    for image in question_images:
+        print(image)
+        image_src = image.get("src")
+        image_alt = image.get("alt", "")
+        image_ref = image.get("ref")
+        # Find the image in the docx from src
+        with ZipFile(file_name) as docx_zip:
+            image_data = docx_zip.read(f"word/{image_src}")
+
+            extension = os.path.splitext(image_src)[1].lower()
+            image_filename = f"{question_public_id}_{image_ref}{extension}"
+            print(f"Saving image {image_filename}...")
+            question_image = QuestionImage.objects.create(
+                image_file=ImageFile(BytesIO(image_data), name=image_filename),
+                alt_text=image_alt
             )
-        
+            saved_images.append(question_image)
+    return saved_images
 
 def calculate_difficulty_for_test(selection_frequency: float) -> float:
     if selection_frequency <= 0 or selection_frequency >= 1:

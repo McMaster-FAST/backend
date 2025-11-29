@@ -1,83 +1,88 @@
-import unicodedata
-from docx import Document
-from docx.table import Table
-from typing import Iterator
 import re
-import os
+import pypandoc
+from bs4 import BeautifulSoup
+from .formats import DocxDataIdentifier
 
-from docx.opc.constants import RELATIONSHIP_TYPE as RT
+from typing import Iterator, List, Dict, Any
 
-def parse_questions_from_docx(document: Document, format: dict, tmpdirname: str) -> Iterator[dict]:
-    image_parts = {rel.rId: rel.target_part for rel in document.part.rels.values() if rel.reltype == RT.IMAGE}
-    for idx, table in enumerate(document.tables):
-        question_data = parse_table(table, format, idx, image_parts, tmpdirname)
-        yield question_data
-    
-def parse_table(table: Table, format: dict, table_idx: int, image_parts: dict, tmpdirname: str) -> dict:
-    """
-    Parses question data from a docx table using the given format.
-    """
-    table_data = {}
-    for key, identifier in format.items():
-        if identifier.range == 0: # Single cell
-            col_idx, row_idx = identifier.x, identifier.y
-            cell = table.cell(row_idx, col_idx)
-            if identifier.images:
-                value = parse_cell_with_images(cell, table_idx, key, image_parts, tmpdirname)
+
+def parse_questions_from_docx(
+    file_path: str, format_spec: Dict[str, DocxDataIdentifier]
+) -> Iterator[Dict[str, Any]]:
+    html = pypandoc.convert_file(source_file=file_path, to="html", format="docx")
+    soup = BeautifulSoup(html, "html.parser")
+    top_level_tables = soup.find_all('table', recursive=False)
+
+    for idx, table in enumerate(top_level_tables):
+        print(f"Processing table {idx + 1}/{len(top_level_tables)}...")
+        yield extract_table_data(table, format_spec)
+
+
+def extract_cell_data(cell, identifier: DocxDataIdentifier, index: int) -> Any:
+    """Extract data from a cell based on the identifier specifications."""
+    images = []
+    html_content = ""
+    if identifier.regexp:
+        text = cell.get_text(strip=True)
+        match = re.search(identifier.regexp, text)
+        html_content = match.group(1) if match else ""
+    else:
+        for tag in cell.find_all("img"):
+            print(f"Found image with src: {tag.get('src')}")
+            tag.replace_with(f"[image_{index}]")
+            image = {
+                "src": tag.get("src", ""),
+                "alt": tag.get("alt", ""),
+                "ref": f"[image_{index}]",
+            }
+            images.append(image)
+        html_content = cell.decode_contents()
+    return html_content.strip(), images
+
+
+def get_cell(table, x: int, y: int):
+    """Get a cell from the table at position (x, y)."""
+    rows = table.find_all("tr")
+
+    if y >= len(rows):
+        return None
+
+    row = rows[y]
+    cells = row.find_all(["td", "th"])
+
+    if x >= len(cells):
+        return None
+
+    return cells[x]
+
+
+def extract_table_data(
+    table, format_spec: Dict[str, DocxDataIdentifier]
+) -> Dict[str, Any]:
+    """Extract data from a table based on the format specification."""
+    result = {"images": []}
+    for field_name, identifier in format_spec.items():
+        count = 0
+        if identifier.range > 0:
+            # Handle multi-cell ranges
+            data = []
+            for i in range(identifier.range):
+                cell = get_cell(table, identifier.x, identifier.y + i)
+                if cell:
+                    content, cell_images = extract_cell_data(cell, identifier, count)
+                    count += len(cell_images)
+                    result["images"].extend(cell_images)
+                    data.append(content)
+            result[field_name] = data
+        else:
+            # Handle single cell
+            cell = get_cell(table, identifier.x, identifier.y)
+            if cell:
+                content, cell_images = extract_cell_data(cell, identifier, count)
+                count += len(cell_images)
+                result["images"].extend(cell_images)
+                result[field_name] = content
             else:
-                value = extract_text_from_cell(cell, identifier.regexp)
-            table_data[key] = value
+                result[field_name] = None
 
-        elif identifier.range > 0: # Range of cells
-            start_col, start_row, num_items = identifier.x, identifier.y, identifier.range
-            items = []
-            for i in range(num_items):
-                cell = table.cell(start_row + i, start_col)
-                if identifier.images:
-                    value = parse_cell_with_images(cell, table_idx, key, image_parts, tmpdirname)
-                else:
-                    value = extract_text_from_cell(cell, identifier.regexp)
-                items.append(value)
-                
-            table_data[key] = items
-    return table_data
-
-def extract_text_from_cell(cell, regexp: str) -> str:
-    value = cell.text.strip()
-    if regexp is None:
-        return value
-    # There might be odd characters like em dahses instead of hyphens; normalize them
-    value = unicodedata.normalize("NFKC", value)
-    print(f"Extracting with regexp '{regexp}' from value: {value}")
-    match = re.search(regexp, value)
-    return match.group(1) if match else ""
-
-def parse_cell_with_images(cell, table_idx, key, image_parts, tmpdirname) -> str:
-    """
-    Extract text from a cell, inserting placeholders for images.
-    """
-    content = ""
-    img_count = 0
-    os.makedirs(f"{tmpdirname}/{table_idx}", exist_ok=True)
-    for para in cell.paragraphs:
-        for run in para.runs:
-            # Check for inline images in this run
-
-            blips = run._element.findall(
-                ".//{http://schemas.openxmlformats.org/drawingml/2006/main}blip"
-            )
-            for blip in blips:
-                rId = blip.attrib.get('{http://schemas.openxmlformats.org/officeDocument/2006/relationships}embed')
-                if rId in image_parts:
-                    img_count += 1
-                    content += f"[{key}_image_{img_count}]"
-                    ext = image_parts[rId].content_type.split('/')[-1]
-                    filename = f"{key}_image{img_count}.{ext}"
-                    with open(f"{tmpdirname}/{table_idx}/{filename}", "wb") as f:
-                        f.write(image_parts[rId].blob)
-            
-            # Append the text from the run
-            content += run.text
-        content += "\n"  # End of paragraph
-
-    return content
+    return result
