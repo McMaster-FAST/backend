@@ -3,7 +3,7 @@ import pypandoc
 from bs4 import BeautifulSoup
 from .formats import DocxDataIdentifier
 
-from typing import Iterator, List, Dict, Any
+from typing import Iterator, Dict, Any
 
 
 def parse_questions_from_docx(

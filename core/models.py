@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 import uuid
+from django.db.models.signals import pre_delete
+from django.dispatch.dispatcher import receiver
 
 # Create your models here.
 
@@ -106,3 +108,7 @@ class QuestionImage(models.Model):
 
     def __str__(self):
         return f"{self.alt_text}"
+
+@receiver(pre_delete, sender=QuestionImage)
+def question_image_delete(sender, instance, **kwargs):
+    instance.image_file.delete(False)

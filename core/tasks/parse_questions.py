@@ -55,11 +55,11 @@ def insert_data(question_data: dict, course: Course, create_required: bool, temp
     selection_frequency = float(question_data.get("option_selection_frequencies")[answer_index])
     unit_name = question_data.get("unit").strip()
     subtopic_name = question_data.get("subtopic").strip()
-    # raw_unit_number = question_data.get("unit_number").strip()
-    # unit_number = int(raw_unit_number) if raw_unit_number not in (None, "") else -1
+    raw_unit_number = question_data.get("unit_number").strip()
+    unit_number = int(raw_unit_number) if raw_unit_number not in (None, "") else -1
     with transaction.atomic():
         if create_required:
-            unit, _ = Unit.objects.get_or_create(course=course, name=unit_name)
+            unit, _ = Unit.objects.get_or_create(defaults={"number": unit_number}, course=course, name=unit_name)
             subtopic, _ = UnitSubtopic.objects.get_or_create(unit=unit, name=subtopic_name)
         else:
             unit = Unit.objects.get(course=course, name=unit_name)
