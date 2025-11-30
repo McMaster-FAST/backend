@@ -1,0 +1,215 @@
+[
+  {
+    "model": "core.question",
+    "pk": 1,
+    "fields": {
+      "public_id": "550e8400-e29b-41d4-a716-446655440001",
+      "subtopic": 1,
+      "serial_number": "T1_2025_Q01_Dx_SSusCh",
+      "content": "Baier et al. assessed four processes for the preparation of acetophenone oxime, an intermediate in the synthesis of caprolactam, a precursor for Nylon 6 filaments used in fibers and plastics. Which process is the most materially sustainable?",
+      "answer_explanation": "The most materially sustainable process would be the one with the highest reaction mass efficiency and lowest waste production.",
+      "selection_frequency": "0.0000",
+      "discrimination": "1.0000",
+      "difficulty": "0.6500",
+      "guessing": "0.2500",
+      "is_flagged": false,
+      "is_active": true,
+      "is_verified": true,
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 1,
+    "fields": {
+      "public_id": "550e8400-e29b-41d4-a716-446655440011",
+      "question": 1,
+      "content": "Process A: High yield but requires toxic solvents",
+      "is_answer": false,
+      "selection_frequency": "0.2000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 2,
+    "fields": {
+      "public_id": "550e8400-e29b-41d4-a716-446655440012",
+      "question": 1,
+      "content": "Process B: Moderate yield with water as the primary solvent",
+      "is_answer": true,
+      "selection_frequency": "0.4500",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 3,
+    "fields": {
+      "public_id": "550e8400-e29b-41d4-a716-446655440013",
+      "question": 1,
+      "content": "Process C: Highest yield but generates significant waste",
+      "is_answer": false,
+      "selection_frequency": "0.2500",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 4,
+    "fields": {
+      "public_id": "550e8400-e29b-41d4-a716-446655440014",
+      "question": 1,
+      "content": "Process D: Low yield with minimal waste",
+      "is_answer": false,
+      "selection_frequency": "0.1000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.question",
+    "pk": 2,
+    "fields": {
+      "public_id": "550e8400-e29b-41d4-a716-446655440002",
+      "subtopic": 1,
+      "serial_number": "T1_2025_Q07_Dx_S1.05",
+      "content": "Consider the second step of the old synthesis of Ibuprofen. What is the reaction mass efficiency for C16H22O3 production?",
+      "answer_explanation": "Reaction mass efficiency (RME) is calculated as (mass of desired product / total mass of all reactants) × 100%.",
+      "selection_frequency": "0.0000",
+      "discrimination": "1.0000",
+      "difficulty": "0.7000",
+      "guessing": "0.2500",
+      "is_flagged": false,
+      "is_active": true,
+      "is_verified": true,
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 5,
+    "fields": {
+      "public_id": "550e8400-e29b-41d4-a716-446655440021",
+      "question": 2,
+      "content": "45.2%",
+      "is_answer": false,
+      "selection_frequency": "0.1500",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 6,
+    "fields": {
+      "public_id": "550e8400-e29b-41d4-a716-446655440022",
+      "question": 2,
+      "content": "62.8%",
+      "is_answer": true,
+      "selection_frequency": "0.4000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 7,
+    "fields": {
+      "public_id": "550e8400-e29b-41d4-a716-446655440023",
+      "question": 2,
+      "content": "78.5%",
+      "is_answer": false,
+      "selection_frequency": "0.3000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 8,
+    "fields": {
+      "public_id": "550e8400-e29b-41d4-a716-446655440024",
+      "question": 2,
+      "content": "85.3%",
+      "is_answer": false,
+      "selection_frequency": "0.1500",
+      "images": []
+    }
+  },
+  {
+    "model": "core.question",
+    "pk": 3,
+    "fields": {
+      "public_id": "550e8400-e29b-41d4-a716-446655440003",
+      "subtopic": 1,
+      "serial_number": "T1_2025_Q03_Dx_SRevie",
+      "content": "While working with a radioactive sample of ore, you discover a noble gas is being released from your sample. You collect 1.25 g of the gas in an empty 150. mL vessel. At room temperature (25.0 °C), the pressure of the gas sample is 0.930 bar. Identify the noble gas.",
+      "answer_explanation": "Use the ideal gas law (PV = nRT) to calculate the number of moles, then determine the molar mass to identify the noble gas.",
+      "selection_frequency": "0.0000",
+      "discrimination": "1.0000",
+      "difficulty": "0.6000",
+      "guessing": "0.2500",
+      "is_flagged": false,
+      "is_active": true,
+      "is_verified": true,
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 9,
+    "fields": {
+      "public_id": "550e8400-e29b-41d4-a716-446655440031",
+      "question": 3,
+      "content": "Helium (He)",
+      "is_answer": false,
+      "selection_frequency": "0.1000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 10,
+    "fields": {
+      "public_id": "550e8400-e29b-41d4-a716-446655440032",
+      "question": 3,
+      "content": "Neon (Ne)",
+      "is_answer": false,
+      "selection_frequency": "0.2000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 11,
+    "fields": {
+      "public_id": "550e8400-e29b-41d4-a716-446655440033",
+      "question": 3,
+      "content": "Argon (Ar)",
+      "is_answer": true,
+      "selection_frequency": "0.5000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 12,
+    "fields": {
+      "public_id": "550e8400-e29b-41d4-a716-446655440034",
+      "question": 3,
+      "content": "Krypton (Kr)",
+      "is_answer": false,
+      "selection_frequency": "0.2000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questiongroup",
+    "pk": 1,
+    "fields": {
+      "group_name": "Green Chemistry and Sustainability",
+      "questions": [
+        1,
+        2,
+        3
+      ]
+    }
+  }
+]
