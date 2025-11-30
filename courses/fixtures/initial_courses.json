@@ -1,0 +1,33 @@
+[
+  {
+    "model": "courses.course",
+    "pk": 1,
+    "fields": {
+      "name": "Chemistry Fundamentals",
+      "code": "CHEM101",
+      "description": "Introduction to fundamental chemistry concepts including green chemistry, atomic structure, and periodic trends.",
+      "year": 2025,
+      "semester": "FALL",
+      "is_archived": false
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 1,
+    "fields": {
+      "course": 1,
+      "name": "Introduction to Green Chemistry",
+      "description": "Principles of sustainable chemistry and material efficiency",
+      "number": 1
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 1,
+    "fields": {
+      "unit": 1,
+      "name": "Material Sustainability and Green Chemistry Principles",
+      "description": "Understanding material sustainability, reaction mass efficiency, and the 12 Principles of Green Chemistry"
+    }
+  }
+]
