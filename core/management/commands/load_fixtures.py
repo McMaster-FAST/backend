@@ -6,7 +6,6 @@ fixtures if needed. Safe to run multiple times - only loads if database is empty
 """
 from django.core.management import call_command
 from django.core.management.base import BaseCommand
-from django.db import connection
 from courses.models import Course
 from core.models import Question
 
