@@ -97,6 +97,8 @@ def get_updated_theta_variance(
 
     items = [item_params]
     responses = [response]
+    var_prior = float(var_prior)
+    theta_prior = float(theta_prior)
     # MAP update
     res = minimize_scalar(
         log_posterior,

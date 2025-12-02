@@ -106,3 +106,15 @@ class QuestionImage(models.Model):
 
     def __str__(self):
         return f"{self.alt_text}"
+
+class TestSession(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    subtopic = models.ForeignKey("courses.UnitSubtopic", on_delete=models.CASCADE)
+    current_question = models.ForeignKey("Question", on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Test Session"
+        verbose_name_plural = "Test Sessions"
+
+    def __str__(self):
+        return f"Test Session for {self.user} - Subtopic: {self.subtopic}"
