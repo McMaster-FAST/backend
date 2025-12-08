@@ -119,7 +119,7 @@ REST_FRAMEWORK = {
 # https://mozilla-django-oidc.readthedocs.io/en/stable/installation.html
 AUTHENTICATION_BACKENDS = ("sso_auth.backends.MyOIDCBackend",)
 
-OIDC_BASE_URL = "dev-s3rx1onlkeck3uo3.us.auth0.com"
+OIDC_BASE_URL = os.environ["OIDC_BASE_URL"]
 
 OIDC_RP_SCOPES = "openid email profile"
 
