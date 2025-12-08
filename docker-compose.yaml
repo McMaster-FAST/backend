@@ -13,6 +13,9 @@ x-django-service: &django-service
     - ALLOWED_ORIGIN=${ALLOWED_ORIGIN}
     - DATABASE_URL=${DATABASE_URL}
     - CELERY_BROKER_URL=amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@rabbitmq:5672/
+    - OIDC_BASE_URL=${OIDC_BASE_URL}
+    - OIDC_RP_CLIENT_ID=${OIDC_RP_CLIENT_ID}
+    - OIDC_RP_CLIENT_SECRET=${OIDC_RP_CLIENT_SECRET}
   restart: unless-stopped
   depends_on:
     db:
