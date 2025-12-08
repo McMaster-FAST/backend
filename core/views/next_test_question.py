@@ -29,7 +29,7 @@ class NextTestQuestionView(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        difficulty_range = decimal.Decimal(0.5)
+        difficulty_range = decimal.Decimal(5)
         user = MacFastUser.objects.get(
             username="PWardell86"
         )  # Placeholder for actual user authentication
