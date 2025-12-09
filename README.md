@@ -46,7 +46,7 @@ The project uses a `.env` file for managing secrets and environment-specific set
     uv run manage.py migrate
     ```
 
-2.  **Load Initial Data (Optional):**
+<!-- 2.  **Load Initial Data (Optional):**
 
     If your database is empty, you can load initial fixtures (sample courses and questions):
 
@@ -54,7 +54,7 @@ The project uses a `.env` file for managing secrets and environment-specific set
     uv run python manage.py load_fixtures
     ```
 
-    This command automatically checks if the database is empty and only loads fixtures if needed.
+    This command automatically checks if the database is empty and only loads fixtures if needed. -->
 
 3.  **Run the Development Server:**
     ```bash
@@ -62,7 +62,13 @@ The project uses a `.env` file for managing secrets and environment-specific set
     ```
     The server will start on `http://localhost:8000/`.
 
-**Note:** When using Docker Compose, fixtures are automatically loaded on startup if the database is empty.
+## Loading Mock Data
+
+**If you are doing development and need mock data to test with you can run**
+
+    ```
+    uv run manage.py loaddata mock/data.json
+    ```
 
 ## Testing the API
 
