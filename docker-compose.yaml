@@ -68,7 +68,6 @@ services:
     command: >
       sh -c "
       uv run python manage.py migrate &&
-      uv run python manage.py load_fixtures &&
       uv run python manage.py runserver 0.0.0.0:8000
       "
     volumes:
