@@ -25,7 +25,7 @@ class Course(models.Model):
         verbose_name_plural = "Courses"
 
     def __str__(self):
-        return f"{self.code} - ({self.year} S{self.semester})"
+        return f"{self.code} - ({self.year} {self.semester})"
 
 
 class Unit(models.Model):
@@ -61,6 +61,7 @@ class AidType(models.Model):
     """
     Restrict Study Aids to specific types (e.g., Video, PDF, Download).
     """
+
     class AidTypeChoices(models.TextChoices):
         PDF = "PDF", "PDF Document"
         VIDEO = "VIDEO", "Video Tutorial"
