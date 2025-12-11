@@ -1,0 +1,1 @@
+from .is_enrolment_manager import IsEnrolmentManager
