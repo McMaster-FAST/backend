@@ -6,6 +6,7 @@ from ..serializers import CourseSerializer, CourseDetailSerializer
 
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
+    lookup_field = "code"
     # The user must be logged in AND satisfy the instructor check for edits
     # permission_classes = [IsAuthenticated, IsInstructorOrReadOnly]
     permission_classes = [IsAuthenticated]

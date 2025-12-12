@@ -35,6 +35,7 @@ class Unit(models.Model):
     number = models.IntegerField()
 
     class Meta:
+        ordering = ["number"]
         unique_together = ("course", "name")
         verbose_name = "Unit"
         verbose_name_plural = "Units"
