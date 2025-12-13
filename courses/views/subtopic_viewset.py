@@ -9,9 +9,20 @@ class SubtopicViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # Filter by the 'unit_pk' from the URL
-        return UnitSubtopic.objects.filter(unit=self.kwargs["unit_pk"])
+        queryset = UnitSubtopic.objects.all()
+
+        unit_pk = self.kwargs.get("unit_pk")
+
+        if unit_pk:
+            queryset = queryset.filter(unit=unit_pk)
+
+        return queryset
 
     def perform_create(self, serializer):
-        unit = Unit.objects.get(pk=self.kwargs["unit_pk"])
-        serializer.save(unit=unit)
+        unit_pk = self.kwargs.get("unit_pk")
+
+        if unit_pk:
+            unit = Unit.objects.get(pk=unit_pk)
+            serializer.save(unit=unit)
+        else:
+            serializer.save()

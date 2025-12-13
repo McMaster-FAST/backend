@@ -1,7 +1,8 @@
 from rest_framework import serializers
-from ..models import QuestionImage
+from core.models import QuestionImage
+
 
 class QuestionImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestionImage
-        fields = ['image_file', 'alt_text']
+        fields = ["image_file", "alt_text"]

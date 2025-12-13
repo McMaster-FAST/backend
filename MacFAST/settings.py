@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "analytics",
     "sso_auth",
     "rest_framework",
+    "django_filters",
     "django_celery_beat",
     "django_celery_results",
 ]
