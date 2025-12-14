@@ -9,9 +9,20 @@ class StudyAidViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # Filter by the 'subtopic_pk' from the URL
-        return StudyAid.objects.filter(subtopic=self.kwargs["subtopic_pk"])
+        queryset = StudyAid.objects.all()
+
+        subtopic_pk = self.kwargs.get("subtopic_pk")
+
+        if subtopic_pk:
+            queryset = queryset.filter(subtopic_id=subtopic_pk)
+
+        return queryset
 
     def perform_create(self, serializer):
-        subtopic = UnitSubtopic.objects.get(pk=self.kwargs["subtopic_pk"])
-        serializer.save(subtopic=subtopic)
+        subtopic_pk = self.kwargs.get("subtopic_pk")
+
+        if subtopic_pk:
+            subtopic = UnitSubtopic.objects.get(pk=subtopic_pk)
+            serializer.save(subtopic=subtopic)
+        else:
+            serializer.save()

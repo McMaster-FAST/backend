@@ -17,6 +17,8 @@ router.register(r"courses", CourseViewSet, basename="courses")
 router.register(r"units", UnitViewSet, basename="units")
 router.register(r"subtopics", SubtopicViewSet, basename="subtopics")
 router.register(r"questions", QuestionViewSet, basename="questions")
+router.register(r"study-aids", StudyAidViewSet, basename="study-aids")
+router.register(r"enrolments", EnrolmentViewSet, basename="enrolments")
 
 courses_router = NestedDefaultRouter(router, r"courses", lookup="course")
 courses_router.register(r"units", UnitViewSet, basename="course-units")

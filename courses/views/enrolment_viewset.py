@@ -1,30 +1,39 @@
 from rest_framework import viewsets
 from django.db.models import Q
-from ..models import Enrolment
+from courses.models import Enrolment, Course
 from ..serializers import EnrolmentSerializer
-from ..permissions import IsEnrolmentManager
+from rest_framework.permissions import IsAuthenticated
 
 
 class EnrolmentViewSet(viewsets.ModelViewSet):
     serializer_class = EnrolmentSerializer
-    permission_classes = [IsEnrolmentManager]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
 
-        # Admins see all enrolments
         if user.is_staff:
-            return Enrolment.objects.all()
+            queryset = Enrolment.objects.all()
+        else:
+            my_managed_courses = (
+                Enrolment.objects.filter(user=user)
+                .filter(Q(is_instructor=True) | Q(is_ta=True))
+                .values_list("course", flat=True)
+            )
 
-        # Instructors & TAs see enrolments ONLY for courses they manage.
-        # Logic:
-        # a. Find all courses where I am Instructor OR TA
-        # b. Return all enrolments that belong to those courses
+            queryset = Enrolment.objects.filter(course__in=my_managed_courses)
 
-        my_managed_courses = (
-            Enrolment.objects.filter(user=user)
-            .filter(Q(is_instructor=True) | Q(is_ta=True))
-            .values_list("course", flat=True)
-        )
+        course_code = self.kwargs.get("course_code")
 
-        return Enrolment.objects.filter(course__in=my_managed_courses)
+        if course_code:
+            queryset = queryset.filter(course__code=course_code)
+
+        return queryset
+
+    def perform_create(self, serializer):
+        course_code = self.kwargs.get("course_code")
+        if course_code:
+            course = Course.objects.get(code=course_code)
+            serializer.save(course=course)
+        else:
+            serializer.save()
