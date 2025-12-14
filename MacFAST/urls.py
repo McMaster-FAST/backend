@@ -32,7 +32,7 @@ urlpatterns = [
     path("oidc/", include("mozilla_django_oidc.urls")),
     path("auth/", include("sso_auth.urls")),
     path("api/core/", include("core.urls")),
-    path("api/catalog/", include("courses.urls")),
+    path("api/", include("courses.urls")),
 ]
 
 if settings.DEBUG:
