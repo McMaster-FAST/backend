@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import StudyAid
+from courses.models import StudyAid
 
 
 class StudyAidSerializer(serializers.ModelSerializer):

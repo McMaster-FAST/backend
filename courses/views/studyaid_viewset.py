@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from ..models import StudyAid, UnitSubtopic
-from ..serializers import StudyAidSerializer
+from courses.models import StudyAid, UnitSubtopic
+from courses.serializers import StudyAidSerializer
 
 
 class StudyAidViewSet(viewsets.ModelViewSet):

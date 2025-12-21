@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Question, QuestionOption
+from core.models import Question
 from courses.models import UnitSubtopic
 from .question_image_serializer import QuestionImageSerializer
 from .question_option_serializer import QuestionOptionSerializer

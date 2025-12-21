@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from .subtopic_serializer import UnitSubtopicSerializer
-from ..models import Unit
+from courses.models import Unit
 
 
 class UnitDetailSerializer(serializers.ModelSerializer):

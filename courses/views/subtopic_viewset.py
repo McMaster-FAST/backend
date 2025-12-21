@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from ..models import UnitSubtopic, Unit
-from ..serializers import UnitSubtopicSerializer
+from courses.models import UnitSubtopic, Unit
+from courses.serializers import UnitSubtopicSerializer
 
 
 class SubtopicViewSet(viewsets.ModelViewSet):

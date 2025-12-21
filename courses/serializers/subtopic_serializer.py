@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from .studyaid_serializer import StudyAidSerializer
-from ..models import UnitSubtopic
+from courses.models import UnitSubtopic
 
 
 class UnitSubtopicSerializer(serializers.ModelSerializer):

@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from django.db.models import Q
 from courses.models import Enrolment, Course
-from ..serializers import EnrolmentSerializer
+from courses.serializers import EnrolmentSerializer
 from rest_framework.permissions import IsAuthenticated
 
 
