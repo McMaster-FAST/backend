@@ -1,0 +1,739 @@
+[
+      {
+    "model": "core.question",
+    "pk": 1,
+    "fields": {
+      "public_id": "c86adc0f-cba7-4be3-8935-80818b91b6cb",
+      "subtopic": 1,
+      "serial_number": "T2_2024_Q05_D84_S1.01",
+      "content": "What is the pH of a 0.450 M solution of formic acid (HCOOH)? \r\n\r\nData: \r\n\r\nKa(HCOOH) = 1.77 × 10–4",
+      "answer_explanation": "No explanation",
+      "selection_frequency": "0.0000",
+      "discrimination": "1.0000",
+      "difficulty": "0.8400",
+      "guessing": "0.2500",
+      "is_flagged": false,
+      "is_active": true,
+      "is_verified": false,
+      "images": []
+    }
+  },
+  {
+    "model": "core.question",
+    "pk": 2,
+    "fields": {
+      "public_id": "543f7297-c3c8-4fd6-a938-5699a58610cf",
+      "subtopic": 1,
+      "serial_number": "T1_2024_Q04_D83_S1.01",
+      "content": "If a 0.10 M solution of a weak acid is pH 3.5, what is its Ka value?",
+      "answer_explanation": "",
+      "selection_frequency": "0.0000",
+      "discrimination": "1.0000",
+      "difficulty": "0.8300",
+      "guessing": "0.2500",
+      "is_flagged": false,
+      "is_active": true,
+      "is_verified": false,
+      "images": []
+    }
+  },
+  {
+    "model": "core.question",
+    "pk": 3,
+    "fields": {
+      "public_id": "23e954e2-0f68-4545-99cd-2ec295d8a435",
+      "subtopic": 1,
+      "serial_number": "T1_2024_Q03_D90_S1.01",
+      "content": "What is the pOH of a 0.05 M aqueous solution of a strong acid?",
+      "answer_explanation": "",
+      "selection_frequency": "0.0000",
+      "discrimination": "1.0000",
+      "difficulty": "0.9000",
+      "guessing": "0.2500",
+      "is_flagged": false,
+      "is_active": true,
+      "is_verified": false,
+      "images": []
+    }
+  },
+  {
+    "model": "core.question",
+    "pk": 4,
+    "fields": {
+      "public_id": "e32841e8-abeb-40de-836d-404fe881c0b4",
+      "subtopic": 1,
+      "serial_number": "T1_2024_Q02_D77_S1.01",
+      "content": "Which of the following are conjugate bases of strong acids? \r\n\r\n(i)\tCO32–  \r\n\r\n(ii)\tHSO4– \r\n\r\n(iii)\tNH2–  \r\n\r\n(iv)\tCl– \r\n\r\n(v)\tCH3COO–",
+      "answer_explanation": "",
+      "selection_frequency": "0.0000",
+      "discrimination": "1.0000",
+      "difficulty": "0.7700",
+      "guessing": "0.2000",
+      "is_flagged": false,
+      "is_active": true,
+      "is_verified": false,
+      "images": []
+    }
+  },
+  {
+    "model": "core.question",
+    "pk": 5,
+    "fields": {
+      "public_id": "c28e1178-7216-47f1-b891-ba58fffccf54",
+      "subtopic": 1,
+      "serial_number": "Ex_2024_Q01_D97_S1.01",
+      "content": "What is the pH of 0.023 M HNO3?",
+      "answer_explanation": "",
+      "selection_frequency": "0.0000",
+      "discrimination": "1.0000",
+      "difficulty": "0.9700",
+      "guessing": "0.2500",
+      "is_flagged": false,
+      "is_active": true,
+      "is_verified": false,
+      "images": []
+    }
+  },
+  {
+    "model": "core.question",
+    "pk": 6,
+    "fields": {
+      "public_id": "c6b5cc55-3a44-41a2-935a-d76598a704c9",
+      "subtopic": 27,
+      "serial_number": "Quiz1_Question1",
+      "content": "Over the past century, has the incidence of natural disasters been increasing or decreasing?",
+      "answer_explanation": "",
+      "selection_frequency": "0.0000",
+      "discrimination": "1.0000",
+      "difficulty": "0.7000",
+      "guessing": "0.2500",
+      "is_flagged": false,
+      "is_active": true,
+      "is_verified": false,
+      "images": []
+    }
+  },
+  {
+    "model": "core.question",
+    "pk": 7,
+    "fields": {
+      "public_id": "31e06e66-1b8d-4e62-ae7e-22fb52aa32f1",
+      "subtopic": 27,
+      "serial_number": "Quiz1_Question2",
+      "content": "The exposure of a community to damage from a natural disaster is related in large part to",
+      "answer_explanation": "",
+      "selection_frequency": "0.0000",
+      "discrimination": "1.0000",
+      "difficulty": "0.8000",
+      "guessing": "0.0000",
+      "is_flagged": false,
+      "is_active": true,
+      "is_verified": false,
+      "images": []
+    }
+  },
+  {
+    "model": "core.question",
+    "pk": 8,
+    "fields": {
+      "public_id": "c574d522-43ee-4aeb-9b64-612615c4c98b",
+      "subtopic": 28,
+      "serial_number": "Quiz1_Question3",
+      "content": "Which of the following researchers proposed the idea that continents have moved over time, giving glacial, fossil, coal deposit, and rock types as evidence that the continents must have once been combined in a supercontinent they called Pangaea?",
+      "answer_explanation": "",
+      "selection_frequency": "0.0000",
+      "discrimination": "1.0000",
+      "difficulty": "0.5000",
+      "guessing": "0.2500",
+      "is_flagged": false,
+      "is_active": true,
+      "is_verified": false,
+      "images": []
+    }
+  },
+  {
+    "model": "core.question",
+    "pk": 9,
+    "fields": {
+      "public_id": "611e114d-a9d2-408b-ae2b-8498b2cfac6d",
+      "subtopic": 28,
+      "serial_number": "Quiz1_Question4",
+      "content": "Which of the following best describes continental crust?",
+      "answer_explanation": "",
+      "selection_frequency": "0.0000",
+      "discrimination": "1.0000",
+      "difficulty": "0.7000",
+      "guessing": "0.0000",
+      "is_flagged": false,
+      "is_active": true,
+      "is_verified": false,
+      "images": []
+    }
+  },
+  {
+    "model": "core.question",
+    "pk": 10,
+    "fields": {
+      "public_id": "f069db9c-9f4c-4fe6-9414-333b8eaa2b84",
+      "subtopic": 28,
+      "serial_number": "Quiz1_Question5",
+      "content": "Which type of plate boundary produces new oceanic crust?",
+      "answer_explanation": "",
+      "selection_frequency": "0.0000",
+      "discrimination": "1.0000",
+      "difficulty": "0.8500",
+      "guessing": "0.2500",
+      "is_flagged": false,
+      "is_active": true,
+      "is_verified": false,
+      "images": []
+    }
+  },
+  {
+    "model": "core.question",
+    "pk": 11,
+    "fields": {
+      "public_id": "feb5babe-fc59-49bb-814b-27a442f2c7b5",
+      "subtopic": 28,
+      "serial_number": "Quiz1_Question6",
+      "content": "Which of the following best describes a divergent margin?",
+      "answer_explanation": "",
+      "selection_frequency": "0.0000",
+      "discrimination": "1.0000",
+      "difficulty": "0.8500",
+      "guessing": "0.2500",
+      "is_flagged": false,
+      "is_active": true,
+      "is_verified": false,
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 1,
+    "fields": {
+      "public_id": "ad87e95e-4f94-495c-a4f5-1c57e48f71c3",
+      "question": 1,
+      "content": "2.05",
+      "is_answer": true,
+      "selection_frequency": "0.0000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 2,
+    "fields": {
+      "public_id": "2c5430ca-2ad3-48eb-b051-643278cfd515",
+      "question": 1,
+      "content": "2.84",
+      "is_answer": false,
+      "selection_frequency": "0.0000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 3,
+    "fields": {
+      "public_id": "c5a02afa-2032-4107-9fc2-8a1071591fc2",
+      "question": 1,
+      "content": "3.14",
+      "is_answer": false,
+      "selection_frequency": "0.0000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 4,
+    "fields": {
+      "public_id": "f42305a2-4815-4625-a281-9c57bb97c089",
+      "question": 1,
+      "content": "1.89",
+      "is_answer": false,
+      "selection_frequency": "0.0000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 5,
+    "fields": {
+      "public_id": "490fb1a7-8cf3-43e8-81a5-0bf5ba3903ba",
+      "question": 2,
+      "content": "5 × 10−6",
+      "is_answer": false,
+      "selection_frequency": "0.0000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 6,
+    "fields": {
+      "public_id": "88ed4ef1-4075-4cea-b9de-1020952b5c0c",
+      "question": 2,
+      "content": "1 × 10−6",
+      "is_answer": true,
+      "selection_frequency": "0.0000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 7,
+    "fields": {
+      "public_id": "da9baf53-a593-4db1-b132-0dd385131d6a",
+      "question": 2,
+      "content": "1 × 10−3",
+      "is_answer": false,
+      "selection_frequency": "0.0000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 8,
+    "fields": {
+      "public_id": "47e841db-061d-4040-8bfc-09e12bd6b9fb",
+      "question": 2,
+      "content": "3 × 10−3",
+      "is_answer": false,
+      "selection_frequency": "0.0000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 9,
+    "fields": {
+      "public_id": "5eabecaa-e8b4-446c-a6b5-3bd74eb3680e",
+      "question": 3,
+      "content": "1.50",
+      "is_answer": false,
+      "selection_frequency": "0.0300",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 10,
+    "fields": {
+      "public_id": "9c0eaf64-0a9a-485e-ab9d-fea9976db585",
+      "question": 3,
+      "content": "1.30",
+      "is_answer": false,
+      "selection_frequency": "0.0700",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 11,
+    "fields": {
+      "public_id": "b64ade91-522d-404c-88e5-03b87667fc6f",
+      "question": 3,
+      "content": "11.0",
+      "is_answer": false,
+      "selection_frequency": "0.0100",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 12,
+    "fields": {
+      "public_id": "93dda117-21b4-425b-96ea-f25b676464b4",
+      "question": 3,
+      "content": "12.7",
+      "is_answer": true,
+      "selection_frequency": "0.9000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 13,
+    "fields": {
+      "public_id": "59c4cc85-0bc9-4613-b5f2-de1da78a3b64",
+      "question": 4,
+      "content": "iii, iv",
+      "is_answer": false,
+      "selection_frequency": "0.0200",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 14,
+    "fields": {
+      "public_id": "91640825-608e-400b-83b1-fe4c9c30c32b",
+      "question": 4,
+      "content": "ii, iv",
+      "is_answer": true,
+      "selection_frequency": "0.7700",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 15,
+    "fields": {
+      "public_id": "d60b1864-b794-40de-ad75-e2d22f7da20b",
+      "question": 4,
+      "content": "i, iii, v",
+      "is_answer": false,
+      "selection_frequency": "0.0400",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 16,
+    "fields": {
+      "public_id": "1d33f835-7595-47ec-891c-fa3d9970cccf",
+      "question": 4,
+      "content": "i, ii, iv",
+      "is_answer": false,
+      "selection_frequency": "0.1700",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 17,
+    "fields": {
+      "public_id": "8c6960b9-9cf1-4aa3-bede-9ab879691fc3",
+      "question": 5,
+      "content": "1.72",
+      "is_answer": false,
+      "selection_frequency": "0.0000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 18,
+    "fields": {
+      "public_id": "4e346744-881d-49ad-b285-54031cb8ab89",
+      "question": 5,
+      "content": "1.54",
+      "is_answer": false,
+      "selection_frequency": "0.0200",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 19,
+    "fields": {
+      "public_id": "e42884f1-1749-4fbf-8e29-aa268b407e3b",
+      "question": 5,
+      "content": "1.64",
+      "is_answer": true,
+      "selection_frequency": "0.9700",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 20,
+    "fields": {
+      "public_id": "2b2f3458-e5af-414b-8fb6-f99954f602cb",
+      "question": 5,
+      "content": "1.82",
+      "is_answer": false,
+      "selection_frequency": "0.0100",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 21,
+    "fields": {
+      "public_id": "35b06dd9-eb3d-4427-b7e0-68c05916fecd",
+      "question": 6,
+      "content": "Geologic and geophysical disasters have remained constant, while meteorological, hydrological, and climatological disasters have increased on an annual basis.",
+      "is_answer": true,
+      "selection_frequency": "0.7000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 22,
+    "fields": {
+      "public_id": "e79648a0-8813-4b45-bfad-8817cf406da4",
+      "question": 6,
+      "content": "Geologic and geophysical, meteorological, hydrological, and climatological disasters have decreased on an annual basis.",
+      "is_answer": false,
+      "selection_frequency": "0.0500",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 23,
+    "fields": {
+      "public_id": "900f690f-0e6c-4425-b307-5c5454aaec4e",
+      "question": 6,
+      "content": "Geologic and geophysical, meteorological, hydrological, and climatological disasters have remained constant on an annual basis.",
+      "is_answer": false,
+      "selection_frequency": "0.0500",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 24,
+    "fields": {
+      "public_id": "e45e996e-c2b0-4bb5-a40a-8b4f8acf57bb",
+      "question": 6,
+      "content": "Geologic and geophysical disasters have been increasing, while meteorological, hydrological, and climatological disasters have decreased on an annual basis.",
+      "is_answer": false,
+      "selection_frequency": "0.0000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 25,
+    "fields": {
+      "public_id": "2b057cc4-fe92-4881-8a04-b17158cb9316",
+      "question": 7,
+      "content": "the proximity of that community to the natural disaster.",
+      "is_answer": false,
+      "selection_frequency": "0.1000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 26,
+    "fields": {
+      "public_id": "0f906c5f-2415-48ed-b0f3-97d97117e431",
+      "question": 7,
+      "content": "the degree of preparation of a community to withstand a natural disaster.",
+      "is_answer": true,
+      "selection_frequency": "0.8000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 27,
+    "fields": {
+      "public_id": "0515fd10-cc61-459f-b8f1-6a2e76d22fc7",
+      "question": 7,
+      "content": "the financial resources of a community to respond to a disaster.",
+      "is_answer": false,
+      "selection_frequency": "0.0500",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 28,
+    "fields": {
+      "public_id": "d5b77acc-18b2-4e86-b925-88eef7c47fa9",
+      "question": 7,
+      "content": "None of the above",
+      "is_answer": false,
+      "selection_frequency": "0.0500",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 29,
+    "fields": {
+      "public_id": "163d6ea6-8b6e-426b-a69f-e00c3d179567",
+      "question": 8,
+      "content": "Cynognathus Dietz",
+      "is_answer": false,
+      "selection_frequency": "0.1000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 30,
+    "fields": {
+      "public_id": "2ec209a7-c806-4ad0-a307-29addcc13796",
+      "question": 8,
+      "content": "Alfred Wegener",
+      "is_answer": false,
+      "selection_frequency": "0.5000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 31,
+    "fields": {
+      "public_id": "8be2f119-a43c-47e6-91ed-54905a214c85",
+      "question": 8,
+      "content": "Harry Hess",
+      "is_answer": false,
+      "selection_frequency": "0.2000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 32,
+    "fields": {
+      "public_id": "4847a60e-bab4-4abf-b5b7-c5a0ed26e3b4",
+      "question": 8,
+      "content": "Marie Tharp",
+      "is_answer": false,
+      "selection_frequency": "0.2000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 33,
+    "fields": {
+      "public_id": "09b50edc-86c2-4c22-b106-b3a02c9410d4",
+      "question": 9,
+      "content": "Silica rich, less dense than oceanic crust, rigid",
+      "is_answer": true,
+      "selection_frequency": "0.7000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 34,
+    "fields": {
+      "public_id": "185bcae7-b6c1-4966-82e2-c8491b2f99d1",
+      "question": 9,
+      "content": "Silica rich, more dense than oceanic crust, rigid",
+      "is_answer": false,
+      "selection_frequency": "0.1000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 35,
+    "fields": {
+      "public_id": "23b0876d-acf5-4018-9410-048c5e22d2e2",
+      "question": 9,
+      "content": "Silica poor, more dense than oceanic crust, rigid",
+      "is_answer": false,
+      "selection_frequency": "0.1000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 36,
+    "fields": {
+      "public_id": "96be4776-06e0-4120-a22f-3381182bcd19",
+      "question": 9,
+      "content": "Iron and Magnesium rich, flowing solid",
+      "is_answer": false,
+      "selection_frequency": "0.1000",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 37,
+    "fields": {
+      "public_id": "24d0132b-22ff-4ca4-8e6d-306f6eafa671",
+      "question": 10,
+      "content": "convergent boundaries",
+      "is_answer": false,
+      "selection_frequency": "0.0500",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 38,
+    "fields": {
+      "public_id": "c1cd0c6d-2673-4919-8332-818aefe72c62",
+      "question": 10,
+      "content": "transform boundaries",
+      "is_answer": false,
+      "selection_frequency": "0.0500",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 39,
+    "fields": {
+      "public_id": "66343dbc-79ac-483a-b823-52ce936bd1aa",
+      "question": 10,
+      "content": "all of the above",
+      "is_answer": false,
+      "selection_frequency": "0.0500",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 40,
+    "fields": {
+      "public_id": "d11b498e-09f4-4408-9253-d80c54a9ff47",
+      "question": 10,
+      "content": "divergent boundaries",
+      "is_answer": true,
+      "selection_frequency": "0.8500",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 41,
+    "fields": {
+      "public_id": "664de5f5-290d-4c46-ad68-b089dec9a1cc",
+      "question": 11,
+      "content": "Two plates sliding past one another in opposite directions",
+      "is_answer": false,
+      "selection_frequency": "0.0500",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 42,
+    "fields": {
+      "public_id": "3f2a2917-6199-47af-8181-246f1fde8bca",
+      "question": 11,
+      "content": "Two plates colliding with one another forming a subduction zone",
+      "is_answer": false,
+      "selection_frequency": "0.0500",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 43,
+    "fields": {
+      "public_id": "decdf266-a086-437e-b2ef-50c8ac273179",
+      "question": 11,
+      "content": "Two plates moving away from one another",
+      "is_answer": true,
+      "selection_frequency": "0.8500",
+      "images": []
+    }
+  },
+  {
+    "model": "core.questionoption",
+    "pk": 44,
+    "fields": {
+      "public_id": "2ae48ec2-46ee-4fbf-a139-5938cf74e530",
+      "question": 11,
+      "content": "Two plates colliding with one another forming mountain ranges",
+      "is_answer": false,
+      "selection_frequency": "0.0500",
+      "images": []
+    }
+  }
+]
