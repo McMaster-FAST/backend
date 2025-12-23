@@ -1,0 +1,7 @@
+from .course_unit_serializer import CourseDetailSerializer
+from .subtopic_serializer import UnitSubtopicSerializer
+from .studyaid_serializer import StudyAidSerializer
+from .unit_subtopic_serializer import UnitDetailSerializer
+from .unit_serializer import UnitSerializer
+from .course_serializer import CourseSerializer
+from .enrolment_serializer import EnrolmentSerializer

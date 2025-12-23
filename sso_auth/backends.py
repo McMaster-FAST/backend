@@ -31,7 +31,7 @@ class MyOIDCBackend(OIDCAuthenticationBackend):
         email = claims.get("email")
         username = claims.get("nickname") or claims.get("preferred_username")
 
-        # 1. Try finding by email (if we have one)
+        # Try finding by email (if we have one)
         if email:
             users = self.UserModel.objects.filter(email__iexact=email)
             if users.exists():

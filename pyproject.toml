@@ -18,6 +18,8 @@ dependencies = [
     "django-celery-results>=2.6.0",
     "pypandoc>=1.16.2",
     "bs4>=0.0.2",
+    "drf-nested-routers>=0.95.0",
+    "django-filter>=25.2",
 ]
 
 [dependency-groups]

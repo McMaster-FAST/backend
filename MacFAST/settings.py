@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "analytics",
     "sso_auth",
     "rest_framework",
+    "django_filters",
     "django_celery_beat",
     "django_celery_results",
 ]
@@ -70,6 +71,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "mozilla_django_oidc.middleware.SessionRefresh",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -142,6 +144,8 @@ LOGIN_URL = "oidc_authentication_init"
 LOGIN_REDIRECT_URL = "/admin"
 LOGOUT_REDIRECT_URL = "/auth/logged-out/"
 LOGIN_REDIRECT_URL_FAILURE = "/auth/login-failed/"
+
+OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS = 900
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
