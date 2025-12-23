@@ -13,11 +13,8 @@ class NextQuestionSerializer(serializers.Serializer):
         write_only=True, required=True, allow_blank=False
     )
 
-    serial_number = serializers.CharField(
-        source="question.serial_number", read_only=True
+    public_id = serializers.CharField(
+        source="question.public_id", read_only=True
     )
     content = serializers.CharField(source="question.content", read_only=True)
-    images = QuestionImageSerializer(
-        source="question.images", many=True, read_only=True
-    )
     options = AdaptiveTestOptionSerializer(many=True, read_only=True)

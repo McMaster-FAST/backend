@@ -28,8 +28,8 @@ class SubmitTestAnswerView(APIView):
             ).subtopic,
         )
         theta, variance = get_updated_theta_variance(
-            ability_score.score,
-            ability_score.variance,
+            float(ability_score.score),
+            float(ability_score.variance),
             Question.objects.get(
                 public_id=serializer.validated_data.get("question_id")
             ),
@@ -87,7 +87,7 @@ def item_information(theta, a, b, c):
 
 # single-item incremental update
 def get_updated_theta_variance(
-    theta_prior: Decimal, var_prior: Decimal, question, response
+    theta_prior: float, var_prior: float, question, response
 ):
     item_params = (
         float(question.discrimination),
