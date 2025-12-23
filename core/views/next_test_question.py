@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from ..serializers import NextQuestionSerializer
-from ..models import Question, QuestionOption, TestSession
+from ..models import Question, QuestionOption
 from analytics.models import UserTopicAbilityScore
 from courses.models import UnitSubtopic
 
@@ -35,9 +35,6 @@ class NextTestQuestionView(APIView):
             name=serializer.validated_data.get("subtopic_name"),
         )
         
-        test_session, _ = TestSession.objects.get_or_create(
-            user=user, course=subtopic.unit.course, subtopic=subtopic
-        )
         user_score, _ = UserTopicAbilityScore.objects.get_or_create(
             user=user, unit_sub_topic=subtopic
         )
