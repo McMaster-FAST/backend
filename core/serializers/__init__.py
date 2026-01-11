@@ -6,3 +6,4 @@ from .question_image_serializer import QuestionImageSerializer
 from .answer_serializer import AnswerSerializer
 from .question_serializer import QuestionSerializer
 from .question_option_serializer import QuestionOptionSerializer
+from .testsession_serializer import TestSessionSerializer
