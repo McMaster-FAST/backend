@@ -1,4 +1,3 @@
-from ..models import TestSession
 from rest_framework import serializers
 
 

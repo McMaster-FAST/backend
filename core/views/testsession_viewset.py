@@ -12,9 +12,6 @@ class TestSessionViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
 
-        # if user.is_staff:
-        #     return TestSession.objects.all()
-
         return TestSession.objects.filter(
             user=user,
             course__code=self.kwargs.get("course__code", None),
