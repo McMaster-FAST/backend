@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from ..serializers import NextQuestionSerializer
-from ..models import Question, QuestionOption
+from ..models import Question, QuestionOption, TestSession
 from analytics.models import UserTopicAbilityScore
 from courses.models import UnitSubtopic
 
@@ -26,6 +26,7 @@ class NextTestQuestionView(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+        # TODO: Adjust difficulty range as needed
         difficulty_range = decimal.Decimal(5)
         user = request.user
 
@@ -34,23 +35,35 @@ class NextTestQuestionView(APIView):
             unit__name=serializer.validated_data.get("unit_name"),
             name=serializer.validated_data.get("subtopic_name"),
         )
-        
+
         user_score, _ = UserTopicAbilityScore.objects.get_or_create(
             user=user, unit_sub_topic=subtopic
         )
         theta = user_score.score
+
+        excluded_questions = TestSession.objects.get(
+            user=user, course=subtopic.unit.course
+        ).excluded_questions.all()
+
         possible_questions = Question.objects.filter(
             subtopic=subtopic,
             difficulty__gte=theta - difficulty_range,
             difficulty__lte=theta + difficulty_range,
-        )
+        ).exclude(id__in=excluded_questions)
+
+        if not possible_questions.exists():
+            return Response(
+                {"message": "No more questions available in this subtopic."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        
         next_question = max(
             possible_questions,
             key=lambda q: item_information(
                 q.discrimination, q.difficulty, q.guessing, theta
             ),
         )
-        
+
         options = QuestionOption.objects.filter(question=next_question)
         return Response(
             {

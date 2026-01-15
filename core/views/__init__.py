@@ -6,3 +6,4 @@ from .questions import QuestionsView
 from .question_viewset import QuestionViewSet
 from .option_viewset import OptionViewSet
 from .testsession_viewset import TestSessionViewSet
+from .skip_test_question import SkipTestQuestionView

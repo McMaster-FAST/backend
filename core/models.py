@@ -120,8 +120,9 @@ class TestSession(models.Model):
     course = models.ForeignKey("courses.Course", on_delete=models.CASCADE)
     subtopic = models.ForeignKey("courses.UnitSubtopic", on_delete=models.CASCADE)
     current_question = models.ForeignKey(
-        "Question", on_delete=models.CASCADE, null=True
+        "Question", on_delete=models.CASCADE, null=True, blank=True, related_name="current"
     )
+    excluded_questions = models.ManyToManyField("Question", blank=True, related_name="excluded")
 
     class Meta:
         verbose_name = "Test Session"
