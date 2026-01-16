@@ -46,17 +46,7 @@ The project uses a `.env` file for managing secrets and environment-specific set
     uv run manage.py migrate
     ```
 
-<!-- 2.  **Load Initial Data (Optional):**
-
-    If your database is empty, you can load initial fixtures (sample courses and questions):
-
-    ```bash
-    uv run python manage.py load_fixtures
-    ```
-
-    This command automatically checks if the database is empty and only loads fixtures if needed. -->
-
-3.  **Run the Development Server:**
+2.  **Run the Development Server:**
     ```bash
     uv run manage.py runserver
     ```
@@ -66,9 +56,23 @@ The project uses a `.env` file for managing secrets and environment-specific set
 
 **If you are doing development and need mock data to test with you can run**
 
-    ```
-    uv run manage.py loaddata mock/data.json
-    ```
+To load mock data only if the database is empty:
+
+```
+uv run manage.py load_fixtures
+```
+
+or to load all mock data unconditionally:
+
+```
+uv run manage.py loaddata mock/data.json
+```
+
+To unload mock data:
+
+```
+uv run manage.py unload_fixtures
+```
 
 ## Testing the API
 

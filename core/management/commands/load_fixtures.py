@@ -1,8 +1,7 @@
 """
 Management command to load initial fixtures if the database is empty.
-
-This command checks if key tables (Course, Question) are empty and loads
-fixtures if needed. Safe to run multiple times - only loads if database is empty.
+This command checks if key tables (Course, Question) are empty and loads fixtures if needed. 
+Safe to run multiple times - only loads if database is empty.
 """
 from django.core.management import call_command
 from django.core.management.base import BaseCommand
@@ -29,17 +28,15 @@ class Command(BaseCommand):
             self.stdout.write('Loading initial fixtures...')
             
             # Load courses first (questions depend on subtopics)
-            self.stdout.write('  → Loading courses fixtures...')
-            call_command('loaddata', 'courses/fixtures/initial_courses.json', verbosity=0)
-            self.stdout.write(self.style.SUCCESS('    ✓ Courses loaded'))
+            self.stdout.write('  → Loading courses and related fixtures...')
+            call_command('loaddata', 'courses/fixtures/mock/data.json', verbosity=0)
             
             # Then load questions
-            self.stdout.write('  → Loading questions fixtures...')
-            call_command('loaddata', 'core/fixtures/initial_questions.json', verbosity=0)
-            self.stdout.write(self.style.SUCCESS('    ✓ Questions loaded'))
+            self.stdout.write('  → Loading questions and related fixtures...')
+            call_command('loaddata', 'core/fixtures/mock/data.json', verbosity=0)
             
             self.stdout.write(
-                self.style.SUCCESS('\n✓ Initial fixtures loaded successfully!')
+                self.style.SUCCESS('\n✓ fixtures loaded successfully!')
             )
         except Exception as e:
             self.stdout.write(
