@@ -27,13 +27,16 @@ class SubmitTestAnswerView(APIView):
                 public_id=serializer.validated_data.get("question_id")
             ).subtopic,
         )
+
+        is_correct = str(selected_option_id) == str(correct_option_id)
+
         theta, variance = get_updated_theta_variance(
             float(ability_score.score),
             float(ability_score.variance),
             Question.objects.get(
                 public_id=serializer.validated_data.get("question_id")
             ),
-            selected_option_id == correct_option_id,
+            is_correct,
         )
 
         ability_score.score = Decimal(theta)
