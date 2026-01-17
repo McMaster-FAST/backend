@@ -21,6 +21,7 @@ dependencies = [
     "drf-nested-routers>=0.95.0",
     "django-filter>=25.2",
     "numpy>=2.4.1",
+    "scipy>=1.17.0",
 ]
 
 [dependency-groups]
