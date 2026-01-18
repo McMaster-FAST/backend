@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.shortcuts import get_object_or_404
 
 from ..serializers import NextQuestionSerializer
 from ..models import Question, QuestionOption
@@ -29,7 +30,8 @@ class NextTestQuestionView(APIView):
         difficulty_range = decimal.Decimal(5)
         user = request.user
 
-        subtopic = UnitSubtopic.objects.get(
+        subtopic = get_object_or_404(
+            UnitSubtopic,
             unit__course__code=serializer.validated_data.get("course_code"),
             unit__name=serializer.validated_data.get("unit_name"),
             name=serializer.validated_data.get("subtopic_name"),
