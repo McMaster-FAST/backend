@@ -46,6 +46,12 @@ class NextTestQuestionView(APIView):
             difficulty__gte=theta - difficulty_range,
             difficulty__lte=theta + difficulty_range,
         )
+        if (not possible_questions.exists()):
+            return Response(
+                {"detail": "No more questions available in this range."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        
         next_question = max(
             possible_questions,
             key=lambda q: item_information(
