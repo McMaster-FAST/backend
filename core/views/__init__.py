@@ -5,3 +5,4 @@ from .submit_test_answer import SubmitTestAnswerView
 from .questions import QuestionsView
 from .question_viewset import QuestionViewSet
 from .option_viewset import OptionViewSet
+from .testsession_viewset import TestSessionViewSet

@@ -6,6 +6,7 @@ from .models import (
     QuestionComment,
     QuestionOption,
     QuestionImage,
+    TestSession,
 )
 
 
@@ -23,6 +24,7 @@ class QuestionOptionInline(admin.TabularInline):
 class QuestionAdmin(admin.ModelAdmin):
     # Columns to show in the list view
     list_display = (
+        "public_id",
         "serial_number",
         "short_content",
         "difficulty",
@@ -50,13 +52,19 @@ class QuestionGroupAdmin(admin.ModelAdmin):
 
 @admin.register(QuestionOption)
 class QuestionOptionAdmin(admin.ModelAdmin):
-    list_display = ("content", "question", "is_answer", "selection_frequency")
+    list_display = (
+        "public_id",
+        "content",
+        "question",
+        "is_answer",
+        "selection_frequency",
+    )
     list_filter = ("is_answer",)
 
 
 @admin.register(QuestionComment)
 class QuestionCommentAdmin(admin.ModelAdmin):
-    list_display = ("user", "question", "short_comment", "timestamp")
+    list_display = ("public_id", "user", "question", "short_comment", "timestamp")
 
     def short_comment(self, obj):
         return obj.comment_text[:50]
@@ -70,3 +78,8 @@ class SavedForLaterAdmin(admin.ModelAdmin):
 @admin.register(QuestionImage)
 class QuestionImageAdmin(admin.ModelAdmin):
     list_display = ("id", "alt_text", "image_file")
+
+
+@admin.register(TestSession)
+class TestSessionAdmin(admin.ModelAdmin):
+    list_display = ("user", "course", "subtopic", "current_question")
