@@ -1,3 +1,4 @@
+from xml.etree.ElementInclude import include
 from django.urls import path
 
 from .views import QuestionsView
@@ -11,23 +12,12 @@ from .views import (
     SkipTestQuestionView,
 )
 
+ADAPTIVE_TEST_BASE_PATH = "adaptive-test/"
 urlpatterns = [
     path("ping/", PingView.as_view(), name="ping"),
     path("upload/", UploadView.as_view(), name="upload"),
-    path(
-        "adaptive-test/next-question",
-        NextTestQuestionView.as_view(),
-        name="adaptive_test_next_question",
-    ),
-    path(
-        "adaptive-test/submit",
-        SubmitTestAnswerView.as_view(),
-        name="adaptive_test_submit",
-    ),
-    path(
-        "adaptive-test/skip",
-        SkipTestQuestionView.as_view(),
-        name="adaptive_test_skip_question",
-    ),
-    path("questions/", QuestionsView.as_view(), name="question_list"),
+    path(f"{ADAPTIVE_TEST_BASE_PATH}next-question/", NextTestQuestionView.as_view(), name="next-test-question"),
+    path(f"{ADAPTIVE_TEST_BASE_PATH}submit-answer/", SubmitTestAnswerView.as_view(), name="submit-test-answer"),
+    path(f"{ADAPTIVE_TEST_BASE_PATH}skip-question/", SkipTestQuestionView.as_view(), name="skip-test-question"),
+    path("questions/", QuestionsView.as_view(), name="questions"),
 ]

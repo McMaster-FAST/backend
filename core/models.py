@@ -122,7 +122,7 @@ class TestSession(models.Model):
     current_question = models.ForeignKey(
         "Question", on_delete=models.CASCADE, null=True, blank=True, related_name="current"
     )
-    excluded_questions = models.ManyToManyField("Question", blank=True, related_name="excluded")
+    excluded_questions = models.ManyToManyField("Question", default=list, blank=True, related_name="excluded")
 
     class Meta:
         verbose_name = "Test Session"
