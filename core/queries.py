@@ -13,6 +13,19 @@ class QuestionBundle:
         self.question = question
         self.options = options
 
+def get_or_create_test_session(user, subtopic):
+    test_session = TestSession.objects.filter(
+        user=user, course=subtopic.unit.course
+    ).first()
+    if not test_session:
+        test_session = TestSession.objects.create(
+            user=user,
+            course=subtopic.unit.course,
+            subtopic=subtopic,
+            current_question=None,
+        )
+        test_session.excluded_questions.set([])
+    return test_session
 
 def get_next_question_bundle(
     course_code, unit_name, subtopic_name, user, difficulty_range
@@ -28,17 +41,7 @@ def get_next_question_bundle(
     )
     theta = user_score.score
 
-    test_session = TestSession.objects.filter(
-        user=user, course=subtopic.unit.course
-    ).first()
-    if not test_session:
-        test_session = TestSession.objects.create(
-            user=user,
-            course=subtopic.unit.course,
-            subtopic=subtopic,
-            current_question=None,
-        )
-        test_session.excluded_questions.set([])
+    test_session = get_or_create_test_session(user, subtopic)
     excluded_questions = test_session.excluded_questions.values_list(
         "id", flat=True
     )

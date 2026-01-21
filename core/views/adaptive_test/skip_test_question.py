@@ -1,9 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
+
 
 from core.models import Question, TestSession
 
-from ...queries import get_next_question_bundle
+from ...queries import get_next_question_bundle, get_or_create_test_session
 
 from ...serializers import NextQuestionSerializer
 
@@ -19,7 +21,7 @@ class SkipTestQuestionView(APIView):
         question = Question.objects.get(public_id=question_id)
         user = request.user
 
-        test_session = TestSession.objects.get(user=user, course__code=course_code)
+        test_session = get_or_create_test_session(user, question.subtopic)
         test_session.excluded_questions.add(question)
         test_session.save()
 
@@ -33,9 +35,9 @@ class SkipTestQuestionView(APIView):
         if next_question_bundle is None:
             return Response(
                 {"message": "No more questions available in this subtopic."},
-                status=404,
+                status=status.HTTP_404_NOT_FOUND,
             )
         return Response(
-            {"next_question": NextQuestionSerializer(next_question_bundle).data},
-            status=200,
+            {"question": NextQuestionSerializer(next_question_bundle).data},
+            status=status.HTTP_200_OK,
         )
