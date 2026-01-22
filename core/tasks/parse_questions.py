@@ -2,7 +2,7 @@ from zipfile import ZipFile
 from celery import shared_task
 from io import BytesIO
 
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.core.files.images import ImageFile
 from core.models import Question, QuestionComment, QuestionOption, QuestionImage
 from courses.models import Course, Unit, UnitSubtopic
@@ -38,11 +38,18 @@ def parse_file(file_name: str, file_data: bytes, course: dict, create_required: 
             for question_data in parse_questions_from_docx(temp_file.name, docx_table_format_a):
                 try:
                     insert_data(question_data, course, create_required, temp_file.name)
-                except Exception as e:
+                except IntegrityError as e: # Make db errors quieter
                     print(f"Failed inserting {question_data.get('serial_number')} with: {e}")
+
     else:
         raise ValueError("Unsupported file format. Only .docx files are supported.")
 
+def str_to_float(value: str) -> float:
+    try:
+        return float(value)
+    except (ValueError, TypeError):
+        return 0.0
+    
 def insert_data(question_data: dict, course: Course, create_required: bool, temp_file_name: str) -> None:
     """
     Inserts parsed question data into the database.
@@ -52,7 +59,12 @@ def insert_data(question_data: dict, course: Course, create_required: bool, temp
     :param create_required: If True, creates Unit and UnitSubtopic if they do not exist. Otherwise, it expects them to exist.
     """
     answer_index = ord(question_data.get("answer").upper()) - ord("A")
-    selection_frequency = float(question_data.get("option_selection_frequencies")[answer_index])
+    raw_selection_frequencies = question_data.get("option_selection_frequencies", [])
+    if len(raw_selection_frequencies) <= answer_index:
+        raise DocxParsingError(f"Invalid answer index {answer_index}")
+    selection_frequencies = [str_to_float(freq) for freq in raw_selection_frequencies]
+    selection_frequency = selection_frequencies[answer_index]
+
     unit_name = question_data.get("unit").strip()
     subtopic_name = question_data.get("subtopic").strip()
     raw_unit_number = question_data.get("unit_number").strip()
@@ -72,13 +84,13 @@ def insert_data(question_data: dict, course: Course, create_required: bool, temp
         create_question_options(question_data, answer_index, question)
         create_question_comments(question_data, question)
 
-def create_question(question_data, selection_frequency, subtopic):
+def create_question(question_data, selection_frequency: float, subtopic):
     question = Question.objects.create(
             subtopic=subtopic,
             serial_number=question_data.get("serial_number"),
             content=question_data.get("content", ""),
             answer_explanation=question_data.get("explanation", ""),
-            selection_frequency=float(selection_frequency) if selection_frequency else 0.0,
+            selection_frequency=selection_frequency,
             difficulty=calculate_difficulty_for_test(selection_frequency),
         )
     return question
@@ -94,7 +106,7 @@ def create_question_comments(question_data, question):
 def create_question_options(question_data, answer_index, question):
     for idx, option_content in enumerate(question_data.get("options", [])):
         is_answer = (idx == answer_index)
-        option_selection_frequency = float(question_data.get("option_selection_frequencies")[idx])
+        option_selection_frequency = str_to_float(question_data.get("option_selection_frequencies", [])[idx])
         QuestionOption.objects.create(
                 question=question,
                 content=option_content,
@@ -106,7 +118,6 @@ def save_images(question_data, question_public_id, file_name):
     question_images = question_data.get("images", [])
     saved_images = []
     for image in question_images:
-        print(image)
         image_src = image.get("src")
         image_alt = image.get("alt", "")
         image_ref = image.get("ref")
