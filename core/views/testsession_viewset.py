@@ -1,4 +1,3 @@
-from courses.models import Course
 from ..serializers import TestSessionSerializer
 from ..models import TestSession
 from rest_framework import viewsets

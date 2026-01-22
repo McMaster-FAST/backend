@@ -4,4 +4,6 @@ from .questions import QuestionsView
 from .question_viewset import QuestionViewSet
 from .option_viewset import OptionViewSet
 from .testsession_viewset import TestSessionViewSet
-from .adaptive_test import *
+from .adaptive_test.next_test_question import NextTestQuestionView
+from .adaptive_test.submit_test_answer import SubmitTestAnswerView
+from .adaptive_test.skip_test_question import SkipTestQuestionView
