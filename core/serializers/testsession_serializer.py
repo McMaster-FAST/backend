@@ -1,9 +1,9 @@
 from rest_framework import serializers
+from ..models import TestSession
 
-
-class TestSessionSerializer(serializers.Serializer):
-    subtopic_name = serializers.CharField(source="subtopic.name", read_only=True)
-    unit_name = serializers.CharField(source="subtopic.unit.name", read_only=True)
-    course_code = serializers.CharField(
-        source="subtopic.unit.course.code", read_only=True
-    )
+class TestSessionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TestSession
+        fields = "__all__"
+        # These fields should only be modifiable by the server
+        read_only_fields = ["user", "course", "subtopic", "current_question"]

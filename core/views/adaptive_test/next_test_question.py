@@ -28,12 +28,8 @@ class NextTestQuestionView(APIView):
             user,
             difficulty_range,
         )
-        if question_bundle is None:
-            return Response(
-                {"message": "No more questions available in this subtopic."},
-                status=status.HTTP_404_NOT_FOUND,
-            )
+
         return Response(
-            {"question": NextQuestionSerializer(question_bundle).data},
+            {"question": NextQuestionSerializer(question_bundle).data if question_bundle else None},
             status=status.HTTP_200_OK,
         )

@@ -32,12 +32,7 @@ class SkipTestQuestionView(APIView):
             course.code, unit.name, subtopic.name, user, difficulty_range=5
         )
 
-        if next_question_bundle is None:
-            return Response(
-                {"message": "No more questions available in this subtopic."},
-                status=status.HTTP_404_NOT_FOUND,
-            )
         return Response(
-            {"question": NextQuestionSerializer(next_question_bundle).data},
+            {"question": NextQuestionSerializer(next_question_bundle).data if next_question_bundle else None},
             status=status.HTTP_200_OK,
         )
