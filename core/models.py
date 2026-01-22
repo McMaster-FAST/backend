@@ -123,6 +123,7 @@ class TestSession(models.Model):
         "Question", on_delete=models.CASCADE, null=True, blank=True, related_name="current"
     )
     excluded_questions = models.ManyToManyField("Question", default=list, blank=True, related_name="excluded")
+    use_out_of_range_questions = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Test Session"

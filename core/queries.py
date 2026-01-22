@@ -13,6 +13,7 @@ class QuestionBundle:
         self.question = question
         self.options = options
 
+
 def get_or_create_test_session(user, subtopic):
     test_session = TestSession.objects.filter(
         user=user, course=subtopic.unit.course
@@ -27,6 +28,7 @@ def get_or_create_test_session(user, subtopic):
         test_session.excluded_questions.set([])
     return test_session
 
+
 def get_next_question_bundle(
     course_code, unit_name, subtopic_name, user, difficulty_range
 ):
@@ -39,18 +41,20 @@ def get_next_question_bundle(
     user_score, _ = UserTopicAbilityScore.objects.get_or_create(
         user=user, unit_sub_topic=subtopic
     )
-    theta = user_score.score
 
     test_session = get_or_create_test_session(user, subtopic)
-    excluded_questions = test_session.excluded_questions.values_list(
-        "id", flat=True
-    )
+    excluded_questions = test_session.excluded_questions.values_list("id", flat=True)
 
     possible_questions = Question.objects.filter(
         subtopic=subtopic,
-        difficulty__gte=theta - difficulty_range,
-        difficulty__lte=theta + difficulty_range,
     ).exclude(id__in=excluded_questions)
+
+    theta = user_score.score
+    if not test_session.use_out_of_range_questions:
+        possible_questions = possible_questions.filter(
+            difficulty__gte=theta - difficulty_range,
+            difficulty__lte=theta + difficulty_range,
+        )
 
     if not possible_questions.exists():
         return None
