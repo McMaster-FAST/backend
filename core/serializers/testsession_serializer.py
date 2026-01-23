@@ -1,13 +1,14 @@
 from rest_framework import serializers
 from core.models import TestSession
 from core.serializers.question_serializer import QuestionSerializer
-from courses.serializers.unit_subtopic_serializer import UnitSubtopicSerializer
-from courses.serializers.course_serializer import CourseSerializer
+
 
 class QuestionIDSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestionSerializer.Meta.model
-        fields = ['public_id']
+        fields = ["public_id"]
+
+
 class TestSessionSerializer(serializers.ModelSerializer):
     # Read-only fields for nested data
     subtopic_name = serializers.CharField(source="subtopic.name", read_only=True)
@@ -26,6 +27,7 @@ class TestSessionSerializer(serializers.ModelSerializer):
 
 class TestSessionWriteSerializer(serializers.ModelSerializer):
     """Serializer for write operations - only allows specific fields"""
+
     class Meta:
         model = TestSession
         fields = ["excluded_questions", "use_out_of_range_questions"]
