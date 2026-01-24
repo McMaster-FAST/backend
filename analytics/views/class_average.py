@@ -1,10 +1,13 @@
 from rest_framework.views import APIView
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import NotFound, PermissionDenied, ValidationError
 from django.db.models import Q
 from django.db.models import Avg, Count, FloatField
 from django.db.models.functions import Cast
+from django.contrib.auth.models import AbstractUser
 
 from analytics.models import QuestionAttempt
 from analytics.serializers import (
@@ -18,14 +21,9 @@ class ClassAverageView(APIView):
 
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        course_id, error_response = self._validate_request(request)
-        if error_response:
-            return error_response
-
-        permission_error = self._check_permission(request.user, course_id)
-        if permission_error:
-            return permission_error
+    def get(self, request: Request) -> Response:
+        course_id = self._validate_request(request)
+        self._check_permission(request.user, course_id)
 
         statistics = self._get_statistics(course_id)
         response_data = {"course_id": course_id, "statistics": statistics}
@@ -34,24 +32,21 @@ class ClassAverageView(APIView):
             status=status.HTTP_200_OK,
         )
 
-    def _validate_request(self, request):
+    def _validate_request(self, request: Request) -> int:
         serializer = ClassAverageRequestSerializer(data=request.query_params)
         if not serializer.is_valid():
-            return None, Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            raise ValidationError(serializer.errors)
 
         course_id = serializer.validated_data["course_id"]
 
         if not Course.objects.filter(id=course_id).exists():
-            return None, Response(
-                {"detail": "Course not found."},
-                status=status.HTTP_404_NOT_FOUND,
-            )
+            raise NotFound("Course not found.")
 
-        return course_id, None
+        return course_id
 
-    def _check_permission(self, user, course_id):
+    def _check_permission(self, user: AbstractUser, course_id: int) -> None:
         if user.is_staff:
-            return None
+            return
 
         has_access = (
             Enrolment.objects.filter(user=user, course_id=course_id)
@@ -60,11 +55,9 @@ class ClassAverageView(APIView):
         )
 
         if not has_access:
-            return Response(status=status.HTTP_403_FORBIDDEN)
+            raise PermissionDenied()
 
-        return None
-
-    def _get_statistics(self, course_id):
+    def _get_statistics(self, course_id: int) -> list[dict]:
         statistics = (
             QuestionAttempt.objects.filter(
                 question__subtopic__unit__course_id=course_id
