@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 
 class ClassAverageRequestSerializer(serializers.Serializer):
-    course_public_id = serializers.UUIDField(required=True)
+    course_id = serializers.IntegerField(required=True)
 
 
 class SubtopicStatisticsSerializer(serializers.Serializer):
@@ -13,10 +13,11 @@ class SubtopicStatisticsSerializer(serializers.Serializer):
     subtopic_id = serializers.IntegerField()
     subtopic_name = serializers.CharField()
     average_score = serializers.FloatField()
+    average_time_spent = serializers.FloatField()
     total_attempts = serializers.IntegerField()
     unique_students = serializers.IntegerField()
 
 
 class ClassAverageResponseSerializer(serializers.Serializer):
-    course_public_id = serializers.UUIDField()
+    course_id = serializers.IntegerField()
     statistics = SubtopicStatisticsSerializer(many=True)
