@@ -1,0 +1,184 @@
+{
+  "info": {
+    "_postman_id": "087360f3-72c6-4b74-b670-1feae89c013c",
+    "name": "MacFAST",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "ping",
+      "id": "2ca5e691-94b6-43f2-8786-7329606d6238",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{URL}}/api/core/ping",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "api",
+            "core",
+            "ping"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "next question",
+      "id": "a29667e7-5a41-4e70-87bd-845aa927b3b4",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_token\": \"abc123xyz\",\n  \"group_name\": \"chem101\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL}}/api/core/adaptive-test/next-question",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "api",
+            "core",
+            "adaptive-test",
+            "next-question"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "upload",
+      "id": "81cbbe27-a4c0-422e-98cf-a45b01223c40",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": [
+                "/Users/laeek/Downloads/chemtest.docx"
+              ]
+            },
+            {
+              "key": "course.code",
+              "value": "CHEM 1AA3",
+              "type": "text"
+            },
+            {
+              "key": "course.year",
+              "value": "2026",
+              "type": "text",
+              "uuid": "cd1b491b-55d9-48e1-a7dd-53a1f39409da"
+            },
+            {
+              "key": "course.semester",
+              "value": "WINTER",
+              "type": "text",
+              "uuid": "23518632-f9be-462f-aa5c-765ebcda181e"
+            },
+            {
+              "key": "create_required",
+              "value": "True",
+              "type": "text",
+              "uuid": "31611f09-e613-4286-89a7-ad53f05a4149"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{URL}}/api/core/upload/",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "api",
+            "core",
+            "upload",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "submit",
+      "id": "d5d22eaa-120e-456c-a79a-7afaf698b23d",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_token\": \"abc123xyz\",\n  \"question_serial_number\": \"233\",\n  \"selected_answer\": 552\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL}}/api/core/adaptive-test/submit",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "api",
+            "core",
+            "adaptive-test",
+            "submit"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "all questions",
+      "id": "52f20a7d-8a5c-4ecb-a088-b973a5df041c",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_token\": \"abc123xyz\",\n  \"question_serial_number\": \"Q001\",\n  \"selected_answer\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL}}/api/core/questions",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "api",
+            "core",
+            "questions"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "id": "8d315755-b5b2-496a-b91d-94d8bcc87c44",
+      "key": "URL",
+      "value": "localhost:8000"
+    }
+  ]
+}
