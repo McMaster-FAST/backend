@@ -1,10 +1,11 @@
 from django.db import models
 from django.conf import settings
 
+from MacFAST.models import UUIDModel
 # Create your models here.
 
 
-class Course(models.Model):
+class Course(UUIDModel):
     class SemesterChoices(models.TextChoices):
         FALL = "FALL", "Fall"
         WINTER = "WINTER", "Winter"
@@ -28,7 +29,7 @@ class Course(models.Model):
         return f"{self.code} - ({self.year} {self.semester})"
 
 
-class Unit(models.Model):
+class Unit(UUIDModel):
     course = models.ForeignKey("Course", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
@@ -44,7 +45,7 @@ class Unit(models.Model):
         return f"{self.course.code} - {self.name}"
 
 
-class UnitSubtopic(models.Model):
+class UnitSubtopic(UUIDModel):
     unit = models.ForeignKey("Unit", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
@@ -58,7 +59,7 @@ class UnitSubtopic(models.Model):
         return f"{self.unit.course.code} - {self.unit.name} - {self.name}"
 
 
-class AidType(models.Model):
+class AidType(UUIDModel):
     """
     Restrict Study Aids to specific types (e.g., Video, PDF, Download).
     """
@@ -80,7 +81,7 @@ class AidType(models.Model):
         return self.get_name_display()
 
 
-class StudyAid(models.Model):
+class StudyAid(UUIDModel):
     subtopic = models.ForeignKey("UnitSubtopic", on_delete=models.CASCADE)
     aid_type = models.ForeignKey("AidType", on_delete=models.PROTECT)
     name = models.CharField(max_length=255)
@@ -94,7 +95,7 @@ class StudyAid(models.Model):
         return f"{self.subtopic.unit.course.code} - {self.subtopic.name} - {self.name}"
 
 
-class Enrolment(models.Model):
+class Enrolment(UUIDModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     course = models.ForeignKey("Course", on_delete=models.CASCADE)
     is_instructor = models.BooleanField(default=False)
