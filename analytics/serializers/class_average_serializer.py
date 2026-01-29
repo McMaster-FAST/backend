@@ -13,7 +13,6 @@ class SubtopicStatisticsSerializer(serializers.Serializer):
     subtopic_id = serializers.IntegerField()
     subtopic_name = serializers.CharField()
     average_score = serializers.FloatField()
-    average_time_spent = serializers.FloatField()
     total_attempts = serializers.IntegerField()
     unique_students = serializers.IntegerField()
 
