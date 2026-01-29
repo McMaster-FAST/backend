@@ -1,17 +1,15 @@
 from django.db.models import Avg
 from django.db.models import Count
-from django.db.models import FloatField
-from django.db.models.functions import Cast
 
 from analytics.models import QuestionAttempt
-from analytics.serializers import ClassAverageRequestSerializer
-from analytics.serializers import ClassAverageResponseSerializer
+from analytics.serializers import TimePerQuestionRequestSerializer
+from analytics.serializers import TimePerQuestionResponseSerializer
 from analytics.views.base import BaseAnalyticsView
 
 
-class ClassAverageView(BaseAnalyticsView):
-    request_serializer_class = ClassAverageRequestSerializer
-    response_serializer_class = ClassAverageResponseSerializer
+class TimePerQuestionView(BaseAnalyticsView):
+    request_serializer_class = TimePerQuestionRequestSerializer
+    response_serializer_class = TimePerQuestionResponseSerializer
 
     def _get_statistics(self, course_id: int) -> list[dict]:
         statistics = (
@@ -19,6 +17,8 @@ class ClassAverageView(BaseAnalyticsView):
                 question__subtopic__unit__course_id=course_id
             )
             .values(
+                'question__id',
+                'question__serial_number',
                 'question__subtopic__id',
                 'question__subtopic__name',
                 'question__subtopic__unit__id',
@@ -26,15 +26,14 @@ class ClassAverageView(BaseAnalyticsView):
                 'question__subtopic__unit__number',
             )
             .annotate(
-                average_score=Avg(
-                    Cast('answered_correctly', output_field=FloatField())
-                ),
+                average_time_spent=Avg('time_spent'),
                 total_attempts=Count('id'),
                 unique_students=Count('user', distinct=True),
             )
             .order_by(
                 'question__subtopic__unit__number',
                 'question__subtopic__id',
+                'question__id',
             )
         )
 
@@ -47,7 +46,9 @@ class ClassAverageView(BaseAnalyticsView):
                     'unit_number': stat['question__subtopic__unit__number'],
                     'subtopic_id': stat['question__subtopic__id'],
                     'subtopic_name': stat['question__subtopic__name'],
-                    'average_score': round(stat['average_score'] or 0, 4),
+                    'question_id': stat['question__id'],
+                    'question_serial_number': stat['question__serial_number'],
+                    'average_time_spent': round(stat['average_time_spent'] or 0, 2),
                     'total_attempts': stat['total_attempts'],
                     'unique_students': stat['unique_students'],
                 }
