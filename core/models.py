@@ -3,11 +3,11 @@ from django.conf import settings
 import uuid
 from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
+from MacFAST.models import UUIDModel
 
 # Create your models here.
 
-
-class SavedForLater(models.Model):
+class SavedForLater(UUIDModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     question = models.ForeignKey("Question", on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -21,7 +21,7 @@ class SavedForLater(models.Model):
         return f"{self.user} - {self.question}"
 
 
-class QuestionGroup(models.Model):
+class QuestionGroup(UUIDModel):
     group_name = models.TextField(unique=True)
     questions = models.ManyToManyField("Question")
 
@@ -33,8 +33,7 @@ class QuestionGroup(models.Model):
         return self.group_name
 
 
-class Question(models.Model):
-    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+class Question(UUIDModel):
     subtopic = models.ForeignKey(
         "courses.UnitSubtopic", on_delete=models.CASCADE, null=True
     )
@@ -61,8 +60,7 @@ class Question(models.Model):
         return f"{self.serial_number}"
 
 
-class QuestionComment(models.Model):
-    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+class QuestionComment(UUIDModel):
     question = models.ForeignKey("Question", on_delete=models.CASCADE)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True
@@ -81,8 +79,7 @@ class QuestionComment(models.Model):
         return f"{self.user} on {self.question}"
 
 
-class QuestionOption(models.Model):
-    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+class QuestionOption(UUIDModel):
     question = models.ForeignKey("Question", on_delete=models.CASCADE)
     content = models.TextField()
     is_answer = models.BooleanField(default=False)
@@ -98,7 +95,7 @@ class QuestionOption(models.Model):
         return f"Option for {self.question}"
 
 
-class QuestionImage(models.Model):
+class QuestionImage(UUIDModel):
     image_file = models.ImageField(upload_to="question_images/", unique=True)
     alt_text = models.TextField(blank=True)
 
@@ -115,7 +112,7 @@ def question_image_delete(sender, instance, **kwargs):
     instance.image_file.delete(False)
 
 
-class TestSession(models.Model):
+class TestSession(UUIDModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     subtopic = models.ForeignKey("courses.UnitSubtopic", on_delete=models.CASCADE)
     current_question = models.ForeignKey(

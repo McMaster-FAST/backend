@@ -17,6 +17,10 @@ class QuestionViewSet(viewsets.ModelViewSet):
         if subtopic_pk:
             queryset = queryset.filter(subtopic_id=subtopic_pk)
 
+        course_code = self.kwargs.get("course_code")
+        if course_code:
+            queryset = queryset.filter(subtopic__unit__course__code=course_code)
+
         return queryset
 
     def perform_create(self, serializer):

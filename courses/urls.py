@@ -24,6 +24,7 @@ router.register(r"test-sessions", TestSessionViewSet, basename="test-sessions")
 courses_router = NestedDefaultRouter(router, r"courses", lookup="course")
 courses_router.register(r"units", UnitViewSet, basename="course-units")
 courses_router.register(r"enrolments", EnrolmentViewSet, basename="course-enrolments")
+courses_router.register(r"questions", QuestionViewSet, basename="course-questions")
 
 units_router = NestedDefaultRouter(router, r"units", lookup="unit")
 units_router.register(r"subtopics", SubtopicViewSet, basename="unit-subtopics")
