@@ -27,45 +27,53 @@ class Command(BaseCommand):
         # Delete in reverse dependency order
         # QuestionOptions (depend on Questions)
         deleted = QuestionOption.objects.filter(pk__in=question_option_pks).delete()
-        deleted_count += deleted[0]
-        if deleted[0] > 0:
-            self.stdout.write(f"  ✓ Deleted {deleted[0]} QuestionOption(s)")
+        count = deleted[1].get('core.QuestionOption', 0)
+        deleted_count += count
+        if count > 0:
+            self.stdout.write(f"  ✓ Deleted {count} QuestionOption(s)")
 
         # Questions (depend on UnitSubtopic)
         deleted = Question.objects.filter(pk__in=question_pks).delete()
-        deleted_count += deleted[0]
-        if deleted[0] > 0:
-            self.stdout.write(f"  ✓ Deleted {deleted[0]} Question(s)")
+        count = deleted[1].get('core.Question', 0)
+        deleted_count += count
+        if count > 0:
+            self.stdout.write(f"  ✓ Deleted {count} Question(s)")
             
         # StudyAids (depends on AidType and UnitSubtopic)
         deleted = StudyAid.objects.filter(pk__in=study_aid_pk).delete()
-        deleted_count += deleted[0]
-        if deleted[0] > 0:
-            self.stdout.write(f"  ✓ Deleted {deleted[0]} StudyAid(s)")
+        count = deleted[1].get('courses.StudyAid', 0)
+        deleted_count += count
+        if count > 0:
+            self.stdout.write(f"  ✓ Deleted {count} StudyAid(s)")
             
         # AidTypes (no dependencies)
         deleted = AidType.objects.filter(pk__in=aid_type_pk).delete()
-        deleted_count += deleted[0]
-        if deleted[0] > 0:
-            self.stdout.write(f"  ✓ Deleted {deleted[0]} AidType(s)")
+        count = deleted[1].get('courses.AidType', 0)
+        deleted_count += count
+        if count > 0:
+            self.stdout.write(f"  ✓ Deleted {count} AidType(s)")
 
         # UnitSubtopic (depends on Unit)
         deleted = UnitSubtopic.objects.filter(pk__in=unit_subtopic_pk).delete()
-        deleted_count += deleted[0]
-        if deleted[0] > 0:
-            self.stdout.write(f"  ✓ Deleted {deleted[0]} UnitSubtopic(s)")
+        count = deleted[1].get('courses.UnitSubtopic', 0)
+        deleted_count += count
+        if count > 0:
+            self.stdout.write(f"  ✓ Deleted {count} UnitSubtopic(s)")
 
         # Unit (depends on Course)
         deleted = Unit.objects.filter(pk__in=unit_pk).delete()
-        deleted_count += deleted[0]
-        if deleted[0] > 0:
-            self.stdout.write(f"  ✓ Deleted {deleted[0]} Unit(s)")
+        count = deleted[1].get('courses.Unit', 0)
+        deleted_count += count
+        if count > 0:
+            self.stdout.write(f"  ✓ Deleted {count} Unit(s)")
 
         # Course (no dependencies)
+        # Note: This may cascade delete Enrolments, but we only count Courses
         deleted = Course.objects.filter(pk__in=course_pk).delete()
-        deleted_count += deleted[0]
-        if deleted[0] > 0:
-            self.stdout.write(f"  ✓ Deleted {deleted[0]} Course(s)")
+        count = deleted[1].get('courses.Course', 0)
+        deleted_count += count
+        if count > 0:
+            self.stdout.write(f"  ✓ Deleted {count} Course(s)")
 
         if deleted_count > 0:
             self.stdout.write(
