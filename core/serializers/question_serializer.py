@@ -14,9 +14,11 @@ class QuestionSerializer(serializers.ModelSerializer):
 
     subtopic = serializers.PrimaryKeyRelatedField(
         queryset=UnitSubtopic.objects.all(),
-        required=False,  # <--- Crucial: Allows ViewSet to inject it later
+        required=False,
         write_only=True,  # Don't show the ID in the output (redundant)
     )
+
+    subtopic_name = serializers.CharField(source="subtopic.name", read_only=True)
 
     class Meta:
         model = Question
@@ -31,4 +33,5 @@ class QuestionSerializer(serializers.ModelSerializer):
             "images",  # The images attached to the question
             "options",  # The multiple choice answers
             "subtopic",  # For assigning question to subtopic on creation
+            "subtopic_name",
         ]
