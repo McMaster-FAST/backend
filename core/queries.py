@@ -30,35 +30,28 @@ def get_or_create_test_session(user, subtopic):
 
 
 def get_next_question_bundle(
-    course_code, unit_name, subtopic_name, user, difficulty_range
+    subtopic, user, test_session
 ):
-    subtopic = UnitSubtopic.objects.get(
-        unit__course__code=course_code,
-        unit__name=unit_name,
-        name=subtopic_name,
-    )
-
     user_score, _ = UserTopicAbilityScore.objects.get_or_create(
         user=user, unit_sub_topic=subtopic
     )
 
-    test_session = get_or_create_test_session(user, subtopic)
-    excluded_questions = test_session.excluded_questions.values_list("id", flat=True)
+    skipped_questions = test_session.excluded_skipped_questions.values_list("id", flat=True)
 
     possible_questions = Question.objects.filter(
         subtopic=subtopic,
-    ).exclude(id__in=excluded_questions)
+    ).exclude(id__in=skipped_questions)
 
     theta = user_score.score
-    if not test_session.use_out_of_range_questions:
-        possible_questions = possible_questions.filter(
-            difficulty__gte=theta - difficulty_range,
-            difficulty__lte=theta + difficulty_range,
-        )
+
+    # NOTE: If the load from searching all questions becomes too much we can set a range
+    # to search first, and if no questions are found keep increasing it? Would that actually
+    # make this more efficient? 
 
     if not possible_questions.exists():
         return None
 
+    # TODO: Choose questions randomly from the difficulty range stored in the test session
     next_question = max(
         possible_questions,
         key=lambda q: item_information(

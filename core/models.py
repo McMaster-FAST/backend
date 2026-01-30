@@ -117,21 +117,28 @@ def question_image_delete(sender, instance, **kwargs):
 
 class TestSession(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    course = models.ForeignKey("courses.Course", on_delete=models.CASCADE)
     subtopic = models.ForeignKey("courses.UnitSubtopic", on_delete=models.CASCADE)
     current_question = models.ForeignKey(
-        "Question", on_delete=models.CASCADE, null=True, blank=True, related_name="current"
+        "Question",
+        on_delete=models.CASCADE,
+        default=None,
+        related_name="current",
     )
-    excluded_questions = models.ManyToManyField("Question", default=list, blank=True, related_name="excluded")
-    use_out_of_range_questions = models.BooleanField(default=False)
+    answered_questions = models.ManyToManyField(
+        "Question", default=list, blank=True, related_name="answered"
+    )
+    skipped_questions = models.ManyToManyField(
+        "Question", default=list, blank=True, related_name="skipped"
+    )
+    difficulty_range = models.FloatField(default=1.0)
 
     class Meta:
         verbose_name = "Test Session"
         verbose_name_plural = "Test Sessions"
         unique_together = (
             "user",
-            "course",
-        )  # Only one active test session per course per user
+            "subtopic",
+        )  # Only one active test session per subtopic per user
 
     def __str__(self):
         return f"Subtopic {self.subtopic} for {self.user}"
