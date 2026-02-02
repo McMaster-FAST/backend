@@ -3,9 +3,9 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
-from core.models import Question, TestSession
+from core.models import Question
 
-from ...queries import get_next_question_bundle, get_or_create_test_session
+from ...queries import get_next_question_bundle, get_testsession_and_set_active
 
 from ...serializers import NextQuestionSerializer
 
@@ -16,23 +16,27 @@ class SkipTestQuestionView(APIView):
         Handles skipping a test question.
         """
         question_id = request.data.get("question_id")
-        course_code = request.data.get("course_code")
 
         question = Question.objects.get(public_id=question_id)
         user = request.user
 
-        test_session = get_or_create_test_session(user, question.subtopic)
-        test_session.excluded_questions.add(question)
-        test_session.save()
+        test_session = get_testsession_and_set_active(user, question.subtopic)
+        test_session.skipped_questions.add(question)
 
-        subtopic = TestSession.objects.get(user=user, course__code=course_code).subtopic
-        unit = subtopic.unit
-        course = unit.course
-        next_question_bundle = get_next_question_bundle(
-            course.code, unit.name, subtopic.name, user, difficulty_range=5
+        question_bundle = get_next_question_bundle(
+            test_session.subtopic, user, test_session
         )
-
+        test_session.current_question = question_bundle.question if question_bundle else None
+        test_session.save()
         return Response(
-            {"question": NextQuestionSerializer(next_question_bundle).data if next_question_bundle else None},
+            {
+                "question": (
+                    NextQuestionSerializer(question_bundle).data
+                    if question_bundle
+                    else None
+                )
+            },
             status=status.HTTP_200_OK,
         )
+
+        

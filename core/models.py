@@ -119,6 +119,7 @@ class TestSession(UUIDModel):
         "Question",
         on_delete=models.CASCADE,
         default=None,
+        null=True,
         related_name="current",
     )
     answered_questions = models.ManyToManyField(

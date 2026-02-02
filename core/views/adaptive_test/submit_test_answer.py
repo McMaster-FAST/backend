@@ -3,8 +3,9 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from ...serializers import AnswerSerializer
-from ...models import QuestionOption, Question
+from ...models import QuestionOption, Question, TestSession
 from analytics.models import UserTopicAbilityScore
+from ...queries import get_testsession_and_set_active
 
 from decimal import Decimal
 import math
@@ -21,18 +22,20 @@ class SubmitTestAnswerView(APIView):
         correct_option_id = get_correct_answer_id(
             serializer.validated_data.get("question_id")
         )
+        question = Question.objects.get(
+            public_id=serializer.validated_data.get("question_id")
+        )
+        
+        test_session = get_testsession_and_set_active(request.user, question.subtopic)
+
         ability_score = UserTopicAbilityScore.objects.get(
             user=request.user,
-            unit_sub_topic=Question.objects.get(
-                public_id=serializer.validated_data.get("question_id")
-            ).subtopic,
+            unit_sub_topic=question.subtopic,
         )
         theta, variance = get_updated_theta_variance(
             float(ability_score.score),
             float(ability_score.variance),
-            Question.objects.get(
-                public_id=serializer.validated_data.get("question_id")
-            ),
+            question,
             selected_option_id == correct_option_id,
         )
 
@@ -40,13 +43,15 @@ class SubmitTestAnswerView(APIView):
         ability_score.variance = Decimal(variance)
         ability_score.save()
 
-        explanation = Question.objects.get(
-            public_id=serializer.validated_data.get("question_id")
-        ).answer_explanation
+        explanation = question.answer_explanation
         # TODO: What if the explanation has images?
         response = AnswerSerializer(
             {"correct_option_id": correct_option_id, "explanation": explanation}
         )
+
+        test_session.answered_questions.add(question)
+        test_session.current_question = None
+        test_session.save()
 
         return Response(response.data, status=status.HTTP_200_OK)
 

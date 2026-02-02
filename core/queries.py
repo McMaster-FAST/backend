@@ -1,4 +1,4 @@
-from .views.adaptive_test.submit_test_answer import item_information
+from sso_auth.models import MacFastUser
 from .models import Question, QuestionOption, TestSession
 from courses.models import UnitSubtopic
 from analytics.models import UserTopicAbilityScore
@@ -14,39 +14,40 @@ class QuestionBundle:
         self.options = options
 
 
-def get_or_create_test_session(user, subtopic):
-    test_session = TestSession.objects.filter(
-        user=user, course=subtopic.unit.course
-    ).first()
-    if not test_session:
-        test_session = TestSession.objects.create(
-            user=user,
-            course=subtopic.unit.course,
-            subtopic=subtopic,
-            current_question=None,
-        )
-        test_session.excluded_questions.set([])
+def get_testsession_and_set_active(
+    user: MacFastUser, subtopic: UnitSubtopic
+) -> TestSession:
+    test_session, _ = TestSession.objects.get_or_create(
+        user=user,
+        subtopic=subtopic,
+    )
+    set_user_active_subtopic(user, test_session.subtopic)
     return test_session
 
 
-def get_next_question_bundle(
-    subtopic, user, test_session
-):
+def set_user_active_subtopic(user: MacFastUser, subtopic: UnitSubtopic) -> None:
+    # Premature/ unnecessary optimization?
+    if user.active_subtopic != subtopic:
+        user.active_subtopic = subtopic
+        user.save()
+
+
+def get_next_question_bundle(subtopic, user, test_session) -> QuestionBundle | None:
     user_score, _ = UserTopicAbilityScore.objects.get_or_create(
         user=user, unit_sub_topic=subtopic
     )
 
-    skipped_questions = test_session.excluded_skipped_questions.values_list("id", flat=True)
+    skipped_questions = test_session.skipped_questions.values_list("id", flat=True)
 
     possible_questions = Question.objects.filter(
         subtopic=subtopic,
     ).exclude(id__in=skipped_questions)
 
-    theta = user_score.score
+    theta = float(user_score.score)
 
     # NOTE: If the load from searching all questions becomes too much we can set a range
     # to search first, and if no questions are found keep increasing it? Would that actually
-    # make this more efficient? 
+    # make this more efficient?
 
     if not possible_questions.exists():
         return None
@@ -65,7 +66,10 @@ def get_next_question_bundle(
     return QuestionBundle(next_question, options)
 
 
-def item_information(a, b, c, theta):
+def item_information(a, b, c, theta) -> float:
+    # Avoid unsupported operation errors between different number types
+    a, b, c, theta = map(float, (a, b, c, theta))
+
     p = c + (1 - c) / (1 + np.exp(-a * (theta - b)))
     q = 1 - p
     return (a**2) * ((q / (p * (1 - c))) * ((p - c) ** 2))

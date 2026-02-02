@@ -2,7 +2,7 @@ from .upload_serializer import FileUploadSerializer
 from .question_image_serializer import QuestionImageSerializer
 from .question_serializer import QuestionSerializer
 from .question_option_serializer import QuestionOptionSerializer
-from .testsession_serializer import TestSessionSerializer, TestSessionWriteSerializer
+from .active_testsession_serializer import ActiveTestSessionSerializer
 
 from .adaptive_test.next_question_serializer import NextQuestionSerializer
 from .adaptive_test.answer_serializer import AnswerSerializer

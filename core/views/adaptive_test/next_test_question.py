@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from ...serializers import NextQuestionSerializer
 from core.models import TestSession
 from courses.models import UnitSubtopic
-from ...queries import get_next_question_bundle
+from ...queries import get_next_question_bundle, get_testsession_and_set_active
 
 import decimal
 
@@ -35,18 +35,9 @@ class NextTestQuestionView(APIView):
             name=subtopic_name,
         )
 
-        current_test_session, _ = TestSession.objects.get_or_create(
-            user=user,
-            subtopic=subtopic,
-            defaults={
-                "difficulty_range": 1.0,
-            },
-        )
-        if user.active_subtopic != current_test_session.subtopic:
-            user.active_subtopic = current_test_session.subtopic
-            user.save()
+        test_session = get_testsession_and_set_active(user, subtopic)
 
-        question_bundle = get_next_question_bundle(subtopic, user, current_test_session)
+        question_bundle = get_next_question_bundle(subtopic, user, test_session)
 
         return Response(
             {
