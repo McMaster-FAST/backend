@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from core.models import TestSession, Question
-from courses.models import UnitSubtopic
 
 
 class ActiveTestSessionSerializer(serializers.ModelSerializer):
@@ -9,8 +8,10 @@ class ActiveTestSessionSerializer(serializers.ModelSerializer):
     """
 
     subtopic = serializers.UUIDField(source="subtopic.public_id", read_only=True)
-    current_question = serializers.UUIDField(source="current_question.public_id", read_only=True)
-    answered_questions = skipped_questions = serializers.SlugRelatedField(
+    current_question = serializers.UUIDField(
+        source="current_question.public_id", read_only=True
+    )
+    answered_questions = serializers.SlugRelatedField(
         many=True,
         slug_field="public_id",
         queryset=Question.objects.all(),
@@ -50,5 +51,6 @@ class ActiveTestSessionSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         # Convert skipped_questions to use QuestionPublicSerializer for output
         representation["skipped_questions"] = [
-            question.public_id for question in instance.skipped_questions.all()]
+            question.public_id for question in instance.skipped_questions.all()
+        ]
         return representation
