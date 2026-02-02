@@ -140,3 +140,7 @@ class TestSession(UUIDModel):
 
     def __str__(self):
         return f"Subtopic {self.subtopic} for {self.user}"
+
+# TODO: Add table to track the active test session by course. Then resume will just return the information
+# (course code, unit name, subtopic name) required for the frontend to show the test page.
+# Ticket exists for this
