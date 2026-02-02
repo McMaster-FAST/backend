@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-import uuid
 from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
 from MacFAST.models import UUIDModel

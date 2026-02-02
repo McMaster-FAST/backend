@@ -4,11 +4,8 @@ from rest_framework import status
 
 from django.shortcuts import get_object_or_404
 from ...serializers import NextQuestionSerializer
-from core.models import TestSession
 from courses.models import UnitSubtopic
 from ...queries import get_next_question_bundle, get_testsession_and_set_active
-
-import decimal
 
 
 class NextTestQuestionView(APIView):

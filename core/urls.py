@@ -1,7 +1,5 @@
 from django.urls import path
 
-from .views import QuestionsView, ActiveTestSessionViewSet
-
 # Import the views from your app's views.py
 from .views import (
     PingView,
@@ -9,6 +7,8 @@ from .views import (
     NextTestQuestionView,
     SubmitTestAnswerView,
     SkipTestQuestionView,
+    QuestionsView,
+    ActiveTestSessionViewSet,
 )
 
 ADAPTIVE_TEST_BASE_PATH = "adaptive-test/"

@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from ...serializers import AnswerSerializer
-from ...models import QuestionOption, Question, TestSession
+from ...models import QuestionOption, Question
 from analytics.models import UserTopicAbilityScore
 from ...queries import get_testsession_and_set_active
 
