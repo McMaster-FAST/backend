@@ -15,3 +15,4 @@ class NextQuestionSerializer(serializers.Serializer):
     public_id = serializers.CharField(source="question.public_id", read_only=True)
     content = serializers.CharField(source="question.content", read_only=True)
     options = AdaptiveTestOptionSerializer(many=True, read_only=True)
+    saved_for_later = serializers.BooleanField(read_only=True)
