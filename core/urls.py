@@ -44,5 +44,11 @@ urlpatterns = [
         name="active-test-session",
     ),
     path("questions/", QuestionsView.as_view(), name="questions"),
-    path("saved-for-later/", SavedForLaterViewSet.as_view({"get": "list", "post": "create", "patch": "partial_update"}), name="saved-for-later"),
+    path(
+        "saved-for-later/<str:course_code>/",
+        SavedForLaterViewSet.as_view(
+            {"get": "list", "post": "create", "patch": "partial_update"}
+        ),
+        name="saved-for-later",
+    ),
 ]

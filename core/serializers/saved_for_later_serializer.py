@@ -1,12 +1,9 @@
+from core.serializers.saved_question_serializer import SavedQuestionSerializer
 from rest_framework import serializers
-from ..models import Question, SavedForLater
-
+from ..models import SavedForLater
 
 class SavedForLaterSerializer(serializers.ModelSerializer):
-    question = serializers.SlugRelatedField(
-        slug_field="public_id", queryset=Question.objects.all()
-    )
-
+    question = SavedQuestionSerializer(read_only=True)
     class Meta:
         model = SavedForLater
         fields = ["public_id", "question", "timestamp"]
