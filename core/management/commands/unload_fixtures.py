@@ -78,7 +78,7 @@ class Command(BaseCommand):
         if deleted_count > 0:
             self.stdout.write(
                 self.style.SUCCESS(
-                    f'\n✓ Successfully unloaded {deleted_count} fixture record(s)'
+                    f'✓ Successfully unloaded {deleted_count} fixture record(s)'
                 )
             )
         else:

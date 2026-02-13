@@ -19,7 +19,7 @@ class Command(BaseCommand):
         if not is_empty:
             self.stdout.write(
                 self.style.WARNING(
-                    'Database already contains data. Skipping fixture loading.\n'
+                    'Database already contains data. Skipping fixture loading.'
                 )
             )
             return
@@ -36,11 +36,11 @@ class Command(BaseCommand):
             call_command('loaddata', 'core/fixtures/mock/data.json', verbosity=0)
             
             self.stdout.write(
-                self.style.SUCCESS('\n✓ fixtures loaded successfully!')
+                self.style.SUCCESS('✓ fixtures loaded successfully!')
             )
         except Exception as e:
             self.stdout.write(
-                self.style.ERROR(f'\n✗ Error loading fixtures: {str(e)}')
+                self.style.ERROR(f'✗ Error loading fixtures: {str(e)}')
             )
             raise
 
