@@ -82,4 +82,4 @@ class QuestionImageAdmin(admin.ModelAdmin):
 
 @admin.register(TestSession)
 class TestSessionAdmin(admin.ModelAdmin):
-    list_display = ("user", "course", "subtopic", "current_question")
+    list_display = ("user", "subtopic", "current_question", "difficulty_range")

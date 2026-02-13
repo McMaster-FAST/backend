@@ -10,4 +10,4 @@ class UnitSubtopicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UnitSubtopic
-        fields = ["id", "name", "description", "unit", "study_aids"]
+        exclude = ["id"]

@@ -1,9 +1,11 @@
 from .upload_serializer import FileUploadSerializer
-from .next_question_serializer import NextQuestionSerializer
-from .adaptive_test_question_serializer import AdaptiveTestQuestionSerializer
-from .adaptive_test_option_serializer import AdaptiveTestOptionSerializer
 from .question_image_serializer import QuestionImageSerializer
-from .answer_serializer import AnswerSerializer
 from .question_serializer import QuestionSerializer
 from .question_option_serializer import QuestionOptionSerializer
-from .testsession_serializer import TestSessionSerializer
+from .active_testsession_serializer import ActiveTestSessionSerializer
+
+from .adaptive_test.next_question_serializer import NextQuestionSerializer
+from .adaptive_test.answer_serializer import AnswerSerializer
+from .adaptive_test.question_option_serializer import AdaptiveTestOptionSerializer
+from .adaptive_test.question_serializer import AdaptiveTestQuestionSerializer
+

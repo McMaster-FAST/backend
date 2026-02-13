@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import QuestionOption
+from ...models import QuestionOption
 
 class AdaptiveTestOptionSerializer(serializers.ModelSerializer):
     class Meta:
