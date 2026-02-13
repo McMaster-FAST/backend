@@ -42,7 +42,13 @@ class QuestionInline(admin.TabularInline):
 
     model = Question
     extra = 0  # Don't show blank slots, just existing questions
-    fields = ("serial_number", "short_content", "difficulty", "is_active", "is_verified")
+    fields = (
+        "serial_number",
+        "short_content",
+        "difficulty",
+        "is_active",
+        "is_verified",
+    )
     readonly_fields = ("short_content",)
     show_change_link = True  # Adds a link to edit the full question
 
@@ -78,11 +84,11 @@ class UnitAdmin(admin.ModelAdmin):
 
 @admin.register(UnitSubtopic)
 class UnitSubtopicAdmin(admin.ModelAdmin):
-    list_display = ("name", "unit")
-    search_fields = ("name", "unit__name")
-    autocomplete_fields = ["unit"]
-    
-    inlines = [QuestionInline]
+    list_display = ("name", "unit", "get_course_code")
+    search_fields = ("name", "unit__name", "unit__course__code")
+
+    def get_course_code(self, obj):
+        return obj.unit.course.code
 
 
 @admin.register(Enrolment)
