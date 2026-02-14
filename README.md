@@ -52,6 +52,28 @@ The project uses a `.env` file for managing secrets and environment-specific set
     ```
     The server will start on `http://localhost:8000/`.
 
+## Loading Mock Data
+
+**If you are doing development and need mock data to test with you can run**
+
+To load mock data only if the database is empty:
+
+```
+uv run manage.py load_fixtures
+```
+
+or to load all mock data unconditionally:
+
+```
+uv run manage.py loaddata mock/data.json
+```
+
+To unload mock data:
+
+```
+uv run manage.py unload_fixtures
+```
+
 ## Testing the API
 
 You can test that the server is running correctly by hitting the API's health check "ping" endpoint.
