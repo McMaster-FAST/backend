@@ -20,6 +20,7 @@ dependencies = [
     "bs4>=0.0.2",
     "drf-nested-routers>=0.95.0",
     "django-filter>=25.2",
+    "whitenoise>=6.6.0",
     "numpy>=2.4.1",
     "scipy>=1.17.0",
 ]
