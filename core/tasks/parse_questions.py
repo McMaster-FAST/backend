@@ -8,6 +8,8 @@ from core.models import Question, QuestionComment, QuestionOption, QuestionImage
 from courses.models import Course, Enrolment, Unit, UnitSubtopic
 from .docx.parser import parse_questions_from_docx
 from .docx.formats import docx_table_format_a
+from .csv.parser import parse_questions_from_csv
+from .utils import str_to_float
 
 import tempfile
 import traceback
@@ -55,13 +57,8 @@ def parse_file(
                 temp_file.name, docx_table_format_a
             ):
                 try:
-                    insert_data(
-                        question_data,
-                        course,
-                        create_required,
-                        temp_file.name,
-                        auto_verify,
-                    )
+                    insert_docx_data(question_data, course, create_required, temp_file.name, auto_verify)
+                    logger.info(f"Successfully inserted question with serial number {question_data.get('serial_number')} from docx file")
                 except Exception as e:
                     summary = None
                     if isinstance(e, IntegrityError):
@@ -80,37 +77,27 @@ def parse_file(
                         summary = traceback.extract_tb(e.__traceback__)
                     if summary:
                         logger.error(f"Error info: {summary[-1]} {e}")
+
+    elif file_name.endswith(".csv"):
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".csv", mode='wb') as temp_file:
+            temp_file.write(file_data)
+            temp_file.flush()
+            for question_data in parse_questions_from_csv(temp_file.name):
+                try:
+                    insert_csv_data(question_data, course, create_required)
+                except IntegrityError as e: # Make db errors quieter
+                    print(f"Failed inserting {question_data.get('serial_number')} with: {e}")
+                else:
+                        logger.error(
+                            f"Unexpected error for question with serial number {question_data.get('serial_number')}: {e}"
+                        )
+                        summary = traceback.extract_tb(e.__traceback__)
+                    if summary:
+                        logger.error(f"Error info: {summary[-1]} {e}")
     else:
-        raise ValueError("Unsupported file format. Only .docx files are supported.")
+        raise ValueError("Unsupported file format. Only .docx and .csv files are supported.")
 
-
-def can_auto_verify(user_id: int, course: dict) -> bool:
-    return Enrolment.objects.filter(
-        user__id=user_id,
-        course__code=course.get("code"),
-        course__year=course.get("year"),
-        course__semester=course.get("semester"),
-        is_instructor=True,
-    ).exists()
-
-
-def parse_select_frequency(value: str) -> float:
-    try:
-        match = decimal_pattern.search(value)
-        if match:
-            return float(match.group())
-    except (ValueError, TypeError):
-        pass
-    return 0.0
-
-
-def insert_data(
-    question_data: dict,
-    course: Course,
-    create_required: bool,
-    temp_file_name: str,
-    auto_verify: bool,
-) -> None:
+def insert_docx_data(question_data: dict, course: Course, create_required: bool, temp_file_name: str, auto_verify: bool) -> None:
     """
     Inserts parsed question data into the database.
 
@@ -164,7 +151,7 @@ def insert_data(
 
 
 def create_question(
-    question_data, selection_frequency: float, subtopic, is_verified: bool
+    question_data, selection_frequency: float, subtopic, is_verified: bool, difficulty: float = None
 ):
     serial_number = question_data.get("serial_number", "N/A").strip()
     content = question_data.get("content")
@@ -180,7 +167,7 @@ def create_question(
         content=content.strip(),
         answer_explanation=answer_explanation.strip(),
         selection_frequency=selection_frequency,
-        difficulty=calculate_difficulty_for_test(selection_frequency),
+        difficulty= difficulty if difficulty is not None else calculate_difficulty_for_test(selection_frequency),
         is_verified=is_verified,
     )
     return question
@@ -230,6 +217,49 @@ def save_images(question_data, question_public_id, file_name):
 def calculate_difficulty_for_test(selection_frequency: float) -> float:
     if selection_frequency <= 0 or selection_frequency >= 1:
         return 0.0
+    try:
+        difficulty = -log((1 / selection_frequency) - 1)
+        return round(difficulty, 4)
+    except ValueError:
+        return 0.0
 
-    difficulty = -log((1 / selection_frequency) - 1)
-    return round(difficulty, 4)
+
+def insert_csv_data(question_data: dict, course: Course, create_required: bool) -> None:
+    """
+    Inserts parsed question data from CSV into the database.
+    
+    :param question_data: Dictionary containing question details from CSV.
+    :param course: Course instance that will be referenced in the unit the question belongs to.
+    :param create_required: If True, creates Unit and UnitSubtopic if they do not exist. For CSV, subtopic is set to None initially and will be updated later.
+    """
+    answer_index = ord(question_data.get("answer").upper()) - ord("A")
+    freq_str = question_data.get("option_selection_frequencies")[answer_index]
+    selection_frequency = str_to_float(freq_str)
+    
+    # TODO: For CSV, unit and subtopic mapping are in a different file, they will be set later through a different method, So we'll create the question without subtopic initially
+    
+    with transaction.atomic():
+        # Use the provided IRT parameters from CSV
+        difficulty = question_data.get("difficulty", 0.0)
+        discrimination = question_data.get("discrimination", 1.0)
+        guessing = question_data.get("guessing", 0.0)
+        
+        # If difficulty is 0, calculate it from selection frequency
+        if difficulty == 0.0 and selection_frequency > 0:
+            difficulty = None  # Will be calculated in create_question
+        
+        # Use shared create_question function
+        question = create_question(
+            question_data, 
+            question_data.get("selection_frequency", selection_frequency),
+            subtopic=None,  # Will be set later
+            difficulty=difficulty
+        )
+        
+        # TODO: images for CSV files
+        
+        # Use shared create_question_options function
+        create_question_options(question_data, answer_index, question)
+        
+        # Use shared create_question_comments function
+        create_question_comments(question_data, question)
