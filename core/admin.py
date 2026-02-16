@@ -24,6 +24,7 @@ class QuestionOptionInline(admin.TabularInline):
 class QuestionAdmin(admin.ModelAdmin):
     # Columns to show in the list view
     list_display = (
+        "pk",
         "public_id",
         "serial_number",
         "short_content",
