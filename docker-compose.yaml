@@ -8,9 +8,8 @@ x-django-service: &django-service
   environment:
     - DEBUG=${DEBUG}
     - SECRET_KEY=${SECRET_KEY}
-    - ALLOWED_HOSTS=localhost,127.0.0.1
-    - CORS_ALLOWED_ORIGINS=${ALLOWED_ORIGIN}
-    - ALLOWED_ORIGIN=${ALLOWED_ORIGIN}
+    - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+    - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS}
     - DATABASE_URL=${DATABASE_URL}
     - CELERY_BROKER_URL=amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@rabbitmq:5672/
     - OIDC_BASE_URL=${OIDC_BASE_URL}
@@ -31,8 +30,6 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    ports:
-      - "5432:5432"
     healthcheck:
       test:
         [
@@ -56,9 +53,6 @@ services:
       interval: 5s
       timeout: 10s
       retries: 5
-    ports:
-      - "15672:15672"
-      - "5672:5672"
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     restart: unless-stopped
@@ -99,3 +93,10 @@ volumes:
   rabbitmq_data:
   static_volume:
   media_volume:
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
