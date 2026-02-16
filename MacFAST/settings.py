@@ -39,12 +39,12 @@ python_logging_level = logging.getLevelNamesMapping()[LOG_LEVEL]
 # Configure python logging
 logging.basicConfig(level=python_logging_level)
 
-ALLOWED_HOSTS = []
+# Parse comma-separated string from env var into list
+ALLOWED_HOSTS = [host.strip() for host in os.getenv("ALLOWED_HOSTS").split(",") if host.strip()]
 
 # --- CORS Settings ---
-
-# Set to frontend's local server
-CORS_ALLOWED_ORIGINS = [os.getenv("ALLOWED_ORIGIN")]
+# Parse comma-separated string from env var into list
+CORS_ALLOWED_ORIGINS = [origin.strip() for origin in os.getenv("CORS_ALLOWED_ORIGINS").split(",") if origin.strip()]
 
 # DB URL for PostgreSQL
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -72,6 +72,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -192,6 +193,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
