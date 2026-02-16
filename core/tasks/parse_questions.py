@@ -8,6 +8,8 @@ from core.models import Question, QuestionComment, QuestionOption, QuestionImage
 from courses.models import Course, Unit, UnitSubtopic
 from .docx.parser import parse_questions_from_docx
 from .docx.formats import docx_table_format_a
+from .csv.parser import parse_questions_from_csv
+from .utils import str_to_float
 
 import os
 import tempfile
@@ -32,25 +34,30 @@ def parse_file(file_name: str, file_data: bytes, course: dict, create_required: 
         course = Course.objects.get(**course)
     except Course.DoesNotExist:
         raise ValueError(f"No course found with identifiers: {course}")
+    
     if file_name.endswith(".docx"):
         with tempfile.NamedTemporaryFile(delete=False, suffix=".docx") as temp_file:
             temp_file.write(file_data)
             for question_data in parse_questions_from_docx(temp_file.name, docx_table_format_a):
                 try:
-                    insert_data(question_data, course, create_required, temp_file.name)
+                    insert_docx_data(question_data, course, create_required, temp_file.name)
                 except IntegrityError as e: # Make db errors quieter
                     print(f"Failed inserting {question_data.get('serial_number')} with: {e}")
 
-    else:
-        raise ValueError("Unsupported file format. Only .docx files are supported.")
-
-def str_to_float(value: str) -> float:
-    try:
-        return float(value)
-    except (ValueError, TypeError):
-        return 0.0
+    elif file_name.endswith(".csv"):
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".csv", mode='wb') as temp_file:
+            temp_file.write(file_data)
+            temp_file.flush()
+            for question_data in parse_questions_from_csv(temp_file.name):
+                try:
+                    insert_csv_data(question_data, course, create_required)
+                except IntegrityError as e: # Make db errors quieter
+                    print(f"Failed inserting {question_data.get('serial_number')} with: {e}")
     
-def insert_data(question_data: dict, course: Course, create_required: bool, temp_file_name: str) -> None:
+    else:
+        raise ValueError("Unsupported file format. Only .docx and .csv files are supported.")
+
+def insert_docx_data(question_data: dict, course: Course, create_required: bool, temp_file_name: str) -> None:
     """
     Inserts parsed question data into the database.
     
@@ -84,14 +91,14 @@ def insert_data(question_data: dict, course: Course, create_required: bool, temp
         create_question_options(question_data, answer_index, question)
         create_question_comments(question_data, question)
 
-def create_question(question_data, selection_frequency: float, subtopic):
+def create_question(question_data, selection_frequency: float, subtopic, difficulty: float = None):
     question = Question.objects.create(
             subtopic=subtopic,
             serial_number=question_data.get("serial_number"),
             content=question_data.get("content", ""),
             answer_explanation=question_data.get("explanation", ""),
             selection_frequency=selection_frequency,
-            difficulty=calculate_difficulty_for_test(selection_frequency),
+            difficulty= difficulty if difficulty is not None else calculate_difficulty_for_test(selection_frequency),
         )
     return question
 
@@ -143,3 +150,44 @@ def calculate_difficulty_for_test(selection_frequency: float) -> float:
         return round(difficulty, 4)
     except ValueError:
         return 0.0
+
+
+def insert_csv_data(question_data: dict, course: Course, create_required: bool) -> None:
+    """
+    Inserts parsed question data from CSV into the database.
+    
+    :param question_data: Dictionary containing question details from CSV.
+    :param course: Course instance that will be referenced in the unit the question belongs to.
+    :param create_required: If True, creates Unit and UnitSubtopic if they do not exist. For CSV, subtopic is set to None initially and will be updated later.
+    """
+    answer_index = ord(question_data.get("answer").upper()) - ord("A")
+    freq_str = question_data.get("option_selection_frequencies")[answer_index]
+    selection_frequency = str_to_float(freq_str)
+    
+    # TODO: For CSV, unit and subtopic mapping are in a different file, they will be set later through a different method, So we'll create the question without subtopic initially
+    
+    with transaction.atomic():
+        # Use the provided IRT parameters from CSV
+        difficulty = question_data.get("difficulty", 0.0)
+        discrimination = question_data.get("discrimination", 1.0)
+        guessing = question_data.get("guessing", 0.0)
+        
+        # If difficulty is 0, calculate it from selection frequency
+        if difficulty == 0.0 and selection_frequency > 0:
+            difficulty = None  # Will be calculated in create_question
+        
+        # Use shared create_question function
+        question = create_question(
+            question_data, 
+            question_data.get("selection_frequency", selection_frequency),
+            subtopic=None,  # Will be set later
+            difficulty=difficulty
+        )
+        
+        # TODO: images for CSV files
+        
+        # Use shared create_question_options function
+        create_question_options(question_data, answer_index, question)
+        
+        # Use shared create_question_comments function
+        create_question_comments(question_data, question)
