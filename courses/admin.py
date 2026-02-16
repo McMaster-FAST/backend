@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Course, Unit, UnitSubtopic, Enrolment, StudyAid, AidType
+from core.models import Question
 
 
 class UnitSubtopicInline(admin.TabularInline):
@@ -34,6 +35,30 @@ class EnrolmentInline(admin.TabularInline):
     autocomplete_fields = ["user"]
 
 
+class QuestionInline(admin.TabularInline):
+    """
+    Allows viewing/editing Questions directly inside the UnitSubtopic admin page.
+    """
+
+    model = Question
+    extra = 0  # Don't show blank slots, just existing questions
+    fields = (
+        "serial_number",
+        "short_content",
+        "difficulty",
+        "is_active",
+        "is_verified",
+    )
+    readonly_fields = ("short_content",)
+    show_change_link = True  # Adds a link to edit the full question
+
+    def short_content(self, obj):
+        """Helper to truncate long question content in the inline."""
+        return obj.content[:100] + "..." if len(obj.content) > 100 else obj.content
+
+    short_content.short_description = "Content"
+
+
 # --- MODEL ADMINS ---
 
 
@@ -59,9 +84,11 @@ class UnitAdmin(admin.ModelAdmin):
 
 @admin.register(UnitSubtopic)
 class UnitSubtopicAdmin(admin.ModelAdmin):
-    list_display = ("name", "unit")
-    search_fields = ("name", "unit__name")
-    autocomplete_fields = ["unit"]
+    list_display = ("name", "unit", "get_course_code")
+    search_fields = ("name", "unit__name", "unit__course__code")
+
+    def get_course_code(self, obj):
+        return obj.unit.course.code
 
 
 @admin.register(Enrolment)

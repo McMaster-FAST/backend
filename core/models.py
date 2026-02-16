@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-import uuid
 from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
 from MacFAST.models import UUIDModel
@@ -114,19 +113,33 @@ def question_image_delete(sender, instance, **kwargs):
 
 class TestSession(UUIDModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    course = models.ForeignKey("courses.Course", on_delete=models.CASCADE)
     subtopic = models.ForeignKey("courses.UnitSubtopic", on_delete=models.CASCADE)
     current_question = models.ForeignKey(
-        "Question", on_delete=models.CASCADE, null=True
+        "Question",
+        on_delete=models.CASCADE,
+        default=None,
+        null=True,
+        related_name="current",
     )
+    answered_questions = models.ManyToManyField(
+        "Question", default=list, blank=True, related_name="answered"
+    )
+    skipped_questions = models.ManyToManyField(
+        "Question", default=list, blank=True, related_name="skipped"
+    )
+    difficulty_range = models.FloatField(default=1.0)
 
     class Meta:
         verbose_name = "Test Session"
         verbose_name_plural = "Test Sessions"
         unique_together = (
             "user",
-            "course",
-        )  # Only one active test session per course per user
+            "subtopic",
+        )  # Only one active test session per subtopic per user
 
     def __str__(self):
         return f"Subtopic {self.subtopic} for {self.user}"
+
+# TODO: Add table to track the active test session by course. Then resume will just return the information
+# (course code, unit name, subtopic name) required for the frontend to show the test page.
+# Ticket exists for this
