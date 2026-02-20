@@ -22,32 +22,50 @@ class QuestionOptionInline(admin.TabularInline):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    # Columns to show in the list view
     list_display = (
-        "public_id",
         "serial_number",
+        "get_course",
+        "get_subtopic",
         "short_content",
         "difficulty",
         "is_active",
         "is_verified",
     )
-    # Search bar capabilities
-    search_fields = ("serial_number", "content")
-    # Sidebar filters
-    list_filter = ("is_active", "is_verified", "difficulty")
-    # Add the inline defined above
+
+    list_filter = (
+        "subtopic__unit__course",
+        "is_active",
+        "is_verified",
+    )
+
+    search_fields = ("serial_number", "content", "subtopic__name")
+
+    autocomplete_fields = ["subtopic"]
+
     inlines = [QuestionOptionInline]
 
-    # Helper to truncate long text in the list view
     def short_content(self, obj):
         return obj.content[:50] + "..." if len(obj.content) > 50 else obj.content
+
+    # Displays the Subtopic Name, sorted by the subtopic name field
+    @admin.display(ordering="subtopic__name", description="Subtopic")
+    def get_subtopic(self, obj):
+        return obj.subtopic.name if obj.subtopic else "-"
+
+    # Displays the Course Code, sorted by the course code field
+    @admin.display(ordering="subtopic__unit__course__code", description="Course")
+    def get_course(self, obj):
+        # We traverse: Question -> Subtopic -> Unit -> Course
+        if obj.subtopic and obj.subtopic.unit and obj.subtopic.unit.course:
+            return obj.subtopic.unit.course.code
+        return "-"
 
 
 @admin.register(QuestionGroup)
 class QuestionGroupAdmin(admin.ModelAdmin):
     list_display = ("group_name",)
     search_fields = ("group_name",)
-    filter_horizontal = ("questions",)  # Makes selecting many questions much easier
+    filter_horizontal = ("questions",)
 
 
 @admin.register(QuestionOption)
@@ -82,4 +100,4 @@ class QuestionImageAdmin(admin.ModelAdmin):
 
 @admin.register(TestSession)
 class TestSessionAdmin(admin.ModelAdmin):
-    list_display = ("user", "course", "subtopic", "current_question")
+    list_display = ("user", "subtopic", "current_question", "difficulty_range")

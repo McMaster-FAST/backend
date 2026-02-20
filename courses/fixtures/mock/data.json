@@ -1,0 +1,559 @@
+[
+{
+  "model": "courses.course",
+  "pk": 1,
+  "fields": {
+    "public_id": "abc54509-4c5e-4e47-85ac-181039dbd0d9",
+    "name": "Introductory Chemistry II",
+    "code": "CHEM 1AA3",
+    "description": "A discussion of organic chemistry, chemical kinetics and acid-base equilibrium, with emphasis on relevant experimental techniques and solving real problems ranging from drug discovery to environmental chemistry.",
+    "year": 2026,
+    "semester": "WINTER",
+    "is_archived": false
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 2,
+  "fields": {
+    "public_id": "81a6cb8c-e27d-498c-8724-bb4e15305ed8",
+    "name": "Natural Disasters",
+    "code": "EARTHSC 2GG3",
+    "description": "A study of natural processes including plate tectonics, earthquakes, volcanoes, landslides, river erosion and climate change and their impacts on human populations.",
+    "year": 2025,
+    "semester": "FALL",
+    "is_archived": false
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 1,
+  "fields": {
+    "public_id": "c2a4200c-35e9-4976-8c4e-58967a802ba5",
+    "course": 1,
+    "name": "Additional Aspects of Acid Base Chemistry",
+    "description": "It wouldn’t be the first time Canada and Alberta have weakened their own methane rules. In 2017, the fossil fuel industry persuaded the provincial government to delay and weaken its methane rules, which were then accepted by the federal government in 2020 as being in compliance with its own.\r\nRick Smith, president of the Canadian Climate Institute, also said delaying the methane deadline was unnecessary. “If there is one no-brainer of climate change policy, it is enhanced reduction of methane emissions from oil and gas,” he said in a statement.",
+    "number": 1
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 2,
+  "fields": {
+    "public_id": "449be578-fc7a-4edd-8750-fd87df9508c1",
+    "course": 1,
+    "name": "Chemical Kinetics",
+    "description": "The “grand bargain” commits to constructing a large oil pipeline from the Alberta oilpatch to the West Coast, with an application ready to go by July. The pipeline would take “a route that increases export access to Asian markets as a priority.”\r\n\r\nCanada would declare an oil pipeline to Asian markets as a “priority” and offer “opportunities for Indigenous co-ownership and economic benefits.” The federal government would refer the project to its fast-tracking office for consideration to be deemed in the “national interest.”",
+    "number": 2
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 3,
+  "fields": {
+    "public_id": "5663a43b-eb3d-47a6-802e-95416f3f0a53",
+    "course": 1,
+    "name": "Intermolecular Forces",
+    "description": "But the economics of the industry might delay the prospects of any new oil pipeline. Oil prices are low compared with a few years ago, forcing the industry to cut costs and pare back spending, while green energy sources like solar power and wind power are becoming ever cheaper. Canada’s oilsands produce oil that is heavier and full of more sulphur than other blends around the world, meaning it’s more complex and expensive to refine and so must compete with lower-cost operations.",
+    "number": 3
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 4,
+  "fields": {
+    "public_id": "73dc31e0-e535-4b4b-acff-64a6233a2672",
+    "course": 1,
+    "name": "Organic Chemistry - Structure & Bonding",
+    "description": "Meanwhile, building a new oil pipeline from Alberta to B.C. would result in higher emissions than a scenario where no pipeline is built, even if it’s paired with a carbon capture project like Pathways Alliance is proposing, according to a report from the Pembina Institute.",
+    "number": 4
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 5,
+  "fields": {
+    "public_id": "4734dfbd-1cd9-4090-958b-d1acbf06d573",
+    "course": 1,
+    "name": "Organic Chemistry - Reactivity",
+    "description": "The Canada-Alberta deal commits both parties to working with the Pathways Alliance, a lobby group made up of six large oilsands companies, to enter into a three-way deal by April to create “a set of emissions-savings projects” focused on carbon capture and storage or other technology. \r\n\r\nIn fact, the proposed pipeline is contingent on the Pathways project moving forward.",
+    "number": 5
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 6,
+  "fields": {
+    "public_id": "f9471cef-53bc-40d8-8d31-4a9485f601ea",
+    "course": 1,
+    "name": "Chemical Biology",
+    "description": "The companies involved in the Pathways Alliance have spent years lobbying the federal and provincial governments to put public money toward their proposal, which they once pegged at $70 billion, and to delay or weaken proposed restrictions on the oilpatch while they gear up to build.",
+    "number": 6
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 7,
+  "fields": {
+    "public_id": "26917065-462a-4f88-97bd-be0d63e6c04d",
+    "course": 2,
+    "name": "Hazards, Disasters and Plate Tectonics",
+    "description": "",
+    "number": 1
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 8,
+  "fields": {
+    "public_id": "b5e72fa7-d074-4c5c-a7b5-5bde9a85dd18",
+    "course": 2,
+    "name": "Earthquakes",
+    "description": "",
+    "number": 2
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 9,
+  "fields": {
+    "public_id": "0dc2233d-a419-43a7-ae9c-ea56f7ef7afb",
+    "course": 2,
+    "name": "Volcanoes",
+    "description": "",
+    "number": 3
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 10,
+  "fields": {
+    "public_id": "9252c17c-dbde-4dcc-b313-3ebb65fecde1",
+    "course": 2,
+    "name": "Mass Wasting",
+    "description": "",
+    "number": 4
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 11,
+  "fields": {
+    "public_id": "940dc94c-4445-4aeb-8cfa-48972e11fa14",
+    "course": 2,
+    "name": "Tsunami Waves",
+    "description": "",
+    "number": 5
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 12,
+  "fields": {
+    "public_id": "c5e659d6-6193-4ea3-a601-7ba7d7586365",
+    "course": 2,
+    "name": "Earth's Atmosphere and Tornadoes",
+    "description": "",
+    "number": 6
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 13,
+  "fields": {
+    "public_id": "6c448241-f69a-4c49-93f2-fa136847d53c",
+    "course": 2,
+    "name": "Winter Weather",
+    "description": "",
+    "number": 7
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 14,
+  "fields": {
+    "public_id": "b2418372-5902-40f5-a1af-0e894a7c0ca7",
+    "course": 2,
+    "name": "Hurricanes and Flooding",
+    "description": "",
+    "number": 8
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 15,
+  "fields": {
+    "public_id": "c4ee0a7d-390b-44d5-bfd3-2be139067a29",
+    "course": 2,
+    "name": "Heat and Wildfires",
+    "description": "",
+    "number": 9
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 16,
+  "fields": {
+    "public_id": "62d51b02-ed13-4301-806a-d18e90a705ec",
+    "course": 2,
+    "name": "Climate Change",
+    "description": "",
+    "number": 10
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 17,
+  "fields": {
+    "public_id": "1febf161-8a71-4e57-b3f2-95a2b6deb698",
+    "course": 2,
+    "name": "Meteorite Impacts",
+    "description": "",
+    "number": 11
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 1,
+  "fields": {
+    "public_id": "c83cb365-b5b6-4182-9eea-2ff26264de85",
+    "unit": 1,
+    "name": "Acid-Base Review",
+    "description": "Define acids and bases according to the Brønsted-Lowry and Lewis theories"
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 2,
+  "fields": {
+    "public_id": "d583dd11-6f58-49b4-9663-d0df9bf5d154",
+    "unit": 1,
+    "name": "% Ionization",
+    "description": "Perform calculations with pH, pOH, Kw, pKw, Ka, Kb, pKa, pKb, and % ionization, knowing when to use a “small x” approximation"
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 3,
+  "fields": {
+    "public_id": "d7a17355-bc4e-41e7-be02-03d55c03ac5d",
+    "unit": 1,
+    "name": "Buffers",
+    "description": "Identify whether a solution is a buffer."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 4,
+  "fields": {
+    "public_id": "98aecade-d0f3-4f69-9806-9dab188e015d",
+    "unit": 1,
+    "name": "Titrations & Indicators",
+    "description": "Perform mathematical calculations to determine the pH and plot a titration curve for the titration of a strong acid with a strong base, strong base with a strong acid, weak acid with a strong base, or weak base with a strong acid, knowing when to use stoichiometry calculations, ICE charts, and/or the Henderson-Hasselbalch equation."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 5,
+  "fields": {
+    "public_id": "3404e3c5-db89-4f0e-a3df-ea71e3fa1e0d",
+    "unit": 2,
+    "name": "Rate laws",
+    "description": "Write an expression for the rate of a reaction based on the rate of formation of a product and disappearance of a reactant."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 6,
+  "fields": {
+    "public_id": "a8c6f051-7bcb-4097-9c25-ce62ff2b6ce2",
+    "unit": 2,
+    "name": "Average and instantaneous rates",
+    "description": "Distinguish between instantaneous and average reaction rates."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 7,
+  "fields": {
+    "public_id": "b4eca676-2cd7-4d86-9bfc-67aa8672c71c",
+    "unit": 2,
+    "name": "Integrated rate laws",
+    "description": "Compare and contrast SN1 and SN2 reaction mechanisms with respect to their rate laws, reaction profile diagrams, transition states, and intermediates (if any)."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 8,
+  "fields": {
+    "public_id": "8a96d91c-2019-41ab-ad39-5d5c2b9fbc81",
+    "unit": 2,
+    "name": "Arrhenius equation",
+    "description": "Explain the concept of activation energy."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 9,
+  "fields": {
+    "public_id": "19ca1bbb-3655-46c5-95f9-b3f057ea9860",
+    "unit": 2,
+    "name": "Collision theory",
+    "description": "State the factors that affect collision frequency and lead to favourable (effective) collisions."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 10,
+  "fields": {
+    "public_id": "80ca1c9c-3f8c-4bc7-ba22-8c08ff051585",
+    "unit": 2,
+    "name": "Reaction mechanisms",
+    "description": "Draw and interpret reaction profile diagrams, including the reactants, products, intermediates, transition states, rate determining step, whether a step or the overall reaction is endo- or exothermic, and which steps proceed faster/slower than other steps."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 11,
+  "fields": {
+    "public_id": "40e06b38-9e71-4401-9dab-c7cca3f5141c",
+    "unit": 2,
+    "name": "Reaction profile diagrams",
+    "description": "Draw and interpret reaction profile diagrams, including the reactants, products, intermediates, transition states, rate determining step, whether a step or the overall reaction is endo- or exothermic, and which steps proceed faster/slower than other steps."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 12,
+  "fields": {
+    "public_id": "899b4e20-e159-4cf7-b4ce-e43b67123546",
+    "unit": 2,
+    "name": "Catalysis",
+    "description": "Describe the role of a catalyst and explain the difference between homogeneous and heterogeneous catalysis."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 13,
+  "fields": {
+    "public_id": "e38bf188-938f-4051-9aab-cb5850e742f1",
+    "unit": 3,
+    "name": "Intermolecular Forces",
+    "description": "Distinguish the different types of intermolecular forces in pure substances (London/dispersion forces, dipole-dipole forces and hydrogen bonding)."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 14,
+  "fields": {
+    "public_id": "a3e53dce-b3ce-4b6a-954e-7854068268da",
+    "unit": 3,
+    "name": "Properties of Liquids",
+    "description": "Explain how molecular structure and intermolecular forces influence physical properties such as melting point, boiling point, viscosity, and vapour pressure."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 15,
+  "fields": {
+    "public_id": "342ed801-dd25-400a-95d2-276070a2d488",
+    "unit": 3,
+    "name": "Phase Diagrams",
+    "description": "Use and interpret phase diagrams to predict changes that occur as a substance undergoes a change in temperature or pressure (melting/fusion, freezing, vaporization, condensation, sublimation, condensation)."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 16,
+  "fields": {
+    "public_id": "f9f700b9-02f1-44d0-b97c-7db6bca7b7a3",
+    "unit": 4,
+    "name": "Bonding",
+    "description": "Draw and interconvert between Lewis structures, structural formulas, and line-angle drawings, using proper drawing conventions."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 17,
+  "fields": {
+    "public_id": "60441203-b796-4b75-856e-34536f00f08a",
+    "unit": 4,
+    "name": "Valence Bond Theory (Hybridization)",
+    "description": "Understand how hybridization occurs using an electron configuration."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 18,
+  "fields": {
+    "public_id": "6e10cd44-9e59-45b6-ba6d-77ba67313d97",
+    "unit": 4,
+    "name": "Functional groups and IUPAC nomenclature",
+    "description": "Given systematic (IUPAC) or common names, draw the structure and vice versa."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 19,
+  "fields": {
+    "public_id": "f20d8f14-dc3d-4cc0-89bf-546829011d5d",
+    "unit": 4,
+    "name": "Alkene Structures and Nomenclature",
+    "description": "Explain why alkenes display restricted rotation about the double bond, as compared to alkanes."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 20,
+  "fields": {
+    "public_id": "83b21174-44db-47b6-b635-9c532f972823",
+    "unit": 5,
+    "name": "Nucleophilic Substitution",
+    "description": "Use curved arrows to demonstrate electron movement in various chemical processes."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 21,
+  "fields": {
+    "public_id": "102a8e88-4ce8-4871-bd5e-708f3ecfb99d",
+    "unit": 5,
+    "name": "Addition Reactions to Alkenes",
+    "description": "Predict products and write reaction schemes for the following reactions (no curved arrow mechanisms or energy profile diagrams required):"
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 22,
+  "fields": {
+    "public_id": "ebc711fb-ccdc-4161-ba6d-2dbdbfb27993",
+    "unit": 5,
+    "name": "Oxidation and Reduction",
+    "description": "Distinguish between oxidation and reduction in organic chemistry"
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 23,
+  "fields": {
+    "public_id": "9bde29c8-55a3-4442-bd49-acee47640561",
+    "unit": 5,
+    "name": "Addition Reactions to Carbonyls",
+    "description": "Predict products, write reaction schemes, draw curved arrow mechanisms, and draw energy profile diagrams, including all intermediates and transition states, for the following reactions:"
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 24,
+  "fields": {
+    "public_id": "c3f3dc78-78a3-4866-bd87-1a1104b783aa",
+    "unit": 5,
+    "name": "Reactions of Carboxylic Acids and Derivatives",
+    "description": "Predict products and write reaction schemes for the following reactions (no curved arrow mechanisms or energy profile diagrams required):"
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 25,
+  "fields": {
+    "public_id": "9dc9ffd5-3414-4d40-9507-55d1286d83a9",
+    "unit": 5,
+    "name": "Synthesis",
+    "description": "Complete organic reaction schemes by providing reactants or products"
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 26,
+  "fields": {
+    "public_id": "bf906421-6025-4c9d-9f31-a33773cdbfff",
+    "unit": 6,
+    "name": "Chemical Biology",
+    "description": "Use the criteria for aromaticity to determine whether a compound is aromatic or non-aromatic, including neutral, cationic, anionic, and heterocyclic compounds."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 27,
+  "fields": {
+    "public_id": "7227a925-72b8-439f-9c81-16efc094a266",
+    "unit": 7,
+    "name": "Hazards and Disasters",
+    "description": ""
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 28,
+  "fields": {
+    "public_id": "763be4bc-1177-4517-8abf-2c439bf94ec4",
+    "unit": 7,
+    "name": "Plate Tectonics",
+    "description": ""
+  }
+},
+{
+  "model": "courses.aidtype",
+  "pk": 1,
+  "fields": {
+    "public_id": "1554076f-25e4-4b94-91e6-58fe05400523",
+    "name": "VIDEO",
+    "description": "Titrations and indicators"
+  }
+},
+{
+  "model": "courses.studyaid",
+  "pk": 1,
+  "fields": {
+    "public_id": "87626929-c854-482e-b34d-5387ae49a7b1",
+    "subtopic": 4,
+    "aid_type": 1,
+    "name": "Titrations and indicators",
+    "reference": "https://www.macvideo.ca/media/1Aa3-Problem%20Solving%20-%20Acid-Baseq1%20Fixed.mp4/1_914hkq45"
+  }
+},
+{
+  "model": "courses.studyaid",
+  "pk": 2,
+  "fields": {
+    "public_id": "c59a4a9a-f923-4e58-b87b-f69f841db988",
+    "subtopic": 1,
+    "aid_type": 1,
+    "name": "Review From Chem 1A03/1E03",
+    "reference": "https://www.macvideo.ca/media/1AA3-Problem+Solving+-+Acid-BaseQ2/1_5as7lmiq"
+  }
+},
+{
+  "model": "courses.studyaid",
+  "pk": 3,
+  "fields": {
+    "public_id": "744d8f0d-5202-48d9-b852-00084782beb6",
+    "subtopic": 3,
+    "aid_type": 1,
+    "name": "Buffers 1",
+    "reference": "https://www.macvideo.ca/media/1AA3-Problem+Solving+-+Acid-baseQ3/1_s6p1qfzy"
+  }
+},
+{
+  "model": "courses.studyaid",
+  "pk": 4,
+  "fields": {
+    "public_id": "c76df458-8011-4642-8929-0eca24759b52",
+    "subtopic": 4,
+    "aid_type": 1,
+    "name": "Titrations",
+    "reference": "https://www.macvideo.ca/media/1AA3-Problem+Solving+-+Acid-baseQ4/1_agbtszg7"
+  }
+},
+{
+  "model": "courses.studyaid",
+  "pk": 5,
+  "fields": {
+    "public_id": "a5b1231d-ba31-4608-aa68-ae7321f41630",
+    "subtopic": 3,
+    "aid_type": 1,
+    "name": "Buffers 2",
+    "reference": "https://www.macvideo.ca/media/1AA3-Problem+Solving+-+Acid-baseQ5/1_51e9oazb"
+  }
+}
+]
