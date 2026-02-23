@@ -23,7 +23,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
     def get_saved_for_later(self, obj):
         user = self.context.get("request").user
-        print("USER:", user)
+        print(f"Checking if question {obj.public_id} is saved for later by user {user}")
         if user:
             return SavedForLater.objects.filter(user=user, question__public_id=obj.public_id).exists()
         return False

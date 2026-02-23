@@ -47,7 +47,7 @@ urlpatterns = [
     path(
         "saved-for-later/<str:course_code>/",
         SavedForLaterViewSet.as_view(
-            {"get": "list", "post": "create", "patch": "partial_update"}
+            {"get": "list", "post": "create", "delete": "destroy"}
         ),
         name="saved-for-later",
     ),
