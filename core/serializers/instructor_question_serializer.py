@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from core.models import Question
+from core.models import Question, SavedForLater
 from courses.models import UnitSubtopic
 from .question_image_serializer import QuestionImageSerializer
 from .question_option_serializer import QuestionOptionSerializer
@@ -19,6 +19,14 @@ class QuestionSerializer(serializers.ModelSerializer):
     )
 
     subtopic_name = serializers.CharField(source="subtopic.name", read_only=True)
+    saved_for_later = serializers.SerializerMethodField()
+
+    def get_saved_for_later(self, obj):
+        user = self.context.get("request").user
+        print(f"Checking if question {obj.public_id} is saved for later by user {user}")
+        if user:
+            return SavedForLater.objects.filter(user=user, question__public_id=obj.public_id).exists()
+        return False
 
     class Meta:
         model = Question
@@ -34,4 +42,5 @@ class QuestionSerializer(serializers.ModelSerializer):
             "options",  # The multiple choice answers
             "subtopic",  # For assigning question to subtopic on creation
             "subtopic_name",
+            "saved_for_later", 
         ]
