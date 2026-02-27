@@ -31,6 +31,7 @@ class Command(BaseCommand):
             # Load courses first (questions depend on subtopics)
             self.stdout.write("Loading courses and related fixtures...")
             call_command("loaddata", "courses/fixtures/mock/data.json", verbosity=0)
+            call_command("loaddata", "courses/fixtures/mock/kinesiol_1aa3.json", verbosity=0)
 
             # Then load questions
             self.stdout.write("Loading questions and related fixtures...")

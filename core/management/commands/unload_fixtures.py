@@ -14,6 +14,7 @@ class Command(BaseCommand):
         # List the fixture files you want to read
         fixture_files = [
             "courses/fixtures/mock/data.json",
+            "courses/fixtures/mock/kinesiol_1aa3.json",
             "core/fixtures/mock/data.json",
         ]
 
