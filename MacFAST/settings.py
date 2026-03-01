@@ -119,28 +119,32 @@ REST_FRAMEWORK = {
 
 # OIDC environment configuration
 # https://mozilla-django-oidc.readthedocs.io/en/stable/installation.html
-AUTHENTICATION_BACKENDS = ("sso_auth.backends.MyOIDCBackend",)
+ENTRA_TENANT_ID = os.environ["ENTRA_TENANT_ID"]
 
-OIDC_BASE_URL = os.environ["OIDC_BASE_URL"]
+ENTRA_BASE_URL = f"https://login.microsoftonline.com/{ENTRA_TENANT_ID}"
+
+AUTHENTICATION_BACKENDS = ("sso_auth.backends.MyOIDCBackend",)
 
 OIDC_RP_SCOPES = "openid email profile"
 
-OIDC_OP_ISSUER = f"https://{OIDC_BASE_URL}/"
+OIDC_OP_ISSUER = f"{ENTRA_BASE_URL}/v2.0"
 OIDC_USE_NONCE = False
 
 OIDC_RP_CLIENT_ID = os.environ["OIDC_RP_CLIENT_ID"]
 OIDC_RP_CLIENT_SECRET = os.environ["OIDC_RP_CLIENT_SECRET"]
 
-OIDC_OP_AUTHORIZATION_ENDPOINT = f"https://{OIDC_BASE_URL}/authorize"
-OIDC_OP_TOKEN_ENDPOINT = f"https://{OIDC_BASE_URL}/oauth/token"
-OIDC_OP_USER_ENDPOINT = f"https://{OIDC_BASE_URL}/userinfo"
+OIDC_OP_AUTHORIZATION_ENDPOINT = f"{ENTRA_BASE_URL}/oauth2/v2.0/authorize"
+OIDC_OP_TOKEN_ENDPOINT = f"{ENTRA_BASE_URL}/oauth2/v2.0/token"
+
+OIDC_OP_USER_ENDPOINT = "https://graph.microsoft.com/oidc/userinfo"
 
 OIDC_RP_SIGN_ALGO = "RS256"
 
-OIDC_OP_JWKS_ENDPOINT = f"https://{OIDC_BASE_URL}/.well-known/jwks.json"
 
+OIDC_OP_JWKS_ENDPOINT = f"{ENTRA_BASE_URL}/discovery/v2.0/keys"
+
+# --- Routing ---
 LOGIN_URL = "oidc_authentication_init"
-
 LOGIN_REDIRECT_URL = "/admin"
 LOGOUT_REDIRECT_URL = "/auth/logged-out/"
 LOGIN_REDIRECT_URL_FAILURE = "/auth/login-failed/"
