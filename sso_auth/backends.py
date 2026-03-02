@@ -18,7 +18,7 @@ class MyOIDCBackend(OIDCAuthenticationBackend):
 
     def verify_token(self, token, **kwargs):
         """
-        Handles fetching the public key and validating the RSA256 signature locally.
+        Handles fetching the public key and validating the RSA256 signature locally
         """
         try:
             signing_key = jwks_client.get_signing_key_from_jwt(token)
@@ -45,10 +45,23 @@ class MyOIDCBackend(OIDCAuthenticationBackend):
             return None
 
     def get_userinfo(self, access_token, id_token, payload):
-        """Using locally verified payload directly."""
-        return payload
+        """
+        When using Django's web login, 'payload' is already decoded.
+        When using DRF APIs (Bearer token), 'payload' is None, so we
+        must decode the access_token ourselves.
+        """
+        if payload is None:
+            # Decode the token locally
+            payload = self.verify_token(access_token)
+
+        # If verify_token fails, it returns None. Fallback to an empty dict.
+        return payload or {}
 
     def verify_claims(self, claims):
+        # Safeguard against empty claims preventing a 500 Server Error
+        if not claims:
+            return False
+
         # Entra uses "sub" or "oid" (Object ID) to identify users.
         return "sub" in claims or "oid" in claims
 
@@ -94,7 +107,7 @@ class MyOIDCBackend(OIDCAuthenticationBackend):
         full admin access for development/testing.
         """
         if settings.DEBUG:
-            print(f"--- DEBUG: Granting Superuser access to {user.email} ---")
+            print(f"debug print - giving all perms to {user.email}")
 
         user.is_staff = True
         user.is_superuser = True

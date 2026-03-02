@@ -5,6 +5,7 @@ x-django-service: &django-service
     target: runner
   volumes:
     - .:/app # Mount the application code
+    - /app/.venv
   environment:
     - DEBUG=${DEBUG}
     - SECRET_KEY=${SECRET_KEY}
@@ -72,6 +73,7 @@ services:
       "
     volumes:
       - .:/app
+      - /app/.venv
       - static_volume:/app/staticfiles
       - media_volume:/app/media
     ports:
@@ -85,6 +87,7 @@ services:
       "
     volumes:
       - .:/app
+      - /app/.venv
       - media_volume:/app/media
 
   beat:
