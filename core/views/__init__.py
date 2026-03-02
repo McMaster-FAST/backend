@@ -7,3 +7,4 @@ from .adaptive_test.next_test_question import NextTestQuestionView
 from .adaptive_test.submit_test_answer import SubmitTestAnswerView
 from .adaptive_test.skip_test_question import SkipTestQuestionView
 from .adaptive_test.active_test_session import ActiveTestSessionViewSet
+from .question_comment_viewset import QuestionCommentViewSet
