@@ -1,4 +1,3 @@
-# core/serializers.py
 from core.models import QuestionComment
 from rest_framework import serializers
 

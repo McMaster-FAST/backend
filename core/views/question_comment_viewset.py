@@ -36,7 +36,7 @@ class QuestionCommentViewSet(viewsets.ModelViewSet):
             except Question.DoesNotExist:
                 raise NotFound(detail="The specified question does not exist.")
         else:
-            # If they just POST to /api/comments/ directly, block it.
+            # POST to /api/comments/ directly, block it
             from rest_framework.exceptions import ValidationError
 
             raise ValidationError(
@@ -44,15 +44,12 @@ class QuestionCommentViewSet(viewsets.ModelViewSet):
             )
 
     @action(detail=True, methods=["post"])
-    def reply(self, request, public_id=None):
+    def reply(self, request, *args, **kwargs):
         target_comment = self.get_object()
 
-        # If the comment they are replying to is ALREADY a reply,
-        # attach the new reply to the original root comment instead.
         root_comment = (
             target_comment.reply_to if target_comment.reply_to else target_comment
         )
-
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -61,5 +58,4 @@ class QuestionCommentViewSet(viewsets.ModelViewSet):
             question=root_comment.question,
             reply_to=root_comment,
         )
-
         return Response(serializer.data, status=201)
