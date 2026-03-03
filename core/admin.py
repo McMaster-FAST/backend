@@ -6,7 +6,8 @@ from .models import (
     QuestionComment,
     QuestionOption,
     QuestionImage,
-    TestSession,
+    TestingParameters,
+    AdaptiveTestQuestionMetrics,
 )
 
 
@@ -98,6 +99,23 @@ class QuestionImageAdmin(admin.ModelAdmin):
     list_display = ("id", "alt_text", "image_file")
 
 
-@admin.register(TestSession)
-class TestSessionAdmin(admin.ModelAdmin):
-    list_display = ("user", "subtopic", "current_question", "difficulty_range")
+@admin.register(TestingParameters)
+class TestingParametersAdmin(admin.ModelAdmin):
+    list_display = (
+        "course",
+        "warmpup_length",
+        "question_selection_window",
+        "max_skips",
+        "max_question_repetitions",
+        "min_questions_between_repitions",
+    )
+
+
+@admin.register(AdaptiveTestQuestionMetrics)
+class AdaptiveTestQuestionMetricsAdmin(admin.ModelAdmin):
+    list_display = (
+        "user",
+        "question",
+        "questions_since_last_skipped",
+        "total_times_seen",
+    )

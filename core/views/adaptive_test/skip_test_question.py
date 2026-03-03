@@ -1,34 +1,26 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-
-
 from core.models import Question
-
-from ...queries import get_next_question_bundle, get_testsession_and_set_active
-
+from core.queries.question_queries import add_response, get_next_question_bundle
 from ...serializers import NextQuestionSerializer
+from rest_framework import status, response, views
+from django.shortcuts import get_object_or_404
 
 
-class SkipTestQuestionView(APIView):
+class SkipTestQuestionView(views.APIView):
     def post(self, request):
         """
         Handles skipping a test question.
         """
         question_id = request.data.get("question_id")
+        if not question_id:
+            return response.Response(
+                {"error": "question_id is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-        question = Question.objects.get(public_id=question_id)
-        user = request.user
-
-        test_session = get_testsession_and_set_active(user, question.subtopic)
-        test_session.skipped_questions.add(question)
-
-        question_bundle = get_next_question_bundle(
-            test_session.subtopic, user, test_session
-        )
-        test_session.current_question = question_bundle.question if question_bundle else None
-        test_session.save()
-        return Response(
+        question = get_object_or_404(Question, public_id=question_id)
+        add_response(request.user, question, None)
+        question_bundle = get_next_question_bundle(request.user, question.subtopic)
+        return response.Response(
             {
                 "question": (
                     NextQuestionSerializer(question_bundle).data
@@ -38,5 +30,3 @@ class SkipTestQuestionView(APIView):
             },
             status=status.HTTP_200_OK,
         )
-
-        

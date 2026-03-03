@@ -8,7 +8,6 @@ from .views import (
     SubmitTestAnswerView,
     SkipTestQuestionView,
     QuestionsView,
-    ActiveTestSessionViewSet,
 )
 
 ADAPTIVE_TEST_BASE_PATH = "adaptive-test/"
@@ -29,17 +28,6 @@ urlpatterns = [
         f"{ADAPTIVE_TEST_BASE_PATH}skip-question/",
         SkipTestQuestionView.as_view(),
         name="skip-test-question",
-    ),
-    path(
-        "test-sessions/active/",
-        ActiveTestSessionViewSet.as_view(
-            {
-                "get": "list",
-                "put": "update",
-                "patch": "partial_update",
-            }
-        ),
-        name="active-test-session",
     ),
     path("questions/", QuestionsView.as_view(), name="questions"),
 ]

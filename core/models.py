@@ -6,6 +6,7 @@ from MacFAST.models import UUIDModel
 
 # Create your models here.
 
+
 class SavedForLater(UUIDModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     question = models.ForeignKey("Question", on_delete=models.CASCADE)
@@ -111,34 +112,42 @@ def question_image_delete(sender, instance, **kwargs):
     instance.image_file.delete(False)
 
 
-class TestSession(UUIDModel):
+class AdaptiveTestQuestionMetrics(UUIDModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    subtopic = models.ForeignKey("courses.UnitSubtopic", on_delete=models.CASCADE)
-    current_question = models.ForeignKey(
-        "Question",
-        on_delete=models.CASCADE,
-        default=None,
-        null=True,
-        related_name="current",
-    )
-    answered_questions = models.ManyToManyField(
-        "Question", default=list, blank=True, related_name="answered"
-    )
-    skipped_questions = models.ManyToManyField(
-        "Question", default=list, blank=True, related_name="skipped"
-    )
-    difficulty_range = models.FloatField(default=1.0)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    questions_since_last_skipped = models.IntegerField(default=0)
+    total_times_skipped = models.IntegerField(default=0)
+    total_times_seen = models.IntegerField(default=0)
 
     class Meta:
-        verbose_name = "Test Session"
-        verbose_name_plural = "Test Sessions"
-        unique_together = (
-            "user",
-            "subtopic",
-        )  # Only one active test session per subtopic per user
+        verbose_name = "Adaptive Test Question Metrics"
+        verbose_name_plural = "Adaptive Test Question Metrics"
+        unique_together = ("user", "question")
 
     def __str__(self):
-        return f"Subtopic {self.subtopic} for {self.user}"
+        return f"{self.question} seen by {self.user}"
+
+
+class TestingParameters(UUIDModel):
+    course = models.ForeignKey("courses.Course", on_delete=models.CASCADE)
+
+    # How many questions to use MAP for before switch to MLE
+    warmpup_length = models.IntegerField(default=3)
+    # How far a question can be from the user's current ability and still be selected.
+    question_selection_window = models.FloatField(default=0.5)
+    skip_readmit_delay = models.IntegerField(default=5)
+    max_skips = models.IntegerField(default=3)
+    max_question_repetitions = models.IntegerField(default=3)
+    min_questions_between_repitions = models.IntegerField(default=5)
+
+    class Meta:
+        verbose_name = "Testing Parameters"
+        verbose_name_plural = "Testing Parameters"
+
+    @staticmethod
+    def get_cache_name(course_id: str):
+        return f"test_parameters_{course_id}"
+
 
 # TODO: Add table to track the active test session by course. Then resume will just return the information
 # (course code, unit name, subtopic name) required for the frontend to show the test page.
