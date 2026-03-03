@@ -1,98 +1,114 @@
-from mozilla_django_oidc.auth import OIDCAuthenticationBackend
 import json
-import hashlib
+import jwt
+from jwt import PyJWKClient
+from mozilla_django_oidc.auth import OIDCAuthenticationBackend
 from django.conf import settings
-from django.core.cache import cache
 
-ROLES_CLAIM_URL = "https://chemfast.ca/roles"
+# Init PyJWKClient globally so it stays alive and caches the keys.
+jwks_client = PyJWKClient(
+    getattr(settings, "OIDC_OP_JWKS_ENDPOINT", ""),
+    cache_jwk_set=True,
+    lifespan=600,
+    cache_keys=True,
+    max_cached_keys=16,
+)
 
 
 class MyOIDCBackend(OIDCAuthenticationBackend):
 
+    def verify_token(self, token, **kwargs):
+        """
+        Handles fetching the public key and validating the RSA256 signature locally
+        """
+        try:
+            signing_key = jwks_client.get_signing_key_from_jwt(token)
+
+            payload = jwt.decode(
+                token,
+                signing_key.key,
+                algorithms=["RS256"],
+                audience=settings.OIDC_RP_CLIENT_ID,
+                issuer=getattr(settings, "OIDC_OP_ISSUER", None),
+                options={
+                    "verify_issuer": bool(getattr(settings, "OIDC_OP_ISSUER", False))
+                },
+            )
+
+            nonce = kwargs.get("nonce")
+            if nonce and payload.get("nonce") != nonce:
+                return None
+
+            return payload
+        except jwt.PyJWTError as e:
+            if settings.DEBUG:
+                print(f"Token validation failed: {e}")
+            return None
+
     def get_userinfo(self, access_token, id_token, payload):
         """
-        TODO
-        Convert to local validation with caching when switching over to Microsoft Entra
+        When using Django's web login, 'payload' is already decoded.
+        When using DRF APIs (Bearer token), 'payload' is None, so we
+        must decode the access_token ourselves.
         """
+        if payload is None:
+            # Decode the token locally
+            payload = self.verify_token(access_token)
 
-        """
-        Override get_userinfo to cache the response from Auth0.
-        This prevents hitting the 429 Rate Limit when the frontend
-        fires multiple API requests at once.
-        """
-        token_hash = hashlib.sha256(access_token.encode()).hexdigest()
-        cache_key = f"oidc_userinfo_{token_hash}"
-
-        user_info = cache.get(cache_key)
-
-        if user_info:
-            print("found userinfo in cache")
-            return user_info
-
-        try:
-            user_info = super().get_userinfo(access_token, id_token, payload)
-        except Exception as e:
-            raise e
-
-        cache.set(cache_key, user_info, timeout=600)
-
-        return user_info
+        # If verify_token fails, it returns None. Fallback to an empty dict.
+        return payload or {}
 
     def verify_claims(self, claims):
-        if settings.DEBUG:
-            print("verify_claims")
-            print(json.dumps(claims, indent=2))
-        return "sub" in claims
+        # Safeguard against empty claims preventing a 500 Server Error
+        if not claims:
+            return False
+
+        # Entra uses "sub" or "oid" (Object ID) to identify users.
+        return "sub" in claims or "oid" in claims
 
     def filter_users_by_claims(self, claims):
         email = claims.get("email")
-        username = claims.get("nickname") or claims.get("preferred_username")
+        username = claims.get("preferred_username") or claims.get("nickname")
 
         if email:
             users = self.UserModel.objects.filter(email__iexact=email)
             if users.exists():
-                print(f"--- DEBUG: Found user by email: {email} ---")
                 return users
 
         if username:
             users = self.UserModel.objects.filter(username__iexact=username)
             if users.exists():
-                print(f"--- DEBUG: Found user by username: {username} ---")
                 return users
 
         return self.UserModel.objects.none()
 
     def create_user(self, claims):
-        if settings.DEBUG:
-            print("--- DEBUG: create_user (NEW USER) ---")
-
         email = claims.get("email")
-        username = claims.get("nickname") or claims.get("preferred_username")
+        username = claims.get("preferred_username") or claims.get("name")
 
         if not username and email:
             username = email.split("@")[0]
 
         if not email:
-            print("--- WARNING: No email in claims. Generating placeholder. ---")
-            email = f"{username}@no-email.chemfast.ca"
+            # Fallback for McMaster students if email claim is missing
+            username_clean = username.replace(" ", "_") if username else "user"
+            email = f"{username_clean}@mcmaster.ca"
 
         user = self.UserModel.objects.create_user(username=username, email=email)
         self._set_user_flags(user, claims)
         return user
 
     def update_user(self, user, claims):
-        if settings.DEBUG:
-            print("--- DEBUG: update_user (EXISTING USER) ---")
         self._set_user_flags(user, claims)
         return user
 
     def _set_user_flags(self, user, claims):
-        roles = claims.get(ROLES_CLAIM_URL, [])
-        user.is_staff = False
-        user.is_superuser = False
-        if "admin" in roles:
-            user.is_staff = True
-            user.is_superuser = True
-        elif "staff" in roles:
-            user.is_staff = True
+        """
+        TEMPORARY: Granting everyone who logs in via Entra
+        full admin access for development/testing.
+        """
+        if settings.DEBUG:
+            print(f"debug print - giving all perms to {user.email}")
+
+        user.is_staff = True
+        user.is_superuser = True
         user.save()
