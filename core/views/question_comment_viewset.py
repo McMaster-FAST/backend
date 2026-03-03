@@ -12,7 +12,7 @@ class QuestionCommentViewSet(viewsets.ModelViewSet):
     lookup_field = "public_id"
 
     def get_queryset(self):
-        queryset = QuestionComment.objects.all().order_by("-timestamp")
+        queryset = QuestionComment.objects.all().order_by("timestamp")
 
         # Gets comments for a specific question (Nested route)
         question_uuid = self.kwargs.get("question_public_id")
