@@ -16,7 +16,7 @@ class RaschModel(AdaptiveTestModel):
     See https://www.rasch.org/rmt/rmt64cat.htm
 
     We are using MLE for ability estimation, but only after a certain number of questions have been answered.
-    This is supposed to help...
+    Before that point we use MAP. This helps supposedly...
     """
 
     def select_next_item(
