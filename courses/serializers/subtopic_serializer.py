@@ -1,3 +1,5 @@
+from django.conf import settings
+
 from rest_framework import serializers
 
 from analytics.serializers.ability_score_serializer import (
@@ -20,7 +22,8 @@ class UnitSubtopicSerializer(serializers.ModelSerializer):
     def get_user_ability(self, obj):
         scores = getattr(obj, "prefetched_scores", [])
 
-        print(scores)
+        if settings.DEBUG:
+            print(scores)
 
         if scores:
             return UserTopicAbilityScoreSerializer(scores[0]).data
