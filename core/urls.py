@@ -1,5 +1,7 @@
 from django.urls import path
 
+from .views.saved_for_later_viewset import SavedForLaterViewSet
+
 # Import the views from your app's views.py
 from .views import (
     PingView,
@@ -42,4 +44,11 @@ urlpatterns = [
         name="active-test-session",
     ),
     path("questions/", QuestionsView.as_view(), name="questions"),
+    path(
+        "saved-for-later/<str:course_code>/",
+        SavedForLaterViewSet.as_view(
+            {"get": "list", "post": "create", "delete": "destroy"}
+        ),
+        name="saved-for-later",
+    ),
 ]

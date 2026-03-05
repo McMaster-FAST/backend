@@ -1,5 +1,5 @@
 from sso_auth.models import MacFastUser
-from .models import Question, QuestionOption, TestSession
+from .models import Question, QuestionOption, TestSession, SavedForLater
 from courses.models import UnitSubtopic
 from analytics.models import UserTopicAbilityScore
 
@@ -9,9 +9,10 @@ import numpy as np
 
 
 class QuestionBundle:
-    def __init__(self, question, options):
+    def __init__(self, question, options, saved_for_later):
         self.question = question
         self.options = options
+        self.saved_for_later = saved_for_later
 
 
 def get_testsession_and_set_active(
@@ -63,7 +64,8 @@ def get_next_question_bundle(subtopic, user, test_session) -> QuestionBundle | N
     test_session.save()
 
     options = QuestionOption.objects.filter(question=next_question)
-    return QuestionBundle(next_question, options)
+    saved_for_later = SavedForLater.objects.filter(user=user, question=next_question).exists()
+    return QuestionBundle(next_question, options, saved_for_later)
 
 
 def item_information(a, b, c, theta) -> float:
