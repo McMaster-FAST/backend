@@ -22,10 +22,10 @@ def get_next_question_bundle(
         f"test_parameters_{subtopic.unit.course.public_id}",
         default=TestingParameters.objects.get_or_create(course=subtopic.unit.course)[0],
     )
-
     # We do not want to show questions that have been recently skipped, or seen too many times.
     unavailable_qs = AdaptiveTestQuestionMetrics.objects.filter(
         user=user,
+        question__subtopic=subtopic,
         questions_since_last_skipped__lt=test_parameters.skip_readmit_delay,
         total_times_seen__gte=test_parameters.max_question_repetitions,
     ).values_list("question_id", flat=True)

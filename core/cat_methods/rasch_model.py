@@ -10,7 +10,8 @@ from sso_auth.models import MacFastUser
 from analytics.models import QuestionAttempt
 import random
 from django.core.cache import cache
-
+from logging import getLogger
+logger = getLogger(__name__)
 class RaschModel(AdaptiveTestModel):
     """
     See https://www.rasch.org/rmt/rmt64cat.htm
@@ -36,6 +37,7 @@ class RaschModel(AdaptiveTestModel):
         item_difficulty_upper_bound = (
             current_ability + test_parameters.question_selection_window
         )
+
         potential_questions = Question.objects.filter(
             subtopic=subtopic,
             difficulty__gte=item_difficulty_lower_bound,
@@ -59,7 +61,7 @@ class RaschModel(AdaptiveTestModel):
         responses = QuestionAttempt.objects.filter(
             user=user, question__subtopic=subtopic, skipped=False
         ).values_list("question__difficulty", "answered_correctly")
-
+        logger.debug("User responses for ability estimation: %s", list(responses))
         params: TestingParameters = cache.get(TestingParameters.get_cache_name(subtopic.unit.course.public_id), default=TestingParameters.objects.get_or_create(course=subtopic.unit.course)[0])
         if len(responses) < params.warmpup_length:
             return max_apost(responses, prev_abiltiy_score, prev_variance)
