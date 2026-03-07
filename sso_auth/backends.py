@@ -4,7 +4,6 @@ from jwt import PyJWKClient
 from mozilla_django_oidc.auth import OIDCAuthenticationBackend
 from django.conf import settings
 
-# Init PyJWKClient globally so it stays alive and caches the keys.
 jwks_client = PyJWKClient(
     getattr(settings, "OIDC_OP_JWKS_ENDPOINT", ""),
     cache_jwk_set=True,
@@ -17,9 +16,6 @@ jwks_client = PyJWKClient(
 class MyOIDCBackend(OIDCAuthenticationBackend):
 
     def verify_token(self, token, **kwargs):
-        """
-        Handles fetching the public key and validating the RSA256 signature locally
-        """
         try:
             signing_key = jwks_client.get_signing_key_from_jwt(token)
 
@@ -45,29 +41,24 @@ class MyOIDCBackend(OIDCAuthenticationBackend):
             return None
 
     def get_userinfo(self, access_token, id_token, payload):
-        """
-        When using Django's web login, 'payload' is already decoded.
-        When using DRF APIs (Bearer token), 'payload' is None, so we
-        must decode the access_token ourselves.
-        """
         if payload is None:
-            # Decode the token locally
             payload = self.verify_token(access_token)
-
-        # If verify_token fails, it returns None. Fallback to an empty dict.
         return payload or {}
 
     def verify_claims(self, claims):
-        # Safeguard against empty claims preventing a 500 Server Error
         if not claims:
             return False
-
-        # Entra uses "sub" or "oid" (Object ID) to identify users.
-        return "sub" in claims or "oid" in claims
+        has_identity = "sub" in claims or "oid" in claims
+        has_contact = claims.get("email") or claims.get("preferred_username")
+        return has_identity and bool(has_contact)
 
     def filter_users_by_claims(self, claims):
         email = claims.get("email")
-        username = claims.get("preferred_username") or claims.get("nickname")
+        username = (
+            claims.get("name")
+            or claims.get("preferred_username")
+            or claims.get("nickname")
+        )
 
         if email:
             users = self.UserModel.objects.filter(email__iexact=email)
@@ -83,13 +74,12 @@ class MyOIDCBackend(OIDCAuthenticationBackend):
 
     def create_user(self, claims):
         email = claims.get("email")
-        username = claims.get("preferred_username") or claims.get("name")
+        username = claims.get("name") or claims.get("preferred_username")
 
         if not username and email:
             username = email.split("@")[0]
 
         if not email:
-            # Fallback for McMaster students if email claim is missing
             username_clean = username.replace(" ", "_") if username else "user"
             email = f"{username_clean}@mcmaster.ca"
 
@@ -98,14 +88,14 @@ class MyOIDCBackend(OIDCAuthenticationBackend):
         return user
 
     def update_user(self, user, claims):
+        name = claims.get("name")
+        if name and user.username != name:
+            user.username = name
+            user.save()
         self._set_user_flags(user, claims)
         return user
 
     def _set_user_flags(self, user, claims):
-        """
-        TEMPORARY: Granting everyone who logs in via Entra
-        full admin access for development/testing.
-        """
         if settings.DEBUG:
             print(f"debug print - giving all perms to {user.email}")
 
