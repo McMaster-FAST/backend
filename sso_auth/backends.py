@@ -1,104 +1,98 @@
-import json
-import jwt
-from jwt import PyJWKClient
 from mozilla_django_oidc.auth import OIDCAuthenticationBackend
+import json
+import hashlib
 from django.conf import settings
+from django.core.cache import cache
 
-jwks_client = PyJWKClient(
-    getattr(settings, "OIDC_OP_JWKS_ENDPOINT", ""),
-    cache_jwk_set=True,
-    lifespan=600,
-    cache_keys=True,
-    max_cached_keys=16,
-)
+ROLES_CLAIM_URL = "https://chemfast.ca/roles"
 
 
 class MyOIDCBackend(OIDCAuthenticationBackend):
 
-    def verify_token(self, token, **kwargs):
-        try:
-            signing_key = jwks_client.get_signing_key_from_jwt(token)
-
-            payload = jwt.decode(
-                token,
-                signing_key.key,
-                algorithms=["RS256"],
-                audience=settings.OIDC_RP_CLIENT_ID,
-                issuer=getattr(settings, "OIDC_OP_ISSUER", None),
-                options={
-                    "verify_issuer": bool(getattr(settings, "OIDC_OP_ISSUER", False))
-                },
-            )
-
-            nonce = kwargs.get("nonce")
-            if nonce and payload.get("nonce") != nonce:
-                return None
-
-            return payload
-        except jwt.PyJWTError as e:
-            if settings.DEBUG:
-                print(f"Token validation failed: {e}")
-            return None
-
     def get_userinfo(self, access_token, id_token, payload):
-        if payload is None:
-            payload = self.verify_token(access_token)
-        return payload or {}
+        """
+        TODO
+        Convert to local validation with caching when switching over to Microsoft Entra
+        """
+
+        """
+        Override get_userinfo to cache the response from Auth0.
+        This prevents hitting the 429 Rate Limit when the frontend
+        fires multiple API requests at once.
+        """
+        token_hash = hashlib.sha256(access_token.encode()).hexdigest()
+        cache_key = f"oidc_userinfo_{token_hash}"
+
+        user_info = cache.get(cache_key)
+
+        if user_info:
+            print("found userinfo in cache")
+            return user_info
+
+        try:
+            user_info = super().get_userinfo(access_token, id_token, payload)
+        except Exception as e:
+            raise e
+
+        cache.set(cache_key, user_info, timeout=600)
+
+        return user_info
 
     def verify_claims(self, claims):
-        if not claims:
-            return False
-        has_identity = "sub" in claims or "oid" in claims
-        has_contact = claims.get("email") or claims.get("preferred_username")
-        return has_identity and bool(has_contact)
+        if settings.DEBUG:
+            print("verify_claims")
+            print(json.dumps(claims, indent=2))
+        return "sub" in claims
 
     def filter_users_by_claims(self, claims):
         email = claims.get("email")
-        username = (
-            claims.get("name")
-            or claims.get("preferred_username")
-            or claims.get("nickname")
-        )
+        username = claims.get("nickname") or claims.get("preferred_username")
 
         if email:
             users = self.UserModel.objects.filter(email__iexact=email)
             if users.exists():
+                print(f"--- DEBUG: Found user by email: {email} ---")
                 return users
 
         if username:
             users = self.UserModel.objects.filter(username__iexact=username)
             if users.exists():
+                print(f"--- DEBUG: Found user by username: {username} ---")
                 return users
 
         return self.UserModel.objects.none()
 
     def create_user(self, claims):
+        if settings.DEBUG:
+            print("--- DEBUG: create_user (NEW USER) ---")
+
         email = claims.get("email")
-        username = claims.get("name") or claims.get("preferred_username")
+        username = claims.get("nickname") or claims.get("preferred_username")
 
         if not username and email:
             username = email.split("@")[0]
 
         if not email:
-            username_clean = username.replace(" ", "_") if username else "user"
-            email = f"{username_clean}@mcmaster.ca"
+            print("--- WARNING: No email in claims. Generating placeholder. ---")
+            email = f"{username}@no-email.chemfast.ca"
 
         user = self.UserModel.objects.create_user(username=username, email=email)
         self._set_user_flags(user, claims)
         return user
 
     def update_user(self, user, claims):
-        name = claims.get("name")
-        if name and user.username != name:
-            user.username = name
-            user.save()
+        if settings.DEBUG:
+            print("--- DEBUG: update_user (EXISTING USER) ---")
         self._set_user_flags(user, claims)
         return user
 
     def _set_user_flags(self, user, claims):
-        if settings.DEBUG:
-            print(f"debug print - giving all perms to {user.email}")
-
-        user.is_staff = True
-        user.is_superuser = True
+        roles = claims.get(ROLES_CLAIM_URL, [])
+        user.is_staff = False
+        user.is_superuser = False
+        if "admin" in roles:
+            user.is_staff = True
+            user.is_superuser = True
+        elif "staff" in roles:
+            user.is_staff = True
         user.save()
