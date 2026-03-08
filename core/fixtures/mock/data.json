@@ -1,0 +1,1811 @@
+[
+{
+  "model": "core.question",
+  "pk": 1,
+  "fields": {
+    "public_id": "c86adc0f-cba7-4be3-8935-80818b91b6cb",
+    "subtopic": 1,
+    "serial_number": "T2_2024_Q05_D84_S1.01",
+    "content": "What is the pH of a 0.450 M solution of formic acid (HCOOH)? \r\n\r\nData: \r\n\r\nKa(HCOOH) = 1.77 × 10–4",
+    "answer_explanation": "No explanation",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 2,
+  "fields": {
+    "public_id": "543f7297-c3c8-4fd6-a938-5699a58610cf",
+    "subtopic": 1,
+    "serial_number": "T1_2024_Q04_D83_S1.01",
+    "content": "If a 0.10 M solution of a weak acid is pH 3.5, what is its Ka value?",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 3,
+  "fields": {
+    "public_id": "23e954e2-0f68-4545-99cd-2ec295d8a435",
+    "subtopic": 1,
+    "serial_number": "T1_2024_Q03_D90_S1.01",
+    "content": "What is the pOH of a 0.05 M aqueous solution of a strong acid?",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-2.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 4,
+  "fields": {
+    "public_id": "e32841e8-abeb-40de-836d-404fe881c0b4",
+    "subtopic": 1,
+    "serial_number": "T1_2024_Q02_D77_S1.01",
+    "content": "Which of the following are conjugate bases of strong acids? \r\n\r\n(i)\tCO32–  \r\n\r\n(ii)\tHSO4– \r\n\r\n(iii)\tNH2–  \r\n\r\n(iv)\tCl– \r\n\r\n(v)\tCH3COO–",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 5,
+  "fields": {
+    "public_id": "c28e1178-7216-47f1-b891-ba58fffccf54",
+    "subtopic": 1,
+    "serial_number": "Ex_2024_Q01_D97_S1.01",
+    "content": "What is the pH of 0.023 M HNO3?",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-3.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 6,
+  "fields": {
+    "public_id": "c6b5cc55-3a44-41a2-935a-d76598a704c9",
+    "subtopic": 27,
+    "serial_number": "Quiz1_Question1",
+    "content": "Over the past century, has the incidence of natural disasters been increasing or decreasing?",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-3.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 7,
+  "fields": {
+    "public_id": "31e06e66-1b8d-4e62-ae7e-22fb52aa32f1",
+    "subtopic": 27,
+    "serial_number": "Quiz1_Question2",
+    "content": "The exposure of a community to damage from a natural disaster is related in large part to",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-2.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 8,
+  "fields": {
+    "public_id": "c574d522-43ee-4aeb-9b64-612615c4c98b",
+    "subtopic": 28,
+    "serial_number": "Quiz1_Question3",
+    "content": "Which of the following researchers proposed the idea that continents have moved over time, giving glacial, fossil, coal deposit, and rock types as evidence that the continents must have once been combined in a supercontinent they called Pangaea?",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 9,
+  "fields": {
+    "public_id": "611e114d-a9d2-408b-ae2b-8498b2cfac6d",
+    "subtopic": 28,
+    "serial_number": "Quiz1_Question4",
+    "content": "Which of the following best describes continental crust?",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 10,
+  "fields": {
+    "public_id": "f069db9c-9f4c-4fe6-9414-333b8eaa2b84",
+    "subtopic": 28,
+    "serial_number": "Quiz1_Question5",
+    "content": "Which type of plate boundary produces new oceanic crust?",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "2.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 11,
+  "fields": {
+    "public_id": "feb5babe-fc59-49bb-814b-27a442f2c7b5",
+    "subtopic": 28,
+    "serial_number": "Quiz1_Question6",
+    "content": "Which of the following best describes a divergent margin?",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "3.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 12,
+  "fields": {
+    "public_id": "f7c0728c-a489-4c3d-b050-686920c4094a",
+    "subtopic": 1,
+    "serial_number": "T1_2023_Q12_D65_S1.01",
+    "content": "Starting from a 1.0 M solution of phenol (C₆H₅OH), which reactant(s) could be added to obtain a pH of 9.5? \r\n\r\n(i) NaOH \r\n(ii) HCl \r\n(iii) C₆H₅ONa \r\n\r\n\r\nData: \r\n\r\nKₐ(C₆H₅OH) = 1.6 × 10⁻¹⁰",
+    "answer_explanation": "N/A",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "2.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 13,
+  "fields": {
+    "public_id": "12be0319-a612-4548-80c1-5d95e0e35c54",
+    "subtopic": 1,
+    "serial_number": "T1_2023_Q04_D35_S1.01",
+    "content": "Which of the following aqueous solutions would have the highest percent ionization? \r\n\r\nData:  \r\nKʙ(H₂AsO₄–) = 2.00 × 10⁻¹²\r\nKₐ(HCOOH) = 1.77 × 10⁻⁴",
+    "answer_explanation": "Don't use this one anymore 🫩",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "3.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 14,
+  "fields": {
+    "public_id": "8a982d2d-15f5-496e-b0ba-0e17cf0515b7",
+    "subtopic": 3,
+    "serial_number": "T2_2024_Q02_D36_S1.03",
+    "content": "To a 1.00 L solution of 0.500 M NH₄Cl is added 8.8 g NaOH(s). Assuming no change in volume, which statements are true?\r\n\r\n(i) [NH₄⁺] > [NH₃]\r\n(ii) [HO⁻] > [H₃O⁺]\r\n(iii) pKₐ of NH₄⁺ > pK_b of NH₃\r\n\r\nData:\r\nK_b(NH₃) = 1.8 × 10⁻⁵",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "3.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 15,
+  "fields": {
+    "public_id": "f8621151-9592-4341-8b3c-35983997d067",
+    "subtopic": 3,
+    "serial_number": "T1_2024_Q11_D67_S1.03",
+    "content": "What mass of NaOH(s) would be required to increase the pH of 500. mL of a 1.00 M benzoic acid/1.00 M benzoate buffer to the upper limit of its buffering range?\r\n\r\nData:\r\nKₐ (C₆H₅COOH) = 6.3 × 10⁻⁵",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "2.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 16,
+  "fields": {
+    "public_id": "13827ef4-f15e-43df-bff1-1042218d7ab7",
+    "subtopic": 3,
+    "serial_number": "T1_2024_Q10_D74_S1.03",
+    "content": "Which of the following statements about buffers is false?",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 17,
+  "fields": {
+    "public_id": "704a5148-4def-4917-9efb-7a0ced02e1c5",
+    "subtopic": 3,
+    "serial_number": "T1_2024_Q09_D78_S1.03",
+    "content": "A buffer is prepared by mixing a 650. mL solution of 0.75 M nitrous acid (HNO₂) with 550. mL of a 0.40 M solution of nitrite (NO₂⁻). What is the pH of the buffer?\r\n\r\nData:\r\nKₐ(HNO₂) = 7.2 × 10⁻⁴",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 18,
+  "fields": {
+    "public_id": "011cd0d6-8cd5-4c5f-8f86-db93289bbde2",
+    "subtopic": 3,
+    "serial_number": "T1_2024_Q08_D94_S1.03",
+    "content": "If a buffer solution containing 0.75 M of HClO and 0.90 M of ClO⁻ is pH 7.62, what is the pKₐ of hypochlorous acid (HClO)?",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 19,
+  "fields": {
+    "public_id": "939dfd72-922c-4d25-94de-3cf184698a60",
+    "subtopic": 3,
+    "serial_number": "T1_2024_Q07_D69_S1.03",
+    "content": "A pH 3.88 buffer is prepared by dissolving sufficient sodium formate, NaHCOO(s), in 1.50 L of 0.100 M formic acid (HCOOH). What is the pH change upon adding 0.070 moles of NaOH(s)? (Assume no volume change upon adding solids.)\r\n\r\nData:\r\nKₐ(HCOOH) = 1.8 × 10⁻⁴",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-2.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 20,
+  "fields": {
+    "public_id": "2f3409ef-941f-4879-975f-1d91427d2fc7",
+    "subtopic": 3,
+    "serial_number": "T1_2024_Q06_D87_S1.03",
+    "content": "The total concentration of an acetic acid/acetate buffer is 0.10 M; that is, [HA] + [A⁻] = 0.10 M. What is the concentration of the acetic acid (HA) component at pH 5.2?\r\n\r\nData:\r\nKₐ(acetic acid) = 1.8 × 10⁻⁵",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-3.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 21,
+  "fields": {
+    "public_id": "ec35eff0-59c8-4396-8823-d6106e54de9b",
+    "subtopic": 4,
+    "serial_number": "Ex_2024_Q02_D92_S1.04",
+    "content": "A low concentration of thymol blue is used in a weak acid / strong base titration. If the equivalence point pH is 8.0, what is ratio of base to acid forms ([In⁻]/[HIn]) of thymol blue at the equivalence point?\r\n\r\nData:\r\nKₕᵢₙ = 1.3 × 10⁻⁹",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "3.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 22,
+  "fields": {
+    "public_id": "a68cd87d-4358-4273-a1ab-962175e5c6b6",
+    "subtopic": 4,
+    "serial_number": "T1_2023_Q21_D60_S1.04",
+    "content": "Which would be the best pH indicator to find the endpoint in a titration of 0.060 M Tris with 0.120 M HBr? (Tris is a monoprotic base.)\r\n\r\nData:\r\nK_b(Tris) = 1.17 × 10⁻⁶",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "2.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 23,
+  "fields": {
+    "public_id": "f8e18d35-6c89-45a7-ac99-617e39d953b3",
+    "subtopic": 4,
+    "serial_number": "T1_2023_Q18_D66_S1.04",
+    "content": "Which indicator is best suited to determine the equivalence point of a titration of 0.10 M pentanoic acid with 0.10 M of a strong base?\r\n\r\nData:\r\npKₐ(pentanoic acid) = 4.84",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 24,
+  "fields": {
+    "public_id": "8fde67b6-610d-42cd-8f60-c10b3d5357db",
+    "subtopic": 4,
+    "serial_number": "T1_2023_Q16_D77_S1.04",
+    "content": "Which of the following statements about indicators is false?",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 25,
+  "fields": {
+    "public_id": "c7cdb28c-c032-4357-a1f1-0d04b34a4621",
+    "subtopic": 4,
+    "serial_number": "T1_2022_Q11_D58_S1.04",
+    "content": "If the pH indicator bromothymol blue is placed in a buffer solution with pH 7.40, what percentage of the indicator would be in the protonated (HIn) form?\r\n\r\nData:\r\npKₕᵢₙ(bromothymol blue) = 7.01",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 26,
+  "fields": {
+    "public_id": "c9a43b34-c6f8-4f22-9613-aad187fe2a1f",
+    "subtopic": 4,
+    "serial_number": "T2_2021_Q02_D72_S1.04",
+    "content": "A student obtains an unknown indicator which is colourless in neutral water. When placed in a 0.01 M solution of NaOH or KCN, the indicator appears colourless. When placed in a 0.01 M solution of C₃H₇COOH, the indicator appears orange. What is the approximate pKₐ of the indicator?",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-2.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 27,
+  "fields": {
+    "public_id": "64795453-b812-4d08-a776-f51d5a836005",
+    "subtopic": 4,
+    "serial_number": "T1_2021_Q21_D51_S1.04",
+    "content": "Thymol blue changes colour in two pH ranges. It changes from red to yellow in the pH range 1.2 − 2.8, and from yellow to blue in the pH range from 8.0 − 9.6. It appears orange at pH 1.2 − 2.8 and green at pH 8.0 − 9.6. If two drops of thymol blue indicator are added to a 5.0 mL solution of 1.50 M sodium nitrite, NaNO₂, what colour would the thymol blue indicator appear?\r\n\r\nData:\r\nKₐ(HNO₂) = 7.2 × 10⁻⁴",
+    "answer_explanation": "Version 1:\r\nAnswer: pH = 8.66 (K_b of nitrite = 1.39 × 10⁻¹¹), indicator is green\r\n\r\nVersion 2:\r\nsodium cyanide, NaCN\r\nKₐ(HCN) = 6.2 × 10⁻¹⁰\r\nAnswer = pH 11.69, blue\r\n\r\nVersion 3:\r\nsodium iodate, NaIO₃\r\nKₐ(HIO₃) = 0.16\r\nAnswer = pH 7.49, yellow\r\n\r\nVersion 4:\r\nsodium hypochlorite, NaClO\r\nKₐ(HOCl) = 2.9 × 10⁻⁸\r\nAnswer = pH 10.86, blue\r\n\r\nVersion 5:\r\nsodium formate, HCOONa\r\nKₐ(HCOOH) = 1.8 × 10⁻⁴\r\nAnswer = pH 8.96, green",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-3.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 1,
+  "fields": {
+    "public_id": "ad87e95e-4f94-495c-a4f5-1c57e48f71c3",
+    "question": 1,
+    "content": "2.05",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 2,
+  "fields": {
+    "public_id": "2c5430ca-2ad3-48eb-b051-643278cfd515",
+    "question": 1,
+    "content": "2.84",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 3,
+  "fields": {
+    "public_id": "c5a02afa-2032-4107-9fc2-8a1071591fc2",
+    "question": 1,
+    "content": "3.14",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 4,
+  "fields": {
+    "public_id": "f42305a2-4815-4625-a281-9c57bb97c089",
+    "question": 1,
+    "content": "1.89",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 5,
+  "fields": {
+    "public_id": "490fb1a7-8cf3-43e8-81a5-0bf5ba3903ba",
+    "question": 2,
+    "content": "5 × 10−6",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 6,
+  "fields": {
+    "public_id": "88ed4ef1-4075-4cea-b9de-1020952b5c0c",
+    "question": 2,
+    "content": "1 × 10−6",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 7,
+  "fields": {
+    "public_id": "da9baf53-a593-4db1-b132-0dd385131d6a",
+    "question": 2,
+    "content": "1 × 10−3",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 8,
+  "fields": {
+    "public_id": "47e841db-061d-4040-8bfc-09e12bd6b9fb",
+    "question": 2,
+    "content": "3 × 10−3",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 9,
+  "fields": {
+    "public_id": "5eabecaa-e8b4-446c-a6b5-3bd74eb3680e",
+    "question": 3,
+    "content": "1.50",
+    "is_answer": false,
+    "selection_frequency": "0.0300",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 10,
+  "fields": {
+    "public_id": "9c0eaf64-0a9a-485e-ab9d-fea9976db585",
+    "question": 3,
+    "content": "1.30",
+    "is_answer": false,
+    "selection_frequency": "0.0700",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 11,
+  "fields": {
+    "public_id": "b64ade91-522d-404c-88e5-03b87667fc6f",
+    "question": 3,
+    "content": "11.0",
+    "is_answer": false,
+    "selection_frequency": "0.0100",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 12,
+  "fields": {
+    "public_id": "93dda117-21b4-425b-96ea-f25b676464b4",
+    "question": 3,
+    "content": "12.7",
+    "is_answer": true,
+    "selection_frequency": "0.9000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 13,
+  "fields": {
+    "public_id": "59c4cc85-0bc9-4613-b5f2-de1da78a3b64",
+    "question": 4,
+    "content": "iii, iv",
+    "is_answer": false,
+    "selection_frequency": "0.0200",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 14,
+  "fields": {
+    "public_id": "91640825-608e-400b-83b1-fe4c9c30c32b",
+    "question": 4,
+    "content": "ii, iv",
+    "is_answer": true,
+    "selection_frequency": "0.7700",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 15,
+  "fields": {
+    "public_id": "d60b1864-b794-40de-ad75-e2d22f7da20b",
+    "question": 4,
+    "content": "i, iii, v",
+    "is_answer": false,
+    "selection_frequency": "0.0400",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 16,
+  "fields": {
+    "public_id": "1d33f835-7595-47ec-891c-fa3d9970cccf",
+    "question": 4,
+    "content": "i, ii, iv",
+    "is_answer": false,
+    "selection_frequency": "0.1700",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 17,
+  "fields": {
+    "public_id": "8c6960b9-9cf1-4aa3-bede-9ab879691fc3",
+    "question": 5,
+    "content": "1.72",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 18,
+  "fields": {
+    "public_id": "4e346744-881d-49ad-b285-54031cb8ab89",
+    "question": 5,
+    "content": "1.54",
+    "is_answer": false,
+    "selection_frequency": "0.0200",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 19,
+  "fields": {
+    "public_id": "e42884f1-1749-4fbf-8e29-aa268b407e3b",
+    "question": 5,
+    "content": "1.64",
+    "is_answer": true,
+    "selection_frequency": "0.9700",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 20,
+  "fields": {
+    "public_id": "2b2f3458-e5af-414b-8fb6-f99954f602cb",
+    "question": 5,
+    "content": "1.82",
+    "is_answer": false,
+    "selection_frequency": "0.0100",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 21,
+  "fields": {
+    "public_id": "35b06dd9-eb3d-4427-b7e0-68c05916fecd",
+    "question": 6,
+    "content": "Geologic and geophysical disasters have remained constant, while meteorological, hydrological, and climatological disasters have increased on an annual basis.",
+    "is_answer": true,
+    "selection_frequency": "0.7000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 22,
+  "fields": {
+    "public_id": "e79648a0-8813-4b45-bfad-8817cf406da4",
+    "question": 6,
+    "content": "Geologic and geophysical, meteorological, hydrological, and climatological disasters have decreased on an annual basis.",
+    "is_answer": false,
+    "selection_frequency": "0.0500",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 23,
+  "fields": {
+    "public_id": "900f690f-0e6c-4425-b307-5c5454aaec4e",
+    "question": 6,
+    "content": "Geologic and geophysical, meteorological, hydrological, and climatological disasters have remained constant on an annual basis.",
+    "is_answer": false,
+    "selection_frequency": "0.0500",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 24,
+  "fields": {
+    "public_id": "e45e996e-c2b0-4bb5-a40a-8b4f8acf57bb",
+    "question": 6,
+    "content": "Geologic and geophysical disasters have been increasing, while meteorological, hydrological, and climatological disasters have decreased on an annual basis.",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 25,
+  "fields": {
+    "public_id": "2b057cc4-fe92-4881-8a04-b17158cb9316",
+    "question": 7,
+    "content": "the proximity of that community to the natural disaster.",
+    "is_answer": false,
+    "selection_frequency": "0.1000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 26,
+  "fields": {
+    "public_id": "0f906c5f-2415-48ed-b0f3-97d97117e431",
+    "question": 7,
+    "content": "the degree of preparation of a community to withstand a natural disaster.",
+    "is_answer": true,
+    "selection_frequency": "0.8000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 27,
+  "fields": {
+    "public_id": "0515fd10-cc61-459f-b8f1-6a2e76d22fc7",
+    "question": 7,
+    "content": "the financial resources of a community to respond to a disaster.",
+    "is_answer": false,
+    "selection_frequency": "0.0500",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 28,
+  "fields": {
+    "public_id": "d5b77acc-18b2-4e86-b925-88eef7c47fa9",
+    "question": 7,
+    "content": "None of the above",
+    "is_answer": false,
+    "selection_frequency": "0.0500",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 29,
+  "fields": {
+    "public_id": "163d6ea6-8b6e-426b-a69f-e00c3d179567",
+    "question": 8,
+    "content": "Cynognathus Dietz",
+    "is_answer": false,
+    "selection_frequency": "0.1000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 30,
+  "fields": {
+    "public_id": "2ec209a7-c806-4ad0-a307-29addcc13796",
+    "question": 8,
+    "content": "Alfred Wegener",
+    "is_answer": false,
+    "selection_frequency": "0.5000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 31,
+  "fields": {
+    "public_id": "8be2f119-a43c-47e6-91ed-54905a214c85",
+    "question": 8,
+    "content": "Harry Hess",
+    "is_answer": false,
+    "selection_frequency": "0.2000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 32,
+  "fields": {
+    "public_id": "4847a60e-bab4-4abf-b5b7-c5a0ed26e3b4",
+    "question": 8,
+    "content": "Marie Tharp",
+    "is_answer": false,
+    "selection_frequency": "0.2000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 33,
+  "fields": {
+    "public_id": "09b50edc-86c2-4c22-b106-b3a02c9410d4",
+    "question": 9,
+    "content": "Silica rich, less dense than oceanic crust, rigid",
+    "is_answer": true,
+    "selection_frequency": "0.7000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 34,
+  "fields": {
+    "public_id": "185bcae7-b6c1-4966-82e2-c8491b2f99d1",
+    "question": 9,
+    "content": "Silica rich, more dense than oceanic crust, rigid",
+    "is_answer": false,
+    "selection_frequency": "0.1000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 35,
+  "fields": {
+    "public_id": "23b0876d-acf5-4018-9410-048c5e22d2e2",
+    "question": 9,
+    "content": "Silica poor, more dense than oceanic crust, rigid",
+    "is_answer": false,
+    "selection_frequency": "0.1000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 36,
+  "fields": {
+    "public_id": "96be4776-06e0-4120-a22f-3381182bcd19",
+    "question": 9,
+    "content": "Iron and Magnesium rich, flowing solid",
+    "is_answer": false,
+    "selection_frequency": "0.1000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 37,
+  "fields": {
+    "public_id": "24d0132b-22ff-4ca4-8e6d-306f6eafa671",
+    "question": 10,
+    "content": "convergent boundaries",
+    "is_answer": false,
+    "selection_frequency": "0.0500",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 38,
+  "fields": {
+    "public_id": "c1cd0c6d-2673-4919-8332-818aefe72c62",
+    "question": 10,
+    "content": "transform boundaries",
+    "is_answer": false,
+    "selection_frequency": "0.0500",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 39,
+  "fields": {
+    "public_id": "66343dbc-79ac-483a-b823-52ce936bd1aa",
+    "question": 10,
+    "content": "all of the above",
+    "is_answer": false,
+    "selection_frequency": "0.0500",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 40,
+  "fields": {
+    "public_id": "d11b498e-09f4-4408-9253-d80c54a9ff47",
+    "question": 10,
+    "content": "divergent boundaries",
+    "is_answer": true,
+    "selection_frequency": "0.8500",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 41,
+  "fields": {
+    "public_id": "664de5f5-290d-4c46-ad68-b089dec9a1cc",
+    "question": 11,
+    "content": "Two plates sliding past one another in opposite directions",
+    "is_answer": false,
+    "selection_frequency": "0.0500",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 42,
+  "fields": {
+    "public_id": "3f2a2917-6199-47af-8181-246f1fde8bca",
+    "question": 11,
+    "content": "Two plates colliding with one another forming a subduction zone",
+    "is_answer": false,
+    "selection_frequency": "0.0500",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 43,
+  "fields": {
+    "public_id": "decdf266-a086-437e-b2ef-50c8ac273179",
+    "question": 11,
+    "content": "Two plates moving away from one another",
+    "is_answer": true,
+    "selection_frequency": "0.8500",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 44,
+  "fields": {
+    "public_id": "2ae48ec2-46ee-4fbf-a139-5938cf74e530",
+    "question": 11,
+    "content": "Two plates colliding with one another forming mountain ranges",
+    "is_answer": false,
+    "selection_frequency": "0.0500",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 45,
+  "fields": {
+    "public_id": "6f60ba9e-61be-43c2-a0c8-e85260d5ab57",
+    "question": 12,
+    "content": "iii",
+    "is_answer": false,
+    "selection_frequency": "0.0600",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 46,
+  "fields": {
+    "public_id": "fa4832ac-cb21-44f9-a9a4-e9b94b94adeb",
+    "question": 12,
+    "content": "ii",
+    "is_answer": false,
+    "selection_frequency": "0.1700",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 47,
+  "fields": {
+    "public_id": "c7361365-4533-49a2-bd0f-0cd7146c5154",
+    "question": 12,
+    "content": "ii or iii",
+    "is_answer": false,
+    "selection_frequency": "0.1200",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 48,
+  "fields": {
+    "public_id": "4cd005cf-0092-4032-8901-707542ebf89b",
+    "question": 12,
+    "content": "i or iii",
+    "is_answer": true,
+    "selection_frequency": "0.6500",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 49,
+  "fields": {
+    "public_id": "135c9b91-6324-4d9f-aa72-140c0abb8440",
+    "question": 13,
+    "content": "1.0 M HCOOH",
+    "is_answer": false,
+    "selection_frequency": "0.2000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 50,
+  "fields": {
+    "public_id": "9dbe04c0-7c2e-440b-880e-18ae5d640111",
+    "question": 13,
+    "content": "1.0 M₃HAsO₄",
+    "is_answer": false,
+    "selection_frequency": "0.2300",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 51,
+  "fields": {
+    "public_id": "d61f08bd-96bf-4879-8bd3-58e8599bdbb1",
+    "question": 13,
+    "content": "0.1 M H₃AsO₄",
+    "is_answer": true,
+    "selection_frequency": "0.3500",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 52,
+  "fields": {
+    "public_id": "c60ee3f1-5909-42d2-ab34-8596c9d26a01",
+    "question": 13,
+    "content": "0.1 M HCOOH",
+    "is_answer": false,
+    "selection_frequency": "0.2300",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 53,
+  "fields": {
+    "public_id": "8e118e4e-94ab-487f-a9de-a90831849444",
+    "question": 14,
+    "content": "i and iii",
+    "is_answer": false,
+    "selection_frequency": "0.3100",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 54,
+  "fields": {
+    "public_id": "e8c2c73f-b472-4285-9480-daabe024d5e9",
+    "question": 14,
+    "content": "i and ii",
+    "is_answer": false,
+    "selection_frequency": "0.2300",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 55,
+  "fields": {
+    "public_id": "96cf3368-53a5-4e2c-ae8d-8bd8c49676a7",
+    "question": 14,
+    "content": "i, ii and iii",
+    "is_answer": true,
+    "selection_frequency": "0.3600",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 56,
+  "fields": {
+    "public_id": "5304067b-fd4b-4e72-b5c7-d96873bfc817",
+    "question": 14,
+    "content": "ii and iii",
+    "is_answer": false,
+    "selection_frequency": "0.1000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 57,
+  "fields": {
+    "public_id": "8078321c-57d1-4f43-a9b1-37458dc16ebe",
+    "question": 15,
+    "content": "10.0g",
+    "is_answer": false,
+    "selection_frequency": "0.0800",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 58,
+  "fields": {
+    "public_id": "7e435c1b-d34d-4acc-8c35-f4c154c06f1f",
+    "question": 15,
+    "content": "32.9g",
+    "is_answer": false,
+    "selection_frequency": "0.0800",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 59,
+  "fields": {
+    "public_id": "fb0f2ffd-5ce8-4d90-9d70-1661e5fb9d89",
+    "question": 15,
+    "content": "16.4g",
+    "is_answer": true,
+    "selection_frequency": "0.6700",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 60,
+  "fields": {
+    "public_id": "739f8875-bab1-4e71-b9da-f9026d8d43ac",
+    "question": 15,
+    "content": "20.0g",
+    "is_answer": false,
+    "selection_frequency": "0.1700",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 61,
+  "fields": {
+    "public_id": "e0ec8e52-0cbd-43d2-98e7-be0589490c4d",
+    "question": 16,
+    "content": "A buffer can be prepared by mixing a weak base solution with a limiting amount of strong acid.",
+    "is_answer": false,
+    "selection_frequency": "0.0100",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 62,
+  "fields": {
+    "public_id": "05568f55-54a4-4951-bf3a-9244243b31c3",
+    "question": 16,
+    "content": "The relationship between a buffer’s pOH and the pKb of the weak base is given by: some crazy LaTeX here too lazy to put in right now",
+    "is_answer": true,
+    "selection_frequency": "0.7400",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 63,
+  "fields": {
+    "public_id": "5efa9f3b-71f1-4311-b605-46ca345dac2d",
+    "question": 16,
+    "content": "The buffer capacity of a weak acid (HA) / weak base (A-) system is at a maximum when [A-] and [HA] are equal.",
+    "is_answer": false,
+    "selection_frequency": "0.1700",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 64,
+  "fields": {
+    "public_id": "03c62e7d-31f5-4dbe-a57f-ae053480d74c",
+    "question": 16,
+    "content": "The percent ionization of the weak acid in a buffer system is less than the weak acid on its own because of the common ion effect.",
+    "is_answer": false,
+    "selection_frequency": "0.0800",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 65,
+  "fields": {
+    "public_id": "60d71057-727c-43eb-b2ee-92f35d0e780e",
+    "question": 17,
+    "content": "3.05",
+    "is_answer": false,
+    "selection_frequency": "0.0400",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 66,
+  "fields": {
+    "public_id": "f81a4868-b6c4-4613-a738-05680cc82b71",
+    "question": 17,
+    "content": "2.88",
+    "is_answer": false,
+    "selection_frequency": "0.1500",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 67,
+  "fields": {
+    "public_id": "79c3c7e1-69e9-47be-8771-83a4d2275fa7",
+    "question": 17,
+    "content": "2.79",
+    "is_answer": false,
+    "selection_frequency": "0.7800",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 68,
+  "fields": {
+    "public_id": "af07cb37-4844-4ef1-b567-e560d5fadada",
+    "question": 17,
+    "content": "2.97",
+    "is_answer": false,
+    "selection_frequency": "0.0300",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 69,
+  "fields": {
+    "public_id": "11b3590e-b14e-4348-ac8d-3ced4ebcea51",
+    "question": 18,
+    "content": "6.38",
+    "is_answer": false,
+    "selection_frequency": "0.0200",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 70,
+  "fields": {
+    "public_id": "78ec5b56-8829-4331-9c22-91e8be80880f",
+    "question": 18,
+    "content": "7.54",
+    "is_answer": true,
+    "selection_frequency": "0.9400",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 71,
+  "fields": {
+    "public_id": "d05fe6e8-5d76-4b9f-926a-d58e11784f80",
+    "question": 18,
+    "content": "6.46",
+    "is_answer": false,
+    "selection_frequency": "0.0100",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 72,
+  "fields": {
+    "public_id": "770e97ee-95b0-4090-a057-b42ae68c116b",
+    "question": 18,
+    "content": "7.62",
+    "is_answer": false,
+    "selection_frequency": "0.0200",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 73,
+  "fields": {
+    "public_id": "88daeaa4-54e7-44c2-8be2-06f28bf10673",
+    "question": 19,
+    "content": "-0.20 pH units",
+    "is_answer": false,
+    "selection_frequency": "0.0700",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 74,
+  "fields": {
+    "public_id": "1d84344b-43a5-4bbd-b83d-1b4a59a5928b",
+    "question": 19,
+    "content": "0.20 pH units",
+    "is_answer": false,
+    "selection_frequency": "0.1600",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 75,
+  "fields": {
+    "public_id": "a8450706-ee8e-4766-b8ee-cac1e544c1ee",
+    "question": 19,
+    "content": "0.40 pH units",
+    "is_answer": true,
+    "selection_frequency": "0.6900",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 76,
+  "fields": {
+    "public_id": "5ad6189f-7811-4a18-ab48-977e3e75e6f3",
+    "question": 19,
+    "content": "0.10 pH units",
+    "is_answer": false,
+    "selection_frequency": "0.0800",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 77,
+  "fields": {
+    "public_id": "c05ffd4d-a1c2-4961-8e83-a702c28f5e2c",
+    "question": 20,
+    "content": "0.044 M",
+    "is_answer": false,
+    "selection_frequency": "0.0400",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 78,
+  "fields": {
+    "public_id": "eea54f91-dbfd-477b-98e6-c59933721b73",
+    "question": 20,
+    "content": "0.017 M",
+    "is_answer": false,
+    "selection_frequency": "0.0200",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 79,
+  "fields": {
+    "public_id": "63ce059c-0cec-484e-b753-369a667701e5",
+    "question": 20,
+    "content": "0.026 M",
+    "is_answer": false,
+    "selection_frequency": "0.8700",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 80,
+  "fields": {
+    "public_id": "925de6b6-98c8-4cbe-9159-9ce95a6993b3",
+    "question": 20,
+    "content": "0.035 M",
+    "is_answer": false,
+    "selection_frequency": "0.0700",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 81,
+  "fields": {
+    "public_id": "8ab3cb4a-b90d-4fd2-9f26-1b883dfdce3d",
+    "question": 21,
+    "content": "0.13",
+    "is_answer": true,
+    "selection_frequency": "0.9200",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 82,
+  "fields": {
+    "public_id": "ef2295c9-7434-435f-8b9e-d7d54517529b",
+    "question": 21,
+    "content": "0.18",
+    "is_answer": false,
+    "selection_frequency": "0.0300",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 83,
+  "fields": {
+    "public_id": "154c814e-78b7-4c2f-b4f8-b82dbc10841e",
+    "question": 21,
+    "content": "0.23",
+    "is_answer": false,
+    "selection_frequency": "0.0200",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 84,
+  "fields": {
+    "public_id": "ea827b6b-992e-4e2b-8ee5-ba2a88f1c767",
+    "question": 21,
+    "content": "0.28",
+    "is_answer": false,
+    "selection_frequency": "0.0300",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 85,
+  "fields": {
+    "public_id": "b6f16db9-5651-41e4-b0b7-c36e0ae3e5f2",
+    "question": 22,
+    "content": "Bromocresol green\t3.8 – 5.4",
+    "is_answer": true,
+    "selection_frequency": "0.6000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 86,
+  "fields": {
+    "public_id": "f1d7c034-6199-4fa9-a923-927b710a878d",
+    "question": 22,
+    "content": "Thymol blue 8.0 – 9.6",
+    "is_answer": false,
+    "selection_frequency": "0.1600",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 87,
+  "fields": {
+    "public_id": "edf768e5-fb35-44c7-832a-2120961c652e",
+    "question": 22,
+    "content": "Malachite green 0.2 – 1.8",
+    "is_answer": false,
+    "selection_frequency": "0.1100",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 88,
+  "fields": {
+    "public_id": "923d7580-e766-404f-af1c-871ce6ff8d7b",
+    "question": 22,
+    "content": "Phenol red 6.4 – 8.0",
+    "is_answer": false,
+    "selection_frequency": "0.1300",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 89,
+  "fields": {
+    "public_id": "3234bc13-0029-4971-8538-8ff8a36b7caf",
+    "question": 23,
+    "content": "Bromothymol Blue (pKHIn ≈ 6.5)",
+    "is_answer": false,
+    "selection_frequency": "0.0600",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 90,
+  "fields": {
+    "public_id": "77f42324-f643-47c7-8596-61cb62d72c9a",
+    "question": 23,
+    "content": "Phenolphthalein (pKHIn ≈ 9)",
+    "is_answer": true,
+    "selection_frequency": "0.6600",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 91,
+  "fields": {
+    "public_id": "a51a9ceb-afbf-42e5-9341-60a189cdb52f",
+    "question": 23,
+    "content": "Alizarin Yellow-R (pKHIn ≈ 11)",
+    "is_answer": false,
+    "selection_frequency": "0.0900",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 92,
+  "fields": {
+    "public_id": "febe399e-0030-45f9-9239-ee9ca8b9902a",
+    "question": 23,
+    "content": "Congo Red (pKHIn ≈ 4)",
+    "is_answer": false,
+    "selection_frequency": "0.1800",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 93,
+  "fields": {
+    "public_id": "767da680-2ca5-4cee-8c65-e3307b735f7b",
+    "question": 24,
+    "content": "pH indicators with more than one pKHIn value may be used in different pH ranges.",
+    "is_answer": false,
+    "selection_frequency": "0.0900",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 94,
+  "fields": {
+    "public_id": "62f85f57-7bc6-4a46-88d4-92c022a23ee5",
+    "question": 24,
+    "content": "pH indicators useful for titration of weak acids with strong bases are also useful in titrations of weak bases with strong acids.",
+    "is_answer": true,
+    "selection_frequency": "0.7700",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 95,
+  "fields": {
+    "public_id": "714688c7-c157-44e4-a929-366c1e4ec19f",
+    "question": 24,
+    "content": "Indicators should be chosen so that their pKHIn values match the pH at the equivalence point.",
+    "is_answer": false,
+    "selection_frequency": "0.0700",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 96,
+  "fields": {
+    "public_id": "ea2a5b69-5118-486c-af6b-d3bd9bab5148",
+    "question": 24,
+    "content": "At high enough concentrations, an indicator could be the weak acid or weak base component of a buffer.",
+    "is_answer": false,
+    "selection_frequency": "0.0700",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 97,
+  "fields": {
+    "public_id": "ea7259fb-2177-46da-b47d-70d6e4bf06e7",
+    "question": 25,
+    "content": "34%",
+    "is_answer": false,
+    "selection_frequency": "0.1000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 98,
+  "fields": {
+    "public_id": "8f13f3f4-3538-4557-9384-92701fc1ecba",
+    "question": 25,
+    "content": "39%",
+    "is_answer": false,
+    "selection_frequency": "0.1000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 99,
+  "fields": {
+    "public_id": "9220d4c2-36e7-488e-932e-3c657d9a7393",
+    "question": 25,
+    "content": "29%",
+    "is_answer": true,
+    "selection_frequency": "0.5800",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 100,
+  "fields": {
+    "public_id": "cbffd8dd-2c2a-483b-bc95-455199ad6c31",
+    "question": 25,
+    "content": "24%",
+    "is_answer": false,
+    "selection_frequency": "0.2200",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 101,
+  "fields": {
+    "public_id": "e6c9dab1-69e6-4095-92d7-60b94145f061",
+    "question": 26,
+    "content": "13.0 - 14.0",
+    "is_answer": false,
+    "selection_frequency": "0.1000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 102,
+  "fields": {
+    "public_id": "2c8111c4-0b44-4767-abf5-567520cc5e43",
+    "question": 26,
+    "content": "5.0 - 6.0",
+    "is_answer": true,
+    "selection_frequency": "0.7200",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 103,
+  "fields": {
+    "public_id": "e1e365bc-76f4-4dd4-b153-97e7e14708c2",
+    "question": 26,
+    "content": "8.0 - 9.0",
+    "is_answer": false,
+    "selection_frequency": "0.1000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 104,
+  "fields": {
+    "public_id": "b9363127-c9d7-4ba3-a880-45447c237c3a",
+    "question": 26,
+    "content": "1.0 - 2.0",
+    "is_answer": false,
+    "selection_frequency": "0.0800",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 105,
+  "fields": {
+    "public_id": "f0526139-2021-4f7c-ab5e-61d3b38e0903",
+    "question": 27,
+    "content": "Yellow",
+    "is_answer": false,
+    "selection_frequency": "0.1000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 106,
+  "fields": {
+    "public_id": "89a0e57d-47a6-4f54-8a53-f384004cbdeb",
+    "question": 27,
+    "content": "Orange",
+    "is_answer": false,
+    "selection_frequency": "0.1000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 107,
+  "fields": {
+    "public_id": "4e118f9a-e252-4c82-bd36-f75b842d6d96",
+    "question": 27,
+    "content": "Blue",
+    "is_answer": false,
+    "selection_frequency": "0.2900",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 108,
+  "fields": {
+    "public_id": "e919abcf-00df-4a1d-b7e4-97e1cb60afe3",
+    "question": 27,
+    "content": "Green",
+    "is_answer": true,
+    "selection_frequency": "0.5100",
+    "images": []
+  }
+}
+]

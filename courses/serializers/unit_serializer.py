@@ -5,4 +5,4 @@ from courses.models import Unit
 class UnitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Unit
-        fields = "__all__"
+        exclude = ["id"]

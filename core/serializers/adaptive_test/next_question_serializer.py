@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
-from .question_image_serializer import QuestionImageSerializer
-from .adaptive_test_option_serializer import AdaptiveTestOptionSerializer
+from .question_option_serializer import AdaptiveTestOptionSerializer
 
 
 class NextQuestionSerializer(serializers.Serializer):
@@ -13,8 +12,6 @@ class NextQuestionSerializer(serializers.Serializer):
         write_only=True, required=True, allow_blank=False
     )
 
-    public_id = serializers.CharField(
-        source="question.public_id", read_only=True
-    )
+    public_id = serializers.CharField(source="question.public_id", read_only=True)
     content = serializers.CharField(source="question.content", read_only=True)
     options = AdaptiveTestOptionSerializer(many=True, read_only=True)
