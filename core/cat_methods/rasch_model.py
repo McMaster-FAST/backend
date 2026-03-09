@@ -1,5 +1,3 @@
-from decimal import Decimal
-
 from analytics.models import UserTopicAbilityScore
 from .adaptive_test_model import AdaptiveTestModel
 from .adaptive_test_utils import max_apost, mle
@@ -22,7 +20,7 @@ class RaschModel(AdaptiveTestModel):
     We are using MLE for ability estimation, but only after a certain number of questions have been answered.
     Before that point we use MAP. This helps supposedly...
     """
-
+    @staticmethod
     def select_next_item(
         user: MacFastUser,
         subtopic: UnitSubtopic,
@@ -48,7 +46,8 @@ class RaschModel(AdaptiveTestModel):
             return None
 
         return random.choice(potential_questions)
-
+    
+    @staticmethod
     def compute_ability(
         user: MacFastUser, subtopic: UnitSubtopic
     ) -> tuple[float, float]:

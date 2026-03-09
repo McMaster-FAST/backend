@@ -35,7 +35,7 @@ SECRET_KEY = os.getenv(
 DEBUG = os.getenv("DEBUG", "False") == "True"
 LOG_LEVEL = os.getenv("LOG_LEVEL", "WARN")
 python_logging_level = logging.getLevelNamesMapping()[LOG_LEVEL]
-print(python_logging_level)
+
 # Configure python logging
 logging.basicConfig(level=python_logging_level)
 

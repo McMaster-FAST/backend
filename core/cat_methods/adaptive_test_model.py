@@ -11,5 +11,5 @@ class AdaptiveTestModel:
     ) -> Question | None:
         raise NotImplementedError
 
-    def compute_ability(user: MacFastUser) -> float:
+    def compute_ability(user: MacFastUser, subtopic: UnitSubtopic) -> float:
         raise NotImplementedError

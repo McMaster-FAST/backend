@@ -26,8 +26,6 @@ def parse_file(file_name: str, file_data: bytes, course: dict, create_required: 
     :param course: Dictionary containing course identifiers (code, year, semester).
     :param create_required: Create all required related entities if they do not exist, with the exception of Course.
     """
-    total_questions = 0
-    failures = 0
     try:
         # Unpack dict into kwargs
         course = Course.objects.get(**course)
@@ -40,7 +38,6 @@ def parse_file(file_name: str, file_data: bytes, course: dict, create_required: 
                 try:
                     insert_data(question_data, course, create_required, temp_file.name)
                 except Exception as e:
-                    failures += 1
                     if isinstance(e, IntegrityError):
                         print(f"Insertion failed for question with serial number {question_data.get('serial_number')}. Integrity error: {e}")
                     elif isinstance(e, DocxParsingError):
