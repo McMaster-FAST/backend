@@ -1,16 +1,19 @@
+from decimal import Decimal
+
 from analytics.models import UserTopicAbilityScore
-from core.cat_methods.adaptive_test_model import AdaptiveTestModel
-from core.cat_methods.adaptive_test_utils import max_apost, mle
-from core.models import (
+from .adaptive_test_model import AdaptiveTestModel
+from .adaptive_test_utils import max_apost, mle
+from ..models import (
     Question,
+    TestSession,
     TestingParameters,
 )
 from courses.models import UnitSubtopic
 from sso_auth.models import MacFastUser
 from analytics.models import QuestionAttempt
 import random
-from django.core.cache import cache
 from logging import getLogger
+
 logger = getLogger(__name__)
 class RaschModel(AdaptiveTestModel):
     """
@@ -23,26 +26,23 @@ class RaschModel(AdaptiveTestModel):
     def select_next_item(
         user: MacFastUser,
         subtopic: UnitSubtopic,
-        test_parameters: TestingParameters,
         unavailable_qs: list[int],
     ) -> Question:
         user_topic_ability_score, _ = UserTopicAbilityScore.objects.get_or_create(
             user=user, unit_sub_topic=subtopic
         )
         current_ability = float(user_topic_ability_score.score)
+        test_session, _ = TestSession.objects.get_or_create(user=user, subtopic=subtopic)
 
-        item_difficulty_lower_bound = (
-            current_ability - test_parameters.question_selection_window
-        )
-        item_difficulty_upper_bound = (
-            current_ability + test_parameters.question_selection_window
-        )
-
-        potential_questions = Question.objects.filter(
+        item_difficulty_upper_bound = current_ability + test_session.selection_upper_bound
+        item_difficulty_lower_bound = current_ability + test_session.selection_lower_bound
+        all_questions = Question.objects.filter(
             subtopic=subtopic,
             difficulty__gte=item_difficulty_lower_bound,
             difficulty__lte=item_difficulty_upper_bound,
-        ).exclude(id__in=unavailable_qs)
+        )
+        print(all_questions)
+        potential_questions = all_questions.exclude(id__in=unavailable_qs)
 
         if not potential_questions.exists():
             return None
@@ -62,7 +62,7 @@ class RaschModel(AdaptiveTestModel):
             user=user, question__subtopic=subtopic, skipped=False
         ).values_list("question__difficulty", "answered_correctly")
         logger.debug("User responses for ability estimation: %s", list(responses))
-        params: TestingParameters = cache.get(TestingParameters.get_cache_name(subtopic.unit.course.public_id), default=TestingParameters.objects.get_or_create(course=subtopic.unit.course)[0])
+        params = TestingParameters.objects.get_or_create(course=subtopic.unit.course)[0]
         if len(responses) < params.warmpup_length:
             return max_apost(responses, prev_abiltiy_score, prev_variance)
         return mle(responses, prev_abiltiy_score)

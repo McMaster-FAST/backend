@@ -10,13 +10,14 @@ from .views import (
     EnrolmentViewSet,
 )
 
-from core.views import QuestionViewSet, OptionViewSet
+from core.views import OptionViewSet, QuestionViewSet, TestSessionViewSet
 
 router = DefaultRouter()
 router.register(r"courses", CourseViewSet, basename="courses")
 router.register(r"units", UnitViewSet, basename="units")
 router.register(r"subtopics", SubtopicViewSet, basename="subtopics")
 router.register(r"questions", QuestionViewSet, basename="questions")
+router.register(r"test-sessions", TestSessionViewSet, basename="test-sessions")
 router.register(r"study-aids", StudyAidViewSet, basename="study-aids")
 router.register(r"enrolments", EnrolmentViewSet, basename="enrolments")
 

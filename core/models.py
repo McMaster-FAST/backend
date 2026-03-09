@@ -112,6 +112,24 @@ def question_image_delete(sender, instance, **kwargs):
     instance.image_file.delete(False)
 
 
+class TestSession(UUIDModel):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    subtopic = models.ForeignKey(
+        "courses.UnitSubtopic", on_delete=models.CASCADE, null=True
+    )
+    # The window that we can pick questions from for this user.
+    selection_upper_bound = models.FloatField(default=0.5)
+    selection_lower_bound = models.FloatField(default=0.5)
+    has_seen_stop_message = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Test Session"
+        verbose_name_plural = "Test Sessions"
+
+    def __str__(self):
+        return f"Test Session for {self.user} in {self.subtopic}"
+
+
 class AdaptiveTestQuestionMetrics(UUIDModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
@@ -133,12 +151,13 @@ class TestingParameters(UUIDModel):
 
     # How many questions to use MAP for before switch to MLE
     warmpup_length = models.IntegerField(default=3)
-    # How far a question can be from the user's current ability and still be selected.
-    question_selection_window = models.FloatField(default=0.5)
     skip_readmit_delay = models.IntegerField(default=5)
     max_skips = models.IntegerField(default=3)
     max_question_repetitions = models.IntegerField(default=3)
     min_questions_between_repitions = models.IntegerField(default=5)
+    # The variance at which the user should probably stop practicing and move on to the next subtopic.
+    suggested_stopping_threshold = models.FloatField(default=0.8)
+    window_increment = models.FloatField(default=0.25)
 
     class Meta:
         verbose_name = "Testing Parameters"
