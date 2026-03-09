@@ -30,7 +30,7 @@ class UploadView(APIView):
         }
         create_required = serializer.validated_data.get("create_required")
 
-        parse_file(
+        parse_file.delay(
             uploaded_file.name, 
             uploaded_file.read(), 
             course, 
