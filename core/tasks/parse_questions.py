@@ -98,7 +98,8 @@ def create_question(question_data, selection_frequency: float, subtopic, difficu
             content=question_data.get("content", ""),
             answer_explanation=question_data.get("explanation", ""),
             selection_frequency=selection_frequency,
-            difficulty= difficulty if difficulty is not None else calculate_difficulty_for_test(selection_frequency),
+            difficulty=difficulty if difficulty is not None else calculate_difficulty_for_test(selection_frequency),
+            is_verified=True # TODO: remove this once we have a way to verify questions
         )
     return question
 
@@ -158,36 +159,46 @@ def insert_csv_data(question_data: dict, course: Course, create_required: bool) 
     
     :param question_data: Dictionary containing question details from CSV.
     :param course: Course instance that will be referenced in the unit the question belongs to.
-    :param create_required: If True, creates Unit and UnitSubtopic if they do not exist. For CSV, subtopic is set to None initially and will be updated later.
+    :param create_required: If True, creates Unit and UnitSubtopic if they do not exist.
     """
     answer_index = ord(question_data.get("answer").upper()) - ord("A")
-    freq_str = question_data.get("option_selection_frequencies")[answer_index]
-    selection_frequency = str_to_float(freq_str)
-    
-    # TODO: For CSV, unit and subtopic mapping are in a different file, they will be set later through a different method, So we'll create the question without subtopic initially
-    
+
+    # TODO: map unit and subtopic dynamically instead of hardcoding (see csv/parser.py)
+    unit_name = question_data.get("unit", "").strip()
+    subtopic_name = question_data.get("subtopic", "").strip()
+    raw_unit_number = question_data.get("unit_number", "")
+    unit_number = int(raw_unit_number) if raw_unit_number not in (None, "") else -1
+
     with transaction.atomic():
-        # Use the provided IRT parameters from CSV
-        difficulty = question_data.get("difficulty", 0.0)
-        discrimination = question_data.get("discrimination", 1.0)
-        guessing = question_data.get("guessing", 0.0)
-        
-        # If difficulty is 0, calculate it from selection frequency
-        if difficulty == 0.0 and selection_frequency > 0:
-            difficulty = None  # Will be calculated in create_question
-        
-        # Use shared create_question function
-        question = create_question(
-            question_data, 
-            question_data.get("selection_frequency", selection_frequency),
-            subtopic=None,  # Will be set later
-            difficulty=difficulty
-        )
-        
-        # TODO: images for CSV files
-        
-        # Use shared create_question_options function
-        create_question_options(question_data, answer_index, question)
-        
-        # Use shared create_question_comments function
+        subtopic = None
+        if unit_name and subtopic_name:
+            if create_required:
+                unit, _ = Unit.objects.get_or_create(defaults={"number": unit_number}, course=course, name=unit_name)
+                subtopic, _ = UnitSubtopic.objects.get_or_create(unit=unit, name=subtopic_name)
+            else:
+                try:
+                    unit = Unit.objects.get(course=course, name=unit_name)
+                    subtopic = UnitSubtopic.objects.get(unit=unit, name=subtopic_name)
+                except (Unit.DoesNotExist, UnitSubtopic.DoesNotExist):
+                    subtopic = None
+
+        # Brightspace CSV has no selection stats; use model defaults (0)
+        question = create_question(question_data, 0.0, subtopic)
+
+        # QuestionImage requires actual file data, so we just log it for now, but we don't create the images yet.
+        for image in question_data.get("images", []):
+            image_path = image.get("src", "")
+            if image_path:
+                print(f"CSV image reference for {question.serial_number}: {image_path} (file not embedded in CSV, skipping QuestionImage creation)")
+
+        create_csv_question_options(question_data, answer_index, question)
         create_question_comments(question_data, question)
+
+
+def create_csv_question_options(question_data, answer_index, question):
+    for idx, option_content in enumerate(question_data.get("options", [])):
+        QuestionOption.objects.create(
+            question=question,
+            content=option_content,
+            is_answer=(idx == answer_index),
+        )
