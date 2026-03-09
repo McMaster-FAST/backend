@@ -41,7 +41,7 @@ class RaschModel(AdaptiveTestModel):
             difficulty__gte=item_difficulty_lower_bound,
             difficulty__lte=item_difficulty_upper_bound,
         )
-        print(all_questions)
+        logger.debug(all_questions)
         potential_questions = all_questions.exclude(id__in=unavailable_qs)
 
         if not potential_questions.exists():

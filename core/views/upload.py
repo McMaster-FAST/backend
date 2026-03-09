@@ -5,6 +5,8 @@ from rest_framework import status
 
 from ..serializers import FileUploadSerializer
 from ..tasks import parse_file
+from logging import getLogger
+logger = getLogger(__name__)
 
 class UploadView(APIView):
     """
@@ -18,7 +20,7 @@ class UploadView(APIView):
         Handles PUT requests for uploading question banks.
         """
         serializer = FileUploadSerializer(data=request.data)
-        print("Received file upload request with data:", request.data)
+        logger.debug("Received file upload request with data:", request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
