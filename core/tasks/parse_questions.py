@@ -8,6 +8,8 @@ from core.models import Question, QuestionComment, QuestionOption, QuestionImage
 from courses.models import Course, Unit, UnitSubtopic
 from .docx.parser import parse_questions_from_docx
 from .docx.formats import docx_table_format_a
+from .csv.parser import parse_questions_from_csv
+from .utils import str_to_float
 
 import os
 import tempfile
@@ -32,25 +34,30 @@ def parse_file(file_name: str, file_data: bytes, course: dict, create_required: 
         course = Course.objects.get(**course)
     except Course.DoesNotExist:
         raise ValueError(f"No course found with identifiers: {course}")
+    
     if file_name.endswith(".docx"):
         with tempfile.NamedTemporaryFile(delete=False, suffix=".docx") as temp_file:
             temp_file.write(file_data)
             for question_data in parse_questions_from_docx(temp_file.name, docx_table_format_a):
                 try:
-                    insert_data(question_data, course, create_required, temp_file.name)
+                    insert_docx_data(question_data, course, create_required, temp_file.name)
                 except IntegrityError as e: # Make db errors quieter
                     print(f"Failed inserting {question_data.get('serial_number')} with: {e}")
 
-    else:
-        raise ValueError("Unsupported file format. Only .docx files are supported.")
-
-def str_to_float(value: str) -> float:
-    try:
-        return float(value)
-    except (ValueError, TypeError):
-        return 0.0
+    elif file_name.endswith(".csv"):
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".csv", mode='wb') as temp_file:
+            temp_file.write(file_data)
+            temp_file.flush()
+            for question_data in parse_questions_from_csv(temp_file.name):
+                try:
+                    insert_csv_data(question_data, course, create_required)
+                except IntegrityError as e: # Make db errors quieter
+                    print(f"Failed inserting {question_data.get('serial_number')} with: {e}")
     
-def insert_data(question_data: dict, course: Course, create_required: bool, temp_file_name: str) -> None:
+    else:
+        raise ValueError("Unsupported file format. Only .docx and .csv files are supported.")
+
+def insert_docx_data(question_data: dict, course: Course, create_required: bool, temp_file_name: str) -> None:
     """
     Inserts parsed question data into the database.
     
@@ -84,14 +91,15 @@ def insert_data(question_data: dict, course: Course, create_required: bool, temp
         create_question_options(question_data, answer_index, question)
         create_question_comments(question_data, question)
 
-def create_question(question_data, selection_frequency: float, subtopic):
+def create_question(question_data, selection_frequency: float, subtopic, difficulty: float = None):
     question = Question.objects.create(
             subtopic=subtopic,
             serial_number=question_data.get("serial_number"),
             content=question_data.get("content", ""),
             answer_explanation=question_data.get("explanation", ""),
             selection_frequency=selection_frequency,
-            difficulty=calculate_difficulty_for_test(selection_frequency),
+            difficulty=difficulty if difficulty is not None else calculate_difficulty_for_test(selection_frequency),
+            is_verified=True # TODO: remove this once we have a way to verify questions
         )
     return question
 
@@ -143,3 +151,54 @@ def calculate_difficulty_for_test(selection_frequency: float) -> float:
         return round(difficulty, 4)
     except ValueError:
         return 0.0
+
+
+def insert_csv_data(question_data: dict, course: Course, create_required: bool) -> None:
+    """
+    Inserts parsed question data from CSV into the database.
+    
+    :param question_data: Dictionary containing question details from CSV.
+    :param course: Course instance that will be referenced in the unit the question belongs to.
+    :param create_required: If True, creates Unit and UnitSubtopic if they do not exist.
+    """
+    answer_index = ord(question_data.get("answer").upper()) - ord("A")
+
+    # TODO: map unit and subtopic dynamically instead of hardcoding (see csv/parser.py)
+    unit_name = question_data.get("unit", "").strip()
+    subtopic_name = question_data.get("subtopic", "").strip()
+    raw_unit_number = question_data.get("unit_number", "")
+    unit_number = int(raw_unit_number) if raw_unit_number not in (None, "") else -1
+
+    with transaction.atomic():
+        subtopic = None
+        if unit_name and subtopic_name:
+            if create_required:
+                unit, _ = Unit.objects.get_or_create(defaults={"number": unit_number}, course=course, name=unit_name)
+                subtopic, _ = UnitSubtopic.objects.get_or_create(unit=unit, name=subtopic_name)
+            else:
+                try:
+                    unit = Unit.objects.get(course=course, name=unit_name)
+                    subtopic = UnitSubtopic.objects.get(unit=unit, name=subtopic_name)
+                except (Unit.DoesNotExist, UnitSubtopic.DoesNotExist):
+                    subtopic = None
+
+        # Brightspace CSV has no selection stats; use model defaults (0)
+        question = create_question(question_data, 0.0, subtopic)
+
+        # QuestionImage requires actual file data, so we just log it for now, but we don't create the images yet.
+        for image in question_data.get("images", []):
+            image_path = image.get("src", "")
+            if image_path:
+                print(f"CSV image reference for {question.serial_number}: {image_path} (file not embedded in CSV, skipping QuestionImage creation)")
+
+        create_csv_question_options(question_data, answer_index, question)
+        create_question_comments(question_data, question)
+
+
+def create_csv_question_options(question_data, answer_index, question):
+    for idx, option_content in enumerate(question_data.get("options", [])):
+        QuestionOption.objects.create(
+            question=question,
+            content=option_content,
+            is_answer=(idx == answer_index),
+        )
