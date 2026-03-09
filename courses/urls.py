@@ -2,6 +2,8 @@ from django.urls import path, include
 
 from rest_framework_nested.routers import DefaultRouter, NestedDefaultRouter
 
+from core.views.question_comment_viewset import QuestionCommentViewSet
+
 from .views import (
     CourseViewSet,
     UnitViewSet,
@@ -18,6 +20,7 @@ router.register(r"units", UnitViewSet, basename="units")
 router.register(r"subtopics", SubtopicViewSet, basename="subtopics")
 router.register(r"questions", QuestionViewSet, basename="questions")
 router.register(r"test-sessions", TestSessionViewSet, basename="test-sessions")
+router.register(r"comments", QuestionCommentViewSet, basename="comments")
 router.register(r"study-aids", StudyAidViewSet, basename="study-aids")
 router.register(r"enrolments", EnrolmentViewSet, basename="enrolments")
 
@@ -37,6 +40,9 @@ subtopics_router.register(r"questions", QuestionViewSet, basename="subtopic-ques
 
 questions_router = NestedDefaultRouter(router, r"questions", lookup="question")
 questions_router.register(r"options", OptionViewSet, basename="question-options")
+questions_router.register(
+    r"comments", QuestionCommentViewSet, basename="question-comments"
+)
 
 urlpatterns = [
     path(r"", include(router.urls)),
