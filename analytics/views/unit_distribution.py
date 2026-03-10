@@ -13,7 +13,8 @@ class UnitDistributionView(BaseAnalyticsView):
     def _get_statistics(self, course_id: int) -> list[dict]:
         statistics = (
             QuestionAttempt.objects.filter(
-                question__subtopic__unit__course_id=course_id
+                question__subtopic__unit__course_id=course_id,
+                user__isnull=False,
             )
             .values(
                 'user__id',

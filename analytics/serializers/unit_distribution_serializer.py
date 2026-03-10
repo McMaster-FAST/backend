@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 
 class UnitDistributionRequestSerializer(serializers.Serializer):
-    course_id = serializers.IntegerField(required=True)
+    course_public_id = serializers.UUIDField(required=True)
 
 
 class UnitStatisticsSerializer(serializers.Serializer):
@@ -16,5 +16,5 @@ class UnitStatisticsSerializer(serializers.Serializer):
 
 
 class UnitDistributionResponseSerializer(serializers.Serializer):
-    course_id = serializers.IntegerField()
+    course_public_id = serializers.UUIDField()
     statistics = UnitStatisticsSerializer(many=True)

@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 
 class TimePerQuestionRequestSerializer(serializers.Serializer):
-    course_id = serializers.IntegerField(required=True)
+    course_public_id = serializers.UUIDField(required=True)
 
 
 class QuestionTimeStatisticsSerializer(serializers.Serializer):
@@ -20,5 +20,5 @@ class QuestionTimeStatisticsSerializer(serializers.Serializer):
 
 
 class TimePerQuestionResponseSerializer(serializers.Serializer):
-    course_id = serializers.IntegerField()
+    course_public_id = serializers.UUIDField()
     statistics = QuestionTimeStatisticsSerializer(many=True)

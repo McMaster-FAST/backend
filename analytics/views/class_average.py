@@ -1,6 +1,6 @@
 from django.db.models import Avg
 from django.db.models import Count
-from django.db.models import FloatField
+from django.db.models import IntegerField
 from django.db.models.functions import Cast
 
 from analytics.models import QuestionAttempt
@@ -27,7 +27,7 @@ class ClassAverageView(BaseAnalyticsView):
             )
             .annotate(
                 average_score=Avg(
-                    Cast('answered_correctly', output_field=FloatField())
+                    Cast('answered_correctly', output_field=IntegerField())
                 ),
                 total_attempts=Count('id'),
                 unique_students=Count('user', distinct=True),
