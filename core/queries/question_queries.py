@@ -234,20 +234,20 @@ def lower_window_floor(test_session: TestSession):
     item_difficulty_upper_bound = current_ability + test_session.selection_upper_bound
     item_difficulty_lower_bound = current_ability + test_session.selection_lower_bound
 
-    # Naive: increment window upper bound until we have a potential question.
+    # Naive: decrement window lower bound until we have a potential question.
     potential_questions = get_potential_questions(
         user, subtopic, item_difficulty_lower_bound, item_difficulty_upper_bound
     )
 
     while (
         not potential_questions.exists()
-        and item_difficulty_upper_bound < DIFFICULTY_UPPERBOUND
+        and item_difficulty_lower_bound < DIFFICULTY_LOWERBOUND
     ):
-        item_difficulty_upper_bound += test_parameters.window_increment
+        item_difficulty_lower_bound -= test_parameters.window_increment
         potential_questions = get_potential_questions(
             user, subtopic, item_difficulty_lower_bound, item_difficulty_upper_bound
         )
-    test_session.selection_upper_bound = item_difficulty_upper_bound - current_ability
+    test_session.selection_lower_bound = item_difficulty_lower_bound - current_ability
     test_session.save()
 
 
