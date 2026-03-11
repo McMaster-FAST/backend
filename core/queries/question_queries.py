@@ -47,14 +47,15 @@ class UserSuggestedAction(enum.Enum):
 
 
 def get_user_unavailable_questions(user: MacFastUser, subtopic: UnitSubtopic):
-    testing_parameters, _ = TestingParameters.objects.get_or_create(
-        course=subtopic.unit.course
-    )
+    testing_parameters = TestingParameters.objects.get(course=subtopic.unit.course)
+    test_session, _ = TestSession.objects.get_or_create(user=user, subtopic=subtopic)
+
     return AdaptiveTestQuestionMetrics.objects.filter(
         user=user,
         question__subtopic=subtopic,
-        questions_since_last_skipped__lt=testing_parameters.skip_readmit_delay,
-        total_times_seen__gte=testing_parameters.max_question_repetitions,
+        # If we haven't seen enough questions since the last skip, we don't show this question
+        skipped_at_index__gt=test_session.questions_answered_count - testing_parameters.skip_readmit_delay,
+        total_times_seen__gt=testing_parameters.max_question_repetitions,
     ).values_list("question_id", flat=True)
 
 
@@ -88,16 +89,7 @@ def get_next_question_bundle(
         user_ability, _ = UserTopicAbilityScore.objects.get_or_create(
             user=user, unit_sub_topic=subtopic
         )
-        if (
-            float(user_ability.score) + test_session.selection_upper_bound
-            < DIFFICULTY_UPPERBOUND
-        ):
-            continue_actions.append(ContinueActions.INCREMENT_WINDOW_UPPERBOUND)
-        if (
-            float(user_ability.score) + test_session.selection_lower_bound
-            > DIFFICULTY_LOWERBOUND
-        ):
-            continue_actions.append(ContinueActions.DECREMENT_WINDOW_LOWERBOUND)
+
         if (
             float(user_ability.variance) <= test_parameters.suggested_stopping_threshold
             and not test_session.has_seen_stop_message
@@ -114,6 +106,55 @@ def get_next_question_bundle(
         [],
         suggested_actions,
     )
+
+
+def determine_continue_actions(
+    user: MacFastUser, subtopic: UnitSubtopic
+) -> list[ContinueActions]:
+    test_session, _ = TestSession.objects.get_or_create(user=user, subtopic=subtopic)
+    user_ability, _ = UserTopicAbilityScore.objects.get_or_create(
+        user=user, unit_sub_topic=subtopic
+    )
+    continue_actions = []
+    max_visible_difficulty = (
+        float(user_ability.score) + test_session.selection_upper_bound
+    )
+    min_visible_difficulty = (
+        float(user_ability.score) + test_session.selection_lower_bound
+    )
+    if max_visible_difficulty < DIFFICULTY_UPPERBOUND:
+        continue_actions.append(ContinueActions.INCREMENT_WINDOW_UPPERBOUND)
+    if min_visible_difficulty > DIFFICULTY_LOWERBOUND:
+        continue_actions.append(ContinueActions.DECREMENT_WINDOW_LOWERBOUND)
+    skipped_questions = AdaptiveTestQuestionMetrics.objects.filter(
+        user=user,
+        question__subtopic=subtopic,
+        questions_since_last_skipped__lt=TestingParameters.objects.get(
+            course=subtopic.unit.course
+        ).skip_readmit_delay,
+    )
+    return continue_actions
+
+
+def determine_suggested_actions(
+    user: MacFastUser, subtopic: UnitSubtopic
+) -> list[UserSuggestedAction]:
+    test_session, _ = TestSession.objects.get_or_create(user=user, subtopic=subtopic)
+    user_ability, _ = UserTopicAbilityScore.objects.get_or_create(
+        user=user, unit_sub_topic=subtopic
+    )
+    suggested_actions = []
+    stopping_threshold = TestingParameters.objects.get(
+        course=subtopic.unit.course
+    ).suggested_stopping_threshold
+    if (
+        float(user_ability.variance) <= stopping_threshold
+        and not test_session.has_seen_stop_message
+    ):
+        suggested_actions.append(UserSuggestedAction.STOP_STUDYING)
+        test_session.has_seen_stop_message = True
+        test_session.save()
+    return suggested_actions
 
 
 def get_potential_questions(
@@ -234,6 +275,7 @@ def add_response(
     question_info, _ = AdaptiveTestQuestionMetrics.objects.get_or_create(
         user=user, question=question
     )
+    test_session, _ = TestSession.objects.get_or_create(user=user, subtopic=question.subtopic)
     if selected_option is None:
         max_skips = TestingParameters.objects.get(
             course=question.subtopic.unit.course
@@ -241,10 +283,9 @@ def add_response(
         if question_info.total_times_skipped >= max_skips:
             raise TooManySkipsException()
         question_info.total_times_skipped += 1
-        question_info.questions_since_last_skipped = 0
+        question_info.skipped_at_index = test_session.questions_answered_count
     else:
-        # It might not currently be a "skipped" question but that doesn't matter
-        question_info.questions_since_last_skipped += 1
+        
         question_info.total_times_seen += 1
     question_info.save()
 

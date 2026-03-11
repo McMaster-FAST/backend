@@ -107,6 +107,7 @@ class TestSessionAdmin(admin.ModelAdmin):
         "subtopic",
         "selection_upper_bound",
         "selection_lower_bound",
+        "questions_answered_count",
     )
 
 
@@ -126,6 +127,6 @@ class AdaptiveTestQuestionMetricsAdmin(admin.ModelAdmin):
     list_display = (
         "user",
         "question",
-        "questions_since_last_skipped",
+        "skipped_at_index",
         "total_times_seen",
     )

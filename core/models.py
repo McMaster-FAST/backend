@@ -121,6 +121,7 @@ class TestSession(UUIDModel):
     selection_upper_bound = models.FloatField(default=0.5)
     selection_lower_bound = models.FloatField(default=-0.5)
     has_seen_stop_message = models.BooleanField(default=False)
+    questions_answered_count = models.IntegerField(default=0)
 
     class Meta:
         verbose_name = "Test Session"
@@ -133,7 +134,8 @@ class TestSession(UUIDModel):
 class AdaptiveTestQuestionMetrics(UUIDModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    questions_since_last_skipped = models.IntegerField(default=0)
+    # Corresponds to the number of questions asked in TestSession. Used to determine if we can show this skipped question yet.
+    skipped_at_index = models.IntegerField(null=True, blank=True)
     total_times_skipped = models.IntegerField(default=0)
     total_times_seen = models.IntegerField(default=0)
 
