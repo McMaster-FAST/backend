@@ -20,32 +20,6 @@ class RaschModel(AdaptiveTestModel):
     We are using MLE for ability estimation, but only after a certain number of questions have been answered.
     Before that point we use MAP. This helps supposedly...
     """
-    @staticmethod
-    def select_next_item(
-        user: MacFastUser,
-        subtopic: UnitSubtopic,
-        unavailable_qs: list[int],
-    ) -> Question:
-        user_topic_ability_score, _ = UserTopicAbilityScore.objects.get_or_create(
-            user=user, unit_sub_topic=subtopic
-        )
-        current_ability = float(user_topic_ability_score.score)
-        test_session, _ = TestSession.objects.get_or_create(user=user, subtopic=subtopic)
-
-        item_difficulty_upper_bound = current_ability + test_session.selection_upper_bound
-        item_difficulty_lower_bound = current_ability + test_session.selection_lower_bound
-        all_questions = Question.objects.filter(
-            subtopic=subtopic,
-            difficulty__gte=item_difficulty_lower_bound,
-            difficulty__lte=item_difficulty_upper_bound,
-        )
-        logger.debug(all_questions)
-        potential_questions = all_questions.exclude(id__in=unavailable_qs)
-
-        if not potential_questions.exists():
-            return None
-
-        return random.choice(potential_questions)
     
     @staticmethod
     def compute_ability(

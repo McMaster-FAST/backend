@@ -119,7 +119,7 @@ class TestSession(UUIDModel):
     )
     # The window that we can pick questions from for this user.
     selection_upper_bound = models.FloatField(default=0.5)
-    selection_lower_bound = models.FloatField(default=0.5)
+    selection_lower_bound = models.FloatField(default=-0.5)
     has_seen_stop_message = models.BooleanField(default=False)
 
     class Meta:

@@ -1,4 +1,5 @@
 import enum
+import random
 
 from analytics.models import QuestionAttempt, UserTopicAbilityScore
 from core.serializers.adaptive_test.next_question_serializer import (
@@ -34,6 +35,7 @@ class ContinueActions(enum.Enum):
 
     INCREMENT_WINDOW_UPPERBOUND = "INCREMENT_WINDOW_UPPERBOUND"
     DECREMENT_WINDOW_LOWERBOUND = "DECREMENT_WINDOW_LOWERBOUND"
+    USE_SKIPPED_QUESTIONS = "USE_SKIPPED_QUESTIONS"
 
 
 class UserSuggestedAction(enum.Enum):
@@ -43,6 +45,19 @@ class UserSuggestedAction(enum.Enum):
 
     STOP_STUDYING = "STOP_STUDYING"
 
+
+def get_user_unavailable_questions(user: MacFastUser, subtopic: UnitSubtopic):
+    testing_parameters, _ = TestingParameters.objects.get_or_create(
+        course=subtopic.unit.course
+    )
+    return AdaptiveTestQuestionMetrics.objects.filter(
+        user=user,
+        question__subtopic=subtopic,
+        questions_since_last_skipped__lt=testing_parameters.skip_readmit_delay,
+        total_times_seen__gte=testing_parameters.max_question_repetitions,
+    ).values_list("question_id", flat=True)
+
+
 @transaction.atomic
 def get_next_question_bundle(
     user: MacFastUser, subtopic: UnitSubtopic, model: AdaptiveTestModel = RaschModel
@@ -51,20 +66,21 @@ def get_next_question_bundle(
     test_parameters, _ = TestingParameters.objects.get_or_create(
         course=subtopic.unit.course
     )
-    # We do not want to show questions that have been recently skipped, or seen too many times.
-    unavailable_qs = AdaptiveTestQuestionMetrics.objects.filter(
-        user=user,
-        question__subtopic=subtopic,
-        questions_since_last_skipped__lt=test_parameters.skip_readmit_delay,
-        total_times_seen__gte=test_parameters.max_question_repetitions,
-    ).values_list("question_id", flat=True)
 
-    logger.info(
-        f"Unavailable questions for user {user.id} in subtopic {subtopic.id}: {list(unavailable_qs)}"
+    user_topic_ability_score, _ = UserTopicAbilityScore.objects.get_or_create(
+        user=user, unit_sub_topic=subtopic
     )
-    next_question = model.select_next_item(user, subtopic, unavailable_qs)
+    current_ability = float(user_topic_ability_score.score)
+    test_session, _ = TestSession.objects.get_or_create(user=user, subtopic=subtopic)
+    item_difficulty_upper_bound = current_ability + test_session.selection_upper_bound
+    item_difficulty_lower_bound = current_ability + test_session.selection_lower_bound
+
+    next_question = select_next_question(
+        user, subtopic, item_difficulty_lower_bound, item_difficulty_upper_bound
+    )
     continue_actions = []
     suggested_actions = []
+
     if next_question is None:
         test_session, _ = TestSession.objects.get_or_create(
             user=user, subtopic=subtopic
@@ -72,18 +88,20 @@ def get_next_question_bundle(
         user_ability, _ = UserTopicAbilityScore.objects.get_or_create(
             user=user, unit_sub_topic=subtopic
         )
-
         if (
             float(user_ability.score) + test_session.selection_upper_bound
             < DIFFICULTY_UPPERBOUND
         ):
             continue_actions.append(ContinueActions.INCREMENT_WINDOW_UPPERBOUND)
         if (
-            float(user_ability.score) - test_session.selection_lower_bound
+            float(user_ability.score) + test_session.selection_lower_bound
             > DIFFICULTY_LOWERBOUND
         ):
             continue_actions.append(ContinueActions.DECREMENT_WINDOW_LOWERBOUND)
-        if float(user_ability.variance) <= test_parameters.suggested_stopping_threshold and not test_session.has_seen_stop_message:
+        if (
+            float(user_ability.variance) <= test_parameters.suggested_stopping_threshold
+            and not test_session.has_seen_stop_message
+        ):
             suggested_actions.append(UserSuggestedAction.STOP_STUDYING)
             test_session.has_seen_stop_message = True
             test_session.save()
@@ -97,8 +115,104 @@ def get_next_question_bundle(
         suggested_actions,
     )
 
+
+def get_potential_questions(
+    user: MacFastUser,
+    subtopic: UnitSubtopic,
+    item_difficulty_lower_bound: float,
+    item_difficulty_upper_bound: float,
+):
+    all_questions = Question.objects.filter(
+        subtopic=subtopic,
+        difficulty__gte=item_difficulty_lower_bound,
+        difficulty__lte=item_difficulty_upper_bound,
+    )
+    logger.debug(all_questions)
+    potential_questions = all_questions.exclude(
+        id__in=get_user_unavailable_questions(user, subtopic)
+    )
+    return potential_questions
+
+
+def select_next_question(
+    user: MacFastUser,
+    subtopic: UnitSubtopic,
+    item_difficulty_lower_bound: float,
+    item_difficulty_upper_bound: float,
+):
+    potential_questions = get_potential_questions(
+        user, subtopic, item_difficulty_lower_bound, item_difficulty_upper_bound
+    )
+    if not potential_questions.exists():
+        return None
+    return random.choice(potential_questions)
+
+
+def raise_window_ceiling(test_session: TestSession):
+    user = test_session.user
+    subtopic = test_session.subtopic
+    test_parameters, _ = TestingParameters.objects.get_or_create(
+        course=subtopic.unit.course
+    )
+    user_topic_ability_score, _ = UserTopicAbilityScore.objects.get_or_create(
+        user=user, unit_sub_topic=subtopic
+    )
+    current_ability = float(user_topic_ability_score.score)
+    test_session, _ = TestSession.objects.get_or_create(user=user, subtopic=subtopic)
+    item_difficulty_upper_bound = current_ability + test_session.selection_upper_bound
+    item_difficulty_lower_bound = current_ability + test_session.selection_lower_bound
+
+    # Naive: increment window upper bound until we have a potential question.
+    potential_questions = get_potential_questions(
+        user, subtopic, item_difficulty_lower_bound, item_difficulty_upper_bound
+    )
+
+    while (
+        not potential_questions.exists()
+        and item_difficulty_upper_bound < DIFFICULTY_UPPERBOUND
+    ):
+        item_difficulty_upper_bound += test_parameters.window_increment
+        potential_questions = get_potential_questions(
+            user, subtopic, item_difficulty_lower_bound, item_difficulty_upper_bound
+        )
+    test_session.selection_upper_bound = item_difficulty_upper_bound - current_ability
+    test_session.save()
+
+
+def lower_window_floor(test_session: TestSession):
+    user = test_session.user
+    subtopic = test_session.subtopic
+    test_parameters, _ = TestingParameters.objects.get_or_create(
+        course=subtopic.unit.course
+    )
+    user_topic_ability_score, _ = UserTopicAbilityScore.objects.get_or_create(
+        user=user, unit_sub_topic=subtopic
+    )
+    current_ability = float(user_topic_ability_score.score)
+
+    item_difficulty_upper_bound = current_ability + test_session.selection_upper_bound
+    item_difficulty_lower_bound = current_ability + test_session.selection_lower_bound
+
+    # Naive: increment window upper bound until we have a potential question.
+    potential_questions = get_potential_questions(
+        user, subtopic, item_difficulty_lower_bound, item_difficulty_upper_bound
+    )
+
+    while (
+        not potential_questions.exists()
+        and item_difficulty_upper_bound < DIFFICULTY_UPPERBOUND
+    ):
+        item_difficulty_upper_bound += test_parameters.window_increment
+        potential_questions = get_potential_questions(
+            user, subtopic, item_difficulty_lower_bound, item_difficulty_upper_bound
+        )
+    test_session.selection_upper_bound = item_difficulty_upper_bound - current_ability
+    test_session.save()
+
+
 class TooManySkipsException(Exception):
     pass
+
 
 @transaction.atomic
 def add_response(
@@ -121,7 +235,9 @@ def add_response(
         user=user, question=question
     )
     if selected_option is None:
-        max_skips = TestingParameters.objects.get(course=question.subtopic.unit.course).max_skips
+        max_skips = TestingParameters.objects.get(
+            course=question.subtopic.unit.course
+        ).max_skips
         if question_info.total_times_skipped >= max_skips:
             raise TooManySkipsException()
         question_info.total_times_skipped += 1
