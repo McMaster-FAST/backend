@@ -224,7 +224,7 @@ def lower_window_floor(test_session: TestSession):
 
     while (
         not potential_questions.exists()
-        and item_difficulty_lower_bound < DIFFICULTY_LOWERBOUND
+        and item_difficulty_lower_bound > DIFFICULTY_LOWERBOUND
     ):
         item_difficulty_lower_bound -= test_parameters.window_increment
         potential_questions = get_potential_questions(
