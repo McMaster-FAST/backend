@@ -1807,5 +1807,220 @@
     "selection_frequency": "0.5100",
     "images": []
   }
+},
+{
+  "model": "core.question",
+  "pk": 28,
+  "fields": {
+    "public_id": "240d98b9-f972-4721-91e9-e4750757c349",
+    "subtopic": 29,
+    "serial_number": "DEBUG_Q01_D_EASY_S1.01",
+    "content": "Question 1 (Difficulty: Easy): The integer 2 + 2 equals 4. Is this statement true?",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-2.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 29,
+  "fields": {
+    "public_id": "788f0811-0d1c-47a8-a6cc-57428cddad50",
+    "subtopic": 29,
+    "serial_number": "DEBUG_Q02_D_EASY_S1.01",
+    "content": "Question 2 (Difficulty: Easy): A Python list is immutable after creation. Is this statement true?",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 30,
+  "fields": {
+    "public_id": "924c6259-2e60-47b2-9f57-15cf422e76f3",
+    "subtopic": 29,
+    "serial_number": "DEBUG_Q03_D_MEDIUM_S1.01",
+    "content": "Question 3 (Difficulty: Medium): An HTTP 404 response indicates that the requested resource was not found. Is this statement true?",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 31,
+  "fields": {
+    "public_id": "ddec048a-20a6-4a2d-91fc-8c6e91c4ed6b",
+    "subtopic": 29,
+    "serial_number": "DEBUG_Q04_D_HARD_S1.01",
+    "content": "Question 4 (Difficulty: Hard): In SQL logical query processing, the SELECT clause is executed after ORDER BY. Is this statement true?",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 32,
+  "fields": {
+    "public_id": "59982559-68fc-4c22-b397-46a4d29ed8cb",
+    "subtopic": 29,
+    "serial_number": "DEBUG_Q05_D_HARD_S1.01",
+    "content": "Question 5 (Difficulty: Hard): In Git, merging a branch can create a commit with two parent commits. Is this statement true?",
+    "answer_explanation": "",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "2.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 109,
+  "fields": {
+    "public_id": "9dd362ae-d064-40b0-a954-cc663a65361f",
+    "question": 28,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 110,
+  "fields": {
+    "public_id": "e0f6df8d-a259-487c-9425-a5fd175a12a8",
+    "question": 28,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 111,
+  "fields": {
+    "public_id": "ae8f9c66-03ca-492a-8d2e-b0c29e7a81f9",
+    "question": 29,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 112,
+  "fields": {
+    "public_id": "75fee72d-164a-4f14-8a4d-1e7c7a50bf3f",
+    "question": 29,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 113,
+  "fields": {
+    "public_id": "29b8e693-0cd8-46ba-bcf2-2cfa1f8bfefc",
+    "question": 30,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 114,
+  "fields": {
+    "public_id": "4cf78c74-4631-46ad-95a4-8065375fd38f",
+    "question": 30,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 115,
+  "fields": {
+    "public_id": "7f116819-3b44-439e-b9cb-bb1b54990651",
+    "question": 31,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 116,
+  "fields": {
+    "public_id": "4c80bfdf-cadd-4bbc-95ae-311ef2478f64",
+    "question": 31,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 117,
+  "fields": {
+    "public_id": "45e3fa45-0b6b-481a-904f-517406820be2",
+    "question": 32,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 118,
+  "fields": {
+    "public_id": "332fcc03-ac6b-4174-89af-8e7815dcd64a",
+    "question": 32,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
 }
 ]
