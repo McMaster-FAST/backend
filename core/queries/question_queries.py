@@ -8,7 +8,7 @@ from core.serializers.adaptive_test.next_question_serializer import (
 from ..cat_methods.adaptive_test_model import AdaptiveTestModel
 from ..cat_methods.rasch_model import RaschModel
 from ..models import (
-    AdaptiveTestQuestionMetrics,
+    AdaptiveTestQuestionMetric,
     Question,
     QuestionOption,
     TestSession,
@@ -50,7 +50,7 @@ def get_user_unavailable_questions(user: MacFastUser, subtopic: UnitSubtopic):
     testing_parameters = TestingParameters.objects.get(course=subtopic.unit.course)
     test_session, _ = TestSession.objects.get_or_create(user=user, subtopic=subtopic)
 
-    return AdaptiveTestQuestionMetrics.objects.filter(
+    return AdaptiveTestQuestionMetric.objects.filter(
         user=user,
         question__subtopic=subtopic,
         # If we haven't seen enough questions since the last skip, we don't show this question
@@ -63,15 +63,10 @@ def get_user_unavailable_questions(user: MacFastUser, subtopic: UnitSubtopic):
 def get_next_question_bundle(
     user: MacFastUser, subtopic: UnitSubtopic, model: AdaptiveTestModel = RaschModel
 ) -> tuple[QuestionBundle | None, list[ContinueActions]]:
-
-    test_parameters, _ = TestingParameters.objects.get_or_create(
-        course=subtopic.unit.course
-    )
-
-    user_topic_ability_score, _ = UserTopicAbilityScore.objects.get_or_create(
+    user_ability, _ = UserTopicAbilityScore.objects.get_or_create(
         user=user, unit_sub_topic=subtopic
     )
-    current_ability = float(user_topic_ability_score.score)
+    current_ability = float(user_ability.score)
     test_session, _ = TestSession.objects.get_or_create(user=user, subtopic=subtopic)
     item_difficulty_upper_bound = current_ability + test_session.selection_upper_bound
     item_difficulty_lower_bound = current_ability + test_session.selection_lower_bound
@@ -79,32 +74,16 @@ def get_next_question_bundle(
     next_question = select_next_question(
         user, subtopic, item_difficulty_lower_bound, item_difficulty_upper_bound
     )
-    continue_actions = []
-    suggested_actions = []
 
     if next_question is None:
-        test_session, _ = TestSession.objects.get_or_create(
-            user=user, subtopic=subtopic
-        )
-        user_ability, _ = UserTopicAbilityScore.objects.get_or_create(
-            user=user, unit_sub_topic=subtopic
-        )
-
-        if (
-            float(user_ability.variance) <= test_parameters.suggested_stopping_threshold
-            and not test_session.has_seen_stop_message
-        ):
-            suggested_actions.append(UserSuggestedAction.STOP_STUDYING)
-            test_session.has_seen_stop_message = True
-            test_session.save()
-        return None, continue_actions, suggested_actions
+        return None, determine_continue_actions(user, subtopic), determine_suggested_actions(user, subtopic)
 
     options = QuestionOption.objects.filter(question=next_question)
     increment_view_count(user, next_question)
     return (
         QuestionBundle(question=next_question, options=options),
         [],
-        suggested_actions,
+        determine_suggested_actions(user, subtopic),
     )
 
 
@@ -126,13 +105,17 @@ def determine_continue_actions(
         continue_actions.append(ContinueActions.INCREMENT_WINDOW_UPPERBOUND)
     if min_visible_difficulty > DIFFICULTY_LOWERBOUND:
         continue_actions.append(ContinueActions.DECREMENT_WINDOW_LOWERBOUND)
-    skipped_questions = AdaptiveTestQuestionMetrics.objects.filter(
+
+    skip_readmit_delay = TestingParameters.objects.get(
+        course=subtopic.unit.course
+    ).skip_readmit_delay
+    skipped_questions = AdaptiveTestQuestionMetric.objects.filter(
         user=user,
         question__subtopic=subtopic,
-        questions_since_last_skipped__lt=TestingParameters.objects.get(
-            course=subtopic.unit.course
-        ).skip_readmit_delay,
+        skipped_at_index__gt=test_session.questions_answered_count - skip_readmit_delay,
     )
+    if skipped_questions.exists():
+        continue_actions.append(ContinueActions.USE_SKIPPED_QUESTIONS)
     return continue_actions
 
 
@@ -272,7 +255,7 @@ def add_response(
 
     @return: True if the response was recorded successfully, False if the action failed
     """
-    question_info, _ = AdaptiveTestQuestionMetrics.objects.get_or_create(
+    question_info, _ = AdaptiveTestQuestionMetric.objects.get_or_create(
         user=user, question=question
     )
     test_session, _ = TestSession.objects.get_or_create(user=user, subtopic=question.subtopic)
@@ -280,12 +263,12 @@ def add_response(
         max_skips = TestingParameters.objects.get(
             course=question.subtopic.unit.course
         ).max_skips
-        if question_info.total_times_skipped >= max_skips:
+        if question_info.skips_since_last_answer >= max_skips:
             raise TooManySkipsException()
-        question_info.total_times_skipped += 1
+        question_info.skips_since_last_answer += 1
         question_info.skipped_at_index = test_session.questions_answered_count
     else:
-        
+        question_info.skips_since_last_answer = 0
         question_info.total_times_seen += 1
     question_info.save()
 
@@ -316,7 +299,7 @@ def add_response(
 
 
 def increment_view_count(user, question):
-    metrics, _ = AdaptiveTestQuestionMetrics.objects.get_or_create(
+    metrics, _ = AdaptiveTestQuestionMetric.objects.get_or_create(
         user=user, question=question
     )
     metrics.total_times_seen += 1

@@ -131,16 +131,16 @@ class TestSession(UUIDModel):
         return f"Test Session for {self.user} in {self.subtopic}"
 
 
-class AdaptiveTestQuestionMetrics(UUIDModel):
+class AdaptiveTestQuestionMetric(UUIDModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     # Corresponds to the number of questions asked in TestSession. Used to determine if we can show this skipped question yet.
     skipped_at_index = models.IntegerField(null=True, blank=True)
-    total_times_skipped = models.IntegerField(default=0)
+    skips_since_last_answer = models.IntegerField(default=0)
     total_times_seen = models.IntegerField(default=0)
 
     class Meta:
-        verbose_name = "Adaptive Test Question Metrics"
+        verbose_name = "Adaptive Test Question Metric"
         verbose_name_plural = "Adaptive Test Question Metrics"
         unique_together = ("user", "question")
 

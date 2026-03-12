@@ -8,7 +8,7 @@ from .models import (
     QuestionImage,
     TestSession,
     TestingParameters,
-    AdaptiveTestQuestionMetrics,
+    AdaptiveTestQuestionMetric,
 )
 
 
@@ -122,7 +122,7 @@ class TestingParametersAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(AdaptiveTestQuestionMetrics)
+@admin.register(AdaptiveTestQuestionMetric)
 class AdaptiveTestQuestionMetricsAdmin(admin.ModelAdmin):
     list_display = (
         "user",
