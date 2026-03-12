@@ -13,6 +13,9 @@ import tempfile
 
 from math import log
 import re
+from logging import getLogger
+
+logger = getLogger(__name__)
 class DocxParsingError(Exception):
     pass
 
@@ -37,13 +40,14 @@ def parse_file(file_name: str, file_data: bytes, course: dict, create_required: 
             for question_data in parse_questions_from_docx(temp_file.name, docx_table_format_a):
                 try:
                     insert_data(question_data, course, create_required, temp_file.name)
+                    logger.info(f"Successfully inserted question with serial number {question_data.get('serial_number')}")
                 except Exception as e:
                     if isinstance(e, IntegrityError):
-                        print(f"Insertion failed for question with serial number {question_data.get('serial_number')}. Integrity error: {e}")
+                        logger.error(f"Insertion failed for question with serial number {question_data.get('serial_number')}. Integrity error: {e}")
                     elif isinstance(e, DocxParsingError):
-                        print(f"Parsing error for question with serial number {question_data.get('serial_number')}: {e}")
+                        logger.error(f"Explicit parsing error for question with serial number {question_data.get('serial_number')}: {e}")
                     else:
-                        print(f"Unexpected error for question with serial number {question_data.get('serial_number')}: {e}")
+                        logger.error(f"Unexpected error for question with serial number {question_data.get('serial_number')}: {e}")
     else:
         raise ValueError("Unsupported file format. Only .docx files are supported.")
 
@@ -61,7 +65,10 @@ def insert_data(question_data: dict, course: Course, create_required: bool, temp
     :param course: Course instance that will be referenced in the unit the question belongs to.
     :param create_required: If True, creates Unit and UnitSubtopic if they do not exist. Otherwise, it expects them to exist.
     """
-    answer_index = ord(question_data.get("answer").upper().rstrip("() .")) - ord("A")
+    try:
+        answer_index = ord(question_data.get("answer").upper().rstrip("() .")) - ord("A")
+    except Exception:
+        raise DocxParsingError(f"Invalid answer format: {question_data.get('answer')}")
 
     raw_selection_frequencies = question_data.get("option_selection_frequencies", [])
     if len(raw_selection_frequencies) <= answer_index:

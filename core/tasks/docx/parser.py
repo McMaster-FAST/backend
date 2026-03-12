@@ -6,7 +6,9 @@ from bs4 import BeautifulSoup
 from .formats import DocxDataIdentifier
 
 from typing import Iterator, Dict, Any
+from logging import getLogger
 
+logger = getLogger(__name__)
 
 def parse_questions_from_docx(
     file_path: str, format_spec: Dict[str, DocxDataIdentifier]
@@ -14,10 +16,12 @@ def parse_questions_from_docx(
     # Wrap none required or else newlines are inserted which messes with the frontend styling
     html = pypandoc.convert_file(source_file=file_path, to="html", format="docx", extra_args=["--wrap=none"])
     soup = BeautifulSoup(html, "html.parser")
-    top_level_tables = soup.find_all('table', recursive=False)
-
-    for idx, table in enumerate(top_level_tables):
-        print(f"Processing table {idx + 1}/{len(top_level_tables)}...")
+    top_level_tables = [
+        t for t in soup.find_all("table")
+        if t.find_parent("table") is None
+    ]
+    logger.info(f"Found {len(top_level_tables)} top-level tables (Questions)")
+    for table in top_level_tables:
         yield extract_table_data(table, format_spec)
 
 
@@ -43,8 +47,6 @@ def extract_cell_data(cell, identifier: DocxDataIdentifier, index: int) -> Any:
             }
             images.append(image)
         html_content = cell.decode_contents()
-    if settings.DEBUG:
-        print(f"Extracted HTML content. Found {len(images)} images.")
     return html_content.strip(), images
 
 
@@ -92,5 +94,4 @@ def extract_table_data(
                 result[field_name] = content
             else:
                 result[field_name] = None
-
     return result
