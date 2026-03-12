@@ -18,6 +18,7 @@ from ..serializers.question_bundle import QuestionBundle
 from courses.models import UnitSubtopic
 from sso_auth.models import MacFastUser
 from django.db import transaction
+from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework import status
 from logging import getLogger
@@ -47,16 +48,18 @@ class UserSuggestedAction(enum.Enum):
 
 
 def get_user_unavailable_questions(user: MacFastUser, subtopic: UnitSubtopic):
-    testing_parameters = TestingParameters.objects.get(course=subtopic.unit.course)
+    
+    testing_parameters, _ = TestingParameters.objects.get_or_create(course=subtopic.unit.course)
     test_session, _ = TestSession.objects.get_or_create(user=user, subtopic=subtopic)
-
-    return AdaptiveTestQuestionMetric.objects.filter(
+    excluded = AdaptiveTestQuestionMetric.objects.filter(
         user=user,
         question__subtopic=subtopic,
-        # If we haven't seen enough questions since the last skip, we don't show this question
-        skipped_at_index__gt=test_session.questions_answered_count - testing_parameters.skip_readmit_delay,
-        total_times_seen__gt=testing_parameters.max_question_repetitions,
-    ).values_list("question_id", flat=True)
+    ).filter(
+        Q(skipped_at_index__gt=test_session.questions_answered_count - testing_parameters.skip_readmit_delay) |
+        Q(total_times_seen__gt=testing_parameters.max_question_repetitions)
+    ).values_list("question__id", flat=True)
+    logger.debug(f"Excluding questions with IDs: {list(excluded)} for user {user.id} in subtopic {subtopic.name}")
+    return excluded
 
 
 @transaction.atomic
@@ -78,7 +81,7 @@ def get_next_question_bundle(
     if next_question is None:
         return None, determine_continue_actions(user, subtopic), determine_suggested_actions(user, subtopic)
 
-    options = QuestionOption.objects.filter(question=next_question)
+    options = list(QuestionOption.objects.filter(question=next_question))
     random.shuffle(options)
     increment_view_count(user, next_question)
     return (
@@ -274,7 +277,9 @@ def add_response(
     question_info.save()
 
     new_ability_score, new_variance = model.compute_ability(user, question.subtopic)
-
+    clamped_ability_score = max(
+        -3, min(3, new_ability_score)
+    )
     if selected_option is not None:
         answered_correctly = selected_option.is_answer
         skipped = False
@@ -287,14 +292,14 @@ def add_response(
         user=user,
         answered_correctly=answered_correctly,
         skipped=skipped,
-        updated_ability_score=new_ability_score,
+        updated_ability_score=clamped_ability_score,
         time_spent=time_spent,
     )
 
     UserTopicAbilityScore.objects.update_or_create(
         user=user,
         unit_sub_topic=question.subtopic,
-        defaults={"score": new_ability_score, "variance": new_variance},
+        defaults={"score": clamped_ability_score, "variance": new_variance},
     )
     return True
 
