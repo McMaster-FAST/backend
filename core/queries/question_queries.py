@@ -79,6 +79,7 @@ def get_next_question_bundle(
         return None, determine_continue_actions(user, subtopic), determine_suggested_actions(user, subtopic)
 
     options = QuestionOption.objects.filter(question=next_question)
+    random.shuffle(options)
     increment_view_count(user, next_question)
     return (
         QuestionBundle(question=next_question, options=options),
