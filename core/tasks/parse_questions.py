@@ -7,7 +7,7 @@ from django.core.files.images import ImageFile
 from core.models import Question, QuestionComment, QuestionOption, QuestionImage
 from courses.models import Course, Unit, UnitSubtopic
 from .docx.parser import parse_questions_from_docx
-from .docx.parser1AA3 import parse_v3
+#from .docx.parser1AA3 import parse_v3
 from .docx.formats import docx_table_format_a
 from .csv.parser import parse_questions_from_csv
 from .utils import str_to_float
@@ -124,7 +124,7 @@ def parse_file(file_name: str, file_data: bytes, course: dict, create_required: 
                                 f"Failed inserting exam-bank question "
                                 f"{question_data.get('serial_number', question_data.get('number'))} with: {e}")
                 else:
-                        parsed_questions = list(parse_questions_from_docx(temp_file.name, docx_table_format_a))
+                    parsed_questions = list(parse_questions_from_docx(temp_file.name, docx_table_format_a))
 
                     for question_data in parsed_questions:
                         try:
