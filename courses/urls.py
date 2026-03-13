@@ -1,5 +1,7 @@
 from django.urls import path, include
 
+from analytics.views import QuestionReportAggregateViewSet
+from analytics.views import QuestionReportViewSet
 from rest_framework_nested.routers import DefaultRouter, NestedDefaultRouter
 
 from core.views.question_comment_viewset import QuestionCommentViewSet
@@ -42,6 +44,8 @@ questions_router.register(r"options", OptionViewSet, basename="question-options"
 questions_router.register(
     r"comments", QuestionCommentViewSet, basename="question-comments"
 )
+questions_router.register(r"reports", QuestionReportViewSet, basename="question-reports")
+questions_router.register(r"aggregate-reports", QuestionReportAggregateViewSet, basename="question-report-aggregate")
 
 urlpatterns = [
     path(r"", include(router.urls)),

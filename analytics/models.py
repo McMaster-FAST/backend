@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 
+from MacFAST.models import UUIDModel
+
 
 class QuestionAttempt(models.Model):
     question = models.ForeignKey("core.Question", on_delete=models.CASCADE)
@@ -36,3 +38,39 @@ class UserTopicAbilityScore(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.unit_sub_topic} - {self.score}"
+
+class QuestionReport(UUIDModel):
+    # Keep this inline with the frontend report options in the report-question-dialog.tsx
+    question = models.ForeignKey("core.Question", on_delete=models.CASCADE)
+    # Allow for anonymous reports, it's not that serious but still
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    additional_details = models.TextField(blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    contact_consent = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Question Report"
+        verbose_name_plural = "Question Reports"
+
+    def __str__(self):
+        return f"{self.user.username} reported {self.question} at {self.timestamp}"
+
+class QuestionReportReason(models.Model):
+    class ReportReasonChoices(models.TextChoices):
+        TEXT_FORMATTING = "Formatting of text"
+        IMAGE_FORMATTING = "Formatting of images"
+        INCORRECT_IMAGES = "Images are incorrect"
+        SOLUTION_INCORRECT = "Solution incorrect or confusing"
+        QUESTION_INCORRECT = "Question incorrect or confusing"
+        OTHER = "Other"
+    
+    question_report = models.ForeignKey(QuestionReport, on_delete=models.CASCADE, related_name="report_reasons")
+    reason = models.CharField(max_length=100, choices=ReportReasonChoices.choices)
+
+    class Meta:
+        unique_together = ("question_report", "reason")
+        verbose_name = "Question Report Reason"
+        verbose_name_plural = "Question Report Reasons"
+
+    def __str__(self):
+        return f"{self.reason} for report {self.question_report.public_id}"
