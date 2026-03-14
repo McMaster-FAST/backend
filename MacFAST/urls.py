@@ -28,27 +28,34 @@ from drf_spectacular.views import SpectacularSwaggerView
 
 urlpatterns = [
     path(
-        "admin/login/",
+        'admin/login/',
         RedirectView.as_view(
-            url=reverse_lazy("oidc_authentication_init"), permanent=False
+            url=reverse_lazy('oidc_authentication_init'), permanent=False
         ),
     ),
-    path("admin/", admin.site.urls),
-    path("oidc/", include("mozilla_django_oidc.urls")),
-    path("auth/", include("sso_auth.urls")),
-    path("api/core/", include("core.urls")),
-    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-    path(
-        "api/docs/",
-        SpectacularSwaggerView.as_view(url_name="schema"),
-        name="swagger-ui",
-    ),
-    path(
-        "api/redoc/",
-        SpectacularRedocView.as_view(url_name="schema"),
-        name="redoc",
-    ),
-    path("api/", include("courses.urls")),
+    path('admin/', admin.site.urls),
+    path('oidc/', include('mozilla_django_oidc.urls')),
+    path('auth/', include('sso_auth.urls')),
+    path('api/core/', include('core.urls')),
+]
+
+if settings.DEBUG:
+    urlpatterns += [
+        path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+        path(
+            'api/docs/',
+            SpectacularSwaggerView.as_view(url_name='schema'),
+            name='swagger-ui',
+        ),
+        path(
+            'api/redoc/',
+            SpectacularRedocView.as_view(url_name='schema'),
+            name='redoc',
+        ),
+    ]
+
+urlpatterns += [
+    path('api/', include('courses.urls')),
 ]
 
 if settings.DEBUG:
