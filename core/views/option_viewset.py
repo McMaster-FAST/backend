@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from django.db.models import QuerySet
 from rest_framework import viewsets
 from rest_framework.exceptions import NotFound
@@ -14,24 +16,23 @@ class OptionViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     lookup_field = 'public_id'
 
+    def _get_validated_question_uuid(self) -> UUID:
+        raw_uuid: str | None = self.kwargs.get('question_public_id')
+        if not raw_uuid:
+            raise ValidationError(detail='You must specify a question.')
+        try:
+            return UUID(str(raw_uuid))
+        except ValueError:
+            raise NotFound(detail='The specified question does not exist.') from None
+
     def get_queryset(self) -> QuerySet[QuestionOption]:
-        question_uuid: str | None = self.kwargs.get('question_public_id')
-        return QuestionOption.objects.filter(
-            question__public_id=question_uuid
-        )
+        question_uuid: UUID = self._get_validated_question_uuid()
+        return QuestionOption.objects.filter(question__public_id=question_uuid)
 
     def perform_create(self, serializer: QuestionOptionSerializer) -> None:
-        question_uuid: str | None = self.kwargs.get('question_public_id')
-
-        if question_uuid:
-            try:
-                question = Question.objects.get(public_id=question_uuid)
-                serializer.save(question=question)
-            except Question.DoesNotExist:
-                raise NotFound(
-                    detail='The specified question does not exist.'
-                ) from None
-        else:
-            raise ValidationError(
-                detail="You must POST to a question's option endpoint."
-            )
+        question_uuid: UUID = self._get_validated_question_uuid()
+        try:
+            question = Question.objects.get(public_id=question_uuid)
+        except Question.DoesNotExist:
+            raise NotFound(detail='The specified question does not exist.') from None
+        serializer.save(question=question)

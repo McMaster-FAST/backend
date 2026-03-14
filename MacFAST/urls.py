@@ -37,7 +37,6 @@ urlpatterns = [
     path("oidc/", include("mozilla_django_oidc.urls")),
     path("auth/", include("sso_auth.urls")),
     path("api/core/", include("core.urls")),
-    path("api/", include("courses.urls")),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "api/docs/",
@@ -49,6 +48,7 @@ urlpatterns = [
         SpectacularRedocView.as_view(url_name="schema"),
         name="redoc",
     ),
+    path("api/", include("courses.urls")),
 ]
 
 if settings.DEBUG:
