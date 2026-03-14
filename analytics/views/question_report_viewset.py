@@ -1,25 +1,38 @@
 from analytics.models import QuestionReport
 from analytics.serializers import QuestionReportSerializer
-
+from core.models import Question
 from rest_framework import viewsets
+from rest_framework.exceptions import NotFound
+from rest_framework.exceptions import ValidationError
+
 
 class QuestionReportViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to report issues with questions.
-    Allows RUDing reports (for admins) and creating new reports (for users).
-    WARNING: You shouldn't use this unless you are fetching a single question. If you need data from multiple questions 
-    it is likely you should be using QuestionReportAggregateViewSet instead, which aggregates reports per question.
-    """
-
     serializer_class = QuestionReportSerializer
-    lookup_field = "question__public_id"
-    allowed_methods = ["post", "get", "head", "options", "delete"]
+    lookup_field = 'public_id'
 
     def get_queryset(self):
-        return QuestionReport.objects.filter(question__public_id=self.kwargs.get("question_public_id"))
-    
+        queryset = (
+            QuestionReport.objects.select_related('question', 'user')
+            .prefetch_related('report_reasons')
+            .order_by('-timestamp')
+        )
+
+        question_uuid = self.kwargs.get('question_public_id')
+        if question_uuid:
+            queryset = queryset.filter(question__public_id=question_uuid)
+
+        return queryset
+
     def perform_create(self, serializer):
-        if not serializer.validated_data.get("contact_consent", False):
-            serializer.save(user=None)
-        else:
-            serializer.save(user=self.request.user)
+        question_uuid = self.kwargs.get('question_public_id')
+        if not question_uuid:
+            raise ValidationError(
+                detail="You must POST to a question's report endpoint."
+            )
+
+        try:
+            question = Question.objects.get(public_id=question_uuid)
+        except Question.DoesNotExist:
+            raise NotFound(detail='The specified question does not exist.')
+
+        serializer.save(question=question)

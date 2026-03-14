@@ -1,13 +1,13 @@
 from analytics.models import QuestionReport, QuestionReportReason
-from django.db.models import Count
 from analytics.serializers import QuestionReportAggregateSerializer
+from django.db.models import Count
 from rest_framework import viewsets
 from rest_framework.response import Response
 
 
 class QuestionReportAggregateViewSet(viewsets.ViewSet):
     serializer_class = QuestionReportAggregateSerializer
-    lookup_field = "question__public_id"
+    lookup_field = "question_public_id"
 
     def get_queryset(self):
         question_public_id = self.kwargs.get(self.lookup_field)

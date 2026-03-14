@@ -1,3 +1,3 @@
 from .ability_score_serializer import UserTopicAbilityScoreSerializer
-from .quesiton_report_serializer import QuestionReportSerializer
+from .question_report_serializer import QuestionReportSerializer
 from .question_report_aggregate_serializer import QuestionReportAggregateSerializer

@@ -46,14 +46,14 @@ class QuestionReport(UUIDModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     additional_details = models.TextField(blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-    contact_consent = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Question Report"
         verbose_name_plural = "Question Reports"
 
     def __str__(self):
-        return f"{self.user.username} reported {self.question} at {self.timestamp}"
+        username = self.user.username if self.user else "Anonymous"
+        return f"{username} reported {self.question} at {self.timestamp}"
 
 class QuestionReportReason(models.Model):
     class ReportReasonChoices(models.TextChoices):
