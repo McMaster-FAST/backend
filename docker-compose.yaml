@@ -83,7 +83,7 @@ services:
     <<: *django-service # Inherit from the base service
     command: >
       sh -c "
-      uv run celery -A MacFAST worker -l info
+      uv run python -m celery -A MacFAST worker -l info
       "
     volumes:
       - .:/app
@@ -94,7 +94,7 @@ services:
     <<: *django-service # Inherit from the base service
     command: >
       sh -c "
-      uv run celery -A MacFAST beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+      uv run python -m celery -A MacFAST beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
       "
 
 volumes:

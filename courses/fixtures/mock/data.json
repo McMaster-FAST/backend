@@ -555,5 +555,39 @@
     "name": "Buffers 2",
     "reference": "https://www.macvideo.ca/media/1AA3-Problem+Solving+-+Acid-baseQ5/1_51e9oazb"
   }
+},
+{
+  "model": "courses.course",
+  "pk": 3,
+  "fields": {
+    "public_id": "9160b32c-49e9-440d-820e-8db4ca64944f",
+    "name": "Debug Course",
+    "code": "DEBUG 100",
+    "description": "Fixture-only course used for debugging question data.",
+    "year": 2026,
+    "semester": "WINTER",
+    "is_archived": false
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 18,
+  "fields": {
+    "public_id": "c967f64f-672b-43c4-905e-9155f65c7ac0",
+    "course": 3,
+    "name": "Unit 1",
+    "description": "Debug unit for fixture validation.",
+    "number": 1
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 29,
+  "fields": {
+    "public_id": "fc24a2fd-4219-4f23-98ab-81b7f047f10a",
+    "unit": 18,
+    "name": "Subtopic 1",
+    "description": "Debug subtopic with enumerated true/false questions and embedded difficulty labels."
+  }
 }
 ]
