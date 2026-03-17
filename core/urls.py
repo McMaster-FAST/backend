@@ -1,9 +1,5 @@
 from django.urls import path
 
-from core.views.adaptive_test.question_metrics_viewset import (
-    AdaptiveTestQuestionMetricViewSet,
-)
-
 # Import the views from your app's views.py
 from .views import (
     PingView,
