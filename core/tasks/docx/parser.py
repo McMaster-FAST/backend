@@ -1,6 +1,5 @@
 from pathlib import Path
 import re
-from MacFAST import settings
 import pypandoc
 from bs4 import BeautifulSoup
 from .formats import DocxDataIdentifier
