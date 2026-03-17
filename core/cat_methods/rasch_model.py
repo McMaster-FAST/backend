@@ -2,7 +2,6 @@ from analytics.models import UserTopicAbilityScore
 from .adaptive_test_model import AdaptiveTestModel
 from .adaptive_test_utils import max_apost, mle
 from ..models import (
-    TestSession,
     TestingParameters,
 )
 from courses.models import UnitSubtopic
