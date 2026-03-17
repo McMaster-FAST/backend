@@ -8,7 +8,6 @@ from ..models import (
 from courses.models import UnitSubtopic
 from sso_auth.models import MacFastUser
 from analytics.models import QuestionAttempt
-import random
 from logging import getLogger
 
 logger = getLogger(__name__)
