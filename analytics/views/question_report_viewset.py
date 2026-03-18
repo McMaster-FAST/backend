@@ -34,5 +34,4 @@ class QuestionReportViewSet(viewsets.ModelViewSet):
             question = Question.objects.get(public_id=question_uuid)
         except Question.DoesNotExist:
             raise NotFound(detail='The specified question does not exist.')
-
         serializer.save(question=question)

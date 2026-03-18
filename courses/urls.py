@@ -29,6 +29,7 @@ courses_router = NestedDefaultRouter(router, r"courses", lookup="course")
 courses_router.register(r"units", UnitViewSet, basename="course-units")
 courses_router.register(r"enrolments", EnrolmentViewSet, basename="course-enrolments")
 courses_router.register(r"questions", QuestionViewSet, basename="course-questions")
+courses_router.register(r"aggregate-reports", QuestionReportAggregateViewSet, basename="course-reports")
 
 units_router = NestedDefaultRouter(router, r"units", lookup="unit")
 units_router.register(r"subtopics", SubtopicViewSet, basename="unit-subtopics")
@@ -45,11 +46,7 @@ questions_router.register(
     r"comments", QuestionCommentViewSet, basename="question-comments"
 )
 questions_router.register(r"reports", QuestionReportViewSet, basename="question-reports")
-questions_router.register(
-    r"aggregate-reports",
-    QuestionReportAggregateViewSet,
-    basename="question-report-aggregate",
-)
+
 
 urlpatterns = [
     path(r"", include(router.urls)),
