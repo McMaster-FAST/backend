@@ -867,7 +867,7 @@
       "public_id": "2ec209a7-c806-4ad0-a307-29addcc13796",
       "question": 8,
       "content": "Alfred Wegener",
-      "is_answer": false,
+      "is_answer": true,
       "selection_frequency": "0.5000",
       "images": []
     }
@@ -879,7 +879,7 @@
       "public_id": "8be2f119-a43c-47e6-91ed-54905a214c85",
       "question": 8,
       "content": "Harry Hess",
-      "is_answer": false,
+      "is_answer": true,
       "selection_frequency": "0.2000",
       "images": []
     }
@@ -1275,7 +1275,7 @@
       "public_id": "03c62e7d-31f5-4dbe-a57f-ae053480d74c",
       "question": 16,
       "content": "The percent ionization of the weak acid in a buffer system is less than the weak acid on its own because of the common ion effect.",
-      "is_answer": false,
+      "is_answer": true,
       "selection_frequency": "0.0800",
       "images": []
     }
@@ -1311,7 +1311,7 @@
       "public_id": "79c3c7e1-69e9-47be-8771-83a4d2275fa7",
       "question": 17,
       "content": "2.79",
-      "is_answer": false,
+      "is_answer": true,
       "selection_frequency": "0.7800",
       "images": []
     }
@@ -1455,7 +1455,7 @@
       "public_id": "63ce059c-0cec-484e-b753-369a667701e5",
       "question": 20,
       "content": "0.026 M",
-      "is_answer": false,
+      "is_answer": true,
       "selection_frequency": "0.8700",
       "images": []
     }

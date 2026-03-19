@@ -16,9 +16,10 @@
     "model": "courses.unit",
     "pk": 18,
     "fields": {
-      "public_id": "6f19403e-54db-4a6f-b8f6-7af4405b0bb4",
+      "public_id": "11111111-0001-0000-0000-000000000000",
       "course": 3,
-      "name": "Week 1 - Cardiovascular System: Heart Structure and Function",
+      "name": "Cardiovascular System: The Heart",
+      "tag": "CVHeart",
       "description": "",
       "number": 1
     }
@@ -27,9 +28,10 @@
     "model": "courses.unit",
     "pk": 19,
     "fields": {
-      "public_id": "fa4c12ed-23fc-467d-b035-07f60b6615e9",
+      "public_id": "11111111-0002-0000-0000-000000000000",
       "course": 3,
-      "name": "Week 2 - Cardiovascular Physiology and Blood",
+      "name": "Heart: Anatomy & Histology",
+      "tag": "HeartAnatHist",
       "description": "",
       "number": 2
     }
@@ -38,9 +40,10 @@
     "model": "courses.unit",
     "pk": 20,
     "fields": {
-      "public_id": "cc40bccf-6824-477d-bf9b-402b1dc95249",
+      "public_id": "11111111-0003-0000-0000-000000000000",
       "course": 3,
-      "name": "Week 3 - Vascular System and Respiratory Anatomy",
+      "name": "Heart: Electrical Properties",
+      "tag": "HeartElec",
       "description": "",
       "number": 3
     }
@@ -49,9 +52,10 @@
     "model": "courses.unit",
     "pk": 21,
     "fields": {
-      "public_id": "b8690d22-3c71-49f6-b22a-52938c4fd187",
+      "public_id": "11111111-0004-0000-0000-000000000000",
       "course": 3,
-      "name": "Week 4 - Respiratory Physiology and Gas Exchange",
+      "name": "Heart: Cardiac Cycle",
+      "tag": "HeartCycle",
       "description": "",
       "number": 4
     }
@@ -60,9 +64,10 @@
     "model": "courses.unit",
     "pk": 22,
     "fields": {
-      "public_id": "1e90b98f-5bc5-4766-a9c8-f464b5eea229",
+      "public_id": "11111111-0005-0000-0000-000000000000",
       "course": 3,
-      "name": "Week 5 - Respiratory Control and Digestive System Introduction",
+      "name": "Heart: Physiology",
+      "tag": "HeartPhys",
       "description": "",
       "number": 5
     }
@@ -71,9 +76,10 @@
     "model": "courses.unit",
     "pk": 23,
     "fields": {
-      "public_id": "798ef5ae-be75-4e57-9ae0-41d101ea2cef",
+      "public_id": "11111111-0006-0000-0000-000000000000",
       "course": 3,
-      "name": "Week 6 - Digestive System: Stomach to Small Intestine",
+      "name": "Blood",
+      "tag": "Blood",
       "description": "",
       "number": 6
     }
@@ -82,9 +88,10 @@
     "model": "courses.unit",
     "pk": 24,
     "fields": {
-      "public_id": "7c5c5e2d-49cf-4367-a8d6-08eb0f5bcce0",
+      "public_id": "11111111-0007-0000-0000-000000000000",
       "course": 3,
-      "name": "Week 7 - Digestive System Completion and Kidney Introduction",
+      "name": "Blood Vessel Histology",
+      "tag": "BVHist",
       "description": "",
       "number": 7
     }
@@ -93,9 +100,10 @@
     "model": "courses.unit",
     "pk": 25,
     "fields": {
-      "public_id": "6dbcade8-dc49-44e6-8dcf-57b3e67c6a89",
+      "public_id": "11111111-0008-0000-0000-000000000000",
       "course": 3,
-      "name": "Week 8 - Renal Physiology",
+      "name": "Blood Vessels: Arteries and Veins",
+      "tag": "BVArtVein",
       "description": "",
       "number": 8
     }
@@ -104,9 +112,10 @@
     "model": "courses.unit",
     "pk": 26,
     "fields": {
-      "public_id": "659f8b39-864a-4650-b436-d09d39fe3a09",
+      "public_id": "11111111-0009-0000-0000-000000000000",
       "course": 3,
-      "name": "Week 9 - Lymphatic and Male Reproductive Systems",
+      "name": "Blood Vessel: Physiology",
+      "tag": "BVPhys",
       "description": "",
       "number": 9
     }
@@ -115,9 +124,10 @@
     "model": "courses.unit",
     "pk": 27,
     "fields": {
-      "public_id": "c213ec6d-e95e-4af1-acfd-eda78711162d",
+      "public_id": "11111111-0010-0000-0000-000000000000",
       "course": 3,
-      "name": "Week 10 - Female Reproductive System and Hormone Introduction",
+      "name": "Respiratory System: Anatomy",
+      "tag": "RespAnat",
       "description": "",
       "number": 10
     }
@@ -126,20 +136,298 @@
     "model": "courses.unit",
     "pk": 28,
     "fields": {
-      "public_id": "10a4a277-c267-428c-97c0-d5cc0814fdd3",
+      "public_id": "11111111-0011-0000-0000-000000000000",
       "course": 3,
-      "name": "Week 11 - Endocrine System",
+      "name": "Respiratory System: Anatomy & Lung Volumes",
+      "tag": "RespAnatLungVol",
       "description": "",
       "number": 11
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 29,
+    "fields": {
+      "public_id": "11111111-0012-0000-0000-000000000000",
+      "course": 3,
+      "name": "Respiratory System: Ventilation",
+      "tag": "RespVent",
+      "description": "",
+      "number": 12
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 30,
+    "fields": {
+      "public_id": "11111111-0013-0000-0000-000000000000",
+      "course": 3,
+      "name": "Respiratory System: Gas Exchange & O2 Transport",
+      "tag": "RespGasO2",
+      "description": "",
+      "number": 13
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 31,
+    "fields": {
+      "public_id": "11111111-0014-0000-0000-000000000000",
+      "course": 3,
+      "name": "Respiratory System: CO2 Transport & Regulation of Ventilation",
+      "tag": "RespCO2Reg",
+      "description": "",
+      "number": 14
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 32,
+    "fields": {
+      "public_id": "11111111-0015-0000-0000-000000000000",
+      "course": 3,
+      "name": "Digestive System: Histology, Peritoneum & Mouth",
+      "tag": "DigestHistPerMouth",
+      "description": "",
+      "number": 15
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 33,
+    "fields": {
+      "public_id": "11111111-0016-0000-0000-000000000000",
+      "course": 3,
+      "name": "Digestive System: Salivary Glands, Swallowing & Stomach Anatomy",
+      "tag": "DigestSalSwallStom",
+      "description": "",
+      "number": 16
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 34,
+    "fields": {
+      "public_id": "11111111-0017-0000-0000-000000000000",
+      "course": 3,
+      "name": "Digestive System: Stomach Digestion & Pancreas",
+      "tag": "DigestStomPanc",
+      "description": "",
+      "number": 17
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 35,
+    "fields": {
+      "public_id": "11111111-0018-0000-0000-000000000000",
+      "course": 3,
+      "name": "Digestive System: Liver & Gallbladder",
+      "tag": "DigestLiverGB",
+      "description": "",
+      "number": 18
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 36,
+    "fields": {
+      "public_id": "11111111-0019-0000-0000-000000000000",
+      "course": 3,
+      "name": "Digestive System: Small Intestine",
+      "tag": "DigestSI",
+      "description": "",
+      "number": 19
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 37,
+    "fields": {
+      "public_id": "11111111-0020-0000-0000-000000000000",
+      "course": 3,
+      "name": "Digestive System: Large Intestine & Regulation",
+      "tag": "DigestLIReg",
+      "description": "",
+      "number": 20
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 38,
+    "fields": {
+      "public_id": "11111111-0021-0000-0000-000000000000",
+      "course": 3,
+      "name": "Urinary System: Anatomy",
+      "tag": "UrinAnat",
+      "description": "",
+      "number": 21
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 39,
+    "fields": {
+      "public_id": "11111111-0022-0000-0000-000000000000",
+      "course": 3,
+      "name": "Urinary System: Nephron",
+      "tag": "UrinNeph",
+      "description": "",
+      "number": 22
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 40,
+    "fields": {
+      "public_id": "11111111-0023-0000-0000-000000000000",
+      "course": 3,
+      "name": "Urinary System: Glomerular Filtration",
+      "tag": "UrinGlomFilt",
+      "description": "",
+      "number": 23
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 41,
+    "fields": {
+      "public_id": "11111111-0024-0000-0000-000000000000",
+      "course": 3,
+      "name": "Urinary System: Tubular Reabsorption & Regulation",
+      "tag": "UrinTubReabs",
+      "description": "",
+      "number": 24
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 42,
+    "fields": {
+      "public_id": "11111111-0025-0000-0000-000000000000",
+      "course": 3,
+      "name": "Urinary System: Urine, Ureters, Bladder & Urethra",
+      "tag": "UrinUreterBladder",
+      "description": "",
+      "number": 25
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 43,
+    "fields": {
+      "public_id": "11111111-0026-0000-0000-000000000000",
+      "course": 3,
+      "name": "Lymphatic System",
+      "tag": "Lymph",
+      "description": "",
+      "number": 26
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 44,
+    "fields": {
+      "public_id": "11111111-0027-0000-0000-000000000000",
+      "course": 3,
+      "name": "Male Reproductive System: Scrotum, Testes & Spermatogenesis",
+      "tag": "MaleRepScrotTest",
+      "description": "",
+      "number": 27
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 45,
+    "fields": {
+      "public_id": "11111111-0028-0000-0000-000000000000",
+      "course": 3,
+      "name": "Male Reproductive System: Sperm, Ducts, Glands & Penis",
+      "tag": "MaleRepSpermDuct",
+      "description": "",
+      "number": 28
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 46,
+    "fields": {
+      "public_id": "11111111-0029-0000-0000-000000000000",
+      "course": 3,
+      "name": "Female Reproductive System: Ovaries, Oogenesis & Uterine Tubes",
+      "tag": "FemRepOvOogen",
+      "description": "",
+      "number": 29
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 47,
+    "fields": {
+      "public_id": "11111111-0030-0000-0000-000000000000",
+      "course": 3,
+      "name": "Female Reproductive System: Uterus, Vagina, Vulva & Reproductive Cycle",
+      "tag": "FemRepUterusCycle",
+      "description": "",
+      "number": 30
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 48,
+    "fields": {
+      "public_id": "11111111-0031-0000-0000-000000000000",
+      "course": 3,
+      "name": "Endocrine System: Overview",
+      "tag": "EndoOverview",
+      "description": "",
+      "number": 31
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 49,
+    "fields": {
+      "public_id": "11111111-0032-0000-0000-000000000000",
+      "course": 3,
+      "name": "Endocrine System: Pituitary & Hypothalamus",
+      "tag": "EndoPitHypo",
+      "description": "",
+      "number": 32
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 50,
+    "fields": {
+      "public_id": "11111111-0033-0000-0000-000000000000",
+      "course": 3,
+      "name": "Endocrine System: Thyroid, Parathyroid & Adrenal",
+      "tag": "EndoThyParaAdren",
+      "description": "",
+      "number": 33
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 51,
+    "fields": {
+      "public_id": "11111111-0034-0000-0000-000000000000",
+      "course": 3,
+      "name": "Endocrine System: Pancreas",
+      "tag": "EndoPanc",
+      "description": "",
+      "number": 34
     }
   },
   {
     "model": "courses.unitsubtopic",
     "pk": 29,
     "fields": {
-      "public_id": "059bca5c-854e-49e1-95b2-ecca9d0547ba",
+      "public_id": "22222222-0001-0000-0000-000000000000",
       "unit": 18,
-      "name": "Heart Wall and Pericardium",
+      "name": "Cardiovascular System: Overview & Functions",
+      "tag": "CVOverview",
       "description": ""
     }
   },
@@ -147,9 +435,10 @@
     "model": "courses.unitsubtopic",
     "pk": 30,
     "fields": {
-      "public_id": "1dbf5cb3-074a-45d0-b306-4dace3bc42df",
+      "public_id": "22222222-0002-0000-0000-000000000000",
       "unit": 18,
-      "name": "Heart Internal Structure",
+      "name": "Heart External Anatomy",
+      "tag": "HeartExtAnat",
       "description": ""
     }
   },
@@ -157,9 +446,10 @@
     "model": "courses.unitsubtopic",
     "pk": 31,
     "fields": {
-      "public_id": "ba06ba0c-8dea-4e63-9d27-964df2c6efd0",
+      "public_id": "22222222-0003-0000-0000-000000000000",
       "unit": 18,
-      "name": "Coronary Circulation",
+      "name": "Heart Wall and Pericardium",
+      "tag": "HeartWallPeri",
       "description": ""
     }
   },
@@ -167,9 +457,10 @@
     "model": "courses.unitsubtopic",
     "pk": 32,
     "fields": {
-      "public_id": "7c968cfc-cf4c-4817-b789-f7dbca326bcf",
+      "public_id": "22222222-0004-0000-0000-000000000000",
       "unit": 18,
-      "name": "Cardiac Muscle",
+      "name": "Heart Structure and Function",
+      "tag": "HeartStrFunc",
       "description": ""
     }
   },
@@ -177,9 +468,10 @@
     "model": "courses.unitsubtopic",
     "pk": 33,
     "fields": {
-      "public_id": "64ded927-eb86-44f1-b9ee-1ba4b117298b",
-      "unit": 18,
-      "name": "Cardiac Conducting System",
+      "public_id": "22222222-0005-0000-0000-000000000000",
+      "unit": 19,
+      "name": "Heart Internal Structure",
+      "tag": "HeartIntStr",
       "description": ""
     }
   },
@@ -187,9 +479,10 @@
     "model": "courses.unitsubtopic",
     "pk": 34,
     "fields": {
-      "public_id": "89191889-febf-49b9-a0c5-74c5756ef1e0",
-      "unit": 18,
-      "name": "Cardiac Action Potential",
+      "public_id": "22222222-0006-0000-0000-000000000000",
+      "unit": 19,
+      "name": "Heart Valves",
+      "tag": "HeartValves",
       "description": ""
     }
   },
@@ -197,9 +490,10 @@
     "model": "courses.unitsubtopic",
     "pk": 35,
     "fields": {
-      "public_id": "1d776fa3-6d8f-47c9-875d-dc99da4e8e30",
-      "unit": 18,
-      "name": "Electrocardiogram (ECG)",
+      "public_id": "22222222-0007-0000-0000-000000000000",
+      "unit": 19,
+      "name": "Blood Flow Through the Heart",
+      "tag": "BloodFlowPath",
       "description": ""
     }
   },
@@ -207,9 +501,10 @@
     "model": "courses.unitsubtopic",
     "pk": 36,
     "fields": {
-      "public_id": "9f59f3a4-5e58-40aa-a9bd-03b512d2ac9f",
-      "unit": 18,
-      "name": "Mechanisms of Cardiac Cycle",
+      "public_id": "22222222-0008-0000-0000-000000000000",
+      "unit": 19,
+      "name": "Coronary Circulation",
+      "tag": "CoronCirc",
       "description": ""
     }
   },
@@ -217,9 +512,10 @@
     "model": "courses.unitsubtopic",
     "pk": 37,
     "fields": {
-      "public_id": "f420e696-1cd7-4a8b-99ae-976677467043",
+      "public_id": "22222222-0009-0000-0000-000000000000",
       "unit": 19,
-      "name": "Cardiovascular Physiology",
+      "name": "Cardiac Muscle",
+      "tag": "CardMusc",
       "description": ""
     }
   },
@@ -227,9 +523,10 @@
     "model": "courses.unitsubtopic",
     "pk": 38,
     "fields": {
-      "public_id": "f7135fad-cd18-4e45-ab9e-d98d1fb0ff7c",
-      "unit": 19,
-      "name": "Hematopoiesis",
+      "public_id": "22222222-0010-0000-0000-000000000000",
+      "unit": 20,
+      "name": "Cardiac Conducting System",
+      "tag": "CardCondSys",
       "description": ""
     }
   },
@@ -237,9 +534,10 @@
     "model": "courses.unitsubtopic",
     "pk": 39,
     "fields": {
-      "public_id": "1ce952a2-3177-46be-a68b-b76306746937",
-      "unit": 19,
-      "name": "Blood Plasma",
+      "public_id": "22222222-0011-0000-0000-000000000000",
+      "unit": 20,
+      "name": "Autorhythmicity and Pacemaker Cells",
+      "tag": "Autorhythm",
       "description": ""
     }
   },
@@ -247,9 +545,10 @@
     "model": "courses.unitsubtopic",
     "pk": 40,
     "fields": {
-      "public_id": "28e227df-037c-42d3-a57d-690dbf80b8e6",
-      "unit": 19,
-      "name": "Red Blood Cells (RBC)",
+      "public_id": "22222222-0012-0000-0000-000000000000",
+      "unit": 20,
+      "name": "Cardiac Action Potential",
+      "tag": "CardAP",
       "description": ""
     }
   },
@@ -257,9 +556,10 @@
     "model": "courses.unitsubtopic",
     "pk": 41,
     "fields": {
-      "public_id": "4f17100d-1a96-42b1-b045-623f3defd192",
-      "unit": 19,
-      "name": "White Blood Cells and Platelets",
+      "public_id": "22222222-0013-0000-0000-000000000000",
+      "unit": 20,
+      "name": "Electrocardiogram (ECG)",
+      "tag": "ECG",
       "description": ""
     }
   },
@@ -267,9 +567,10 @@
     "model": "courses.unitsubtopic",
     "pk": 42,
     "fields": {
-      "public_id": "f4515fad-89dc-43c7-9e8f-5ae99be60ef1",
-      "unit": 19,
-      "name": "Blood Vessels",
+      "public_id": "22222222-0014-0000-0000-000000000000",
+      "unit": 21,
+      "name": "Mechanisms of Cardiac Cycle",
+      "tag": "MechCardCycle",
       "description": ""
     }
   },
@@ -277,9 +578,10 @@
     "model": "courses.unitsubtopic",
     "pk": 43,
     "fields": {
-      "public_id": "da07e04a-b88f-40fc-ab89-fa7bcef0d0ee",
-      "unit": 20,
-      "name": "Blood Vessels",
+      "public_id": "22222222-0015-0000-0000-000000000000",
+      "unit": 21,
+      "name": "Pressure and Volume Changes in the Cardiac Cycle",
+      "tag": "PressVolRel",
       "description": ""
     }
   },
@@ -287,9 +589,10 @@
     "model": "courses.unitsubtopic",
     "pk": 44,
     "fields": {
-      "public_id": "91dff750-101d-4263-b000-ad7b0be86e33",
-      "unit": 20,
-      "name": "Vascular Physiology",
+      "public_id": "22222222-0016-0000-0000-000000000000",
+      "unit": 21,
+      "name": "Heart Sounds",
+      "tag": "HeartSounds",
       "description": ""
     }
   },
@@ -297,9 +600,10 @@
     "model": "courses.unitsubtopic",
     "pk": 45,
     "fields": {
-      "public_id": "8ece8ff5-25e2-417c-8231-23c9bf639029",
-      "unit": 20,
-      "name": "Respiratory System Anatomy",
+      "public_id": "22222222-0017-0000-0000-000000000000",
+      "unit": 22,
+      "name": "Cardiac Output and Cardiac Reserve",
+      "tag": "CardOutput",
       "description": ""
     }
   },
@@ -307,9 +611,10 @@
     "model": "courses.unitsubtopic",
     "pk": 46,
     "fields": {
-      "public_id": "275152cc-43da-40dd-9098-172bc1740760",
-      "unit": 20,
-      "name": "Laboratory 1: Heart Anatomy",
+      "public_id": "22222222-0018-0000-0000-000000000000",
+      "unit": 22,
+      "name": "Stroke Volume Regulation",
+      "tag": "SVReg",
       "description": ""
     }
   },
@@ -317,9 +622,10 @@
     "model": "courses.unitsubtopic",
     "pk": 47,
     "fields": {
-      "public_id": "1565cf63-c0b3-4ffd-8d56-1d9dd390e0ca",
-      "unit": 21,
-      "name": "Gas Exchange",
+      "public_id": "22222222-0019-0000-0000-000000000000",
+      "unit": 22,
+      "name": "Heart Rate Regulation",
+      "tag": "HRReg",
       "description": ""
     }
   },
@@ -327,9 +633,10 @@
     "model": "courses.unitsubtopic",
     "pk": 48,
     "fields": {
-      "public_id": "2f94d6f5-58a6-4b79-bcdd-ea09cb267f76",
-      "unit": 21,
-      "name": "Oxygen and Hemoglobin Binding",
+      "public_id": "22222222-0020-0000-0000-000000000000",
+      "unit": 23,
+      "name": "Blood Functions",
+      "tag": "BloodFunc",
       "description": ""
     }
   },
@@ -337,9 +644,10 @@
     "model": "courses.unitsubtopic",
     "pk": 49,
     "fields": {
-      "public_id": "052da6af-d789-4209-8c98-183927804f9c",
-      "unit": 21,
-      "name": "Ventilation and Respiration",
+      "public_id": "22222222-0021-0000-0000-000000000000",
+      "unit": 23,
+      "name": "Hematopoiesis",
+      "tag": "Hemato",
       "description": ""
     }
   },
@@ -347,9 +655,10 @@
     "model": "courses.unitsubtopic",
     "pk": 50,
     "fields": {
-      "public_id": "062afa00-3765-44c4-b112-035660c333d7",
-      "unit": 21,
-      "name": "Factors Affecting Ventilation",
+      "public_id": "22222222-0022-0000-0000-000000000000",
+      "unit": 23,
+      "name": "Blood Plasma",
+      "tag": "BloodPlasma",
       "description": ""
     }
   },
@@ -357,9 +666,10 @@
     "model": "courses.unitsubtopic",
     "pk": 51,
     "fields": {
-      "public_id": "588ff279-2eab-48a9-9524-f3027b9dd35a",
-      "unit": 21,
-      "name": "Lung Volumes and Capacities",
+      "public_id": "22222222-0023-0000-0000-000000000000",
+      "unit": 23,
+      "name": "Red Blood Cells (RBC)",
+      "tag": "RBC",
       "description": ""
     }
   },
@@ -367,9 +677,10 @@
     "model": "courses.unitsubtopic",
     "pk": 52,
     "fields": {
-      "public_id": "0d764181-413a-4b9a-a356-c8a536001872",
-      "unit": 22,
-      "name": "Carbon Dioxide Transport",
+      "public_id": "22222222-0024-0000-0000-000000000000",
+      "unit": 23,
+      "name": "White Blood Cells and Platelets",
+      "tag": "WBCPlat",
       "description": ""
     }
   },
@@ -377,9 +688,10 @@
     "model": "courses.unitsubtopic",
     "pk": 53,
     "fields": {
-      "public_id": "728777c2-c2e9-42f9-a70b-7e3765f87c3b",
-      "unit": 22,
-      "name": "Regulation of Respiration",
+      "public_id": "22222222-0025-0000-0000-000000000000",
+      "unit": 23,
+      "name": "Blood Types (ABO and Rh)",
+      "tag": "BloodType",
       "description": ""
     }
   },
@@ -387,9 +699,10 @@
     "model": "courses.unitsubtopic",
     "pk": 54,
     "fields": {
-      "public_id": "aeb37028-6b93-469c-bb76-ef3b0d02f306",
-      "unit": 22,
-      "name": "Gastrointestinal Tract Layers",
+      "public_id": "22222222-0026-0000-0000-000000000000",
+      "unit": 23,
+      "name": "Hemostasis and Clotting",
+      "tag": "Hemostasis",
       "description": ""
     }
   },
@@ -397,9 +710,10 @@
     "model": "courses.unitsubtopic",
     "pk": 55,
     "fields": {
-      "public_id": "79ec29c6-02b0-45e2-a854-093edba22867",
-      "unit": 22,
-      "name": "Peritoneum",
+      "public_id": "22222222-0027-0000-0000-000000000000",
+      "unit": 24,
+      "name": "Blood Vessel Wall Structure (Tunics)",
+      "tag": "BVWallStr",
       "description": ""
     }
   },
@@ -407,9 +721,10 @@
     "model": "courses.unitsubtopic",
     "pk": 56,
     "fields": {
-      "public_id": "1fa30273-f416-4f72-9a58-fcb31bb42c7c",
-      "unit": 22,
-      "name": "Oral Cavity",
+      "public_id": "22222222-0028-0000-0000-000000000000",
+      "unit": 24,
+      "name": "Types of Blood Vessels",
+      "tag": "BVTypes",
       "description": ""
     }
   },
@@ -417,9 +732,10 @@
     "model": "courses.unitsubtopic",
     "pk": 57,
     "fields": {
-      "public_id": "04e7885f-fbb1-4438-9847-5fe4285dfc1b",
-      "unit": 22,
-      "name": "Saliva",
+      "public_id": "22222222-0029-0000-0000-000000000000",
+      "unit": 24,
+      "name": "Capillary Structure and Exchange",
+      "tag": "CapStrExch",
       "description": ""
     }
   },
@@ -427,9 +743,10 @@
     "model": "courses.unitsubtopic",
     "pk": 58,
     "fields": {
-      "public_id": "018ab523-3e04-4311-b8cb-13fa6e8c12b2",
-      "unit": 22,
-      "name": "Esophagus",
+      "public_id": "22222222-0030-0000-0000-000000000000",
+      "unit": 25,
+      "name": "Systemic Arteries",
+      "tag": "SysArt",
       "description": ""
     }
   },
@@ -437,9 +754,10 @@
     "model": "courses.unitsubtopic",
     "pk": 59,
     "fields": {
-      "public_id": "4f217f7c-8f3d-45e6-9db5-f984a47ba968",
-      "unit": 22,
-      "name": "Stomach Anatomy",
+      "public_id": "22222222-0031-0000-0000-000000000000",
+      "unit": 25,
+      "name": "Systemic Veins",
+      "tag": "SysVein",
       "description": ""
     }
   },
@@ -447,9 +765,10 @@
     "model": "courses.unitsubtopic",
     "pk": 60,
     "fields": {
-      "public_id": "6cd93a16-f04a-4455-9dcf-bf82b1cbd499",
-      "unit": 22,
-      "name": "Stomach Cells",
+      "public_id": "22222222-0032-0000-0000-000000000000",
+      "unit": 25,
+      "name": "Circulatory Pathways",
+      "tag": "CircPath",
       "description": ""
     }
   },
@@ -457,9 +776,10 @@
     "model": "courses.unitsubtopic",
     "pk": 61,
     "fields": {
-      "public_id": "a3d3a111-f4dd-4765-97eb-f8617469a6ee",
-      "unit": 22,
-      "name": "Laboratory 2: Cardiovascular Physiology",
+      "public_id": "22222222-0033-0000-0000-000000000000",
+      "unit": 26,
+      "name": "Hemodynamics (Flow, Pressure, Resistance)",
+      "tag": "Hemodynamics",
       "description": ""
     }
   },
@@ -467,9 +787,10 @@
     "model": "courses.unitsubtopic",
     "pk": 62,
     "fields": {
-      "public_id": "497e3c9b-387d-45b1-9315-b861b5ff660d",
-      "unit": 23,
-      "name": "Stomach Digestion",
+      "public_id": "22222222-0034-0000-0000-000000000000",
+      "unit": 26,
+      "name": "Blood Pressure Regulation",
+      "tag": "BPReg",
       "description": ""
     }
   },
@@ -477,9 +798,10 @@
     "model": "courses.unitsubtopic",
     "pk": 63,
     "fields": {
-      "public_id": "911a8e1e-2938-49c9-ada6-1aa7d22f3536",
-      "unit": 23,
-      "name": "Pancreas and Digestive Enzymes",
+      "public_id": "22222222-0035-0000-0000-000000000000",
+      "unit": 27,
+      "name": "Respiratory System Functions",
+      "tag": "RespFunc",
       "description": ""
     }
   },
@@ -487,9 +809,10 @@
     "model": "courses.unitsubtopic",
     "pk": 64,
     "fields": {
-      "public_id": "0ce9223b-eb38-4186-b2c1-af7658af8895",
-      "unit": 23,
-      "name": "Bile and Gallbladder",
+      "public_id": "22222222-0036-0000-0000-000000000000",
+      "unit": 27,
+      "name": "Upper Respiratory Tract",
+      "tag": "UpperRespTract",
       "description": ""
     }
   },
@@ -497,9 +820,10 @@
     "model": "courses.unitsubtopic",
     "pk": 65,
     "fields": {
-      "public_id": "43cec662-cc29-4abe-b32f-ab44b563d59e",
-      "unit": 23,
-      "name": "Liver",
+      "public_id": "22222222-0037-0000-0000-000000000000",
+      "unit": 27,
+      "name": "Lower Respiratory Tract",
+      "tag": "LowerRespTract",
       "description": ""
     }
   },
@@ -507,9 +831,10 @@
     "model": "courses.unitsubtopic",
     "pk": 66,
     "fields": {
-      "public_id": "2d2a3907-267f-44f6-92e8-25f321bbc4a4",
-      "unit": 23,
-      "name": "Small Intestine",
+      "public_id": "22222222-0038-0000-0000-000000000000",
+      "unit": 27,
+      "name": "Tracheobronchial Tree",
+      "tag": "TracheoBronch",
       "description": ""
     }
   },
@@ -517,9 +842,10 @@
     "model": "courses.unitsubtopic",
     "pk": 67,
     "fields": {
-      "public_id": "818de290-8356-4a4b-af0a-b544689d2927",
-      "unit": 23,
-      "name": "Digestion and Absorption",
+      "public_id": "22222222-0039-0000-0000-000000000000",
+      "unit": 28,
+      "name": "Alveoli and Respiratory Membrane",
+      "tag": "AlvRespMemb",
       "description": ""
     }
   },
@@ -527,9 +853,10 @@
     "model": "courses.unitsubtopic",
     "pk": 68,
     "fields": {
-      "public_id": "fd506b38-c398-4623-9f4b-8fb5d07b7a67",
-      "unit": 24,
-      "name": "Large Intestine",
+      "public_id": "22222222-0040-0000-0000-000000000000",
+      "unit": 28,
+      "name": "Pleural Membranes and Lung Anatomy",
+      "tag": "PleuralMemb",
       "description": ""
     }
   },
@@ -537,9 +864,10 @@
     "model": "courses.unitsubtopic",
     "pk": 69,
     "fields": {
-      "public_id": "a9d9c7d7-5fc9-4d67-ae8b-1b4f6bd9d1d4",
-      "unit": 24,
-      "name": "Gastric Phases",
+      "public_id": "22222222-0041-0000-0000-000000000000",
+      "unit": 28,
+      "name": "Lung Volumes and Capacities",
+      "tag": "LungVolCap",
       "description": ""
     }
   },
@@ -547,9 +875,10 @@
     "model": "courses.unitsubtopic",
     "pk": 70,
     "fields": {
-      "public_id": "e892599f-eabd-433e-a7ab-cfbee913985f",
-      "unit": 24,
-      "name": "Kidney External Structure",
+      "public_id": "22222222-0042-0000-0000-000000000000",
+      "unit": 29,
+      "name": "Mechanics of Breathing",
+      "tag": "BreathMech",
       "description": ""
     }
   },
@@ -557,9 +886,10 @@
     "model": "courses.unitsubtopic",
     "pk": 71,
     "fields": {
-      "public_id": "107beeb9-6a00-444f-aa92-1baf5c57b7d6",
-      "unit": 24,
-      "name": "Kidney Membranes",
+      "public_id": "22222222-0043-0000-0000-000000000000",
+      "unit": 29,
+      "name": "Ventilation and Respiration",
+      "tag": "VentResp",
       "description": ""
     }
   },
@@ -567,9 +897,10 @@
     "model": "courses.unitsubtopic",
     "pk": 72,
     "fields": {
-      "public_id": "1731782e-9520-4793-9e92-4d45e1b4e86c",
-      "unit": 24,
-      "name": "Filtration",
+      "public_id": "22222222-0044-0000-0000-000000000000",
+      "unit": 29,
+      "name": "Factors Affecting Ventilation",
+      "tag": "FactVent",
       "description": ""
     }
   },
@@ -577,9 +908,10 @@
     "model": "courses.unitsubtopic",
     "pk": 73,
     "fields": {
-      "public_id": "cdeaed60-2e48-4a1f-bfd5-dcee2d46cf57",
-      "unit": 24,
-      "name": "Laboratory 3: Respiratory System",
+      "public_id": "22222222-0045-0000-0000-000000000000",
+      "unit": 30,
+      "name": "Partial Pressure and Gas Laws",
+      "tag": "PartialPress",
       "description": ""
     }
   },
@@ -587,9 +919,10 @@
     "model": "courses.unitsubtopic",
     "pk": 74,
     "fields": {
-      "public_id": "596c38a0-0b5c-4b45-b755-388031db52e9",
-      "unit": 25,
-      "name": "Glomerular Filtration",
+      "public_id": "22222222-0046-0000-0000-000000000000",
+      "unit": 30,
+      "name": "Gas Exchange",
+      "tag": "GasExch",
       "description": ""
     }
   },
@@ -597,9 +930,10 @@
     "model": "courses.unitsubtopic",
     "pk": 75,
     "fields": {
-      "public_id": "dbe69529-aa6c-4c06-a23e-8d6205114a44",
-      "unit": 25,
-      "name": "Regulation of Glomerular Filtration Rate (GFR)",
+      "public_id": "22222222-0047-0000-0000-000000000000",
+      "unit": 30,
+      "name": "Oxygen and Hemoglobin Binding",
+      "tag": "O2HbBind",
       "description": ""
     }
   },
@@ -607,9 +941,10 @@
     "model": "courses.unitsubtopic",
     "pk": 76,
     "fields": {
-      "public_id": "9fd68172-1436-4ac7-930e-65d60ef3153e",
-      "unit": 25,
-      "name": "Reabsorption and Secretion",
+      "public_id": "22222222-0048-0000-0000-000000000000",
+      "unit": 31,
+      "name": "Carbon Dioxide Transport",
+      "tag": "CO2Trans",
       "description": ""
     }
   },
@@ -617,9 +952,10 @@
     "model": "courses.unitsubtopic",
     "pk": 77,
     "fields": {
-      "public_id": "d44bb87c-5fbb-4ef1-9899-017127422dba",
-      "unit": 25,
-      "name": "Movement in Tubules",
+      "public_id": "22222222-0049-0000-0000-000000000000",
+      "unit": 31,
+      "name": "Regulation of Respiration",
+      "tag": "RegResp",
       "description": ""
     }
   },
@@ -627,9 +963,10 @@
     "model": "courses.unitsubtopic",
     "pk": 78,
     "fields": {
-      "public_id": "7e5830ea-4c9e-4fb3-9c08-1f4d192ae03b",
-      "unit": 25,
-      "name": "Ureters",
+      "public_id": "22222222-0050-0000-0000-000000000000",
+      "unit": 32,
+      "name": "Digestive System Functions and Processes",
+      "tag": "DigestFunc",
       "description": ""
     }
   },
@@ -637,9 +974,10 @@
     "model": "courses.unitsubtopic",
     "pk": 79,
     "fields": {
-      "public_id": "15f96f42-fd9c-4b36-b16d-7037deac8467",
-      "unit": 26,
-      "name": "Lymphatic System",
+      "public_id": "22222222-0051-0000-0000-000000000000",
+      "unit": 32,
+      "name": "Gastrointestinal Tract Layers",
+      "tag": "GITLayers",
       "description": ""
     }
   },
@@ -647,9 +985,10 @@
     "model": "courses.unitsubtopic",
     "pk": 80,
     "fields": {
-      "public_id": "aee7add6-b111-4e9e-b6d3-ad1cfb92c686",
-      "unit": 26,
-      "name": "Testes",
+      "public_id": "22222222-0052-0000-0000-000000000000",
+      "unit": 32,
+      "name": "Peritoneum",
+      "tag": "Perit",
       "description": ""
     }
   },
@@ -657,9 +996,10 @@
     "model": "courses.unitsubtopic",
     "pk": 81,
     "fields": {
-      "public_id": "bd842ab8-7f63-4d58-bb97-51565366a03a",
-      "unit": 26,
-      "name": "Sperm",
+      "public_id": "22222222-0053-0000-0000-000000000000",
+      "unit": 32,
+      "name": "Oral Cavity",
+      "tag": "OralCav",
       "description": ""
     }
   },
@@ -667,9 +1007,10 @@
     "model": "courses.unitsubtopic",
     "pk": 82,
     "fields": {
-      "public_id": "580c9207-cd19-4fd8-9204-19287dfac542",
-      "unit": 26,
-      "name": "Male Reproductive Glands",
+      "public_id": "22222222-0054-0000-0000-000000000000",
+      "unit": 32,
+      "name": "Teeth and Tongue",
+      "tag": "TeethTongue",
       "description": ""
     }
   },
@@ -677,9 +1018,10 @@
     "model": "courses.unitsubtopic",
     "pk": 83,
     "fields": {
-      "public_id": "c89b8533-5b86-4bce-83a2-fc8020fc0cd3",
-      "unit": 26,
-      "name": "Male Urethra and Emission",
+      "public_id": "22222222-0055-0000-0000-000000000000",
+      "unit": 33,
+      "name": "Saliva",
+      "tag": "Saliva",
       "description": ""
     }
   },
@@ -687,9 +1029,10 @@
     "model": "courses.unitsubtopic",
     "pk": 84,
     "fields": {
-      "public_id": "52289690-6019-41ae-b41d-354a056bbe8b",
-      "unit": 26,
-      "name": "Penis",
+      "public_id": "22222222-0056-0000-0000-000000000000",
+      "unit": 33,
+      "name": "Swallowing (Deglutition)",
+      "tag": "Deglut",
       "description": ""
     }
   },
@@ -697,9 +1040,10 @@
     "model": "courses.unitsubtopic",
     "pk": 85,
     "fields": {
-      "public_id": "edf9a2d5-a99e-4a6a-ae63-427fc7b9784f",
-      "unit": 26,
-      "name": "Emission and Ejaculation",
+      "public_id": "22222222-0057-0000-0000-000000000000",
+      "unit": 33,
+      "name": "Esophagus",
+      "tag": "Esoph",
       "description": ""
     }
   },
@@ -707,9 +1051,10 @@
     "model": "courses.unitsubtopic",
     "pk": 86,
     "fields": {
-      "public_id": "945ed3c9-1008-40f2-9de2-c6883188f2bb",
-      "unit": 26,
-      "name": "Laboratory 4: Gastrointestinal System",
+      "public_id": "22222222-0058-0000-0000-000000000000",
+      "unit": 33,
+      "name": "Stomach Anatomy",
+      "tag": "StomAnat",
       "description": ""
     }
   },
@@ -717,9 +1062,10 @@
     "model": "courses.unitsubtopic",
     "pk": 87,
     "fields": {
-      "public_id": "2ab39ca1-82ad-49bb-85e8-bf054eb2dd58",
-      "unit": 27,
-      "name": "Oocyte Development",
+      "public_id": "22222222-0059-0000-0000-000000000000",
+      "unit": 34,
+      "name": "Stomach Cells",
+      "tag": "StomCells",
       "description": ""
     }
   },
@@ -727,9 +1073,10 @@
     "model": "courses.unitsubtopic",
     "pk": 88,
     "fields": {
-      "public_id": "9a1a8359-55b1-4081-b20a-869717789701",
-      "unit": 27,
-      "name": "Uterus and Uterine Tubes",
+      "public_id": "22222222-0060-0000-0000-000000000000",
+      "unit": 34,
+      "name": "Stomach Digestion",
+      "tag": "StomDig",
       "description": ""
     }
   },
@@ -737,9 +1084,10 @@
     "model": "courses.unitsubtopic",
     "pk": 89,
     "fields": {
-      "public_id": "b80332c1-bdf3-4671-841c-d20a49c766d9",
-      "unit": 27,
-      "name": "Vagina and External Genitalia",
+      "public_id": "22222222-0061-0000-0000-000000000000",
+      "unit": 34,
+      "name": "Pancreas and Digestive Enzymes",
+      "tag": "PancEnz",
       "description": ""
     }
   },
@@ -747,9 +1095,10 @@
     "model": "courses.unitsubtopic",
     "pk": 90,
     "fields": {
-      "public_id": "814991d1-1f19-45ff-99d0-207db48bad9f",
-      "unit": 27,
-      "name": "Female Reproductive Cycle",
+      "public_id": "22222222-0062-0000-0000-000000000000",
+      "unit": 35,
+      "name": "Bile and Gallbladder",
+      "tag": "BileGB",
       "description": ""
     }
   },
@@ -757,9 +1106,10 @@
     "model": "courses.unitsubtopic",
     "pk": 91,
     "fields": {
-      "public_id": "8ff1c27d-8f29-4464-adcc-80f96ed1f84e",
-      "unit": 27,
-      "name": "Menstruation",
+      "public_id": "22222222-0063-0000-0000-000000000000",
+      "unit": 35,
+      "name": "Liver Histology and Hepatic Blood Flow",
+      "tag": "LiverHist",
       "description": ""
     }
   },
@@ -767,9 +1117,10 @@
     "model": "courses.unitsubtopic",
     "pk": 92,
     "fields": {
-      "public_id": "a43ae4e8-b29f-4a62-ad6f-1a4b9ec30e80",
-      "unit": 27,
-      "name": "General Hormones",
+      "public_id": "22222222-0064-0000-0000-000000000000",
+      "unit": 35,
+      "name": "Liver Metabolic Functions",
+      "tag": "LiverMetab",
       "description": ""
     }
   },
@@ -777,9 +1128,10 @@
     "model": "courses.unitsubtopic",
     "pk": 93,
     "fields": {
-      "public_id": "905dc98a-ce21-471b-9fcc-823d2330b37d",
-      "unit": 27,
-      "name": "Hormone Classes and Receptors",
+      "public_id": "22222222-0065-0000-0000-000000000000",
+      "unit": 36,
+      "name": "Small Intestine Anatomy and Histology",
+      "tag": "SIAnatHist",
       "description": ""
     }
   },
@@ -787,9 +1139,10 @@
     "model": "courses.unitsubtopic",
     "pk": 94,
     "fields": {
-      "public_id": "3fe0afba-7ebc-4844-bdd3-c81ac442ed7b",
-      "unit": 28,
-      "name": "Anterior Pituitary",
+      "public_id": "22222222-0066-0000-0000-000000000000",
+      "unit": 36,
+      "name": "Small Intestine Digestion and Absorption",
+      "tag": "SIDigAbs",
       "description": ""
     }
   },
@@ -797,9 +1150,10 @@
     "model": "courses.unitsubtopic",
     "pk": 95,
     "fields": {
-      "public_id": "162993bf-3e57-4655-97c4-59e4c5ea1aa8",
-      "unit": 28,
-      "name": "Anterior Pituitary Cells and Hormones",
+      "public_id": "22222222-0067-0000-0000-000000000000",
+      "unit": 36,
+      "name": "Nutrient Absorption Pathways",
+      "tag": "NutrAbsorb",
       "description": ""
     }
   },
@@ -807,9 +1161,10 @@
     "model": "courses.unitsubtopic",
     "pk": 96,
     "fields": {
-      "public_id": "fc9ff0a7-f7c7-45c6-9c4b-fdccd627cd11",
-      "unit": 28,
-      "name": "Posterior Pituitary",
+      "public_id": "22222222-0068-0000-0000-000000000000",
+      "unit": 37,
+      "name": "Large Intestine",
+      "tag": "LargeInt",
       "description": ""
     }
   },
@@ -817,9 +1172,10 @@
     "model": "courses.unitsubtopic",
     "pk": 97,
     "fields": {
-      "public_id": "b08aba6c-159c-4286-8543-c14b63a2e1cf",
-      "unit": 28,
-      "name": "Posterior Pituitary Cells and Hormones",
+      "public_id": "22222222-0069-0000-0000-000000000000",
+      "unit": 37,
+      "name": "Defecation Reflex",
+      "tag": "Defecation",
       "description": ""
     }
   },
@@ -827,9 +1183,10 @@
     "model": "courses.unitsubtopic",
     "pk": 98,
     "fields": {
-      "public_id": "934ba7f3-6ac0-43ea-9d97-e6c1ab07ebf7",
-      "unit": 28,
-      "name": "Thyroid Gland",
+      "public_id": "22222222-0070-0000-0000-000000000000",
+      "unit": 37,
+      "name": "Regulation of Digestion",
+      "tag": "DigestReg",
       "description": ""
     }
   },
@@ -837,9 +1194,10 @@
     "model": "courses.unitsubtopic",
     "pk": 99,
     "fields": {
-      "public_id": "350b5265-67a2-4a22-9328-0992d32b6726",
-      "unit": 28,
-      "name": "Adrenal Glands",
+      "public_id": "22222222-0071-0000-0000-000000000000",
+      "unit": 38,
+      "name": "Urinary System Functions",
+      "tag": "UrinFunc",
       "description": ""
     }
   },
@@ -847,9 +1205,593 @@
     "model": "courses.unitsubtopic",
     "pk": 100,
     "fields": {
-      "public_id": "2848e6b7-bac4-497f-a2f4-7a239b5d79d6",
-      "unit": 28,
-      "name": "Pancreas (Endocrine Function)",
+      "public_id": "22222222-0072-0000-0000-000000000000",
+      "unit": 38,
+      "name": "Kidney External Structure",
+      "tag": "KidExtStr",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 101,
+    "fields": {
+      "public_id": "22222222-0073-0000-0000-000000000000",
+      "unit": 38,
+      "name": "Kidney Membranes",
+      "tag": "KidMemb",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 102,
+    "fields": {
+      "public_id": "22222222-0074-0000-0000-000000000000",
+      "unit": 38,
+      "name": "Kidney Internal Anatomy",
+      "tag": "KidIntAnat",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 103,
+    "fields": {
+      "public_id": "22222222-0075-0000-0000-000000000000",
+      "unit": 38,
+      "name": "Kidney Blood Supply",
+      "tag": "KidBloodSup",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 104,
+    "fields": {
+      "public_id": "22222222-0076-0000-0000-000000000000",
+      "unit": 39,
+      "name": "Nephron Anatomy",
+      "tag": "NephAnat",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 105,
+    "fields": {
+      "public_id": "22222222-0077-0000-0000-000000000000",
+      "unit": 39,
+      "name": "Nephron Types",
+      "tag": "NephTypes",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 106,
+    "fields": {
+      "public_id": "22222222-0078-0000-0000-000000000000",
+      "unit": 39,
+      "name": "Filtration Membrane",
+      "tag": "FiltMemb",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 107,
+    "fields": {
+      "public_id": "22222222-0079-0000-0000-000000000000",
+      "unit": 40,
+      "name": "Glomerular Filtration",
+      "tag": "GlomFilt",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 108,
+    "fields": {
+      "public_id": "22222222-0080-0000-0000-000000000000",
+      "unit": 40,
+      "name": "Regulation of Glomerular Filtration Rate (GFR)",
+      "tag": "RegGFR",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 109,
+    "fields": {
+      "public_id": "22222222-0081-0000-0000-000000000000",
+      "unit": 41,
+      "name": "Reabsorption and Secretion",
+      "tag": "ReabsSecr",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 110,
+    "fields": {
+      "public_id": "22222222-0082-0000-0000-000000000000",
+      "unit": 41,
+      "name": "Movement in Tubules",
+      "tag": "MovTub",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 111,
+    "fields": {
+      "public_id": "22222222-0083-0000-0000-000000000000",
+      "unit": 41,
+      "name": "Hormonal Regulation of Reabsorption",
+      "tag": "HormRegReabs",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 112,
+    "fields": {
+      "public_id": "22222222-0084-0000-0000-000000000000",
+      "unit": 42,
+      "name": "Dilute and Concentrated Urine Production",
+      "tag": "UrineConc",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 113,
+    "fields": {
+      "public_id": "22222222-0085-0000-0000-000000000000",
+      "unit": 42,
+      "name": "Ureters",
+      "tag": "Ureters",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 114,
+    "fields": {
+      "public_id": "22222222-0086-0000-0000-000000000000",
+      "unit": 42,
+      "name": "Urinary Bladder",
+      "tag": "Bladder",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 115,
+    "fields": {
+      "public_id": "22222222-0087-0000-0000-000000000000",
+      "unit": 42,
+      "name": "Urethra",
+      "tag": "Urethra",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 116,
+    "fields": {
+      "public_id": "22222222-0088-0000-0000-000000000000",
+      "unit": 42,
+      "name": "Micturition Reflex",
+      "tag": "Micturition",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 117,
+    "fields": {
+      "public_id": "22222222-0089-0000-0000-000000000000",
+      "unit": 43,
+      "name": "Lymphatic Vessels and Lymph Flow",
+      "tag": "LymphVess",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 118,
+    "fields": {
+      "public_id": "22222222-0090-0000-0000-000000000000",
+      "unit": 43,
+      "name": "Lymphatic Organs and Tissues",
+      "tag": "LymphOrg",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 119,
+    "fields": {
+      "public_id": "22222222-0091-0000-0000-000000000000",
+      "unit": 43,
+      "name": "Innate and Adaptive Immunity Overview",
+      "tag": "ImmunOverview",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 120,
+    "fields": {
+      "public_id": "22222222-0092-0000-0000-000000000000",
+      "unit": 44,
+      "name": "Scrotum",
+      "tag": "Scrotum",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 121,
+    "fields": {
+      "public_id": "22222222-0093-0000-0000-000000000000",
+      "unit": 44,
+      "name": "Testes",
+      "tag": "Testes",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 122,
+    "fields": {
+      "public_id": "22222222-0094-0000-0000-000000000000",
+      "unit": 44,
+      "name": "Spermatogenesis",
+      "tag": "Spermatogenesis",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 123,
+    "fields": {
+      "public_id": "22222222-0095-0000-0000-000000000000",
+      "unit": 44,
+      "name": "Sperm Structure",
+      "tag": "SpermStr",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 124,
+    "fields": {
+      "public_id": "22222222-0096-0000-0000-000000000000",
+      "unit": 45,
+      "name": "Male Reproductive Duct System",
+      "tag": "MaleDucts",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 125,
+    "fields": {
+      "public_id": "22222222-0097-0000-0000-000000000000",
+      "unit": 45,
+      "name": "Male Reproductive Glands",
+      "tag": "MaleRepGlands",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 126,
+    "fields": {
+      "public_id": "22222222-0098-0000-0000-000000000000",
+      "unit": 45,
+      "name": "Emission and Ejaculation",
+      "tag": "EmisEjac",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 127,
+    "fields": {
+      "public_id": "22222222-0099-0000-0000-000000000000",
+      "unit": 45,
+      "name": "Penis Anatomy",
+      "tag": "PenisAnat",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 128,
+    "fields": {
+      "public_id": "22222222-0100-0000-0000-000000000000",
+      "unit": 46,
+      "name": "Ovary Anatomy and Follicle Development",
+      "tag": "OvaryFolDev",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 129,
+    "fields": {
+      "public_id": "22222222-0101-0000-0000-000000000000",
+      "unit": 46,
+      "name": "Oocyte Development",
+      "tag": "OocyteDev",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 130,
+    "fields": {
+      "public_id": "22222222-0102-0000-0000-000000000000",
+      "unit": 46,
+      "name": "Uterine Tubes (Fallopian Tubes)",
+      "tag": "UterineTubes",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 131,
+    "fields": {
+      "public_id": "22222222-0103-0000-0000-000000000000",
+      "unit": 47,
+      "name": "Uterus Anatomy and Histology",
+      "tag": "UterusAnatHist",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 132,
+    "fields": {
+      "public_id": "22222222-0104-0000-0000-000000000000",
+      "unit": 47,
+      "name": "Vagina and External Genitalia",
+      "tag": "VagExtGenit",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 133,
+    "fields": {
+      "public_id": "22222222-0105-0000-0000-000000000000",
+      "unit": 47,
+      "name": "Female Reproductive Hormones",
+      "tag": "FemRepHorm",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 134,
+    "fields": {
+      "public_id": "22222222-0106-0000-0000-000000000000",
+      "unit": 47,
+      "name": "Ovarian Cycle",
+      "tag": "OvarianCycle",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 135,
+    "fields": {
+      "public_id": "22222222-0107-0000-0000-000000000000",
+      "unit": 47,
+      "name": "Uterine (Menstrual) Cycle",
+      "tag": "UterineCycle",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 136,
+    "fields": {
+      "public_id": "22222222-0108-0000-0000-000000000000",
+      "unit": 48,
+      "name": "Endocrine Glands and Tissues Overview",
+      "tag": "EndoGlandsOverview",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 137,
+    "fields": {
+      "public_id": "22222222-0109-0000-0000-000000000000",
+      "unit": 48,
+      "name": "General Hormones",
+      "tag": "GenHorm",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 138,
+    "fields": {
+      "public_id": "22222222-0110-0000-0000-000000000000",
+      "unit": 48,
+      "name": "Hormone Classes and Receptors",
+      "tag": "HormClassRecep",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 139,
+    "fields": {
+      "public_id": "22222222-0111-0000-0000-000000000000",
+      "unit": 48,
+      "name": "Hormone Regulation and Feedback Mechanisms",
+      "tag": "HormRegFeedback",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 140,
+    "fields": {
+      "public_id": "22222222-0112-0000-0000-000000000000",
+      "unit": 49,
+      "name": "Hypothalamic-Pituitary Relationship",
+      "tag": "HypoPitRel",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 141,
+    "fields": {
+      "public_id": "22222222-0113-0000-0000-000000000000",
+      "unit": 49,
+      "name": "Anterior Pituitary Anatomy",
+      "tag": "AntPitAnat",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 142,
+    "fields": {
+      "public_id": "22222222-0114-0000-0000-000000000000",
+      "unit": 49,
+      "name": "Anterior Pituitary Cells and Hormones",
+      "tag": "AntPitCellHorm",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 143,
+    "fields": {
+      "public_id": "22222222-0115-0000-0000-000000000000",
+      "unit": 49,
+      "name": "Posterior Pituitary Anatomy",
+      "tag": "PostPitAnat",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 144,
+    "fields": {
+      "public_id": "22222222-0116-0000-0000-000000000000",
+      "unit": 49,
+      "name": "Posterior Pituitary Cells and Hormones",
+      "tag": "PostPitCellHorm",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 145,
+    "fields": {
+      "public_id": "22222222-0117-0000-0000-000000000000",
+      "unit": 50,
+      "name": "Thyroid Gland",
+      "tag": "Thyroid",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 146,
+    "fields": {
+      "public_id": "22222222-0118-0000-0000-000000000000",
+      "unit": 50,
+      "name": "Thyroid Hormone Synthesis",
+      "tag": "ThyHormSynth",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 147,
+    "fields": {
+      "public_id": "22222222-0119-0000-0000-000000000000",
+      "unit": 50,
+      "name": "Parathyroid Glands",
+      "tag": "Parathyroid",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 148,
+    "fields": {
+      "public_id": "22222222-0120-0000-0000-000000000000",
+      "unit": 50,
+      "name": "Calcium Regulation",
+      "tag": "CalciumReg",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 149,
+    "fields": {
+      "public_id": "22222222-0121-0000-0000-000000000000",
+      "unit": 50,
+      "name": "Adrenal Cortex",
+      "tag": "AdrenCortex",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 150,
+    "fields": {
+      "public_id": "22222222-0122-0000-0000-000000000000",
+      "unit": 50,
+      "name": "Adrenal Medulla",
+      "tag": "AdrenMedulla",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 151,
+    "fields": {
+      "public_id": "22222222-0123-0000-0000-000000000000",
+      "unit": 51,
+      "name": "Pancreatic Islets",
+      "tag": "PancIslets",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 152,
+    "fields": {
+      "public_id": "22222222-0124-0000-0000-000000000000",
+      "unit": 51,
+      "name": "Blood Glucose Regulation",
+      "tag": "BloodGlucReg",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 153,
+    "fields": {
+      "public_id": "22222222-0125-0000-0000-000000000000",
+      "unit": 51,
+      "name": "Stress Response",
+      "tag": "StressResp",
       "description": ""
     }
   }

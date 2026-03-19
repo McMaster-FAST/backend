@@ -88,6 +88,23 @@ def parse_questions_from_csv(file_path: str) -> Generator[Dict[str, Any], None, 
                 yield parsed
 
 
+def parse_question_id(question_id: str) -> Dict[str, str]:
+    """
+    Parse a structured question ID into its components.
+
+    Expected format: [Source]-[BroadTopic]-[Subtopic]-[BriefDescriptor]-[Q#]-[Blooms]-[Difficulty]
+    Example: WeeklyTest-CVHeart-HeartExtAnat-PropagFactors-Q1-Und-2
+
+    Returns a dict with 'unit_tag' and 'subtopic_tag' when present, empty strings otherwise.
+    """
+    parts = question_id.split("-")
+    return {
+        "unit_tag": parts[1] if len(parts) > 1 else "",
+        "subtopic_tag": parts[2] if len(parts) > 2 else "",
+        "difficulty": str_to_float(parts[6], default=0.0) if len(parts) > 6 else 0.0
+    }
+
+
 def finalize_question(block: Dict[str, Any]) -> Dict[str, Any] | None:
     """
     Convert an accumulated Brightspace MC question block into our internal dict format.
@@ -102,16 +119,18 @@ def finalize_question(block: Dict[str, Any]) -> Dict[str, Any] | None:
 
     percents = block.get("option_percents") or [0.0] * len(options)
 
-     # Determine correct option: highest percentage gets treated as correct
-    max_percent = max(percents) 
+    # Determine correct option: highest percentage gets treated as correct
+    max_percent = max(percents)
     correct_index = percents.index(max_percent)
     correct_answer_letter = chr(ord("A") + correct_index)
 
-    serial_number = (
-        (block.get("id") or "").strip()
-        or (block.get("title") or "").strip()
-        or f"MC_{content[:50]}"
-    )
+    raw_id = (block.get("id") or "").strip()
+    serial_number = raw_id or (block.get("title") or "").strip() or f"MC_{content[:50]}"
+
+    parsed_id = parse_question_id(raw_id) if raw_id else {"unit_tag": "", "subtopic_tag": "", "difficulty": 0.0}
+    unit_tag = parsed_id["unit_tag"]
+    subtopic_tag = parsed_id["subtopic_tag"]
+    difficulty = parsed_id["difficulty"]
 
     # Build images list from image path if present
     images = []
@@ -127,8 +146,7 @@ def finalize_question(block: Dict[str, Any]) -> Dict[str, Any] | None:
         "answer": correct_answer_letter,
         "comments": block.get("hint", ""),
         "images": images,
-        # TODO: map unit and subtopic dynamically instead of hardcoding
-        "unit": "Week 1 - Cardiovascular System: Heart Structure and Function",
-        "subtopic": "Heart Wall and Pericardium",
-        "unit_number": 1,
+        "unit_tag": unit_tag,
+        "subtopic_tag": subtopic_tag,
+        "difficulty": difficulty,
     }

@@ -234,27 +234,22 @@ def insert_csv_data(question_data: dict, course: Course, create_required: bool) 
     """
     answer_index = ord(question_data.get("answer").upper()) - ord("A")
 
-    # TODO: map unit and subtopic dynamically instead of hardcoding (see csv/parser.py)
-    unit_name = question_data.get("unit", "").strip()
-    subtopic_name = question_data.get("subtopic", "").strip()
-    raw_unit_number = question_data.get("unit_number", "")
-    unit_number = int(raw_unit_number) if raw_unit_number not in (None, "") else -1
+    unit_tag = question_data.get("unit_tag", "").strip()
+    subtopic_tag = question_data.get("subtopic_tag", "").strip()
+    difficulty = question_data.get("difficulty")
 
     with transaction.atomic():
         subtopic = None
-        if unit_name and subtopic_name:
-            if create_required:
-                unit, _ = Unit.objects.get_or_create(defaults={"number": unit_number}, course=course, name=unit_name)
-                subtopic, _ = UnitSubtopic.objects.get_or_create(unit=unit, name=subtopic_name)
-            else:
-                try:
-                    unit = Unit.objects.get(course=course, name=unit_name)
-                    subtopic = UnitSubtopic.objects.get(unit=unit, name=subtopic_name)
-                except (Unit.DoesNotExist, UnitSubtopic.DoesNotExist):
-                    subtopic = None
+        if unit_tag and subtopic_tag:
+            try:
+                unit = Unit.objects.get(course=course, tag=unit_tag)
+                subtopic = UnitSubtopic.objects.get(unit=unit, tag=subtopic_tag)
+            except Unit.DoesNotExist:
+                raise ValueError(f"No unit with tag '{unit_tag}' found for course {course}")
+            except UnitSubtopic.DoesNotExist:
+                raise ValueError(f"No subtopic with tag '{subtopic_tag}' found in unit '{unit_tag}'")
 
-        # Brightspace CSV has no selection stats; use model defaults (0)
-        question = create_question(question_data, 0.0, subtopic)
+        question = create_question(question_data, 0.0, subtopic, difficulty=difficulty)
 
         # QuestionImage requires actual file data, so we just log it for now, but we don't create the images yet.
         for image in question_data.get("images", []):
