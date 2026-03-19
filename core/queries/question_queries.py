@@ -11,6 +11,7 @@ from ..models import (
     AdaptiveTestQuestionMetric,
     Question,
     QuestionOption,
+    SavedForLater,
     TestSession,
     TestingParameters,
 )
@@ -84,8 +85,9 @@ def get_next_question_bundle(
     options = list(QuestionOption.objects.filter(question=next_question))
     random.shuffle(options)
     increment_view_count(user, next_question)
+    saved_for_later = SavedForLater.objects.filter(user=user, question=next_question).exists()
     return (
-        QuestionBundle(question=next_question, options=options),
+        QuestionBundle(question=next_question, options=options, saved_for_later=saved_for_later),
         [],
         determine_suggested_actions(user, subtopic),
     )
