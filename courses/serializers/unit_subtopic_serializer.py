@@ -13,4 +13,4 @@ class UnitDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Unit
-        fields = ["id", "number", "name", "description", "course", "subtopics"]
+        fields = ["public_id", "number", "name", "description", "course", "subtopics"]

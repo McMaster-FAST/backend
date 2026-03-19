@@ -9,11 +9,13 @@ from courses.models import Course, Unit, UnitSubtopic
 from .docx.parser import parse_questions_from_docx
 from .docx.formats import docx_table_format_a
 
-import os
 import tempfile
 
 from math import log
+import re
+from logging import getLogger
 
+logger = getLogger(__name__)
 class DocxParsingError(Exception):
     pass
 
@@ -38,9 +40,14 @@ def parse_file(file_name: str, file_data: bytes, course: dict, create_required: 
             for question_data in parse_questions_from_docx(temp_file.name, docx_table_format_a):
                 try:
                     insert_data(question_data, course, create_required, temp_file.name)
-                except IntegrityError as e: # Make db errors quieter
-                    print(f"Failed inserting {question_data.get('serial_number')} with: {e}")
-
+                    logger.info(f"Successfully inserted question with serial number {question_data.get('serial_number')}")
+                except Exception as e:
+                    if isinstance(e, IntegrityError):
+                        logger.error(f"Insertion failed for question with serial number {question_data.get('serial_number')}. Integrity error: {e}")
+                    elif isinstance(e, DocxParsingError):
+                        logger.error(f"Explicit parsing error for question with serial number {question_data.get('serial_number')}: {e}")
+                    else:
+                        logger.error(f"Unexpected error for question with serial number {question_data.get('serial_number')}: {e}")
     else:
         raise ValueError("Unsupported file format. Only .docx files are supported.")
 
@@ -58,11 +65,17 @@ def insert_data(question_data: dict, course: Course, create_required: bool, temp
     :param course: Course instance that will be referenced in the unit the question belongs to.
     :param create_required: If True, creates Unit and UnitSubtopic if they do not exist. Otherwise, it expects them to exist.
     """
-    answer_index = ord(question_data.get("answer").upper()) - ord("A")
+    try:
+        answer_index = ord(question_data.get("answer").upper().rstrip("() .")) - ord("A")
+    except Exception:
+        raise DocxParsingError(f"Invalid answer format: {question_data.get('answer')}")
+
     raw_selection_frequencies = question_data.get("option_selection_frequencies", [])
     if len(raw_selection_frequencies) <= answer_index:
         raise DocxParsingError(f"Invalid answer index {answer_index}")
-    selection_frequencies = [str_to_float(freq) for freq in raw_selection_frequencies]
+    # Match a single digit (0, 1) or a decimal number. Only match at most 5 digits since we round to 4
+    pattern = re.compile(r"\d?\.\d{,5}")
+    selection_frequencies = [str_to_float(pattern.search(freq)[0]) for freq in raw_selection_frequencies]
     selection_frequency = selection_frequencies[answer_index]
 
     unit_name = question_data.get("unit").strip()
@@ -124,9 +137,8 @@ def save_images(question_data, question_public_id, file_name):
         # Find the image in the docx from src
         with ZipFile(file_name) as docx_zip:
             image_data = docx_zip.read(f"word/{image_src}")
-
-            extension = os.path.splitext(image_src)[1].lower()
-            image_filename = f"{question_public_id}_{image_ref}{extension}"
+            # Ref is expected to include the file extension
+            image_filename = f"{question_public_id}_{image_ref}"
             print(f"Saving image {image_filename}...")
             question_image = QuestionImage.objects.create(
                 image_file=ImageFile(BytesIO(image_data), name=image_filename),
@@ -138,8 +150,6 @@ def save_images(question_data, question_public_id, file_name):
 def calculate_difficulty_for_test(selection_frequency: float) -> float:
     if selection_frequency <= 0 or selection_frequency >= 1:
         return 0.0
-    try:
-        difficulty = -log((1 / selection_frequency) - 1)
-        return round(difficulty, 4)
-    except ValueError:
-        return 0.0
+
+    difficulty = -log((1 / selection_frequency) - 1)
+    return round(difficulty, 4)

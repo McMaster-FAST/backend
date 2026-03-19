@@ -11,12 +11,14 @@ class QuestionAttempt(models.Model):
     )
     timestamp = models.DateTimeField(auto_now_add=True)
     answered_correctly = models.BooleanField()
+    skipped = models.BooleanField(default=False)
     updated_ability_score = models.DecimalField(
         max_digits=5, decimal_places=4, default=0
     )
     time_spent = models.FloatField()
 
     class Meta:
+        unique_together = ("user", "question", "timestamp")
         verbose_name = "Question Attempt"
         verbose_name_plural = "Question Attempts"
 
