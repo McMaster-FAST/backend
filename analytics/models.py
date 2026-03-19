@@ -42,8 +42,7 @@ class UserTopicAbilityScore(models.Model):
 class QuestionReport(UUIDModel):
     # Keep this inline with the frontend report options in the report-question-dialog.tsx
     question = models.ForeignKey("core.Question", on_delete=models.CASCADE)
-    # Allow for anonymous reports, it's not that serious but still
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     additional_details = models.TextField(blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
