@@ -42,6 +42,15 @@ logging.basicConfig(level=python_logging_level)
 # Parse comma-separated string from env var into list
 ALLOWED_HOSTS = [host.strip() for host in os.getenv("ALLOWED_HOSTS").split(",") if host.strip()]
 
+# Tell Django to trust nginx's X-Forwarded-Proto header so request.is_secure()
+# returns True and OIDC callback URLs are built with https://.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+# Required in Django 4.0+ for CSRF checks on HTTPS origins behind a proxy.
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip() for origin in os.getenv("CSRF_TRUSTED_ORIGINS", "https://macfast.ca").split(",") if origin.strip()
+]
+
 # --- CORS Settings ---
 # Parse comma-separated string from env var into list
 CORS_ALLOWED_ORIGINS = [origin.strip() for origin in os.getenv("CORS_ALLOWED_ORIGINS").split(",") if origin.strip()]
@@ -115,9 +124,10 @@ DATABASES = {
 }
 
 REST_FRAMEWORK = {
+    # keep OIDC first: SPA sends Bearer and SessionAuthentication enforces CSRF on unsafe methods and would 403 same-origin POSTs without X-CSRFToken if it ran first.
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.SessionAuthentication",  # For Browser
         "mozilla_django_oidc.contrib.drf.OIDCAuthentication",
+        "rest_framework.authentication.SessionAuthentication",  # For Browser
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
