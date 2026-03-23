@@ -5,7 +5,6 @@ import re
 import shutil
 import subprocess
 import tempfile
-from typing import List
 
 from docx.shared import RGBColor
 
