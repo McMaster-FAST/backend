@@ -22,8 +22,8 @@ class UnitSubtopicSerializer(serializers.ModelSerializer):
     def get_user_ability(self, obj):
         scores = getattr(obj, "prefetched_scores", [])
 
-        if settings.DEBUG:
-            print(scores)
+        # if settings.DEBUG:
+            # print(scores)
 
         if scores:
             return UserTopicAbilityScoreSerializer(scores[0]).data
