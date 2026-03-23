@@ -144,7 +144,7 @@ def parse_file(file_name: str, file_data: bytes, course: dict, create_required: 
             temp_file.flush()
             for question_data in parse_questions_from_csv(temp_file.name):
                 try:
-                    insert_data(question_data, course, create_required, temp_file.name)
+                    insert_csv_data(question_data, course, create_required)
                     logger.info(f"Successfully inserted question with serial number {question_data.get('serial_number')}")
                 except Exception as e:
                     if isinstance(e, IntegrityError):
