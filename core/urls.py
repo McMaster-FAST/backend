@@ -8,6 +8,7 @@ from .views import (
     SubmitTestAnswerView,
     SkipTestQuestionView,
     QuestionsView,
+    ResumeView,
 )
 
 ADAPTIVE_TEST_BASE_PATH = "adaptive-test"
@@ -30,4 +31,5 @@ urlpatterns = [
         name="skip-test-question",
     ),
     path("questions/", QuestionsView.as_view(), name="questions"),
+    path("resume/", ResumeView.as_view(), name="resume"),
 ]
