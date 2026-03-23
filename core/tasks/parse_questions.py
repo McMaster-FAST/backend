@@ -14,6 +14,7 @@ from .utils import str_to_float
 from core.tasks.docx.parser1AA3Q import parse
 from core.tasks.docx.parser1AA3exp import parse_explanation_updates
 from django.db.models import Q
+import os
 
 import tempfile
 import hashlib
