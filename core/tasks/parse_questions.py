@@ -29,8 +29,8 @@ class DocxParsingError(Exception):
 def parse_file(
     file_name: str,
     file_data: bytes,
-    course: dict,
-    uploading_user: MacFastUser,
+    course_data: dict,
+    uploading_user_id: int,
     create_required: bool,
 ) -> None:
     """
@@ -39,13 +39,15 @@ def parse_file(
     :param file_name: Name of the uploaded file.
     :param file_data: Byte content of the uploaded file.
     :param course: Dictionary containing course identifiers (code, year, semester).
-    :param uploading_user: The user who is uploading the file.
+    :param uploading_user_id: The ID of the user who is uploading the file.
     :param create_required: Create all required related entities if they do not exist, with the exception of Course.
     """
-    can_auto_verify = can_auto_verify(uploading_user, course)
-    if not Course.objects.filter(**course).exists():
+    auto_verify = can_auto_verify(uploading_user_id, course_data)
+    try:
+        course = Course.objects.get(**course_data)
+    except Course.DoesNotExist:
         raise ValueError(
-            f"Course with code {course.get('code')}, year {course.get('year')}, semester {course.get('semester')} does not exist."
+            f"Course with code {course_data.get('code')}, year {course_data.get('year')}, semester {course_data.get('semester')} does not exist."
         )
     if file_name.endswith(".docx"):
         with tempfile.NamedTemporaryFile(delete=False, suffix=".docx") as temp_file:
@@ -59,9 +61,10 @@ def parse_file(
                         course,
                         create_required,
                         temp_file.name,
-                        can_auto_verify,
+                        auto_verify,
                     )
                 except Exception as e:
+                    summary = None
                     if isinstance(e, IntegrityError):
                         logger.error(
                             f"Insertion failed for question with serial number {question_data.get('serial_number')}. Integrity error: {e}"
@@ -77,14 +80,14 @@ def parse_file(
                         )
                         summary = traceback.extract_tb(e.__traceback__)
                     if summary:
-                        logger.error(f"Error info for {question_data}: {summary[-1]}")
+                        logger.error(f"Error info: {summary[-1]} {e}")
     else:
         raise ValueError("Unsupported file format. Only .docx files are supported.")
 
 
-def can_auto_verify(user: MacFastUser, course: dict) -> bool:
+def can_auto_verify(user_id: int, course: dict) -> bool:
     return Enrolment.objects.filter(
-        user=user,
+        user__id=user_id,
         course__code=course.get("code"),
         course__year=course.get("year"),
         course__semester=course.get("semester"),
@@ -107,7 +110,7 @@ def insert_data(
     course: Course,
     create_required: bool,
     temp_file_name: str,
-    can_auto_verify: bool,
+    auto_verify: bool,
 ) -> None:
     """
     Inserts parsed question data into the database.
@@ -115,7 +118,7 @@ def insert_data(
     :param question_data: Dictionary containing question details.
     :param course: Course instance that will be referenced in the unit the question belongs to.
     :param create_required: If True, creates Unit and UnitSubtopic if they do not exist. Otherwise, it expects them to exist.
-    :param can_auto_verify: Whether the question will be set to verified
+    :param auto_verify: Whether the question will be set to verified.
     """
     try:
         answer_index = ord(question_data.get("answer").upper().rstrip("() .")) - ord(
@@ -138,6 +141,7 @@ def insert_data(
     subtopic_name = question_data.get("subtopic").strip()
     raw_unit_number = question_data.get("unit_number").strip()
     unit_number = int(raw_unit_number) if raw_unit_number not in (None, "") else -1
+
     with transaction.atomic():
         if create_required:
             unit, _ = Unit.objects.get_or_create(
@@ -151,7 +155,7 @@ def insert_data(
             subtopic = UnitSubtopic.objects.get(unit=unit, name=subtopic_name)
 
         question = create_question(
-            question_data, selection_frequency, subtopic, can_auto_verify
+            question_data, selection_frequency, subtopic, auto_verify
         )
         created_images = save_images(question_data, question.public_id, temp_file_name)
         question.images.set(created_images)
@@ -163,11 +167,19 @@ def insert_data(
 def create_question(
     question_data, selection_frequency: float, subtopic, is_verified: bool
 ):
+    serial_number = question_data.get("serial_number", "N/A").strip()
+    content = question_data.get("content")
+    if not content or content.strip() == "":
+        raise ValueError(f"Question content is empty for question with serial number {serial_number}")
+    
+    answer_explanation = question_data.get("explanation")
+    if not answer_explanation:
+        answer_explanation = ""
     question = Question.objects.create(
         subtopic=subtopic,
         serial_number=question_data.get("serial_number"),
-        content=question_data.get("content", ""),
-        answer_explanation=question_data.get("explanation", ""),
+        content=content.strip(),
+        answer_explanation=answer_explanation.strip(),
         selection_frequency=selection_frequency,
         difficulty=calculate_difficulty_for_test(selection_frequency),
         is_verified=is_verified,

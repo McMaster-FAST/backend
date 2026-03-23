@@ -12,10 +12,6 @@ class FileUploadSerializer(serializers.Serializer):
     create_required = serializers.BooleanField(default=False, write_only=True)
 
     def validate(self, attrs):
-        if not self._user_has_permission(self.context["request"].user):
-            raise serializers.ValidationError(
-                "You do not have permission to upload files for this course."
-            )
         if Path(attrs["file"].name).suffix.lower() not in [
             f".{ext}" for ext in self.supported_formats
         ]:
@@ -24,13 +20,3 @@ class FileUploadSerializer(serializers.Serializer):
             )
         return super().validate(attrs)
 
-    def _user_has_permission(self, user):
-        user_enrolment = Enrolment.objects.filter(
-            user=user,
-            course__code=self.context.get("course_code"),
-            course__year=self.context.get("course_year"),
-            course__semester=self.context.get("course_semester"),
-        )
-        if not user_enrolment.exists():
-            return False
-        return user_enrolment.first().is_instructor or user_enrolment.first().is_ta
