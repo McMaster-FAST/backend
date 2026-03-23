@@ -5,12 +5,9 @@ import re
 import shutil
 import subprocess
 import tempfile
-from typing import Dict, List
+from typing import List
 
-from bs4 import BeautifulSoup, Tag
-from docx import Document
 from docx.shared import RGBColor
-from docx.oxml.ns import qn
 
 BLUE = RGBColor(0x00, 0x00, 0xFF)
 LETTER_RE = re.compile(r"^\s*([A-D])\s*[\)\.\:]?\s*$", re.IGNORECASE)
@@ -382,7 +379,6 @@ def _convert_emf_wmf_bytes_to_png(image_bytes: bytes, extension: str) -> tuple[b
 
 #     return out
 
-import hashlib
 
 # def dedupe_image_dicts(images: list[dict]) -> list[dict]:
 #     seen = set()

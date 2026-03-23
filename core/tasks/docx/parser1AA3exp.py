@@ -62,7 +62,6 @@ def omml_element_to_mathml(omml_el) -> str:
         raw = etree.tostring(omml_el, encoding="unicode")
         return f'<span data-math-fallback="omml-error">{html.escape(str(e))}</span><span data-math-fallback="omml">{html.escape(raw)}</span>'
 
-import html
 from docx.oxml.ns import qn
 
 SYMBOL_MAP = {
@@ -429,7 +428,7 @@ def extract_cell_html_and_images(doc: Document, cell, prefix: str) -> tuple[str,
 #             if tc_id in seen_tcs:
 #                 continue
 #             seen_tcs.add(tc_id)
-    
+
 #             cell_html, cell_images = extract_cell_html_and_images(
 #                 doc,
 #                 cell,
@@ -442,7 +441,6 @@ def extract_cell_html_and_images(doc: Document, cell, prefix: str) -> tuple[str,
 
 #     return f"<table>{''.join(rows_html)}</table>", images
 
-import re
 
 def collapse_single_paragraph(cell_html: str) -> str:
     m = re.fullmatch(r"<p>(.*?)</p>", cell_html.strip(), flags=re.DOTALL)

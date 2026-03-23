@@ -218,7 +218,6 @@ def omml_element_to_mathml(omml_el) -> str:
         raw = etree.tostring(omml_el, encoding="unicode")
         return f'<span data-math-fallback="omml-error">{html.escape(str(e))}</span><span data-math-fallback="omml">{html.escape(raw)}</span>'
 
-import html
 from docx.oxml.ns import qn
 
 SYMBOL_MAP = {
@@ -334,7 +333,7 @@ def _convert_emf_wmf_bytes_to_png(data: bytes, ext: str) -> tuple[bytes, str]:
 
 #     return f"<table>{''.join(rows_html)}</table>", images
 
-import re
+
 
 def collapse_single_paragraph(cell_html: str) -> str:
     m = re.fullmatch(r"<p>(.*?)</p>", cell_html.strip(), flags=re.DOTALL)
