@@ -62,7 +62,6 @@ def omml_element_to_mathml(omml_el) -> str:
         raw = etree.tostring(omml_el, encoding="unicode")
         return f'<span data-math-fallback="omml-error">{html.escape(str(e))}</span><span data-math-fallback="omml">{html.escape(raw)}</span>'
 
-from docx.oxml.ns import qn
 
 SYMBOL_MAP = {
     "": "ν",
@@ -146,39 +145,6 @@ def run_element_to_html(run_element) -> str:
 
     return "".join(parts)
 
-# def run_element_to_html(run_element) -> str:
-#     parts = []
-
-#     # text nodes
-#     for t in run_element.xpath("./*[local-name()='t']"):
-#         txt = html.escape(t.text or "")
-
-#         rpr = run_element.xpath("./*[local-name()='rPr']")
-#         if rpr:
-#             rpr = rpr[0]
-
-#             if rpr.xpath("./*[local-name()='vertAlign' and @*[local-name()='val']='subscript']"):
-#                 txt = f"<sub>{txt}</sub>"
-#             if rpr.xpath("./*[local-name()='vertAlign' and @*[local-name()='val']='superscript']"):
-#                 txt = f"<sup>{txt}</sup>"
-#             if rpr.xpath("./*[local-name()='u']"):
-#                 txt = f"<u>{txt}</u>"
-#             if rpr.xpath("./*[local-name()='b']"):
-#                 txt = f"<strong>{txt}</strong>"
-#             if rpr.xpath("./*[local-name()='i']"):
-#                 txt = f"<em>{txt}</em>"
-
-#         parts.append(txt)
-
-#     # tabs
-#     for _ in run_element.xpath("./*[local-name()='tab']"):
-#         parts.append("&emsp;")
-
-#     # line breaks
-#     for _ in run_element.xpath("./*[local-name()='br']"):
-#         parts.append("<br>")
-
-#     return "".join(parts)
 
 def normalize_text(text: str) -> str:
     return (text or "").replace("\xa0", " ").strip()
@@ -198,108 +164,6 @@ def _convert_emf_wmf_bytes_to_png(data: bytes, ext: str) -> tuple[bytes, str]:
     return convert_fn(data, ext)
 
 
-# def extract_cell_html_and_images(doc: Document, cell, prefix: str) -> tuple[str, list[dict]]:
-#     parts = []
-#     images = []
-#     seen_keys = set()
-#     img_counter = 0
-
-#     def add_image_rid(rid: str) -> str:
-#         nonlocal img_counter
-
-#         if not rid:
-#             return ""
-
-#         part = doc.part.related_parts.get(rid)
-#         if not part:
-#             return ""
-
-#         content_type = getattr(part, "content_type", "") or ""
-#         if not content_type.startswith("image/"):
-#             return ""
-
-#         partname = str(getattr(part, "partname", ""))
-#         ext = os.path.splitext(partname)[1].lower()
-
-#         if not ext:
-#             content_type_map = {
-#                 "image/png": ".png",
-#                 "image/jpeg": ".jpg",
-#                 "image/jpg": ".jpg",
-#                 "image/gif": ".gif",
-#                 "image/bmp": ".bmp",
-#                 "image/tiff": ".tif",
-#                 "image/x-emf": ".emf",
-#                 "image/emf": ".emf",
-#                 "image/x-wmf": ".wmf",
-#                 "image/wmf": ".wmf",
-#             }
-#             ext = content_type_map.get(content_type, "")
-
-#         if not ext:
-#             return ""
-
-#         data = part.blob
-#         data, ext = _convert_emf_wmf_bytes_to_png(data, ext)
-
-#         digest = hashlib.sha256(data).hexdigest()
-#         key = (rid, digest)
-#         if key in seen_keys:
-#             return ""
-#         seen_keys.add(key)
-
-#         img_counter += 1
-#         ref = f"[[IMG:{prefix}_{img_counter}]]"
-#         name = f"{prefix}_{img_counter}{ext}"
-
-#         images.append({
-#             "name": name,
-#             "bytes": data,
-#             "extension": ext,
-#             "ref": ref,
-#         })
-#         return ref
-
-#     for p in cell.paragraphs:
-#         p_parts = []
-#         p_el = p._p
-
-#         for child in p_el.iterchildren():
-#             local = etree.QName(child).localname
-#             ns = etree.QName(child).namespace
-
-#             # normal text run
-#             if ns == WORD_NS and local == "r":
-#                 p_parts.append(run_element_to_html(child))
-
-#                 # inline images inside the run
-#                 for blip in child.xpath(".//*[local-name()='blip']"):
-#                     rid = blip.get(qn("r:embed"))
-#                     ref = add_image_rid(rid)
-#                     if ref:
-#                         p_parts.append(ref)
-
-#                 for imagedata in child.xpath(".//*[local-name()='imagedata']"):
-#                     rid = imagedata.get(qn("r:id"))
-#                     ref = add_image_rid(rid)
-#                     if ref:
-#                         p_parts.append(ref)
-
-#             # equation block or inline equation
-#             elif ns == MATH_NS and local in {"oMath", "oMathPara"}:
-#                 p_parts.append(omml_element_to_mathml(child))
-
-#         paragraph_html = "".join(p_parts).strip()
-#         if paragraph_html:
-#             parts.append(f"<p>{paragraph_html}</p>")
-
-#     # nested tables inside explanation cell
-#     for ti, tbl in enumerate(cell.tables, start=1):
-#         nested_html, nested_images = extract_table_html_and_images(doc, tbl, f"{prefix}_tbl{ti}")
-#         parts.append(nested_html)
-#         images.extend(nested_images)
-
-#     return "".join(parts).strip(), images
 
 def extract_cell_html_and_images(doc: Document, cell, prefix: str) -> tuple[str, list[dict]]:
     parts = []
@@ -415,31 +279,6 @@ def extract_cell_html_and_images(doc: Document, cell, prefix: str) -> tuple[str,
     return "".join(parts).strip(), images
 
 
-# def extract_table_html_and_images(doc: Document, tbl, prefix: str) -> tuple[str, list[dict]]:
-#     rows_html = []
-#     images = []
-
-#     for r, row in enumerate(tbl.rows, start=1):
-#         cells_html = []
-#         seen_tcs = set()
-
-#         for c, cell in enumerate(row.cells, start=1):
-#             tc_id = id(cell._tc)
-#             if tc_id in seen_tcs:
-#                 continue
-#             seen_tcs.add(tc_id)
-
-#             cell_html, cell_images = extract_cell_html_and_images(
-#                 doc,
-#                 cell,
-#                 f"{prefix}_r{r}_c{c}",
-#             )
-#             cells_html.append(f"<td>{cell_html}</td>")
-#             images.extend(cell_images)
-
-#         rows_html.append(f"<tr>{''.join(cells_html)}</tr>")
-
-#     return f"<table>{''.join(rows_html)}</table>", images
 
 
 def collapse_single_paragraph(cell_html: str) -> str:
