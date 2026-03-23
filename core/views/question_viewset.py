@@ -1,3 +1,4 @@
+from MacFAST.pagination import OnlyPageNumberPagination
 from rest_framework import viewsets, filters
 from rest_framework.permissions import IsAuthenticated
 
@@ -28,6 +29,10 @@ class QuestionViewSet(viewsets.ModelViewSet):
     search_fields = [
         "content",
     ]
+
+    pagination_class = OnlyPageNumberPagination
+    # 20 is a good size
+    pagination_class.page_size = 20
 
     def get_queryset(self):
         queryset = Question.objects.all()

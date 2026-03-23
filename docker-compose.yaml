@@ -5,6 +5,7 @@ x-django-service: &django-service
     target: runner
   volumes:
     - .:/app # Mount the application code
+    - /app/.venv
   environment:
     - DEBUG=${DEBUG}
     - SECRET_KEY=${SECRET_KEY}
@@ -13,9 +14,9 @@ x-django-service: &django-service
     - ALLOWED_ORIGIN=${ALLOWED_ORIGIN}
     - DATABASE_URL=${DATABASE_URL}
     - CELERY_BROKER_URL=amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@rabbitmq:5672/
-    - OIDC_BASE_URL=${OIDC_BASE_URL}
     - OIDC_RP_CLIENT_ID=${OIDC_RP_CLIENT_ID}
     - OIDC_RP_CLIENT_SECRET=${OIDC_RP_CLIENT_SECRET}
+    - ENTRA_TENANT_ID=${ENTRA_TENANT_ID}
   restart: unless-stopped
   depends_on:
     db:
@@ -72,6 +73,7 @@ services:
       "
     volumes:
       - .:/app
+      - /app/.venv
       - static_volume:/app/staticfiles
       - media_volume:/app/media
     ports:
@@ -81,17 +83,18 @@ services:
     <<: *django-service # Inherit from the base service
     command: >
       sh -c "
-      uv run celery -A MacFAST worker -l info
+      uv run python -m celery -A MacFAST worker -l info
       "
     volumes:
       - .:/app
+      - /app/.venv
       - media_volume:/app/media
 
   beat:
     <<: *django-service # Inherit from the base service
     command: >
       sh -c "
-      uv run celery -A MacFAST beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+      uv run python -m celery -A MacFAST beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
       "
 
 volumes:
