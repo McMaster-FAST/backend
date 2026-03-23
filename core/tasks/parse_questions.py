@@ -6,7 +6,6 @@ from django.db import IntegrityError, transaction
 from django.core.files.images import ImageFile
 from core.models import Question, QuestionComment, QuestionOption, QuestionImage
 from courses.models import Course, Enrolment, Unit, UnitSubtopic
-from sso_auth.models import MacFastUser
 from .docx.parser import parse_questions_from_docx
 from .docx.formats import docx_table_format_a
 
@@ -18,7 +17,7 @@ import re
 from logging import getLogger
 
 logger = getLogger(__name__)
-decimal_pattern = re.compile(r"\d?\.\d{,5}")
+decimal_pattern = re.compile(r"\d?\.\d{0,5}")
 
 
 class DocxParsingError(Exception):

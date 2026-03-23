@@ -1,4 +1,3 @@
-from courses.models import Enrolment
 from rest_framework import serializers
 from pathlib import Path
 

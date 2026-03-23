@@ -24,7 +24,7 @@ class UploadView(APIView):
         """
         serializer = FileUploadSerializer(data=request.data)
 
-        logger.debug("Received file upload request with data:", request.data)
+        logger.debug("Received file upload request with data: %s", request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
