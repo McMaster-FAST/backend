@@ -136,8 +136,8 @@ def parse_file(file_name: str, file_data: bytes, course: dict, create_required: 
             finally:
                 try:
                     os.unlink(temp_file.name)
-                except OSError:
-                    pass
+                except OSError as e:
+                    logger.warning(f"Failed to delete temporary file '{temp_file.name}': {e}")
 
     elif file_name.endswith(".csv"):
         with tempfile.NamedTemporaryFile(delete=False, suffix=".csv", mode='wb') as temp_file:
