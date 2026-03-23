@@ -36,7 +36,8 @@ class UploadView(APIView):
             uploaded_file.name, 
             uploaded_file.read(), 
             course, 
-            create_required
+            request.user,
+            create_required,
         )
 
         return Response(
