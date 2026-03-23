@@ -16,8 +16,6 @@ class UploadView(APIView):
     Class based view to handle question bank uploads.
     """
 
-    permission_classes = (AllowAny,)
-
     def put(self, request, *args, **kwargs):
         """
         Handles PUT requests for uploading question banks.
@@ -57,12 +55,13 @@ class UploadView(APIView):
         )
 
     def _user_has_permission(self, user, serializer):
-        user_enrolment = Enrolment.objects.filter(
+        user_enrolments = Enrolment.objects.filter(
             user=user,
             course__code=serializer.validated_data.get("course_code"),
             course__year=serializer.validated_data.get("course_year"),
             course__semester=serializer.validated_data.get("course_semester"),
         )
-        if not user_enrolment.exists():
+        if not user_enrolments.exists():
             return False
-        return user_enrolment.first().is_instructor or user_enrolment.first().is_ta
+        user_enrolment = user_enrolments.first()
+        return user_enrolment.is_instructor or user_enrolment.is_ta
