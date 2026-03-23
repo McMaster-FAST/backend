@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
+import re
 from pathlib import Path
 import dj_database_url
 import logging
@@ -159,6 +160,10 @@ OIDC_RP_SIGN_ALGO = "RS256"
 
 
 OIDC_OP_JWKS_ENDPOINT = f"{ENTRA_BASE_URL}/discovery/v2.0/keys"
+
+# Do not run SessionRefresh on DRF routes: it 302s to Microsoft's authorize URL,
+# which fetch() cannot follow (CORS). API auth is Bearer + DRF, not browser OIDC redirect.
+OIDC_EXEMPT_URLS = [re.compile(r"^/api/")]
 
 # --- Routing ---
 LOGIN_URL = "oidc_authentication_init"
