@@ -1,7 +1,10 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from courses.models import Course
+from analytics.models import UserTopicAbilityScore
+from courses.models import Course, UnitSubtopic
 from courses.serializers import CourseSerializer, CourseDetailSerializer
+
+from django.db.models import Prefetch
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -16,10 +19,30 @@ class CourseViewSet(viewsets.ModelViewSet):
 
         # If user is staff, return all courses
         if user.is_staff:
-            return Course.objects.all()
+            queryset = Course.objects.all()
+        else:
+            queryset = None
+
+        if self.action == "retrieve":
+            # Filter scores, only prefetch the ones for the current user
+            user_scores_qs = UserTopicAbilityScore.objects.filter(user=user)
+
+            # Build prefetch chain: Course -> Unit -> Subtopic -> Score
+            return queryset.prefetch_related(
+                Prefetch(
+                    "unit_set__unitsubtopic_set",
+                    queryset=UnitSubtopic.objects.prefetch_related(
+                        Prefetch(
+                            "usertopicabilityscore_set",
+                            queryset=user_scores_qs,
+                            to_attr="prefetched_scores",
+                        )
+                    ),
+                )
+            )
 
         # User can only see courses they are enrolled in
-        return Course.objects.filter(enrolment__user=self.request.user)
+        return queryset
 
     def get_serializer_class(self):
         if self.action == "retrieve":
