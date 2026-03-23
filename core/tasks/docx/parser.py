@@ -17,7 +17,7 @@ def parse_questions_from_docx(
     soup = BeautifulSoup(html, "html.parser")
     top_level_tables = [
         t for t in soup.find_all("table")
-        if t.find_parent("table") is None
+        if not t.find_parents("table")
     ]
     logger.info(f"Found {len(top_level_tables)} top-level tables (Questions)")
     for table in top_level_tables:

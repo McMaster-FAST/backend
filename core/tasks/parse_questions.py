@@ -10,12 +10,14 @@ from .docx.parser import parse_questions_from_docx
 from .docx.formats import docx_table_format_a
 
 import tempfile
+import traceback
 
 from math import log
 import re
 from logging import getLogger
 
 logger = getLogger(__name__)
+decimal_pattern = re.compile(r"\d?\.\d{,5}")
 class DocxParsingError(Exception):
     pass
 
@@ -40,23 +42,29 @@ def parse_file(file_name: str, file_data: bytes, course: dict, create_required: 
             for question_data in parse_questions_from_docx(temp_file.name, docx_table_format_a):
                 try:
                     insert_data(question_data, course, create_required, temp_file.name)
-                    logger.info(f"Successfully inserted question with serial number {question_data.get('serial_number')}")
                 except Exception as e:
                     if isinstance(e, IntegrityError):
                         logger.error(f"Insertion failed for question with serial number {question_data.get('serial_number')}. Integrity error: {e}")
                     elif isinstance(e, DocxParsingError):
                         logger.error(f"Explicit parsing error for question with serial number {question_data.get('serial_number')}: {e}")
+                        summary = traceback.extract_tb(e.__traceback__)
                     else:
                         logger.error(f"Unexpected error for question with serial number {question_data.get('serial_number')}: {e}")
+                        summary = traceback.extract_tb(e.__traceback__)
+                    if summary:
+                        logger.error(f"Error info for {question_data}: {summary[-1]}")
     else:
         raise ValueError("Unsupported file format. Only .docx files are supported.")
 
-def str_to_float(value: str) -> float:
+def parse_select_frequency(value: str) -> float:
     try:
-        return float(value)
+        match = decimal_pattern.search(value)
+        if match:
+            return float(match.group())
     except (ValueError, TypeError):
-        return 0.0
-    
+        pass
+    return 0.0
+
 def insert_data(question_data: dict, course: Course, create_required: bool, temp_file_name: str) -> None:
     """
     Inserts parsed question data into the database.
@@ -74,8 +82,8 @@ def insert_data(question_data: dict, course: Course, create_required: bool, temp
     if len(raw_selection_frequencies) <= answer_index:
         raise DocxParsingError(f"Invalid answer index {answer_index}")
     # Match a single digit (0, 1) or a decimal number. Only match at most 5 digits since we round to 4
-    pattern = re.compile(r"\d?\.\d{,5}")
-    selection_frequencies = [str_to_float(pattern.search(freq)[0]) for freq in raw_selection_frequencies]
+
+    selection_frequencies = [parse_select_frequency(freq) for freq in raw_selection_frequencies]
     selection_frequency = selection_frequencies[answer_index]
 
     unit_name = question_data.get("unit").strip()
@@ -109,8 +117,8 @@ def create_question(question_data, selection_frequency: float, subtopic):
     return question
 
 def create_question_comments(question_data, question):
-    comment_text = question_data.get("comments", "")
-    if comment_text != "":
+    comment_text = question_data.get("comments")
+    if comment_text is not None and comment_text.strip() != "":
         QuestionComment.objects.create(
                 question=question,
                 comment_text=comment_text
@@ -119,7 +127,7 @@ def create_question_comments(question_data, question):
 def create_question_options(question_data, answer_index, question):
     for idx, option_content in enumerate(question_data.get("options", [])):
         is_answer = (idx == answer_index)
-        option_selection_frequency = str_to_float(question_data.get("option_selection_frequencies", [])[idx])
+        option_selection_frequency = parse_select_frequency(question_data.get("option_selection_frequencies", [])[idx])
         QuestionOption.objects.create(
                 question=question,
                 content=option_content,
