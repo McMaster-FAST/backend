@@ -22,7 +22,6 @@ import re
 from math import log
 from docx import Document
 
-from bs4 import BeautifulSoup
 from django.core.files.images import ImageFile
 from io import BytesIO
 
