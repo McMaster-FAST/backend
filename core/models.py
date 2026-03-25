@@ -170,10 +170,8 @@ class TestingParameters(UUIDModel):
         return f"test_parameters_{course_id}"
 
 
-
 class CourseResumeState(UUIDModel):
-    #Tracks the last studied subtopic for a given user and course.
-    
+    # Tracks the last studied subtopic for a given user and course.
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     course = models.ForeignKey("courses.Course", on_delete=models.CASCADE)
