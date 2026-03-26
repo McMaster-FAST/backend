@@ -4,6 +4,7 @@ from .question_serializer import QuestionSerializer
 from .question_option_serializer import QuestionOptionSerializer
 from .test_session_serializer import TestSessionSerializer
 from .adaptive_test.question_metric_serializer import AdaptiveTestQuestionMetricSerializer
+from .resume_serializer import ResumeTargetSerializer
 
 from .adaptive_test.next_question_serializer import NextQuestionSerializer
 from .adaptive_test.answer_serializer import AnswerSerializer
