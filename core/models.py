@@ -170,6 +170,18 @@ class TestingParameters(UUIDModel):
         return f"test_parameters_{course_id}"
 
 
-# TODO: Add table to track the active test session by course. Then resume will just return the information
-# (course code, unit name, subtopic name) required for the frontend to show the test page.
-# Ticket exists for this
+class CourseResumeState(UUIDModel):
+    # Tracks the last studied subtopic for a given user and course.
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    course = models.ForeignKey("courses.Course", on_delete=models.CASCADE)
+    last_subtopic = models.ForeignKey("courses.UnitSubtopic", on_delete=models.CASCADE)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Course Resume State"
+        verbose_name_plural = "Course Resume States"
+        unique_together = ("user", "course")
+
+    def __str__(self):
+        return f"{self.user} - {self.course} -> {self.last_subtopic}"
