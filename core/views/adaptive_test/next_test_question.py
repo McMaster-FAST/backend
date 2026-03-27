@@ -5,7 +5,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from ...serializers import NextQuestionSerializer
 from courses.models import UnitSubtopic
-from ...queries import get_next_question_bundle, get_testsession_and_set_active
+from ...queries.question_queries import get_next_question_bundle, getQuestionResponse
 
 
 class NextTestQuestionView(APIView):
@@ -13,6 +13,7 @@ class NextTestQuestionView(APIView):
         """
         Submits an answer for the adaptive test and gets the next question.
         """
+
         serializer = NextQuestionSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -31,18 +32,5 @@ class NextTestQuestionView(APIView):
             unit__name=unit_name,
             name=subtopic_name,
         )
-
-        test_session = get_testsession_and_set_active(user, subtopic)
-
-        question_bundle = get_next_question_bundle(subtopic, user, test_session)
-
-        return Response(
-            {
-                "question": (
-                    NextQuestionSerializer(question_bundle).data
-                    if question_bundle
-                    else None
-                )
-            },
-            status=status.HTTP_200_OK,
-        )
+        question_bundle, continue_actions, suggested_actions = get_next_question_bundle(user, subtopic)
+        return getQuestionResponse(question_bundle, continue_actions, suggested_actions)

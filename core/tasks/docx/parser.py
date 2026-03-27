@@ -1,20 +1,28 @@
+from pathlib import Path
 import re
 import pypandoc
 from bs4 import BeautifulSoup
 from .formats import DocxDataIdentifier
 
 from typing import Iterator, Dict, Any
+from logging import getLogger
+
+logger = getLogger(__name__)
 
 
 def parse_questions_from_docx(
     file_path: str, format_spec: Dict[str, DocxDataIdentifier]
 ) -> Iterator[Dict[str, Any]]:
-    html = pypandoc.convert_file(source_file=file_path, to="html", format="docx")
+    # Wrap none required or else newlines are inserted which messes with the frontend styling
+    html = pypandoc.convert_file(
+        source_file=file_path, to="html", format="docx", extra_args=["--wrap=none"]
+    )
     soup = BeautifulSoup(html, "html.parser")
-    top_level_tables = soup.find_all('table', recursive=False)
-
-    for idx, table in enumerate(top_level_tables):
-        print(f"Processing table {idx + 1}/{len(top_level_tables)}...")
+    top_level_tables = [
+        t for t in soup.find_all("table") if not t.find_parents("table")
+    ]
+    logger.info(f"Found {len(top_level_tables)} top-level tables (Questions)")
+    for table in top_level_tables:
         yield extract_table_data(table, format_spec)
 
 
@@ -27,28 +35,40 @@ def extract_cell_data(cell, identifier: DocxDataIdentifier, index: int) -> Any:
         match = re.search(identifier.regexp, text)
         html_content = match.group(1) if match else ""
     else:
+
         for tag in cell.find_all("img"):
-            print(f"Found image with src: {tag.get('src')}")
-            tag.replace_with(f"[image_{index}]")
+            src = tag.get("src", "")
+            file_extension = Path(src).suffix
+            ref = f"image_{index}{file_extension}"
+            tag["src"] = ref
             image = {
-                "src": tag.get("src", ""),
+                "src": src,
                 "alt": tag.get("alt", ""),
-                "ref": f"[image_{index}]",
+                "ref": ref,
             }
             images.append(image)
         html_content = cell.decode_contents()
     return html_content.strip(), images
 
 
+def row_depth_1(tag):
+    return tag.name == "tr" and len(tag.find_parents("table")) == 1
+
+
+def cell_depth_1(tag):
+    return tag.name in ["td", "th"] and len(tag.find_parents("table")) == 1
+
+
 def get_cell(table, x: int, y: int):
     """Get a cell from the table at position (x, y)."""
-    rows = table.find_all("tr")
+
+    rows = table.find_all(row_depth_1)
 
     if y >= len(rows):
         return None
 
     row = rows[y]
-    cells = row.find_all(["td", "th"])
+    cells = row.find_all(cell_depth_1)
 
     if x >= len(cells):
         return None
@@ -62,15 +82,17 @@ def extract_table_data(
     """Extract data from a table based on the format specification."""
     result = {"images": []}
     for field_name, identifier in format_spec.items():
-        count = 0
+        image_count = 0
         if identifier.range > 0:
             # Handle multi-cell ranges
             data = []
             for i in range(identifier.range):
                 cell = get_cell(table, identifier.x, identifier.y + i)
                 if cell:
-                    content, cell_images = extract_cell_data(cell, identifier, count)
-                    count += len(cell_images)
+                    content, cell_images = extract_cell_data(
+                        cell, identifier, image_count
+                    )
+                    image_count += len(cell_images)
                     result["images"].extend(cell_images)
                     data.append(content)
             result[field_name] = data
@@ -78,11 +100,10 @@ def extract_table_data(
             # Handle single cell
             cell = get_cell(table, identifier.x, identifier.y)
             if cell:
-                content, cell_images = extract_cell_data(cell, identifier, count)
-                count += len(cell_images)
+                content, cell_images = extract_cell_data(cell, identifier, image_count)
+                image_count += len(cell_images)
                 result["images"].extend(cell_images)
                 result[field_name] = content
             else:
                 result[field_name] = None
-
     return result
