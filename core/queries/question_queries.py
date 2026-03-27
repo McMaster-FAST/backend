@@ -1,7 +1,7 @@
 import enum
 import random
 
-from analytics.models import QuestionAttempt, UserTopicAbilityScore
+from analytics.models import CourseXP, QuestionAttempt, UserTopicAbilityScore
 from core.serializers.adaptive_test.next_question_serializer import (
     NextQuestionSerializer,
 )
@@ -51,17 +51,28 @@ class UserSuggestedAction(enum.Enum):
 
 
 def get_user_unavailable_questions(user: MacFastUser, subtopic: UnitSubtopic):
-    
-    testing_parameters, _ = TestingParameters.objects.get_or_create(course=subtopic.unit.course)
+
+    testing_parameters, _ = TestingParameters.objects.get_or_create(
+        course=subtopic.unit.course
+    )
     test_session, _ = TestSession.objects.get_or_create(user=user, subtopic=subtopic)
-    excluded = AdaptiveTestQuestionMetric.objects.filter(
-        user=user,
-        question__subtopic=subtopic,
-    ).filter(
-        Q(skipped_at_index__gt=test_session.questions_answered_count - testing_parameters.skip_readmit_delay) |
-        Q(total_times_seen__gt=testing_parameters.max_question_repetitions)
-    ).values_list("question__id", flat=True)
-    logger.debug(f"Excluding questions with IDs: {list(excluded)} for user {user.id} in subtopic {subtopic.name}")
+    excluded = (
+        AdaptiveTestQuestionMetric.objects.filter(
+            user=user,
+            question__subtopic=subtopic,
+        )
+        .filter(
+            Q(
+                skipped_at_index__gt=test_session.questions_answered_count
+                - testing_parameters.skip_readmit_delay
+            )
+            | Q(total_times_seen__gt=testing_parameters.max_question_repetitions)
+        )
+        .values_list("question__id", flat=True)
+    )
+    logger.debug(
+        f"Excluding questions with IDs: {list(excluded)} for user {user.id} in subtopic {subtopic.name}"
+    )
     return excluded
 
 
@@ -85,7 +96,11 @@ def get_next_question_bundle(
     )
 
     if next_question is None:
-        return None, determine_continue_actions(user, subtopic), determine_suggested_actions(user, subtopic)
+        return (
+            None,
+            determine_continue_actions(user, subtopic),
+            determine_suggested_actions(user, subtopic),
+        )
 
     options = list(QuestionOption.objects.filter(question=next_question))
     random.shuffle(options)
@@ -269,7 +284,9 @@ def add_response(
     question_info, _ = AdaptiveTestQuestionMetric.objects.get_or_create(
         user=user, question=question
     )
-    test_session, _ = TestSession.objects.get_or_create(user=user, subtopic=question.subtopic)
+    test_session, _ = TestSession.objects.get_or_create(
+        user=user, subtopic=question.subtopic
+    )
     if question.subtopic_id is not None:
         update_course_resume_state(user, question.subtopic)
     if selected_option is None:
@@ -286,9 +303,7 @@ def add_response(
     question_info.save()
 
     new_ability_score, new_variance = model.compute_ability(user, question.subtopic)
-    clamped_ability_score = max(
-        -3, min(3, new_ability_score)
-    )
+    clamped_ability_score = max(-3, min(3, new_ability_score))
     if selected_option is not None:
         answered_correctly = selected_option.is_answer
         skipped = False
@@ -310,6 +325,30 @@ def add_response(
         unit_sub_topic=question.subtopic,
         defaults={"score": clamped_ability_score, "variance": new_variance},
     )
+
+    if answered_correctly:
+        course = question.subtopic.unit.course
+        xp_record, _ = CourseXP.objects.get_or_create(
+            user=user, course=course, defaults={"total_xp": 0}
+        )
+
+        # Your new balanced economy
+        base_xp = 10
+        scaling_factor = 2
+        min_xp = 5
+        max_xp = 15
+
+        difficulty_delta = float(question.difficulty) - clamped_ability_score
+
+        # Calculate raw XP
+        raw_xp = round(base_xp + (scaling_factor * difficulty_delta))
+
+        # Clamp the XP so it never drops below 5 or goes above 15
+        xp_earned = max(min_xp, min(max_xp, raw_xp))
+
+        xp_record.total_xp += xp_earned
+        xp_record.save()
+
     return True
 
 
