@@ -58,6 +58,9 @@ class CourseXP(models.Model):
             "course",
         )
 
+        verbose_name = "Course XP"
+        verbose_name_plural = "Course XP"
+
     @cached_property
     def _xp_calculations(self):
         """
