@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 import dj_database_url
+import logging
 
 from dotenv import load_dotenv
 
@@ -32,6 +33,11 @@ SECRET_KEY = os.getenv(
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
+LOG_LEVEL = os.getenv("LOG_LEVEL", "WARN")
+python_logging_level = logging.getLevelNamesMapping()[LOG_LEVEL]
+
+# Configure python logging
+logging.basicConfig(level=python_logging_level)
 
 ALLOWED_HOSTS = []
 

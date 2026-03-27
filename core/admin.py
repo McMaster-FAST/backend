@@ -7,6 +7,9 @@ from .models import (
     QuestionOption,
     QuestionImage,
     TestSession,
+    TestingParameters,
+    AdaptiveTestQuestionMetric,
+    CourseResumeState,
 )
 
 
@@ -100,4 +103,36 @@ class QuestionImageAdmin(admin.ModelAdmin):
 
 @admin.register(TestSession)
 class TestSessionAdmin(admin.ModelAdmin):
-    list_display = ("user", "subtopic", "current_question", "difficulty_range")
+    list_display = (
+        "user",
+        "subtopic",
+        "selection_upper_bound",
+        "selection_lower_bound",
+        "questions_answered_count",
+    )
+
+
+@admin.register(TestingParameters)
+class TestingParametersAdmin(admin.ModelAdmin):
+    list_display = (
+        "course",
+        "warmpup_length",
+        "max_skips",
+        "max_question_repetitions",
+        "min_questions_between_repitions",
+    )
+
+
+@admin.register(AdaptiveTestQuestionMetric)
+class AdaptiveTestQuestionMetricsAdmin(admin.ModelAdmin):
+    list_display = (
+        "user",
+        "question",
+        "skipped_at_index",
+        "total_times_seen",
+    )
+
+
+@admin.register(CourseResumeState)
+class CourseResumeStateAdmin(admin.ModelAdmin):
+    list_display = ("user", "course", "last_subtopic", "updated_at")
