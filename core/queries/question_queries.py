@@ -18,6 +18,8 @@ from ..models import (
 from ..serializers.question_bundle import QuestionBundle
 from courses.models import UnitSubtopic
 from sso_auth.models import MacFastUser
+
+from .resume_queries import update_course_resume_state
 from django.db import transaction
 from django.db.models import Q
 from rest_framework.response import Response
@@ -67,6 +69,9 @@ def get_user_unavailable_questions(user: MacFastUser, subtopic: UnitSubtopic):
 def get_next_question_bundle(
     user: MacFastUser, subtopic: UnitSubtopic, model: AdaptiveTestModel = RaschModel
 ) -> tuple[QuestionBundle | None, list[ContinueActions]]:
+    # Keep resume / last-studied subtopic in sync for GET /api/core/resume/
+    update_course_resume_state(user, subtopic)
+
     user_ability, _ = UserTopicAbilityScore.objects.get_or_create(
         user=user, unit_sub_topic=subtopic
     )
@@ -265,6 +270,8 @@ def add_response(
         user=user, question=question
     )
     test_session, _ = TestSession.objects.get_or_create(user=user, subtopic=question.subtopic)
+    if question.subtopic_id is not None:
+        update_course_resume_state(user, question.subtopic)
     if selected_option is None:
         max_skips = TestingParameters.objects.get(
             course=question.subtopic.unit.course

@@ -9,6 +9,7 @@ from .models import (
     TestSession,
     TestingParameters,
     AdaptiveTestQuestionMetric,
+    CourseResumeState,
 )
 
 
@@ -130,3 +131,8 @@ class AdaptiveTestQuestionMetricsAdmin(admin.ModelAdmin):
         "skipped_at_index",
         "total_times_seen",
     )
+
+
+@admin.register(CourseResumeState)
+class CourseResumeStateAdmin(admin.ModelAdmin):
+    list_display = ("user", "course", "last_subtopic", "updated_at")

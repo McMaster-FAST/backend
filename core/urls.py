@@ -10,6 +10,7 @@ from .views import (
     SubmitTestAnswerView,
     SkipTestQuestionView,
     QuestionsView,
+    ResumeView,
 )
 
 ADAPTIVE_TEST_BASE_PATH = "adaptive-test"
@@ -39,4 +40,5 @@ urlpatterns = [
         ),
         name="saved-for-later",
     ),
+    path("resume/", ResumeView.as_view(), name="resume"),
 ]
