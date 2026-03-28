@@ -1,6 +1,6 @@
 from analytics.models import QuestionReport, QuestionReportReason
 from analytics.serializers import QuestionReportAggregateSerializer
-from core.serializers.question_serializer import QuestionSerializer
+from core.serializers import QuestionSerializer
 from courses.serializers import UnitSerializer, UnitSubtopicSerializer
 from django.db.models import Count
 from core.models import Question
