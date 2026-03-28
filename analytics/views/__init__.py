@@ -1,2 +1,3 @@
 from .question_report_aggregate_viewset import QuestionReportAggregateViewSet
 from .question_report_viewset import QuestionReportViewSet
+from .course_xp_viewset import CourseXPViewSet

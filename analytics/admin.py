@@ -4,7 +4,9 @@ from .models import (
     QuestionReport,
     QuestionReportReason,
     UserTopicAbilityScore,
+    CourseXP,
 )
+
 
 # Register your models here.
 
@@ -40,3 +42,39 @@ class QuestionReportAdmin(admin.ModelAdmin):
 @admin.register(QuestionReportReason)
 class QuestionReportReasonAdmin(admin.ModelAdmin):
     list_display = ("question_report", "reason")
+
+
+@admin.register(CourseXP)
+class CourseXPAdmin(admin.ModelAdmin):
+    verbose_name_plural = "Course XP"
+
+    list_display = ("user", "course", "total_xp", "display_level", "display_progress")
+
+    list_filter = ("course",)
+    search_fields = ("user__email", "user__username", "course__name", "course__code")
+
+    readonly_fields = ("display_level", "display_xp_info", "display_progress")
+
+    @admin.display(description="Current Level")
+    def display_level(self, obj):
+        return obj.level
+
+    @admin.display(description="Progress (%)")
+    def display_progress(self, obj):
+        return f"{obj.progress_percentage}%"
+
+    @admin.display(description="XP Breakdown")
+    def display_xp_info(self, obj):
+        return f"{obj.xp_in_current_level} / {obj.xp_for_next_level} XP (Current Level)"
+
+    # Organize the detail page layout
+    fieldsets = (
+        (None, {"fields": ("user", "course", "total_xp")}),
+        (
+            "Calculated Progress",
+            {
+                "fields": ("display_level", "display_xp_info", "display_progress"),
+                "description": "These values are calculated based on the exponential doubling formula.",
+            },
+        ),
+    )
