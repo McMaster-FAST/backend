@@ -76,13 +76,27 @@ SYMBOL_MAP = {
     "": "8",
     "": "9",
 }
+WINGDINGS_MAP = {
+    "à": "→",
+    "á": "←",
+    "â": "↑",
+    "ã": "↓",
+    "ä": "↔",
+}
+
+def convert_wingdings(text: str) -> str:
+    return "".join(WINGDINGS_MAP.get(c, c) for c in text)
 
 def normalize_symbol_text(text: str, font: str | None) -> str:
     if not text:
         return text
+    #Wingdings font
+    if font and "Wingdings" in font:
+        text = convert_wingdings(text)
+        
+    text = "".join(SYMBOL_MAP.get(c, c) for c in text)
 
-    normalized = "".join(SYMBOL_MAP.get(c, c) for c in text)
-    return normalized
+    return text
 
 def run_element_to_html(run_element) -> str:
     parts = []
@@ -99,6 +113,7 @@ def run_element_to_html(run_element) -> str:
                 rfonts_el.get(qn("w:ascii"))
                 or rfonts_el.get(qn("w:hAnsi"))
                 or rfonts_el.get(qn("w:cs"))
+                or ""
             )
 
     is_subscript = False
