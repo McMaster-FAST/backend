@@ -252,19 +252,6 @@ def resolve_question_by_base_serial(base_serial: str) -> Question:
 
     return matches.get()
 
-def build_serial_number(file_name: str, qnum: int) -> str:
-
-    base = os.path.basename(file_name)
-
-    m = re.search(r'_(\d{4})_(T\d)', base)
-    if not m:
-        raise ValueError(f"Cannot parse year/term from filename: {file_name}")
-
-    year = m.group(1)
-    term = m.group(2)
-
-    return f"{term}_{year}_Q{int(qnum)}"
-
 def insert_docx_data_v3(question_data: dict, course: Course, create_required: bool) -> None:
     unit_number = question_data.get("unit_number")
     unit_name = question_data.get("unit_name") or "Imported Unit"
