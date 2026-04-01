@@ -6,6 +6,16 @@ from .question_image_serializer import QuestionImageSerializer
 
 
 class QuestionOptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuestionOption
+        fields = [
+            'public_id',
+            'content',
+            'is_answer',
+        ]
+
+
+class QuestionOptionCRUDSerializer(serializers.ModelSerializer):
     images = QuestionImageSerializer(many=True, read_only=True)
 
     class Meta:

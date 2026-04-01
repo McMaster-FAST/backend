@@ -8,11 +8,11 @@ from rest_framework.permissions import IsAuthenticated
 
 from core.models import Question
 from core.models import QuestionOption
-from core.serializers import QuestionOptionSerializer
+from core.serializers import QuestionOptionCRUDSerializer
 
 
 class OptionViewSet(viewsets.ModelViewSet):
-    serializer_class = QuestionOptionSerializer
+    serializer_class = QuestionOptionCRUDSerializer
     permission_classes = [IsAuthenticated]
     lookup_field = 'public_id'
 
@@ -29,7 +29,7 @@ class OptionViewSet(viewsets.ModelViewSet):
         question_uuid: UUID = self._get_validated_question_uuid()
         return QuestionOption.objects.filter(question__public_id=question_uuid)
 
-    def perform_create(self, serializer: QuestionOptionSerializer) -> None:
+    def perform_create(self, serializer: QuestionOptionCRUDSerializer) -> None:
         question_uuid: UUID = self._get_validated_question_uuid()
         try:
             question = Question.objects.get(public_id=question_uuid)
