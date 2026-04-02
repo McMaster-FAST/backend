@@ -108,3 +108,36 @@ class Enrolment(UUIDModel):
 
     def __str__(self):
         return f"{self.user.username} - {self.course.code}"
+
+# We could just use all the information from celery but abstraction/ separation of concerns and what not...
+class QuestionUploadResult(UUIDModel):
+    class QuestionUploadResultChoices(models.TextChoices):
+        SUCCESS = "SUCCESS"
+        RUNNING = "RUNNING"
+        FAILURE = "FAILURE"
+    course = models.ForeignKey("Course", on_delete=models.CASCADE)
+    initiating_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    result = models.CharField(max_length=20, choices=QuestionUploadResultChoices.choices)
+    success_count = models.IntegerField(default=0)
+    failure_count = models.IntegerField(default=0)
+    progress = models.FloatField(default=0.0)
+
+    class Meta:
+        verbose_name = "Question Upload Result"
+        verbose_name_plural = "Question Upload Results"
+
+    def __str__(self):
+        return f"{self.course.code} - Successes: {self.success_count}, Failures: {self.failure_count}"
+    
+class QuestionUploadFailures(UUIDModel):
+    upload_result = models.ForeignKey(QuestionUploadResult, on_delete=models.CASCADE, related_name="failures")
+    # Some string that should uniquely identify the question. There is no requirement that it actually does.
+    question_identifier = models.CharField(max_length=50)
+    error_message = models.TextField()
+
+    class Meta:
+        verbose_name = "Question Upload Failure"
+        verbose_name_plural = "Question Upload Failures"
+
+    def __str__(self):
+        return f"{self.upload_result.course.code} - Question Identifier: {self.question_identifier} - Error: {self.error_message}"
