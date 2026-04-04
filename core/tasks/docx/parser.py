@@ -9,11 +9,12 @@ from logging import getLogger
 
 logger = getLogger(__name__)
 
+def get_question_table_count(file_path: str) -> int:
+    return len(get_question_tables(file_path))
 
-def parse_questions_from_docx(
-    file_path: str, format_spec: Dict[str, DocxDataIdentifier]
-) -> Iterator[Dict[str, Any]]:
-    # Wrap none required or else newlines are inserted which messes with the frontend styling
+def get_question_tables(file_path: str) -> int:
+    """Utility function to count the number of questions in a docx file without fully parsing it."""
+    # "Wrap none" required or else newlines are inserted which messes with the frontend styling
     html = pypandoc.convert_file(
         source_file=file_path, to="html", format="docx", extra_args=["--wrap=none"]
     )
@@ -21,8 +22,14 @@ def parse_questions_from_docx(
     top_level_tables = [
         t for t in soup.find_all("table") if not t.find_parents("table")
     ]
-    logger.info(f"Found {len(top_level_tables)} top-level tables (Questions)")
-    for table in top_level_tables:
+    return top_level_tables
+
+def parse_questions_from_docx(
+    file_path: str, format_spec: Dict[str, DocxDataIdentifier]
+) -> Iterator[Dict[str, Any]]:
+    questions = get_question_tables(file_path)
+    logger.info(f"Found {len(questions)} top-level tables (Questions)")
+    for table in questions:
         yield extract_table_data(table, format_spec)
 
 

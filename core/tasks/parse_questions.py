@@ -5,8 +5,9 @@ from io import BytesIO
 from django.db import IntegrityError, transaction
 from django.core.files.images import ImageFile
 from core.models import Question, QuestionComment, QuestionOption, QuestionImage
-from courses.models import Course, Enrolment, Unit, UnitSubtopic
-from .docx.parser import parse_questions_from_docx
+from core.tasks.upload_result_util import finish_upload_result, get_upload_result, update_upload_result
+from courses.models import Course, QuestionUploadResult, Enrolment, Unit, UnitSubtopic
+from .docx.parser import get_question_table_count, parse_questions_from_docx
 from .docx.formats import docx_table_format_a
 
 import tempfile
@@ -18,6 +19,8 @@ from logging import getLogger
 
 logger = getLogger(__name__)
 decimal_pattern = re.compile(r"\d?\.\d{0,5}")
+
+PROGRESS_UPDATE_INTERVAL = 0.1
 
 
 class DocxParsingError(Exception):
@@ -31,16 +34,19 @@ def parse_file(
     course_data: dict,
     uploading_user_id: int,
     create_required: bool,
+    upload_result_id: str,
 ) -> None:
     """
     Celery task to parse uploaded question bank files. Determines file type and processes accordingly.
 
     :param file_name: Name of the uploaded file.
     :param file_data: Byte content of the uploaded file.
-    :param course: Dictionary containing course identifiers (code, year, semester).
+    :param course_data: Dictionary containing course identifiers (code, year, semester).
     :param uploading_user_id: The ID of the user who is uploading the file.
     :param create_required: Create all required related entities if they do not exist, with the exception of Course.
     """
+    success_count = 0
+    failure_count = 0
     auto_verify = can_auto_verify(uploading_user_id, course_data)
     try:
         course = Course.objects.get(**course_data)
@@ -51,9 +57,15 @@ def parse_file(
     if file_name.endswith(".docx"):
         with tempfile.NamedTemporaryFile(delete=False, suffix=".docx") as temp_file:
             temp_file.write(file_data)
-            for question_data in parse_questions_from_docx(
-                temp_file.name, docx_table_format_a
+            total_question_count = get_question_table_count(temp_file.name)
+            upload_result = get_upload_result(upload_result_id)
+            interval = int(total_question_count * PROGRESS_UPDATE_INTERVAL)
+
+            for i, question_data in enumerate(
+                parse_questions_from_docx(temp_file.name, docx_table_format_a)
             ):
+                if interval >= 1 and i % interval == 0:
+                    update_upload_result(upload_result, total_question_count, success_count, failure_count)
                 try:
                     insert_data(
                         question_data,
@@ -62,26 +74,35 @@ def parse_file(
                         temp_file.name,
                         auto_verify,
                     )
+                    success_count += 1
                 except Exception as e:
-                    summary = None
-                    if isinstance(e, IntegrityError):
-                        logger.error(
-                            f"Insertion failed for question with serial number {question_data.get('serial_number')}. Integrity error: {e}"
-                        )
-                    elif isinstance(e, DocxParsingError):
-                        logger.error(
-                            f"Explicit parsing error for question with serial number {question_data.get('serial_number')}: {e}"
-                        )
-                        summary = traceback.extract_tb(e.__traceback__)
-                    else:
-                        logger.error(
-                            f"Unexpected error for question with serial number {question_data.get('serial_number')}: {e}"
-                        )
-                        summary = traceback.extract_tb(e.__traceback__)
-                    if summary:
-                        logger.error(f"Error info: {summary[-1]} {e}")
+                    handleParsingException(question_data, e)
+                    failure_count += 1
     else:
         raise ValueError("Unsupported file format. Only .docx files are supported.")
+
+    finish_upload_result(upload_result, success_count, failure_count)
+    return {"success_count": success_count, "failure_count": failure_count}
+
+
+def handleParsingException(question_data: dict, e: Exception) -> None:
+    summary = None
+    if isinstance(e, IntegrityError):
+        logger.error(
+            f"Insertion failed for question with serial number {question_data.get('serial_number')}. Integrity error: {e}"
+        )
+    elif isinstance(e, DocxParsingError):
+        logger.error(
+            f"Explicit parsing error for question with serial number {question_data.get('serial_number')}: {e}"
+        )
+        summary = traceback.extract_tb(e.__traceback__)
+    else:
+        logger.error(
+            f"Unexpected error for question with serial number {question_data.get('serial_number')}: {e}"
+        )
+        summary = traceback.extract_tb(e.__traceback__)
+    if summary:
+        logger.error(f"Error info: {summary[-1]} {e}")
 
 
 def can_auto_verify(user_id: int, course: dict) -> bool:
@@ -169,8 +190,10 @@ def create_question(
     serial_number = question_data.get("serial_number", "N/A").strip()
     content = question_data.get("content")
     if not content or content.strip() == "":
-        raise ValueError(f"Question content is empty for question with serial number {serial_number}")
-    
+        raise ValueError(
+            f"Question content is empty for question with serial number {serial_number}"
+        )
+
     answer_explanation = question_data.get("explanation")
     if not answer_explanation:
         answer_explanation = ""
