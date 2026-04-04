@@ -11,6 +11,7 @@ wheels/
 
 # SQLite DB (Will not be applicable after Postgres)
 db.sqlite3
+test_db.sqlite3
 
 # Secrets
 .env
