@@ -11,6 +11,7 @@ from .views import (
     SkipTestQuestionView,
     QuestionsView,
     ResumeView,
+    QuestionAnswerView,
 )
 
 ADAPTIVE_TEST_BASE_PATH = "adaptive-test"
@@ -41,4 +42,5 @@ urlpatterns = [
         name="saved-for-later",
     ),
     path("resume/", ResumeView.as_view(), name="resume"),
+    path("questions/<uuid:public_id>/answer/", QuestionAnswerView.as_view(), name="question-answer"),
 ]
