@@ -67,9 +67,6 @@ def is_explanation_update_format(docx_path: str) -> bool:
     for i, table in enumerate(doc.tables):
         #print(f"Table {i}: rows={len(table.rows)}, cols={len(table.columns)}")
 
-        for r in table.rows:
-            #print("  cells:", len(r.cells))
-
         if len(table.rows) == 5 and len(table.columns) in (2, 3):
             qnum_text = (table.cell(0, 0).text or "").strip()
             #print(f"Checking qnum: '{qnum_text}'")
