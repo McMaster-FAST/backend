@@ -364,9 +364,8 @@ def parse_explanation_updates(docx_path: str, file_name: str) -> list[dict]:
     i = 0
     while i < len(doc.tables):
         qtbl = doc.tables[i]
-
-        # old question tables are usually 5x3 in your earlier parser
-        if not (len(qtbl.rows) == 5 and len(qtbl.columns) == 3):
+            #some solution files have 2 columns and some have 3 for question table.
+        if not (len(qtbl.rows) == 5 and len(qtbl.columns) in (2, 3)):
             i += 1
             continue
 

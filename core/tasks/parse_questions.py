@@ -64,21 +64,18 @@ def is_explanation_update_format(docx_path: str) -> bool:
         return False
 
     i = 0
-    while i + 1 < len(doc.tables):
-        qtbl = doc.tables[i]
-        etbl = doc.tables[i + 1]
+    for i, table in enumerate(doc.tables):
+        #print(f"Table {i}: rows={len(table.rows)}, cols={len(table.columns)}")
 
-        if (
-            len(qtbl.rows) == 5
-            and len(qtbl.columns) == 3
-            and len(etbl.rows) == 1
-            and len(etbl.columns) == 1
-        ):
-            qnum_text = (qtbl.cell(0, 0).text or "").strip()
-            if re.match(r"^\d+\.?$", qnum_text):
+        for r in table.rows:
+            #print("  cells:", len(r.cells))
+
+        if len(table.rows) == 5 and len(table.columns) in (2, 3):
+            qnum_text = (table.cell(0, 0).text or "").strip()
+            #print(f"Checking qnum: '{qnum_text}'")
+
+            if re.match(r"^\D*(\d+)\D*$", qnum_text):
                 return True
-
-        i += 1
 
     return False
 
@@ -106,7 +103,9 @@ def parse_file(file_name: str, file_data: bytes, course: dict, create_required: 
 
             try:
                 if is_explanation_update_format(temp_file.name):
+                    print("USING EXPLANATION UPDATE PARSER")
                     parsed_updates = parse_explanation_updates(temp_file.name, file_name)
+                    print("PARSED UPDATES:", len(parsed_updates))
 
                     for question_data in parsed_updates:
                         try:
