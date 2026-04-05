@@ -1,3 +1,4 @@
+from courses.models import Enrolment
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
@@ -6,39 +7,61 @@ from rest_framework import status
 from ..serializers import FileUploadSerializer
 from ..tasks import parse_file
 from logging import getLogger
+
 logger = getLogger(__name__)
+
 
 class UploadView(APIView):
     """
     Class based view to handle question bank uploads.
     """
 
-    permission_classes = (AllowAny,)
-
     def put(self, request, *args, **kwargs):
         """
         Handles PUT requests for uploading question banks.
         """
         serializer = FileUploadSerializer(data=request.data)
-        logger.debug("Received file upload request with data:", request.data)
+
+        logger.debug("Received file upload request with data: %s", request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        if not self._user_has_permission(request.user, serializer):
+            return Response(
+                {
+                    "error": "You do not have permission to upload files for this course."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
 
         uploaded_file = serializer.validated_data.get("file")
         course = {
             "code": serializer.validated_data.get("course_code"),
             "year": serializer.validated_data.get("course_year"),
-            "semester": serializer.validated_data.get("course_semester")
+            "semester": serializer.validated_data.get("course_semester"),
         }
         create_required = serializer.validated_data.get("create_required")
 
         parse_file.delay(
-            uploaded_file.name, 
-            uploaded_file.read(), 
-            course, 
-            create_required
+            file_name=uploaded_file.name,
+            file_data=uploaded_file.read(),
+            course_data=course,
+            uploading_user_id=request.user.id,
+            create_required=create_required,
         )
 
         return Response(
             {"message": "File uploaded successfully."}, status=status.HTTP_201_CREATED
         )
+
+    def _user_has_permission(self, user, serializer):
+        user_enrolments = Enrolment.objects.filter(
+            user=user,
+            course__code=serializer.validated_data.get("course_code"),
+            course__year=serializer.validated_data.get("course_year"),
+            course__semester=serializer.validated_data.get("course_semester"),
+        )
+        if not user_enrolments.exists():
+            return False
+        user_enrolment = user_enrolments.first()
+        return user_enrolment.is_instructor or user_enrolment.is_ta
