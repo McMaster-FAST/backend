@@ -26,22 +26,3 @@ docx_table_format_a = {
     "explanation": DocxDataIdentifier(1, 10),
     "comments": DocxDataIdentifier(1, 11)
 }
-
-# docx_table_format_b = {
-#     "question_number": DocxDataIdentifier(0, 0),
-#     "serial_number": DocxDataIdentifier(0, 1),
-
-#     "unit_number": DocxDataIdentifier(0, 2, regexp=r"^(\d*?)\."),
-#     "unit": DocxDataIdentifier(0, 2),
-#     "subtopic": DocxDataIdentifier(0, 3),
-
-#     "content": DocxDataIdentifier(0, 4),
-
-#     "options": DocxDataIdentifier(2, 1, cells_range=4),
-#     "option_selection_frequencies": DocxDataIdentifier(3, 1, cells_range=4),
-
-#     "answer": DocxDataIdentifier(0, 9),
-
-#     "explanation": DocxDataIdentifier(0, 10),
-#     "comments": DocxDataIdentifier(0, 11)
-# }
