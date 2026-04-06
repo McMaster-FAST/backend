@@ -10,7 +10,6 @@ from courses.models import Course, Enrolment, Unit, UnitSubtopic
 from .docx.parser import parse_questions_from_docx
 from .docx.formats import docx_table_format_a
 from .csv.parser import parse_questions_from_csv
-from .utils import str_to_float
 
 import tempfile
 import traceback
@@ -86,8 +85,8 @@ def _run_docx_import(
     finally:
         try:
             os.unlink(path)
-        except OSError:
-            pass
+        except OSError as e:
+            logger.warning("Failed to delete temporary docx file %s: %s", path, e)
 
 
 def _run_csv_import(
@@ -112,8 +111,8 @@ def _run_csv_import(
     finally:
         try:
             os.unlink(path)
-        except OSError:
-            pass
+        except OSError as e:
+            logger.warning("Failed to delete temporary docx file %s: %s", path, e)
 
 
 # (suffix, runner) — add new formats here
