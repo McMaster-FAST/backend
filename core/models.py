@@ -82,6 +82,7 @@ class QuestionComment(UUIDModel):
 class QuestionOption(UUIDModel):
     question = models.ForeignKey("Question", on_delete=models.CASCADE)
     content = models.TextField()
+    explanation = models.TextField(blank=True)
     is_answer = models.BooleanField(default=False)
     selection_frequency = models.DecimalField(max_digits=5, decimal_places=4, default=0)
 

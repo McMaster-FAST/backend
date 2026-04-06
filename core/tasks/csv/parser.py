@@ -4,8 +4,9 @@ from ..utils import str_to_float
 
 
 def parse_questions_from_csv(file_path: str) -> Generator[Dict[str, Any], None, None]:
-    # Parse MCQs from Brightspace Question Library import CSV file.
-    with open(file_path, "r", encoding="utf-8") as csvfile:
+    # Parse MCQs from Brightspace's import template CSV file.
+    # utf-8-sig strips UTF-8 BOM (\ufeff) so the first cell is "NewQuestion", not "\ufeffNewQuestion"
+    with open(file_path, "r", encoding="utf-8-sig") as csvfile:
         reader = csv.reader(csvfile)
 
         current_question: Dict[str, Any] | None = None
@@ -45,6 +46,7 @@ def parse_questions_from_csv(file_path: str) -> Generator[Dict[str, Any], None, 
                     "difficulty": None,
                     "options": [],
                     "option_percents": [],
+                    "option_explanations": [],
                     "explanation": "",
                     "image_path": "",
                 }
@@ -78,8 +80,10 @@ def parse_questions_from_csv(file_path: str) -> Generator[Dict[str, Any], None, 
                 if not option_text:
                     continue
 
+                option_feedback = (row[4] or "").strip() if len(row) > 4 else ""
                 current_question["options"].append(option_text)
                 current_question["option_percents"].append(percent)
+                current_question["option_explanations"].append(option_feedback)
 
         # Flush last question
         if current_question is not None:
@@ -118,6 +122,12 @@ def finalize_question(block: Dict[str, Any]) -> Dict[str, Any] | None:
         return None
 
     percents = block.get("option_percents") or [0.0] * len(options)
+    
+    # make sure we have the same number of option explanations as options
+    option_explanations = list(block.get("option_explanations") or [])
+    while len(option_explanations) < len(options):
+        option_explanations.append("")
+    option_explanations = option_explanations[: len(options)]
 
     # Determine correct option: highest percentage gets treated as correct
     max_percent = max(percents)
@@ -142,6 +152,7 @@ def finalize_question(block: Dict[str, Any]) -> Dict[str, Any] | None:
         "serial_number": serial_number,
         "content": content,
         "explanation": block.get("explanation", ""),
+        "option_explanations": option_explanations,
         "options": options,
         "answer": correct_answer_letter,
         "comments": block.get("hint", ""),
