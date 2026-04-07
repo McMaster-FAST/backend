@@ -1,0 +1,163 @@
+import csv
+from typing import Generator, Dict, Any
+from ..utils import str_to_float
+
+
+def parse_questions_from_csv(file_path: str) -> Generator[Dict[str, Any], None, None]:
+    # Parse MCQs from Brightspace's import template CSV file.
+    # utf-8-sig strips UTF-8 BOM (\ufeff) so the first cell is "NewQuestion", not "\ufeffNewQuestion"
+    with open(file_path, "r", encoding="utf-8-sig") as csvfile:
+        reader = csv.reader(csvfile)
+
+        current_question: Dict[str, Any] | None = None
+
+        for row in reader:
+            # Skip empty rows
+            if not row or not any((cell or "").strip() for cell in row):
+                continue
+
+            # Skip comment lines starting with //
+            first_cell = (row[0] or "").strip()
+            if first_cell.startswith("//"):
+                continue
+
+            label = first_cell
+
+            # Start of a new question block
+            if label == "NewQuestion":
+                # Flush previous question
+                if current_question is not None:
+                    parsed = finalize_question(current_question)
+                    if parsed:
+                        yield parsed
+
+                q_type = (row[1] or "").strip() if len(row) > 1 else ""
+
+                # Only handle Multiple Choice questions for now
+                if q_type != "MC":
+                    current_question = None
+                    continue
+
+                current_question = {
+                    "id": "",
+                    "title": "",
+                    "content": "",
+                    "points": None,
+                    "difficulty": None,
+                    "options": [],
+                    "option_percents": [],
+                    "option_explanations": [],
+                    "explanation": "",
+                    "image_path": "",
+                }
+                continue
+
+            # If we don't have an active MC question, ignore subsequent rows
+            if current_question is None:
+                continue
+
+            # Question metadata rows
+            if label == "ID" and len(row) > 1:
+                current_question["id"] = (row[1] or "").strip()
+            elif label == "Title" and len(row) > 1:
+                current_question["title"] = (row[1] or "").strip()
+            elif label == "QuestionText" and len(row) > 1:
+                current_question["content"] = (row[1] or "").strip()
+            elif label == "Points" and len(row) > 1:
+                current_question["points"] = str_to_float(row[1], default=1.0)
+            elif label == "Difficulty" and len(row) > 1:
+                current_question["difficulty"] = str_to_float(row[1], default=0.0)
+            elif label == "Image" and len(row) > 1:
+                current_question["image_path"] = (row[1] or "").strip()
+            elif label == "Feedback" and len(row) > 1:
+                current_question["explanation"] = (row[1] or "").strip()
+            elif label == "Option":
+                # Brightspace MC Option row format:
+                # [ "Option", percent, text, HTML-flag, feedback, feedback-HTML-flag ]
+                percent = str_to_float(row[1], default=0.0) if len(row) > 1 else 0.0
+                option_text = (row[2] or "").strip() if len(row) > 2 else ""
+
+                if not option_text:
+                    continue
+
+                option_feedback = (row[4] or "").strip() if len(row) > 4 else ""
+                current_question["options"].append(option_text)
+                current_question["option_percents"].append(percent)
+                current_question["option_explanations"].append(option_feedback)
+
+        # Flush last question
+        if current_question is not None:
+            parsed = finalize_question(current_question)
+            if parsed:
+                yield parsed
+
+
+def parse_question_id(question_id: str) -> Dict[str, str]:
+    """
+    Parse a structured question ID into its components.
+
+    Expected format: [Source]-[BroadTopic]-[Subtopic]-[BriefDescriptor]-[Q#]-[Blooms]-[Difficulty]
+    Example: WeeklyTest-CVHeart-HeartExtAnat-PropagFactors-Q1-Und-2
+
+    Returns a dict with 'unit_tag' and 'subtopic_tag' when present, empty strings otherwise.
+    """
+    parts = question_id.split("-")
+    return {
+        "unit_tag": parts[1] if len(parts) > 1 else "",
+        "subtopic_tag": parts[2] if len(parts) > 2 else "",
+        "difficulty": str_to_float(parts[6], default=0.0) if len(parts) > 6 else 0.0
+    }
+
+
+def finalize_question(block: Dict[str, Any]) -> Dict[str, Any] | None:
+    """
+    Convert an accumulated Brightspace MC question block into our internal dict format.
+    """
+    content = (block.get("content") or "").strip()
+    if not content:
+        return None
+
+    options = block.get("options", [])
+    if not options:
+        return None
+
+    percents = block.get("option_percents") or [0.0] * len(options)
+    
+    # make sure we have the same number of option explanations as options
+    option_explanations = list(block.get("option_explanations") or [])
+    while len(option_explanations) < len(options):
+        option_explanations.append("")
+    option_explanations = option_explanations[: len(options)]
+
+    # Determine correct option: highest percentage gets treated as correct
+    max_percent = max(percents)
+    correct_index = percents.index(max_percent)
+    correct_answer_letter = chr(ord("A") + correct_index)
+
+    raw_id = (block.get("id") or "").strip()
+    serial_number = raw_id or (block.get("title") or "").strip() or f"MC_{content[:50]}"
+
+    parsed_id = parse_question_id(raw_id) if raw_id else {"unit_tag": "", "subtopic_tag": "", "difficulty": 0.0}
+    unit_tag = parsed_id["unit_tag"]
+    subtopic_tag = parsed_id["subtopic_tag"]
+    difficulty = parsed_id["difficulty"]
+
+    # Build images list from image path if present
+    images = []
+    image_path = (block.get("image_path") or "").strip()
+    if image_path:
+        images.append({"src": image_path, "alt": "", "ref": "image_0"})
+
+    return {
+        "serial_number": serial_number,
+        "content": content,
+        "explanation": block.get("explanation", ""),
+        "option_explanations": option_explanations,
+        "options": options,
+        "answer": correct_answer_letter,
+        "comments": block.get("hint", ""),
+        "images": images,
+        "unit_tag": unit_tag,
+        "subtopic_tag": subtopic_tag,
+        "difficulty": difficulty,
+    }
