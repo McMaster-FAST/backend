@@ -2022,5 +2022,4305 @@
     "selection_frequency": "0.0000",
     "images": []
   }
+},
+{
+  "model": "core.question",
+  "pk": 33,
+  "fields": {
+    "public_id": "b24c4c38-9d07-4cfc-a8fe-7031fd9bd455",
+    "subtopic": 30,
+    "serial_number": "CAPEXPO_TRIVIA_Q001_D_EASY_ST01",
+    "content": "Question 1 (Difficulty: Easy): Water has the chemical formula H2O. Is this statement true?",
+    "answer_explanation": "Correct answer: True. H2O indicates two hydrogen atoms bonded to one oxygen atom.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 34,
+  "fields": {
+    "public_id": "94be8ae8-901f-400b-ba5c-7c9c171dd8b6",
+    "subtopic": 30,
+    "serial_number": "CAPEXPO_TRIVIA_Q002_D_EASY_ST01",
+    "content": "Question 2 (Difficulty: Easy): The average adult human body has 206 bones. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Most adults have 206 bones after skeletal fusion is complete.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 35,
+  "fields": {
+    "public_id": "558affd9-eb01-4847-8093-7e0801ebcaf3",
+    "subtopic": 30,
+    "serial_number": "CAPEXPO_TRIVIA_Q003_D_EASY_ST01",
+    "content": "Question 3 (Difficulty: Easy): Light travels faster than sound. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Light moves vastly faster than sound in air.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 36,
+  "fields": {
+    "public_id": "14c43e93-f7bd-486e-b784-93119aef6807",
+    "subtopic": 30,
+    "serial_number": "CAPEXPO_TRIVIA_Q004_D_MEDIUM_ST01",
+    "content": "Question 4 (Difficulty: Medium): Venus is generally hotter at its surface than Mercury. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Venus has an intense greenhouse effect that makes it the hottest planet.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 37,
+  "fields": {
+    "public_id": "e91f75af-b610-4d16-badb-646385d5f620",
+    "subtopic": 30,
+    "serial_number": "CAPEXPO_TRIVIA_Q005_D_MEDIUM_ST01",
+    "content": "Question 5 (Difficulty: Medium): Photosynthesis primarily converts carbon dioxide and water into glucose and oxygen. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Using light energy, plants form glucose and release oxygen.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 38,
+  "fields": {
+    "public_id": "0ce92b2d-23e7-403c-8c21-bd99331b99fe",
+    "subtopic": 30,
+    "serial_number": "CAPEXPO_TRIVIA_Q006_D_EASY_ST01",
+    "content": "Question 6 (Difficulty: Easy): Electrons are larger and heavier than protons. Is this statement true?",
+    "answer_explanation": "Correct answer: False. Electrons are much less massive than protons.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 39,
+  "fields": {
+    "public_id": "db56e445-c248-4262-b8d8-a3923644f485",
+    "subtopic": 30,
+    "serial_number": "CAPEXPO_TRIVIA_Q007_D_EASY_ST01",
+    "content": "Question 7 (Difficulty: Easy): At sea level, pure water boils at about 100°C. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Standard atmospheric pressure sets water’s boiling point near 100°C.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 40,
+  "fields": {
+    "public_id": "1cefb640-7903-44cb-a603-9dbb4eff229a",
+    "subtopic": 30,
+    "serial_number": "CAPEXPO_TRIVIA_Q008_D_EASY_ST01",
+    "content": "Question 8 (Difficulty: Easy): DNA stands for deoxyribonucleic acid. Is this statement true?",
+    "answer_explanation": "Correct answer: True. That is the full expansion of the acronym DNA.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 41,
+  "fields": {
+    "public_id": "2d81ab37-872a-4408-8b84-d012fe44049d",
+    "subtopic": 30,
+    "serial_number": "CAPEXPO_TRIVIA_Q009_D_EASY_ST01",
+    "content": "Question 9 (Difficulty: Easy): Earth has two natural moons. Is this statement true?",
+    "answer_explanation": "Correct answer: False. Earth has one natural moon.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 42,
+  "fields": {
+    "public_id": "a174b3f3-2916-4c97-a412-a8862dee1561",
+    "subtopic": 30,
+    "serial_number": "CAPEXPO_TRIVIA_Q010_D_MEDIUM_ST01",
+    "content": "Question 10 (Difficulty: Medium): Sound travels fastest in a vacuum. Is this statement true?",
+    "answer_explanation": "Correct answer: False. Sound requires a medium and does not travel through a vacuum.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 43,
+  "fields": {
+    "public_id": "ba391e10-6360-440a-8931-90ca561fa7a2",
+    "subtopic": 31,
+    "serial_number": "CAPEXPO_TRIVIA_Q011_D_EASY_ST02",
+    "content": "Question 11 (Difficulty: Easy): Ottawa is the capital city of Canada. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Canada’s national capital is Ottawa, Ontario.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 44,
+  "fields": {
+    "public_id": "ddbc2cee-ee82-430f-82f6-2f99fe95f5b1",
+    "subtopic": 31,
+    "serial_number": "CAPEXPO_TRIVIA_Q012_D_EASY_ST02",
+    "content": "Question 12 (Difficulty: Easy): The Nile River is located in South America. Is this statement true?",
+    "answer_explanation": "Correct answer: False. The Nile is in northeastern Africa.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 45,
+  "fields": {
+    "public_id": "d46aa957-4fe9-489e-8c59-c8a3dea02802",
+    "subtopic": 31,
+    "serial_number": "CAPEXPO_TRIVIA_Q013_D_EASY_ST02",
+    "content": "Question 13 (Difficulty: Easy): Japan is commonly described as having four main islands. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Honshu, Hokkaido, Kyushu, and Shikoku are the four largest.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 46,
+  "fields": {
+    "public_id": "39405d5d-a6f6-47a8-ac20-4dbc4164d2df",
+    "subtopic": 31,
+    "serial_number": "CAPEXPO_TRIVIA_Q014_D_EASY_ST02",
+    "content": "Question 14 (Difficulty: Easy): The Sahara Desert is primarily in South America. Is this statement true?",
+    "answer_explanation": "Correct answer: False. The Sahara is in North Africa.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 47,
+  "fields": {
+    "public_id": "874cf9a0-8826-490a-a6fe-339842dddd99",
+    "subtopic": 31,
+    "serial_number": "CAPEXPO_TRIVIA_Q015_D_MEDIUM_ST02",
+    "content": "Question 15 (Difficulty: Medium): Mount Everest lies on the border between Nepal and China. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Everest sits on the Nepal–Tibet (China) border.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 48,
+  "fields": {
+    "public_id": "a4fc6802-2210-43a2-9e21-e36554aab733",
+    "subtopic": 31,
+    "serial_number": "CAPEXPO_TRIVIA_Q016_D_EASY_ST02",
+    "content": "Question 16 (Difficulty: Easy): Portuguese is the official language of Brazil. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Brazil’s official language is Portuguese.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 49,
+  "fields": {
+    "public_id": "a4718ebf-1da9-4171-8b48-734371136ae2",
+    "subtopic": 31,
+    "serial_number": "CAPEXPO_TRIVIA_Q017_D_MEDIUM_ST02",
+    "content": "Question 17 (Difficulty: Medium): The Equator passes through Kenya. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Kenya is one of the countries crossed by the Equator.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 50,
+  "fields": {
+    "public_id": "041e0b47-563a-4e1b-a54f-41ae6542430e",
+    "subtopic": 31,
+    "serial_number": "CAPEXPO_TRIVIA_Q018_D_EASY_ST02",
+    "content": "Question 18 (Difficulty: Easy): Iceland is in the Southern Hemisphere. Is this statement true?",
+    "answer_explanation": "Correct answer: False. Iceland is in the Northern Hemisphere.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 51,
+  "fields": {
+    "public_id": "f8b0e0f5-ce42-4cbb-a7af-68f2877fb2d5",
+    "subtopic": 31,
+    "serial_number": "CAPEXPO_TRIVIA_Q019_D_MEDIUM_ST02",
+    "content": "Question 19 (Difficulty: Medium): The Great Barrier Reef is off the coast of Queensland, Australia. Is this statement true?",
+    "answer_explanation": "Correct answer: True. It lies in the Coral Sea off Queensland.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 52,
+  "fields": {
+    "public_id": "b7ade2eb-fe81-41bb-935d-f1fbb84f40a3",
+    "subtopic": 31,
+    "serial_number": "CAPEXPO_TRIVIA_Q020_D_EASY_ST02",
+    "content": "Question 20 (Difficulty: Easy): Russia spans both Europe and Asia. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Russia is a transcontinental country.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 53,
+  "fields": {
+    "public_id": "d6fb6b25-0568-4c32-b7c1-225b743afc14",
+    "subtopic": 32,
+    "serial_number": "CAPEXPO_TRIVIA_Q021_D_EASY_ST03",
+    "content": "Question 21 (Difficulty: Easy): World War I began in 1914. Is this statement true?",
+    "answer_explanation": "Correct answer: True. The war started in 1914 after escalating alliances and conflict.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 54,
+  "fields": {
+    "public_id": "10e4aba2-69e0-467b-bb3c-c66fda705c1f",
+    "subtopic": 32,
+    "serial_number": "CAPEXPO_TRIVIA_Q022_D_MEDIUM_ST03",
+    "content": "Question 22 (Difficulty: Medium): The Western Roman Empire fell in 476 CE. Is this statement true?",
+    "answer_explanation": "Correct answer: True. 476 CE is the conventional date for the Western Empire’s fall.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 55,
+  "fields": {
+    "public_id": "6b23bcab-c0cf-4300-8f4c-ce7922fe23b0",
+    "subtopic": 32,
+    "serial_number": "CAPEXPO_TRIVIA_Q023_D_MEDIUM_ST03",
+    "content": "Question 23 (Difficulty: Medium): The Magna Carta was signed in 1215. Is this statement true?",
+    "answer_explanation": "Correct answer: True. King John sealed Magna Carta in 1215.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 56,
+  "fields": {
+    "public_id": "a063d4b0-95b6-4f28-a1f4-302c2dabc203",
+    "subtopic": 32,
+    "serial_number": "CAPEXPO_TRIVIA_Q024_D_EASY_ST03",
+    "content": "Question 24 (Difficulty: Easy): The United States Declaration of Independence was adopted in 1776. Is this statement true?",
+    "answer_explanation": "Correct answer: True. It was adopted on July 4, 1776.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 57,
+  "fields": {
+    "public_id": "6d38a38a-9f9f-4f06-8a17-50407eeff7ba",
+    "subtopic": 32,
+    "serial_number": "CAPEXPO_TRIVIA_Q025_D_EASY_ST03",
+    "content": "Question 25 (Difficulty: Easy): The Berlin Wall fell in 1989. Is this statement true?",
+    "answer_explanation": "Correct answer: True. The wall opened in November 1989.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 58,
+  "fields": {
+    "public_id": "8c65a525-61e5-44db-8ab0-bfbdd5b6abb8",
+    "subtopic": 32,
+    "serial_number": "CAPEXPO_TRIVIA_Q026_D_MEDIUM_ST03",
+    "content": "Question 26 (Difficulty: Medium): Napoleon was defeated at Waterloo in 1815. Is this statement true?",
+    "answer_explanation": "Correct answer: True. The Battle of Waterloo in 1815 ended Napoleon’s rule.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 59,
+  "fields": {
+    "public_id": "792f1a8a-2a8d-48db-b54d-a300cacf732d",
+    "subtopic": 32,
+    "serial_number": "CAPEXPO_TRIVIA_Q027_D_MEDIUM_ST03",
+    "content": "Question 27 (Difficulty: Medium): Johannes Gutenberg is associated with the printing press revolution in Europe. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Gutenberg’s press transformed book production in Europe.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 60,
+  "fields": {
+    "public_id": "dab8530d-b874-419e-bd73-8bcc5f32cbdb",
+    "subtopic": 32,
+    "serial_number": "CAPEXPO_TRIVIA_Q028_D_MEDIUM_ST03",
+    "content": "Question 28 (Difficulty: Medium): The Industrial Revolution began in Japan. Is this statement true?",
+    "answer_explanation": "Correct answer: False. It began in Great Britain before spreading elsewhere.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 61,
+  "fields": {
+    "public_id": "44387834-8e0a-4256-8111-2378142a8950",
+    "subtopic": 32,
+    "serial_number": "CAPEXPO_TRIVIA_Q029_D_EASY_ST03",
+    "content": "Question 29 (Difficulty: Easy): The Egyptian pyramids were built long before the Roman Empire. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Most major pyramids predate Rome by millennia.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 62,
+  "fields": {
+    "public_id": "3b74d632-163f-4c83-9637-b616e6910f18",
+    "subtopic": 32,
+    "serial_number": "CAPEXPO_TRIVIA_Q030_D_EASY_ST03",
+    "content": "Question 30 (Difficulty: Easy): The United Nations was founded after World War II. Is this statement true?",
+    "answer_explanation": "Correct answer: True. The UN was established in 1945.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 63,
+  "fields": {
+    "public_id": "08a59673-6b5b-4595-a5e9-22d13120315a",
+    "subtopic": 33,
+    "serial_number": "CAPEXPO_TRIVIA_Q031_D_EASY_ST04",
+    "content": "Question 31 (Difficulty: Easy): William Shakespeare wrote Hamlet. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Hamlet is one of Shakespeare’s most famous tragedies.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 64,
+  "fields": {
+    "public_id": "1c21fdd0-993f-420a-aa16-6155765935b5",
+    "subtopic": 33,
+    "serial_number": "CAPEXPO_TRIVIA_Q032_D_EASY_ST04",
+    "content": "Question 32 (Difficulty: Easy): George Orwell wrote the novel 1984. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Orwell published Nineteen Eighty-Four in 1949.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 65,
+  "fields": {
+    "public_id": "f4a6e8b1-30c7-426f-9720-7296bc9a6c31",
+    "subtopic": 33,
+    "serial_number": "CAPEXPO_TRIVIA_Q033_D_HARD_ST04",
+    "content": "Question 33 (Difficulty: Hard): Spanish has more native speakers than English worldwide. Is this statement true?",
+    "answer_explanation": "Correct answer: True. By native-speaker count, Spanish generally exceeds English.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 66,
+  "fields": {
+    "public_id": "6a1a5ab4-4c68-476e-8858-7b7e621c9bea",
+    "subtopic": 33,
+    "serial_number": "CAPEXPO_TRIVIA_Q034_D_EASY_ST04",
+    "content": "Question 34 (Difficulty: Easy): Captain Ahab appears in Moby-Dick. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Ahab is the obsessed whaling captain in Moby-Dick.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 67,
+  "fields": {
+    "public_id": "2a40ae2b-733d-434d-8018-7a247f3fc61f",
+    "subtopic": 33,
+    "serial_number": "CAPEXPO_TRIVIA_Q035_D_MEDIUM_ST04",
+    "content": "Question 35 (Difficulty: Medium): A traditional Japanese haiku follows a 5-7-5 syllable structure. Is this statement true?",
+    "answer_explanation": "Correct answer: True. The standard teaching format is 5-7-5.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 68,
+  "fields": {
+    "public_id": "7f8c3fb9-c442-42e8-a9d5-9f5fcf4cc6a0",
+    "subtopic": 33,
+    "serial_number": "CAPEXPO_TRIVIA_Q036_D_EASY_ST04",
+    "content": "Question 36 (Difficulty: Easy): Charles Dickens wrote Pride and Prejudice. Is this statement true?",
+    "answer_explanation": "Correct answer: False. Pride and Prejudice was written by Jane Austen.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 69,
+  "fields": {
+    "public_id": "c70db16a-86c3-45a3-ba8c-5d82659e9d38",
+    "subtopic": 33,
+    "serial_number": "CAPEXPO_TRIVIA_Q037_D_EASY_ST04",
+    "content": "Question 37 (Difficulty: Easy): Arabic is primarily written from left to right. Is this statement true?",
+    "answer_explanation": "Correct answer: False. Arabic script is written from right to left.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 70,
+  "fields": {
+    "public_id": "a9c3d190-9ca6-4ea4-be13-28f02dc125c1",
+    "subtopic": 33,
+    "serial_number": "CAPEXPO_TRIVIA_Q038_D_EASY_ST04",
+    "content": "Question 38 (Difficulty: Easy): Hermione Granger is a character created by J.K. Rowling. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Hermione is one of the central Harry Potter characters.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 71,
+  "fields": {
+    "public_id": "c5c87a7c-4b96-4a4e-9d6c-2f06ed5663b1",
+    "subtopic": 33,
+    "serial_number": "CAPEXPO_TRIVIA_Q039_D_MEDIUM_ST04",
+    "content": "Question 39 (Difficulty: Medium): The Odyssey is traditionally attributed to Homer. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Homer is the traditional attributed author.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 72,
+  "fields": {
+    "public_id": "cbbed7e5-04ac-44d6-81fc-e77cef99b683",
+    "subtopic": 33,
+    "serial_number": "CAPEXPO_TRIVIA_Q040_D_HARD_ST04",
+    "content": "Question 40 (Difficulty: Hard): The word alphabet comes from the names alpha and beta. Is this statement true?",
+    "answer_explanation": "Correct answer: True. It derives from the first two Greek letters.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 73,
+  "fields": {
+    "public_id": "8904e089-1a3a-4858-98fc-138941f7c27e",
+    "subtopic": 34,
+    "serial_number": "CAPEXPO_TRIVIA_Q041_D_MEDIUM_ST05",
+    "content": "Question 41 (Difficulty: Medium): Snow White and the Seven Dwarfs was Disney’s first full-length animated feature film. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Released in 1937, it is Disney’s first feature-length animated film.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 74,
+  "fields": {
+    "public_id": "5a96617b-d24a-45cb-8bd4-a4d8fb2d5443",
+    "subtopic": 34,
+    "serial_number": "CAPEXPO_TRIVIA_Q042_D_EASY_ST05",
+    "content": "Question 42 (Difficulty: Easy): The Office first aired as a British TV series before the U.S. adaptation. Is this statement true?",
+    "answer_explanation": "Correct answer: True. The original version was created in the UK.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 75,
+  "fields": {
+    "public_id": "d282e098-18e5-4568-8824-9c3439afb258",
+    "subtopic": 34,
+    "serial_number": "CAPEXPO_TRIVIA_Q043_D_MEDIUM_ST05",
+    "content": "Question 43 (Difficulty: Medium): The Oscars are awarded by the Academy of Motion Picture Arts and Sciences. Is this statement true?",
+    "answer_explanation": "Correct answer: True. AMPAS presents the Academy Awards.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 76,
+  "fields": {
+    "public_id": "39c1adb3-2480-410a-beb0-d36906ce2b5f",
+    "subtopic": 34,
+    "serial_number": "CAPEXPO_TRIVIA_Q044_D_EASY_ST05",
+    "content": "Question 44 (Difficulty: Easy): Friends is set primarily in Chicago. Is this statement true?",
+    "answer_explanation": "Correct answer: False. Friends is set in New York City.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 77,
+  "fields": {
+    "public_id": "f7f62cb9-07ef-434f-8e81-0e4ae1cd0ba2",
+    "subtopic": 34,
+    "serial_number": "CAPEXPO_TRIVIA_Q045_D_HARD_ST05",
+    "content": "Question 45 (Difficulty: Hard): In The Empire Strikes Back, Darth Vader’s exact line is Luke, I am your father. Is this statement true?",
+    "answer_explanation": "Correct answer: False. The line is No, I am your father.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 78,
+  "fields": {
+    "public_id": "c28217bd-dce6-4914-b8a3-320900950272",
+    "subtopic": 34,
+    "serial_number": "CAPEXPO_TRIVIA_Q046_D_MEDIUM_ST05",
+    "content": "Question 46 (Difficulty: Medium): The Simpsons is the longest-running U.S. primetime scripted TV series. Is this statement true?",
+    "answer_explanation": "Correct answer: True. It has run for decades and holds that record.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 79,
+  "fields": {
+    "public_id": "9ed997ea-a59b-47df-96bc-ccfafdeb0300",
+    "subtopic": 34,
+    "serial_number": "CAPEXPO_TRIVIA_Q047_D_MEDIUM_ST05",
+    "content": "Question 47 (Difficulty: Medium): Parasite won the Academy Award for Best Picture in 2020. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Parasite won Best Picture at the 92nd Oscars.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 80,
+  "fields": {
+    "public_id": "75852de8-3247-42e0-a9c3-ac2cf07ce1b3",
+    "subtopic": 34,
+    "serial_number": "CAPEXPO_TRIVIA_Q048_D_EASY_ST05",
+    "content": "Question 48 (Difficulty: Easy): Walter White is the main protagonist of Breaking Bad. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Walter White is the central lead character.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 81,
+  "fields": {
+    "public_id": "5054d350-3dea-42f8-bb0e-2e5674afcdd1",
+    "subtopic": 34,
+    "serial_number": "CAPEXPO_TRIVIA_Q049_D_EASY_ST05",
+    "content": "Question 49 (Difficulty: Easy): Titanic was directed by Steven Spielberg. Is this statement true?",
+    "answer_explanation": "Correct answer: False. Titanic was directed by James Cameron.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 82,
+  "fields": {
+    "public_id": "33c8c4f5-3176-431c-a90b-1de1e92f4833",
+    "subtopic": 34,
+    "serial_number": "CAPEXPO_TRIVIA_Q050_D_EASY_ST05",
+    "content": "Question 50 (Difficulty: Easy): BBC’s Sherlock stars Benedict Cumberbatch as Sherlock Holmes. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Cumberbatch plays Sherlock in the BBC series.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 83,
+  "fields": {
+    "public_id": "1a9a3d5f-5088-4c8f-aa1b-bcb8608ff159",
+    "subtopic": 35,
+    "serial_number": "CAPEXPO_TRIVIA_Q051_D_EASY_ST06",
+    "content": "Question 51 (Difficulty: Easy): The Summer Olympics are held every four years. Is this statement true?",
+    "answer_explanation": "Correct answer: True. The Summer Games follow a four-year cycle.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 84,
+  "fields": {
+    "public_id": "e93d4493-b8a9-4d0c-8ead-b770902a0538",
+    "subtopic": 35,
+    "serial_number": "CAPEXPO_TRIVIA_Q052_D_EASY_ST06",
+    "content": "Question 52 (Difficulty: Easy): A soccer team fields 11 players during normal play. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Each side has 11 players on the field.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 85,
+  "fields": {
+    "public_id": "b32c88db-8c71-45e4-a578-c6697c49f34e",
+    "subtopic": 35,
+    "serial_number": "CAPEXPO_TRIVIA_Q053_D_EASY_ST06",
+    "content": "Question 53 (Difficulty: Easy): NBA stands for National Basketball Association. Is this statement true?",
+    "answer_explanation": "Correct answer: True. That is the official expansion of NBA.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 86,
+  "fields": {
+    "public_id": "e3eaf61d-c8c8-4e8d-b386-642658d1129b",
+    "subtopic": 35,
+    "serial_number": "CAPEXPO_TRIVIA_Q054_D_EASY_ST06",
+    "content": "Question 54 (Difficulty: Easy): Wimbledon is played on grass courts. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Wimbledon is the major tennis tournament on grass.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 87,
+  "fields": {
+    "public_id": "9e666eb1-3434-47bf-b0da-5383cede6a03",
+    "subtopic": 35,
+    "serial_number": "CAPEXPO_TRIVIA_Q055_D_EASY_ST06",
+    "content": "Question 55 (Difficulty: Easy): The Tour de France is a major cycling race. Is this statement true?",
+    "answer_explanation": "Correct answer: True. It is one of the premier road cycling events.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 88,
+  "fields": {
+    "public_id": "ce093bda-6282-48a4-988b-7d4e55a56f18",
+    "subtopic": 35,
+    "serial_number": "CAPEXPO_TRIVIA_Q056_D_EASY_ST06",
+    "content": "Question 56 (Difficulty: Easy): The Super Bowl decides the champion of Major League Baseball. Is this statement true?",
+    "answer_explanation": "Correct answer: False. The Super Bowl decides the NFL champion.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 89,
+  "fields": {
+    "public_id": "e628d25a-6b28-437f-ad40-53bf826f3db9",
+    "subtopic": 35,
+    "serial_number": "CAPEXPO_TRIVIA_Q057_D_MEDIUM_ST06",
+    "content": "Question 57 (Difficulty: Medium): Michael Phelps holds the record for most Olympic gold medals. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Phelps has the highest Olympic gold total.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 90,
+  "fields": {
+    "public_id": "88f6d853-5ce6-44f7-a1e4-6a55680c03f3",
+    "subtopic": 35,
+    "serial_number": "CAPEXPO_TRIVIA_Q058_D_EASY_ST06",
+    "content": "Question 58 (Difficulty: Easy): In tennis, a score of zero is called love. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Tennis scoring uses love for zero.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 91,
+  "fields": {
+    "public_id": "474f6618-3516-4a2e-8556-b8ffeb6477d5",
+    "subtopic": 35,
+    "serial_number": "CAPEXPO_TRIVIA_Q059_D_EASY_ST06",
+    "content": "Question 59 (Difficulty: Easy): The FIFA World Cup is played every year. Is this statement true?",
+    "answer_explanation": "Correct answer: False. The FIFA World Cup is held every four years.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 92,
+  "fields": {
+    "public_id": "3329ece3-2320-4ab1-ab9d-5def66dc4e73",
+    "subtopic": 35,
+    "serial_number": "CAPEXPO_TRIVIA_Q060_D_MEDIUM_ST06",
+    "content": "Question 60 (Difficulty: Medium): A standard marathon race distance is 42.195 kilometers. Is this statement true?",
+    "answer_explanation": "Correct answer: True. The official marathon distance is 42.195 km.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 93,
+  "fields": {
+    "public_id": "858dd1c6-6887-4f0c-bfcc-58bfc1d1254c",
+    "subtopic": 36,
+    "serial_number": "CAPEXPO_TRIVIA_Q061_D_EASY_ST07",
+    "content": "Question 61 (Difficulty: Easy): HTML stands for HyperText Markup Language. Is this statement true?",
+    "answer_explanation": "Correct answer: True. HTML is the standard markup language for web pages.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 94,
+  "fields": {
+    "public_id": "58988312-143a-4c99-ab9b-14f14a0d2a85",
+    "subtopic": 36,
+    "serial_number": "CAPEXPO_TRIVIA_Q062_D_MEDIUM_ST07",
+    "content": "Question 62 (Difficulty: Medium): The Python programming language was named after Monty Python. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Its name references Monty Python’s Flying Circus.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 95,
+  "fields": {
+    "public_id": "77c60212-d5de-426a-8b96-d0b31d3ba122",
+    "subtopic": 36,
+    "serial_number": "CAPEXPO_TRIVIA_Q063_D_EASY_ST07",
+    "content": "Question 63 (Difficulty: Easy): CPU stands for Central Processing Unit. Is this statement true?",
+    "answer_explanation": "Correct answer: True. CPU is short for Central Processing Unit.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 96,
+  "fields": {
+    "public_id": "cba3b816-a1bf-41ce-b6a6-ef0065606319",
+    "subtopic": 36,
+    "serial_number": "CAPEXPO_TRIVIA_Q064_D_EASY_ST07",
+    "content": "Question 64 (Difficulty: Easy): Binary numbers use base 2. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Binary is a base-2 numeral system.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 97,
+  "fields": {
+    "public_id": "ae606de3-ff11-4ac3-be1c-bc1ba77af758",
+    "subtopic": 36,
+    "serial_number": "CAPEXPO_TRIVIA_Q065_D_EASY_ST07",
+    "content": "Question 65 (Difficulty: Easy): RAM is non-volatile memory that keeps data without power. Is this statement true?",
+    "answer_explanation": "Correct answer: False. RAM is volatile and loses data when power is removed.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 98,
+  "fields": {
+    "public_id": "e40809d7-fedd-4a0f-8bae-4d821283f8a5",
+    "subtopic": 36,
+    "serial_number": "CAPEXPO_TRIVIA_Q066_D_EASY_ST07",
+    "content": "Question 66 (Difficulty: Easy): Git is a distributed version control system. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Git enables distributed source control workflows.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 99,
+  "fields": {
+    "public_id": "7316a529-c922-45d4-ae0b-dc93e3443d6b",
+    "subtopic": 36,
+    "serial_number": "CAPEXPO_TRIVIA_Q067_D_EASY_ST07",
+    "content": "Question 67 (Difficulty: Easy): USB-C connectors are reversible. Is this statement true?",
+    "answer_explanation": "Correct answer: True. USB-C plugs can be inserted either orientation.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 100,
+  "fields": {
+    "public_id": "b04c196d-da04-4358-a0e6-77dd3a79fa2a",
+    "subtopic": 36,
+    "serial_number": "CAPEXPO_TRIVIA_Q068_D_EASY_ST07",
+    "content": "Question 68 (Difficulty: Easy): SQL stands for Structured Query Language. Is this statement true?",
+    "answer_explanation": "Correct answer: True. SQL is the standard language for relational queries.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 101,
+  "fields": {
+    "public_id": "113f72b1-f30b-42fe-8d71-d3cba5b986c8",
+    "subtopic": 36,
+    "serial_number": "CAPEXPO_TRIVIA_Q069_D_MEDIUM_ST07",
+    "content": "Question 69 (Difficulty: Medium): The first iPhone was released in 2007. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Apple launched the first iPhone in 2007.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 102,
+  "fields": {
+    "public_id": "ac161af5-8383-4db2-99f4-93b62413b897",
+    "subtopic": 36,
+    "serial_number": "CAPEXPO_TRIVIA_Q070_D_EASY_ST07",
+    "content": "Question 70 (Difficulty: Easy): Linux was originally created by Bill Gates. Is this statement true?",
+    "answer_explanation": "Correct answer: False. Linux was created by Linus Torvalds.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 103,
+  "fields": {
+    "public_id": "344ce23e-fcef-4497-b8d6-2bfd0ee657d0",
+    "subtopic": 37,
+    "serial_number": "CAPEXPO_TRIVIA_Q071_D_EASY_ST08",
+    "content": "Question 71 (Difficulty: Easy): Sushi is a cuisine strongly associated with Japan. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Sushi is a traditional Japanese culinary form.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 104,
+  "fields": {
+    "public_id": "c257929c-d9e4-4e5e-ba6a-3546335e2436",
+    "subtopic": 37,
+    "serial_number": "CAPEXPO_TRIVIA_Q072_D_MEDIUM_ST08",
+    "content": "Question 72 (Difficulty: Medium): Pizza Margherita is named after Queen Margherita of Italy. Is this statement true?",
+    "answer_explanation": "Correct answer: True. The dish is traditionally linked to Queen Margherita.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 105,
+  "fields": {
+    "public_id": "9dde1262-d928-442a-831f-1458d38f014b",
+    "subtopic": 37,
+    "serial_number": "CAPEXPO_TRIVIA_Q073_D_MEDIUM_ST08",
+    "content": "Question 73 (Difficulty: Medium): Quebec is the largest producer of maple syrup in Canada. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Quebec dominates Canadian maple syrup production.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 106,
+  "fields": {
+    "public_id": "e076e99a-175f-4aef-8960-5273373f2c0c",
+    "subtopic": 37,
+    "serial_number": "CAPEXPO_TRIVIA_Q074_D_HARD_ST08",
+    "content": "Question 74 (Difficulty: Hard): The croissant originated in France. Is this statement true?",
+    "answer_explanation": "Correct answer: False. Its historical roots are generally traced to Austria.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 107,
+  "fields": {
+    "public_id": "0336ec4e-ffb7-435f-b2a0-ba082a589c4f",
+    "subtopic": 37,
+    "serial_number": "CAPEXPO_TRIVIA_Q075_D_EASY_ST08",
+    "content": "Question 75 (Difficulty: Easy): Cocoa beans are the base ingredient for chocolate. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Chocolate is produced from processed cocoa beans.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 108,
+  "fields": {
+    "public_id": "e765fb28-9a0c-4782-bb01-dd1916476577",
+    "subtopic": 37,
+    "serial_number": "CAPEXPO_TRIVIA_Q076_D_EASY_ST08",
+    "content": "Question 76 (Difficulty: Easy): Kimchi is a staple in Korean cuisine. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Kimchi is a central fermented side dish in Korea.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 109,
+  "fields": {
+    "public_id": "01c36742-1d28-43c9-b36f-3adb9548a4eb",
+    "subtopic": 37,
+    "serial_number": "CAPEXPO_TRIVIA_Q077_D_EASY_ST08",
+    "content": "Question 77 (Difficulty: Easy): Traditional hummus is primarily made from chickpeas. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Chickpeas are the core ingredient in classic hummus.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 110,
+  "fields": {
+    "public_id": "b2c1edb2-0725-4dc3-8d75-c4cb80b4ccdd",
+    "subtopic": 37,
+    "serial_number": "CAPEXPO_TRIVIA_Q078_D_EASY_ST08",
+    "content": "Question 78 (Difficulty: Easy): Paella originated in Spain. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Paella is a Spanish rice dish, especially associated with Valencia.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 111,
+  "fields": {
+    "public_id": "9becd13f-57d5-415a-bde5-94985b9aa6a2",
+    "subtopic": 37,
+    "serial_number": "CAPEXPO_TRIVIA_Q079_D_EASY_ST08",
+    "content": "Question 79 (Difficulty: Easy): Poutine is a dish that originated in Canada. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Poutine originated in Quebec, Canada.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 112,
+  "fields": {
+    "public_id": "2ef6e333-fbf5-4cf5-8bfa-03e6b487d7a5",
+    "subtopic": 37,
+    "serial_number": "CAPEXPO_TRIVIA_Q080_D_EASY_ST08",
+    "content": "Question 80 (Difficulty: Easy): Tacos originated in Italy. Is this statement true?",
+    "answer_explanation": "Correct answer: False. Tacos originated in Mexico.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 113,
+  "fields": {
+    "public_id": "913fd28d-9da5-4f53-b09a-feb9b6cf05e9",
+    "subtopic": 38,
+    "serial_number": "CAPEXPO_TRIVIA_Q081_D_EASY_ST09",
+    "content": "Question 81 (Difficulty: Easy): Ludwig van Beethoven was a German composer. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Beethoven was born in Bonn in present-day Germany.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 114,
+  "fields": {
+    "public_id": "70548647-cf19-4b1a-8f6e-027b64b564a5",
+    "subtopic": 38,
+    "serial_number": "CAPEXPO_TRIVIA_Q082_D_EASY_ST09",
+    "content": "Question 82 (Difficulty: Easy): The Mona Lisa was painted by Leonardo da Vinci. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Leonardo da Vinci painted the Mona Lisa.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 115,
+  "fields": {
+    "public_id": "769bff3e-d099-450f-be03-d09b1d7e7047",
+    "subtopic": 38,
+    "serial_number": "CAPEXPO_TRIVIA_Q083_D_MEDIUM_ST09",
+    "content": "Question 83 (Difficulty: Medium): A standard modern piano has 88 keys. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Most modern acoustic pianos have 88 keys.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 116,
+  "fields": {
+    "public_id": "570bba2c-779e-4480-a996-fe04aadbb6d0",
+    "subtopic": 38,
+    "serial_number": "CAPEXPO_TRIVIA_Q084_D_MEDIUM_ST09",
+    "content": "Question 84 (Difficulty: Medium): Jazz originated in New Orleans. Is this statement true?",
+    "answer_explanation": "Correct answer: True. New Orleans is widely recognized as jazz’s birthplace.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 117,
+  "fields": {
+    "public_id": "2a2357ee-9bc2-44b8-81ae-fe0b5febacd1",
+    "subtopic": 38,
+    "serial_number": "CAPEXPO_TRIVIA_Q085_D_MEDIUM_ST09",
+    "content": "Question 85 (Difficulty: Medium): Vincent van Gogh cut off part of his left ear. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Historical accounts describe injury to his left ear.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 118,
+  "fields": {
+    "public_id": "4cf1ef41-1f6b-4418-a872-8be896d4840c",
+    "subtopic": 38,
+    "serial_number": "CAPEXPO_TRIVIA_Q086_D_EASY_ST09",
+    "content": "Question 86 (Difficulty: Easy): Bohemian Rhapsody was recorded by Queen. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Queen released Bohemian Rhapsody in 1975.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 119,
+  "fields": {
+    "public_id": "39687933-db10-45ec-a2c7-3fcb9542bc41",
+    "subtopic": 38,
+    "serial_number": "CAPEXPO_TRIVIA_Q087_D_MEDIUM_ST09",
+    "content": "Question 87 (Difficulty: Medium): Wolfgang Amadeus Mozart is usually classified as a Romantic-era composer. Is this statement true?",
+    "answer_explanation": "Correct answer: False. Mozart is a central Classical-era composer.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 120,
+  "fields": {
+    "public_id": "07f38f61-31d2-4b6c-a99c-a22dc1aac903",
+    "subtopic": 38,
+    "serial_number": "CAPEXPO_TRIVIA_Q088_D_HARD_ST09",
+    "content": "Question 88 (Difficulty: Hard): In traditional art instruction, red, blue, and yellow are taught as primary paint colors. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Traditional subtractive color teaching often uses RYB primaries.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 121,
+  "fields": {
+    "public_id": "95886028-7560-4f8c-b938-f8dda0a43da4",
+    "subtopic": 38,
+    "serial_number": "CAPEXPO_TRIVIA_Q089_D_EASY_ST09",
+    "content": "Question 89 (Difficulty: Easy): Broadway is associated with New York City theater. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Broadway theaters are a major New York cultural institution.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 122,
+  "fields": {
+    "public_id": "7a1a9550-5385-4571-84d0-7dc84ae88fda",
+    "subtopic": 38,
+    "serial_number": "CAPEXPO_TRIVIA_Q090_D_EASY_ST09",
+    "content": "Question 90 (Difficulty: Easy): Reggae music originated in Jamaica. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Reggae developed in Jamaica in the late 1960s.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 123,
+  "fields": {
+    "public_id": "67220501-fe59-4111-8869-34f4453459c6",
+    "subtopic": 39,
+    "serial_number": "CAPEXPO_TRIVIA_Q091_D_EASY_ST10",
+    "content": "Question 91 (Difficulty: Easy): McMaster University is located in Hamilton, Ontario. Is this statement true?",
+    "answer_explanation": "Correct answer: True. McMaster’s main campus is in Hamilton, Ontario.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 124,
+  "fields": {
+    "public_id": "edfc4343-8aac-4586-9613-df4dd761b493",
+    "subtopic": 39,
+    "serial_number": "CAPEXPO_TRIVIA_Q092_D_MEDIUM_ST10",
+    "content": "Question 92 (Difficulty: Medium): McMaster University was founded in 1887. Is this statement true?",
+    "answer_explanation": "Correct answer: True. The university traces its founding to 1887.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 125,
+  "fields": {
+    "public_id": "05e45068-70b1-4f7a-9295-52808e10c9bc",
+    "subtopic": 39,
+    "serial_number": "CAPEXPO_TRIVIA_Q093_D_MEDIUM_ST10",
+    "content": "Question 93 (Difficulty: Medium): McMaster University is named after Senator William McMaster. Is this statement true?",
+    "answer_explanation": "Correct answer: True. The institution is named after William McMaster.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 126,
+  "fields": {
+    "public_id": "479b22ab-e143-490e-86e6-87edb292e911",
+    "subtopic": 39,
+    "serial_number": "CAPEXPO_TRIVIA_Q094_D_MEDIUM_ST10",
+    "content": "Question 94 (Difficulty: Medium): McMaster moved from Toronto to Hamilton in 1930. Is this statement true?",
+    "answer_explanation": "Correct answer: True. The university relocated to Hamilton in 1930.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 127,
+  "fields": {
+    "public_id": "e4bdd38b-79a5-44f4-a676-918365b626ef",
+    "subtopic": 39,
+    "serial_number": "CAPEXPO_TRIVIA_Q095_D_EASY_ST10",
+    "content": "Question 95 (Difficulty: Easy): McMaster varsity teams are known as the Marauders. Is this statement true?",
+    "answer_explanation": "Correct answer: True. McMaster’s athletic teams compete as the Marauders.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 128,
+  "fields": {
+    "public_id": "8f603ea2-877d-4f74-ae58-f8bb089c7fe3",
+    "subtopic": 39,
+    "serial_number": "CAPEXPO_TRIVIA_Q096_D_HARD_ST10",
+    "content": "Question 96 (Difficulty: Hard): McMaster is part of the U15 group of Canadian research universities. Is this statement true?",
+    "answer_explanation": "Correct answer: True. McMaster is a member of the U15 research university group.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 129,
+  "fields": {
+    "public_id": "cdc9d29c-ebf8-4e1e-8aea-f83259567d7c",
+    "subtopic": 39,
+    "serial_number": "CAPEXPO_TRIVIA_Q097_D_HARD_ST10",
+    "content": "Question 97 (Difficulty: Hard): McMaster is well known for pioneering problem-based learning in medical education. Is this statement true?",
+    "answer_explanation": "Correct answer: True. Its medical program is internationally linked to problem-based learning.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 130,
+  "fields": {
+    "public_id": "a285eb0a-7788-4740-b822-606b2ae9d2af",
+    "subtopic": 39,
+    "serial_number": "CAPEXPO_TRIVIA_Q098_D_HARD_ST10",
+    "content": "Question 98 (Difficulty: Hard): McMaster has a nuclear research reactor on its campus. Is this statement true?",
+    "answer_explanation": "Correct answer: True. The McMaster Nuclear Reactor is located on campus.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 131,
+  "fields": {
+    "public_id": "7d794f0e-294f-4a05-9761-4a2502a731a6",
+    "subtopic": 39,
+    "serial_number": "CAPEXPO_TRIVIA_Q099_D_EASY_ST10",
+    "content": "Question 99 (Difficulty: Easy): McMaster’s mascot is a beaver. Is this statement true?",
+    "answer_explanation": "Correct answer: False. McMaster’s mascot identity is tied to the Marauders, not a beaver.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "-1.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.question",
+  "pk": 132,
+  "fields": {
+    "public_id": "89b2bf60-35a9-44d2-b564-5182c639145e",
+    "subtopic": 39,
+    "serial_number": "CAPEXPO_TRIVIA_Q100_D_MEDIUM_ST10",
+    "content": "Question 100 (Difficulty: Medium): McMaster Children’s Hospital is affiliated with McMaster University. Is this statement true?",
+    "answer_explanation": "Correct answer: True. McMaster Children’s Hospital is part of its health sciences ecosystem.",
+    "selection_frequency": "0.0000",
+    "discrimination": "1.0000",
+    "difficulty": "0.0000",
+    "guessing": "0.0000",
+    "is_flagged": false,
+    "is_active": true,
+    "is_verified": true,
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 119,
+  "fields": {
+    "public_id": "1910fba9-b2df-4995-844d-f511e06ad2e0",
+    "question": 33,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 120,
+  "fields": {
+    "public_id": "cbfbbbbc-f09c-403e-b100-77f7c3536834",
+    "question": 33,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 121,
+  "fields": {
+    "public_id": "a72d2328-9c7d-473b-959c-48e55f2ebf38",
+    "question": 34,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 122,
+  "fields": {
+    "public_id": "0fc17c40-4c41-4a64-a37e-168868a8bb5c",
+    "question": 34,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 123,
+  "fields": {
+    "public_id": "11e5bdf3-8644-4034-bfd3-1fa67a0e95e7",
+    "question": 35,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 124,
+  "fields": {
+    "public_id": "3c58c998-eef7-4a2c-99dc-0406448f19a7",
+    "question": 35,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 125,
+  "fields": {
+    "public_id": "9cfaf85c-965c-4078-8b9e-0c9d7cce770b",
+    "question": 36,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 126,
+  "fields": {
+    "public_id": "831adc88-05e0-4cb4-bc83-ca9216288964",
+    "question": 36,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 127,
+  "fields": {
+    "public_id": "e7fc602c-2b69-4674-a381-36b61a238749",
+    "question": 37,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 128,
+  "fields": {
+    "public_id": "fccea691-b999-4401-b70f-2c57083bf154",
+    "question": 37,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 129,
+  "fields": {
+    "public_id": "e24cfefe-b386-4508-b81f-74bde752555a",
+    "question": 38,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 130,
+  "fields": {
+    "public_id": "4c2ad882-5e3a-4172-9a9b-6d1d4b6e019c",
+    "question": 38,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 131,
+  "fields": {
+    "public_id": "2aad76e7-6780-4041-8ff9-43d5d4beb030",
+    "question": 39,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 132,
+  "fields": {
+    "public_id": "0f73107c-6ed5-41ca-8545-ace6836eecbf",
+    "question": 39,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 133,
+  "fields": {
+    "public_id": "8ac978ad-55d3-4197-9ba5-39b9d5250e49",
+    "question": 40,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 134,
+  "fields": {
+    "public_id": "ac3b1161-e9d3-4c62-9bd7-9bf5cd827579",
+    "question": 40,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 135,
+  "fields": {
+    "public_id": "a599fef7-c33a-4312-9490-b758f644d537",
+    "question": 41,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 136,
+  "fields": {
+    "public_id": "b9def554-2d5f-48d3-8e07-aadebfb60151",
+    "question": 41,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 137,
+  "fields": {
+    "public_id": "246ba949-04d7-45cd-9267-16e11a523fd1",
+    "question": 42,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 138,
+  "fields": {
+    "public_id": "c9e5d243-a727-4923-b8a5-99fa986d34cd",
+    "question": 42,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 139,
+  "fields": {
+    "public_id": "d4395f76-71d9-4fe7-8ea0-71ab734a58d0",
+    "question": 43,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 140,
+  "fields": {
+    "public_id": "9edca926-fe7e-4657-821f-18fb0ee921c4",
+    "question": 43,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 141,
+  "fields": {
+    "public_id": "a83dfa1d-fee7-4b66-b277-1dcd0699692c",
+    "question": 44,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 142,
+  "fields": {
+    "public_id": "0a422ecc-c724-43e0-8509-1736ceec1cf6",
+    "question": 44,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 143,
+  "fields": {
+    "public_id": "90a0dd55-0fa7-480f-a2ea-620cdd4dca23",
+    "question": 45,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 144,
+  "fields": {
+    "public_id": "7bb4392a-02af-42c3-b58e-c2aef771d1ad",
+    "question": 45,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 145,
+  "fields": {
+    "public_id": "daae4635-ae6c-4dff-8a73-c50692c7f5e8",
+    "question": 46,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 146,
+  "fields": {
+    "public_id": "6f91c6a2-eda1-4073-b190-a5f7e19e9319",
+    "question": 46,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 147,
+  "fields": {
+    "public_id": "d6f920e0-eff6-4b7f-b97a-9ad170c99f91",
+    "question": 47,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 148,
+  "fields": {
+    "public_id": "9538feef-0902-4a41-b55e-a179c721d8b8",
+    "question": 47,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 149,
+  "fields": {
+    "public_id": "9490c2d2-26cb-4083-9c65-00e6a85fb802",
+    "question": 48,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 150,
+  "fields": {
+    "public_id": "7dc8c9e8-dd2e-497a-b34d-ba92f1a8d4a5",
+    "question": 48,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 151,
+  "fields": {
+    "public_id": "5190b6fd-ab4e-4488-9702-38d5de1cfe2a",
+    "question": 49,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 152,
+  "fields": {
+    "public_id": "95f9976c-f2bc-4dbc-8efe-657f6c5dbabd",
+    "question": 49,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 153,
+  "fields": {
+    "public_id": "006d53e5-cf4a-48bb-acc6-4817581014b2",
+    "question": 50,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 154,
+  "fields": {
+    "public_id": "f8170188-b02c-42d6-b428-12b20e726bd9",
+    "question": 50,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 155,
+  "fields": {
+    "public_id": "274bcfb0-3f82-4a27-9b23-b63bed1838aa",
+    "question": 51,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 156,
+  "fields": {
+    "public_id": "e84009f6-5e16-4bde-847c-1b7dc91f3f81",
+    "question": 51,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 157,
+  "fields": {
+    "public_id": "0b398699-6e3f-4a5d-bb02-83301d64df84",
+    "question": 52,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 158,
+  "fields": {
+    "public_id": "4bea0b6f-8e8a-41ae-9659-61e025c0b493",
+    "question": 52,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 159,
+  "fields": {
+    "public_id": "30d2d66b-3870-4a31-9417-84300024a28c",
+    "question": 53,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 160,
+  "fields": {
+    "public_id": "463c7362-5515-4dd4-b64d-f01f4ecee697",
+    "question": 53,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 161,
+  "fields": {
+    "public_id": "df7d61cd-3352-446c-8dd7-68a69e746da3",
+    "question": 54,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 162,
+  "fields": {
+    "public_id": "19248b0a-fae2-4de8-a0c6-4eb1c5ccdaea",
+    "question": 54,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 163,
+  "fields": {
+    "public_id": "cce71815-6429-4030-836d-483eed1c0d2a",
+    "question": 55,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 164,
+  "fields": {
+    "public_id": "f024a5fa-424b-4b85-903b-40ccc85a2146",
+    "question": 55,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 165,
+  "fields": {
+    "public_id": "777ec10c-c77d-4b2a-a85d-b2b6a99edf94",
+    "question": 56,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 166,
+  "fields": {
+    "public_id": "77e80bff-0f81-490b-842e-d372b489ef74",
+    "question": 56,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 167,
+  "fields": {
+    "public_id": "1ad6bfe3-0312-4ca1-bd30-78e4b4ade75d",
+    "question": 57,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 168,
+  "fields": {
+    "public_id": "d699f5b0-5f96-4007-ab54-bf64ffd52ebf",
+    "question": 57,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 169,
+  "fields": {
+    "public_id": "1ae2a9de-1377-47fe-86a7-15f5579e3918",
+    "question": 58,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 170,
+  "fields": {
+    "public_id": "396ca9eb-e629-4d2e-b3d0-bf5e5b7ec896",
+    "question": 58,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 171,
+  "fields": {
+    "public_id": "927f6f99-b4e8-450b-8f5f-5c0b899afd1b",
+    "question": 59,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 172,
+  "fields": {
+    "public_id": "9f7b96fe-7617-4fc5-896b-102ba87f48ab",
+    "question": 59,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 173,
+  "fields": {
+    "public_id": "027b1216-2509-4b5e-9e29-db65a9770a0c",
+    "question": 60,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 174,
+  "fields": {
+    "public_id": "af0fcd49-faea-4790-8c27-3d53feb9aed9",
+    "question": 60,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 175,
+  "fields": {
+    "public_id": "a4860bdb-d593-4f07-b5f2-72aed841a271",
+    "question": 61,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 176,
+  "fields": {
+    "public_id": "320699d9-353d-4ccd-b1a3-32800208f399",
+    "question": 61,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 177,
+  "fields": {
+    "public_id": "eb7d5298-cd60-4720-833b-7afbec6045d3",
+    "question": 62,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 178,
+  "fields": {
+    "public_id": "c9ccbb25-9456-412e-9861-b7b59bdeeac9",
+    "question": 62,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 179,
+  "fields": {
+    "public_id": "b907561d-f294-45a2-9611-2574ef91d0d8",
+    "question": 63,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 180,
+  "fields": {
+    "public_id": "5defe976-8719-49be-92ae-4c779040880e",
+    "question": 63,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 181,
+  "fields": {
+    "public_id": "d35849b4-7d28-46b4-b8ae-61b8859eaf73",
+    "question": 64,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 182,
+  "fields": {
+    "public_id": "d3804472-3cbc-48b1-a8ac-1e708ef96818",
+    "question": 64,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 183,
+  "fields": {
+    "public_id": "060cbab7-5af8-4f41-be7e-10456b5ccca2",
+    "question": 65,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 184,
+  "fields": {
+    "public_id": "7657067a-359d-4555-8675-fcff2a59af7f",
+    "question": 65,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 185,
+  "fields": {
+    "public_id": "dfc430df-2d1a-4b48-a7fc-0be31718c1fa",
+    "question": 66,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 186,
+  "fields": {
+    "public_id": "47f7e087-3c24-416f-9def-140ef780979d",
+    "question": 66,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 187,
+  "fields": {
+    "public_id": "8147f616-13da-4064-8ac3-70db53c45755",
+    "question": 67,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 188,
+  "fields": {
+    "public_id": "735eddef-fae9-4ae8-8e99-f844f7053622",
+    "question": 67,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 189,
+  "fields": {
+    "public_id": "3ab1f014-ed4a-4fb3-834d-9c3f7332be78",
+    "question": 68,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 190,
+  "fields": {
+    "public_id": "7eb45909-5934-431a-8659-5b60cad94044",
+    "question": 68,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 191,
+  "fields": {
+    "public_id": "77b7b14e-84a5-452b-a141-10b10956bff1",
+    "question": 69,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 192,
+  "fields": {
+    "public_id": "9bbb9aea-5f4b-4119-a601-824ae6f05079",
+    "question": 69,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 193,
+  "fields": {
+    "public_id": "9cf1a717-aa57-424a-b417-f654b2a46d31",
+    "question": 70,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 194,
+  "fields": {
+    "public_id": "5c8fb06a-add9-4b28-945b-1e7e66691040",
+    "question": 70,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 195,
+  "fields": {
+    "public_id": "ecae0491-42f1-4cf1-85e4-594f9cb9a69e",
+    "question": 71,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 196,
+  "fields": {
+    "public_id": "df54f430-7d74-4023-948d-6a94c0f779d9",
+    "question": 71,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 197,
+  "fields": {
+    "public_id": "0633b398-665e-494b-a9ac-978895486a3c",
+    "question": 72,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 198,
+  "fields": {
+    "public_id": "ee56f609-4d43-4092-afd6-28c4ab056e75",
+    "question": 72,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 199,
+  "fields": {
+    "public_id": "afe4a6e7-fc45-42d1-98a2-37454f851ec9",
+    "question": 73,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 200,
+  "fields": {
+    "public_id": "1e70cff6-59ba-4908-b07f-62a4345cbc38",
+    "question": 73,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 201,
+  "fields": {
+    "public_id": "c72c7bf6-d14a-4d83-99d0-adbb79e868ba",
+    "question": 74,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 202,
+  "fields": {
+    "public_id": "30ab0cd9-9b5b-4a98-b15c-c5218573fb2f",
+    "question": 74,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 203,
+  "fields": {
+    "public_id": "5d060992-c720-4483-876e-0652ead4eb62",
+    "question": 75,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 204,
+  "fields": {
+    "public_id": "2bc48420-240c-4298-b645-e5c904f1d2a6",
+    "question": 75,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 205,
+  "fields": {
+    "public_id": "154e5aab-ad2c-409e-8f52-5e88284f5470",
+    "question": 76,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 206,
+  "fields": {
+    "public_id": "87c7f57f-b7bb-4309-9e6d-5eac7ffc7bc1",
+    "question": 76,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 207,
+  "fields": {
+    "public_id": "4b523098-b3a3-428a-bb7c-484c13eb91a8",
+    "question": 77,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 208,
+  "fields": {
+    "public_id": "69f56d4e-8fbd-4879-a04e-a31f5fda1238",
+    "question": 77,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 209,
+  "fields": {
+    "public_id": "a38e3c57-b686-4538-8fa0-627e11df8ac9",
+    "question": 78,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 210,
+  "fields": {
+    "public_id": "513d092c-1380-479c-bcca-3e2b11226e9a",
+    "question": 78,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 211,
+  "fields": {
+    "public_id": "da2eb5ed-5e86-44f0-a346-73299a940d7b",
+    "question": 79,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 212,
+  "fields": {
+    "public_id": "e98bfc6b-30cb-4aa0-9c7b-fdb4e8d0fc37",
+    "question": 79,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 213,
+  "fields": {
+    "public_id": "18a8398b-fe36-42c2-9e55-92c52ff5626f",
+    "question": 80,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 214,
+  "fields": {
+    "public_id": "5d5eed74-f1f8-480c-8db5-515ce986ceb2",
+    "question": 80,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 215,
+  "fields": {
+    "public_id": "db98692d-96ec-454a-b9b6-c2803664bba7",
+    "question": 81,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 216,
+  "fields": {
+    "public_id": "c6a71af6-0ec4-45d0-833b-cbe0e8802352",
+    "question": 81,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 217,
+  "fields": {
+    "public_id": "356b854d-5736-4011-afcb-ecc8224f655a",
+    "question": 82,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 218,
+  "fields": {
+    "public_id": "384a7554-1f2c-4ac3-8ca4-cc492d57c2f4",
+    "question": 82,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 219,
+  "fields": {
+    "public_id": "9a7ca199-c6b5-42af-82e3-25a5a5ef77a8",
+    "question": 83,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 220,
+  "fields": {
+    "public_id": "f2a5d583-61ff-4541-a68b-e71769d9c4ae",
+    "question": 83,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 221,
+  "fields": {
+    "public_id": "d79dc816-615d-4551-877e-e09e4ff8898f",
+    "question": 84,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 222,
+  "fields": {
+    "public_id": "56f1609c-aa9e-4dcf-a671-e2af0781c11f",
+    "question": 84,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 223,
+  "fields": {
+    "public_id": "48cfbea1-13d8-476a-bde8-56cc48d0e57a",
+    "question": 85,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 224,
+  "fields": {
+    "public_id": "c57a8a3e-60a7-45ea-ae67-61d5d748a8bf",
+    "question": 85,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 225,
+  "fields": {
+    "public_id": "eb838d6f-e8d7-4b7b-9d90-9d62cd7c0608",
+    "question": 86,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 226,
+  "fields": {
+    "public_id": "e902474d-e1f1-4eaa-ab97-3c367fa03c24",
+    "question": 86,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 227,
+  "fields": {
+    "public_id": "a2f1197b-eb48-4b19-84be-9e4548c01ad4",
+    "question": 87,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 228,
+  "fields": {
+    "public_id": "a9dd76df-0433-4acf-b1a6-18b0691d9f47",
+    "question": 87,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 229,
+  "fields": {
+    "public_id": "c00fe60f-ad70-4284-8dad-e8242438039c",
+    "question": 88,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 230,
+  "fields": {
+    "public_id": "d8f0a84e-529b-43cc-97af-73fe3c59e813",
+    "question": 88,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 231,
+  "fields": {
+    "public_id": "c303a6ac-3c90-46a8-a14b-271aafe70929",
+    "question": 89,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 232,
+  "fields": {
+    "public_id": "060297d5-ff4d-4fcb-9b1f-fb510b55ecd7",
+    "question": 89,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 233,
+  "fields": {
+    "public_id": "7f2f2d69-15d2-48b4-a8a7-aa43bc768bca",
+    "question": 90,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 234,
+  "fields": {
+    "public_id": "dd11d584-de8d-43b7-b003-3779929f3ab0",
+    "question": 90,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 235,
+  "fields": {
+    "public_id": "5dd810f0-03d4-49ef-8d33-f1f5e65568a2",
+    "question": 91,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 236,
+  "fields": {
+    "public_id": "4bffd5f0-50da-49c3-ab8e-0ba77b899378",
+    "question": 91,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 237,
+  "fields": {
+    "public_id": "cc13a263-a291-4014-a568-7ee6780cabd1",
+    "question": 92,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 238,
+  "fields": {
+    "public_id": "28df37d6-3c1c-4a26-a6d7-40aacf1bf62a",
+    "question": 92,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 239,
+  "fields": {
+    "public_id": "c5a280a8-f743-43a6-b747-9ecd68bbee5b",
+    "question": 93,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 240,
+  "fields": {
+    "public_id": "11b4bd61-7b14-45e3-bcd3-4c4d1f822b5e",
+    "question": 93,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 241,
+  "fields": {
+    "public_id": "d74fa1d0-7289-4a64-a22d-b40f547ca3bc",
+    "question": 94,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 242,
+  "fields": {
+    "public_id": "60dc63c4-2db6-4f38-8cc0-42dc44a0eaca",
+    "question": 94,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 243,
+  "fields": {
+    "public_id": "59b0242f-ab66-4e5d-8b36-b4445e4f67e3",
+    "question": 95,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 244,
+  "fields": {
+    "public_id": "7858fafa-76c6-476b-80d8-38dc834f5927",
+    "question": 95,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 245,
+  "fields": {
+    "public_id": "40f96b22-f8f4-4c14-aab2-59e0301bcec5",
+    "question": 96,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 246,
+  "fields": {
+    "public_id": "acbaa3f9-b6dd-4853-8f72-173da3267d00",
+    "question": 96,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 247,
+  "fields": {
+    "public_id": "3e2d7c06-ef82-4495-9a17-bd261c96dcd4",
+    "question": 97,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 248,
+  "fields": {
+    "public_id": "e63386a9-3969-43b4-83b4-35e2acf11d72",
+    "question": 97,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 249,
+  "fields": {
+    "public_id": "153ccccd-52d2-4621-b3aa-e8e1006f145f",
+    "question": 98,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 250,
+  "fields": {
+    "public_id": "ec4ec018-8347-408f-83dd-d1c99f8201d1",
+    "question": 98,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 251,
+  "fields": {
+    "public_id": "532dabe9-6312-492b-a4d9-baf3ac166849",
+    "question": 99,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 252,
+  "fields": {
+    "public_id": "e7028fc7-5fe4-4e12-a73a-db1355419f41",
+    "question": 99,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 253,
+  "fields": {
+    "public_id": "4ea6075e-6efe-4262-8442-bb09cf86ebfb",
+    "question": 100,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 254,
+  "fields": {
+    "public_id": "1905bb45-fc72-400c-8aef-c7bc588c8914",
+    "question": 100,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 255,
+  "fields": {
+    "public_id": "5e270437-e7b8-4aa8-a496-033a6cbeaab8",
+    "question": 101,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 256,
+  "fields": {
+    "public_id": "1a52696f-bf58-48d5-adaf-65e81d479ad5",
+    "question": 101,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 257,
+  "fields": {
+    "public_id": "67648341-3023-4fe6-80b2-1ba5b5fe4303",
+    "question": 102,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 258,
+  "fields": {
+    "public_id": "aead1b2e-b015-448d-a6f7-5b208c931651",
+    "question": 102,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 259,
+  "fields": {
+    "public_id": "ddbf85e4-e1df-47b3-ae45-da17f6613fca",
+    "question": 103,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 260,
+  "fields": {
+    "public_id": "c6107a73-e473-4fac-b7f3-fb6380d0dbe1",
+    "question": 103,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 261,
+  "fields": {
+    "public_id": "8e4afe3c-022d-4af6-adf8-25fff147e3bb",
+    "question": 104,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 262,
+  "fields": {
+    "public_id": "44de8dc1-10a4-48f7-b73f-447603ab4b41",
+    "question": 104,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 263,
+  "fields": {
+    "public_id": "941dc166-319d-4fe8-bb30-2dc778af83d8",
+    "question": 105,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 264,
+  "fields": {
+    "public_id": "fcce58fe-9f51-4674-92ba-8bb420e6eb32",
+    "question": 105,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 265,
+  "fields": {
+    "public_id": "ced458dc-98c7-47c7-96c8-da4e851131ed",
+    "question": 106,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 266,
+  "fields": {
+    "public_id": "3d3e2aef-59b3-420c-9e24-538c7c30c175",
+    "question": 106,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 267,
+  "fields": {
+    "public_id": "ab21ff95-9923-450a-b6d5-40af12421a4f",
+    "question": 107,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 268,
+  "fields": {
+    "public_id": "d0445051-fed0-4b2a-b13c-3447b505cef0",
+    "question": 107,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 269,
+  "fields": {
+    "public_id": "ec7d10bf-3e19-46df-9004-8cf5591301e3",
+    "question": 108,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 270,
+  "fields": {
+    "public_id": "c426f5a5-687c-4730-81d3-b86604391a09",
+    "question": 108,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 271,
+  "fields": {
+    "public_id": "08631f56-589d-4215-930b-06fdb4623d3d",
+    "question": 109,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 272,
+  "fields": {
+    "public_id": "de143790-8630-4c3f-8f76-e55ce53d3ea8",
+    "question": 109,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 273,
+  "fields": {
+    "public_id": "680c2ef7-2573-4cd6-93e3-2b937d10eb92",
+    "question": 110,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 274,
+  "fields": {
+    "public_id": "aa43ec2f-0cf4-409a-a489-7dcfac459ab3",
+    "question": 110,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 275,
+  "fields": {
+    "public_id": "ade9963d-4c4c-4367-a94b-fe27afb92bbd",
+    "question": 111,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 276,
+  "fields": {
+    "public_id": "91f77c58-0462-47f7-9848-80c7ba85c0cb",
+    "question": 111,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 277,
+  "fields": {
+    "public_id": "a8738f33-47e6-4cb0-b907-0794f91fe04a",
+    "question": 112,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 278,
+  "fields": {
+    "public_id": "9759565b-3c89-46e0-ab08-1dfec4286ea2",
+    "question": 112,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 279,
+  "fields": {
+    "public_id": "b82f5e1e-3324-4763-8d34-5d386c3a24c6",
+    "question": 113,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 280,
+  "fields": {
+    "public_id": "849dc33a-39c5-4420-a725-6f1a24ba94e2",
+    "question": 113,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 281,
+  "fields": {
+    "public_id": "8675cc5f-2ced-42ac-9b3f-5839fcdf711a",
+    "question": 114,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 282,
+  "fields": {
+    "public_id": "2217d670-4ec9-493f-8381-9bdc5cf241f8",
+    "question": 114,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 283,
+  "fields": {
+    "public_id": "35a86ab3-7d74-47fb-b74f-a1a31e6e0773",
+    "question": 115,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 284,
+  "fields": {
+    "public_id": "0b667026-849f-474a-9aa5-0b6a97640bf9",
+    "question": 115,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 285,
+  "fields": {
+    "public_id": "a43f0616-30b3-4a2b-a469-0d6a52c7dd91",
+    "question": 116,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 286,
+  "fields": {
+    "public_id": "c4babbfe-669b-4c92-ab8a-25a1457faef8",
+    "question": 116,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 287,
+  "fields": {
+    "public_id": "bb5cbf56-d733-4379-a926-97c122247108",
+    "question": 117,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 288,
+  "fields": {
+    "public_id": "3fcf51d4-61f8-4f89-b98e-bfce0b25d48f",
+    "question": 117,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 289,
+  "fields": {
+    "public_id": "7bf43c12-ef09-47d9-99c5-10017413887b",
+    "question": 118,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 290,
+  "fields": {
+    "public_id": "d50caeab-5f56-464f-93e2-6f9a28c79006",
+    "question": 118,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 291,
+  "fields": {
+    "public_id": "15d3ea12-5740-452e-b0b5-c054d4f696ec",
+    "question": 119,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 292,
+  "fields": {
+    "public_id": "97d25bc0-06e3-4133-af9a-a8038c2a48f7",
+    "question": 119,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 293,
+  "fields": {
+    "public_id": "ff3ba278-14d3-4e5e-a7f8-727f658262f2",
+    "question": 120,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 294,
+  "fields": {
+    "public_id": "194c3357-5848-413e-9257-e6a6dacd5141",
+    "question": 120,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 295,
+  "fields": {
+    "public_id": "b5b125a1-9073-4f76-99cd-cf22c82290cd",
+    "question": 121,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 296,
+  "fields": {
+    "public_id": "520f786e-690a-4233-a53b-14e496a9e6ed",
+    "question": 121,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 297,
+  "fields": {
+    "public_id": "640e9754-940c-40f2-a87a-4daf1e256472",
+    "question": 122,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 298,
+  "fields": {
+    "public_id": "2c2f5d84-c373-431a-8ab7-3c5fbe38c43d",
+    "question": 122,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 299,
+  "fields": {
+    "public_id": "300d84b9-76f8-4f38-ad9e-56cbce5854e2",
+    "question": 123,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 300,
+  "fields": {
+    "public_id": "97a41b8b-ce3e-46d3-a623-9edcb5bf90cc",
+    "question": 123,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 301,
+  "fields": {
+    "public_id": "332eb1b4-e4ec-481c-b9ef-4a8ec82a2cee",
+    "question": 124,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 302,
+  "fields": {
+    "public_id": "0177f8d9-72d5-4169-b5ce-9ceeb5df2896",
+    "question": 124,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 303,
+  "fields": {
+    "public_id": "ce5c27f9-70c5-4245-a2e7-123cf7a24404",
+    "question": 125,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 304,
+  "fields": {
+    "public_id": "4fcc5983-1784-4a0e-a503-2718faf7e492",
+    "question": 125,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 305,
+  "fields": {
+    "public_id": "a0d1bbb5-88b8-45c3-bf0e-2b57b571106e",
+    "question": 126,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 306,
+  "fields": {
+    "public_id": "89e0cede-2fae-4bfa-8516-864579885e40",
+    "question": 126,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 307,
+  "fields": {
+    "public_id": "f0425c2c-11e3-4415-8cb7-20638a68c883",
+    "question": 127,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 308,
+  "fields": {
+    "public_id": "309cdde0-14c4-4094-b0a6-f8ff42fe6465",
+    "question": 127,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 309,
+  "fields": {
+    "public_id": "a421917f-cf18-4219-83fd-25e92925a706",
+    "question": 128,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 310,
+  "fields": {
+    "public_id": "47ea5614-364c-40d8-8a79-7e1c1c9ce3cd",
+    "question": 128,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 311,
+  "fields": {
+    "public_id": "f7f49c59-cf71-4360-a5a8-737429068a02",
+    "question": 129,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 312,
+  "fields": {
+    "public_id": "273196f2-2395-4ee6-91a3-fdb8bee38ba4",
+    "question": 129,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 313,
+  "fields": {
+    "public_id": "6739be11-d31d-4ebc-915d-59cbfacde0f5",
+    "question": 130,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 314,
+  "fields": {
+    "public_id": "18d76d67-7ed7-46ee-a730-4ffe87dc1a2f",
+    "question": 130,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 315,
+  "fields": {
+    "public_id": "794ed5db-81ef-4f4f-a6c7-b769573e52ab",
+    "question": 131,
+    "content": "True",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 316,
+  "fields": {
+    "public_id": "702fe620-c8fe-4ba8-8864-a1e1f8bec196",
+    "question": 131,
+    "content": "False",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 317,
+  "fields": {
+    "public_id": "55d0dc38-7167-4d0e-b3e6-35203fe0e5ed",
+    "question": 132,
+    "content": "True",
+    "is_answer": true,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
+},
+{
+  "model": "core.questionoption",
+  "pk": 318,
+  "fields": {
+    "public_id": "add9a6ff-790a-44bf-9789-11892e1eb898",
+    "question": 132,
+    "content": "False",
+    "is_answer": false,
+    "selection_frequency": "0.0000",
+    "images": []
+  }
 }
 ]

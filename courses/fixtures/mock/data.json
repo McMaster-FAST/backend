@@ -589,5 +589,129 @@
     "name": "Subtopic 1",
     "description": "Debug subtopic with enumerated true/false questions and embedded difficulty labels."
   }
+},
+{
+  "model": "courses.course",
+  "pk": 4,
+  "fields": {
+    "public_id": "584f99b1-6943-40fc-955c-beb361381f53",
+    "name": "Capstone expo",
+    "code": "CAPEXPO 100",
+    "description": "General-purpose trivia course fixture for debugging and demos.",
+    "year": 2026,
+    "semester": "WINTER",
+    "is_archived": false
+  }
+},
+{
+  "model": "courses.unit",
+  "pk": 19,
+  "fields": {
+    "public_id": "1d2543e4-925c-46fc-9376-6f1ecc43401b",
+    "course": 4,
+    "name": "Common Trivia",
+    "description": "Dedicated trivia unit with mixed subtopics and explicit difficulty labels in question content for debugging.",
+    "number": 1
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 30,
+  "fields": {
+    "public_id": "ff8c1261-c53c-4c8d-aada-f662de972db1",
+    "unit": 19,
+    "name": "Science & Nature",
+    "description": "Foundational science facts and natural world trivia."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 31,
+  "fields": {
+    "public_id": "29630754-83e8-4b03-a6bc-e1ff16e138e3",
+    "unit": 19,
+    "name": "World Geography",
+    "description": "Countries, landforms, and global location trivia."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 32,
+  "fields": {
+    "public_id": "346837ce-262a-4a80-b96d-80e5ea45bf34",
+    "unit": 19,
+    "name": "World History",
+    "description": "Major events and milestones in world history."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 33,
+  "fields": {
+    "public_id": "e2022206-fa1b-4b64-8abf-59d6d9c2fb85",
+    "unit": 19,
+    "name": "Literature & Language",
+    "description": "Authors, books, and language knowledge trivia."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 34,
+  "fields": {
+    "public_id": "3376a2c1-a65b-418f-b7a4-61733252d921",
+    "unit": 19,
+    "name": "Film & Television",
+    "description": "Popular film and TV facts."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 35,
+  "fields": {
+    "public_id": "7bea3119-445c-4a3d-bf5b-723cb472603a",
+    "unit": 19,
+    "name": "Sports",
+    "description": "General international sports trivia."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 36,
+  "fields": {
+    "public_id": "a9c31808-cca2-4013-b58e-054cc9452bb0",
+    "unit": 19,
+    "name": "Technology & Computing",
+    "description": "Core computing and internet trivia."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 37,
+  "fields": {
+    "public_id": "1d313e21-5add-46a2-a9aa-9ba766656442",
+    "unit": 19,
+    "name": "Food & Culture",
+    "description": "Global cuisine and cultural food trivia."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 38,
+  "fields": {
+    "public_id": "889b6f42-e8f8-4919-bb28-80a54f55ff83",
+    "unit": 19,
+    "name": "Music & Arts",
+    "description": "Classical, modern music, and visual arts trivia."
+  }
+},
+{
+  "model": "courses.unitsubtopic",
+  "pk": 39,
+  "fields": {
+    "public_id": "40f17e8d-97ce-425e-887b-b1e0b427e470",
+    "unit": 19,
+    "name": "McMaster University",
+    "description": "Campus and institutional trivia focused on McMaster."
+  }
 }
 ]
