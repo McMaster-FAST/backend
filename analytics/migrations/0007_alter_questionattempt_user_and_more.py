@@ -9,7 +9,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('analytics', '0006_merge_20260407_1154'),
+        ('analytics', '0006_repair_missing_questionreport_tables'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
