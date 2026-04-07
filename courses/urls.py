@@ -11,7 +11,6 @@ from analytics.views import QuestionReportViewSet
 from core.views.question_comment_viewset import QuestionCommentViewSet
 
 from courses.views import (
-from courses.views import (
     CourseViewSet,
     UnitViewSet,
     SubtopicViewSet,
@@ -34,11 +33,6 @@ router.register(r"test-sessions", TestSessionViewSet, basename="test-sessions")
 router.register(r"comments", QuestionCommentViewSet, basename="comments")
 router.register(r"study-aids", StudyAidViewSet, basename="study-aids")
 router.register(r"enrolments", EnrolmentViewSet, basename="enrolments")
-router.register(
-    r"adaptive-test/question-metrics",
-    AdaptiveTestQuestionMetricViewSet,
-    basename="adaptive-question-metrics",
-)
 router.register(
     r"adaptive-test/question-metrics",
     AdaptiveTestQuestionMetricViewSet,
