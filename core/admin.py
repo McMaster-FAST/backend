@@ -26,6 +26,7 @@ class QuestionOptionInline(admin.TabularInline):
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
     list_display = (
+        "public_id",
         "serial_number",
         "get_course",
         "get_subtopic",
