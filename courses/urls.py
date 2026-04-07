@@ -5,6 +5,8 @@ from core.views.adaptive_test.question_metrics_viewset import (
 )
 from rest_framework_nested.routers import DefaultRouter, NestedDefaultRouter
 
+from analytics.views import QuestionReportAggregateViewSet
+from analytics.views import QuestionReportViewSet
 from core.views.question_comment_viewset import QuestionCommentViewSet
 
 from courses.views import (
@@ -38,6 +40,7 @@ courses_router = NestedDefaultRouter(router, r"courses", lookup="course")
 courses_router.register(r"units", UnitViewSet, basename="course-units")
 courses_router.register(r"enrolments", EnrolmentViewSet, basename="course-enrolments")
 courses_router.register(r"questions", QuestionViewSet, basename="course-questions")
+courses_router.register(r"aggregate-reports", QuestionReportAggregateViewSet, basename="course-reports")
 courses_router.register(r"xp", CourseXPViewSet, basename="course-xp")
 
 units_router = NestedDefaultRouter(router, r"units", lookup="unit")
@@ -54,6 +57,8 @@ questions_router.register(r"options", OptionViewSet, basename="question-options"
 questions_router.register(
     r"comments", QuestionCommentViewSet, basename="question-comments"
 )
+questions_router.register(r"reports", QuestionReportViewSet, basename="question-reports")
+
 
 urlpatterns = [
     path(r"", include(router.urls)),

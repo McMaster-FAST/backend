@@ -1,3 +1,6 @@
+from .ability_score_serializer import UserTopicAbilityScoreSerializer
+from .question_report_serializer import QuestionReportSerializer
+from .question_report_aggregate_serializer import QuestionReportAggregateSerializer
 from .class_average_serializer import (
     ClassAverageRequestSerializer,
     ClassAverageResponseSerializer,
