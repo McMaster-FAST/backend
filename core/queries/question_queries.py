@@ -100,6 +100,7 @@ def get_next_question_bundle(
             None,
             determine_continue_actions(user, subtopic),
             determine_suggested_actions(user, subtopic),
+            build_gamification_data(user, subtopic, None),
         )
 
     options = list(QuestionOption.objects.filter(question=next_question))
@@ -110,6 +111,7 @@ def get_next_question_bundle(
         QuestionBundle(question=next_question, options=options, saved_for_later=saved_for_later),
         [],
         determine_suggested_actions(user, subtopic),
+        build_gamification_data(user, subtopic, next_question),
     )
 
 
@@ -360,7 +362,67 @@ def increment_view_count(user, question):
     metrics.save()
 
 
-def getQuestionResponse(question_bundle, continue_actions, suggested_actions):
+def _get_ability_label(difficulty_delta: float) -> str:
+    if difficulty_delta > 1.0:
+        return "MUCH_HARDER"
+    elif difficulty_delta > 0.25:
+        return "HARDER"
+    elif difficulty_delta >= -0.25:
+        return "ON_TARGET"
+    elif difficulty_delta >= -1.0:
+        return "EASIER"
+    return "MUCH_EASIER"
+
+
+def build_gamification_data(
+    user: MacFastUser, subtopic: UnitSubtopic, question: Question | None
+) -> dict:
+    user_ability, _ = UserTopicAbilityScore.objects.get_or_create(
+        user=user, unit_sub_topic=subtopic
+    )
+    test_session, _ = TestSession.objects.get_or_create(user=user, subtopic=subtopic)
+
+    ability_score = float(user_ability.score)
+    ability_variance = float(user_ability.variance)
+
+    recent_correct = (
+        QuestionAttempt.objects.filter(
+            user=user,
+            question__subtopic=subtopic,
+            skipped=False,
+        )
+        .order_by("-timestamp")
+        .values_list("answered_correctly", flat=True)[:20] # only check the last 20 questions
+    )
+    streak = 0
+    for correct in recent_correct:
+        if correct:
+            streak += 1
+        else:
+            break
+
+    gamification: dict = {
+        "user_ability": round(ability_score, 4),
+        "ability_variance": round(ability_variance, 4),
+        "questions_answered": test_session.questions_answered_count,
+        "current_streak": streak,
+    }
+
+    if question is not None:
+        question_difficulty = float(question.difficulty)
+        difficulty_delta = round(question_difficulty - ability_score, 4)
+        gamification.update(
+            {
+                "question_difficulty": question_difficulty,
+                "difficulty_delta": difficulty_delta,
+                "difficulty_label": _get_ability_label(difficulty_delta),
+            }
+        )
+
+    return gamification
+
+
+def getQuestionResponse(question_bundle, continue_actions, suggested_actions, gamification=None):
     return Response(
         {
             "question": (
@@ -370,6 +432,7 @@ def getQuestionResponse(question_bundle, continue_actions, suggested_actions):
             ),
             "continue_actions": [action.value for action in continue_actions],
             "suggested_actions": [action.value for action in suggested_actions],
+            "gamification": gamification or {},
         },
         status=status.HTTP_200_OK,
     )

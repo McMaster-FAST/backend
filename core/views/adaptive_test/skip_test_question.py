@@ -26,5 +26,5 @@ class SkipTestQuestionView(views.APIView):
                 {"error": "Question has been skipped too many times."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        question_bundle, continue_actions, suggested_actions = get_next_question_bundle(request.user, question.subtopic)
-        return getQuestionResponse(question_bundle, continue_actions, suggested_actions)
+        question_bundle, continue_actions, suggested_actions, gamification = get_next_question_bundle(request.user, question.subtopic)
+        return getQuestionResponse(question_bundle, continue_actions, suggested_actions, gamification)

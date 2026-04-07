@@ -32,5 +32,5 @@ class NextTestQuestionView(APIView):
             unit__name=unit_name,
             name=subtopic_name,
         )
-        question_bundle, continue_actions, suggested_actions = get_next_question_bundle(user, subtopic)
-        return getQuestionResponse(question_bundle, continue_actions, suggested_actions)
+        question_bundle, continue_actions, suggested_actions, gamification = get_next_question_bundle(user, subtopic)
+        return getQuestionResponse(question_bundle, continue_actions, suggested_actions, gamification)
