@@ -32,6 +32,7 @@ class Course(UUIDModel):
 class Unit(UUIDModel):
     course = models.ForeignKey("Course", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
+    tag = models.CharField(max_length=50, blank=True, db_index=True)
     description = models.TextField(blank=True)
     number = models.IntegerField()
 
@@ -48,6 +49,7 @@ class Unit(UUIDModel):
 class UnitSubtopic(UUIDModel):
     unit = models.ForeignKey("Unit", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
+    tag = models.CharField(max_length=50, blank=True, db_index=True)
     description = models.TextField(blank=True)
 
     class Meta:

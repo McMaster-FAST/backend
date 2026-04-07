@@ -1,139 +1,163 @@
 import csv
 from typing import Generator, Dict, Any
-from ..utils import str_to_float, clamp_decimal
+from ..utils import str_to_float
 
 
 def parse_questions_from_csv(file_path: str) -> Generator[Dict[str, Any], None, None]:
-    """
-    Parse questions from a CSV file.
-    
-    :param file_path: Path to the CSV file.
-    :yield: Dictionary containing parsed question data.
-    """
-    with open(file_path, 'r', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile)
-        
+    # Parse MCQs from Brightspace's import template CSV file.
+    # utf-8-sig strips UTF-8 BOM (\ufeff) so the first cell is "NewQuestion", not "\ufeffNewQuestion"
+    with open(file_path, "r", encoding="utf-8-sig") as csvfile:
+        reader = csv.reader(csvfile)
+
+        current_question: Dict[str, Any] | None = None
+
         for row in reader:
-            try:
-                question_data = parse_csv_row(row)
-                if question_data:
-                    yield question_data
-            except Exception as e:
-                # Log error and continue with next row
-                print(f"Error parsing row {row.get('id', 'unknown')}: {e}")
+            # Skip empty rows
+            if not row or not any((cell or "").strip() for cell in row):
                 continue
 
+            # Skip comment lines starting with //
+            first_cell = (row[0] or "").strip()
+            if first_cell.startswith("//"):
+                continue
 
-def parse_csv_row(row: Dict[str, str]) -> Dict[str, Any]:
+            label = first_cell
+
+            # Start of a new question block
+            if label == "NewQuestion":
+                # Flush previous question
+                if current_question is not None:
+                    parsed = finalize_question(current_question)
+                    if parsed:
+                        yield parsed
+
+                q_type = (row[1] or "").strip() if len(row) > 1 else ""
+
+                # Only handle Multiple Choice questions for now
+                if q_type != "MC":
+                    current_question = None
+                    continue
+
+                current_question = {
+                    "id": "",
+                    "title": "",
+                    "content": "",
+                    "points": None,
+                    "difficulty": None,
+                    "options": [],
+                    "option_percents": [],
+                    "option_explanations": [],
+                    "explanation": "",
+                    "image_path": "",
+                }
+                continue
+
+            # If we don't have an active MC question, ignore subsequent rows
+            if current_question is None:
+                continue
+
+            # Question metadata rows
+            if label == "ID" and len(row) > 1:
+                current_question["id"] = (row[1] or "").strip()
+            elif label == "Title" and len(row) > 1:
+                current_question["title"] = (row[1] or "").strip()
+            elif label == "QuestionText" and len(row) > 1:
+                current_question["content"] = (row[1] or "").strip()
+            elif label == "Points" and len(row) > 1:
+                current_question["points"] = str_to_float(row[1], default=1.0)
+            elif label == "Difficulty" and len(row) > 1:
+                current_question["difficulty"] = str_to_float(row[1], default=0.0)
+            elif label == "Image" and len(row) > 1:
+                current_question["image_path"] = (row[1] or "").strip()
+            elif label == "Feedback" and len(row) > 1:
+                current_question["explanation"] = (row[1] or "").strip()
+            elif label == "Option":
+                # Brightspace MC Option row format:
+                # [ "Option", percent, text, HTML-flag, feedback, feedback-HTML-flag ]
+                percent = str_to_float(row[1], default=0.0) if len(row) > 1 else 0.0
+                option_text = (row[2] or "").strip() if len(row) > 2 else ""
+
+                if not option_text:
+                    continue
+
+                option_feedback = (row[4] or "").strip() if len(row) > 4 else ""
+                current_question["options"].append(option_text)
+                current_question["option_percents"].append(percent)
+                current_question["option_explanations"].append(option_feedback)
+
+        # Flush last question
+        if current_question is not None:
+            parsed = finalize_question(current_question)
+            if parsed:
+                yield parsed
+
+
+def parse_question_id(question_id: str) -> Dict[str, str]:
     """
-    Parse a single CSV row into question data format.
-    
-    :param row: Dictionary representing a CSV row.
-    :return: Dictionary with parsed question data, or None if row is invalid.
+    Parse a structured question ID into its components.
+
+    Expected format: [Source]-[BroadTopic]-[Subtopic]-[BriefDescriptor]-[Q#]-[Blooms]-[Difficulty]
+    Example: WeeklyTest-CVHeart-HeartExtAnat-PropagFactors-Q1-Und-2
+
+    Returns a dict with 'unit_tag' and 'subtopic_tag' when present, empty strings otherwise.
     """
-    # Extract basic question info
-    fast_id = row.get('fastID', '').strip()
-    if not fast_id:
-        # Use id if fastID is not available
-        fast_id = f"CSV_{row.get('id', '').strip()}"
-    
-    # Validate that we have a question ID
-    if not fast_id or fast_id == "CSV_":
-        print(f"Skipping row with missing ID")
-        return None
-    
-    question_content = row.get('question', '').strip()
-    if not question_content:
-        print(f"Skipping row {fast_id} with missing question content")
-        return None
-    
-    solution = row.get('solution', '').strip()
-    
-    # Extract IRT parameters and clamp to database constraints
-    discrimination = float(clamp_decimal(str_to_float(row.get('p1', ''), default=1.0)))
-    difficulty = float(clamp_decimal(str_to_float(row.get('p2', ''), default=0.0)))
-    guessing = float(clamp_decimal(str_to_float(row.get('p3', ''), default=0.0)))
-    
-    # Parse accuracy (percentage) to selection frequency (0-1) and clamp
-    accuracy = str_to_float(row.get('accuracy', ''), default=0.0)
-    selection_frequency = float(clamp_decimal(accuracy / 100.0 if accuracy > 0 else 0.0))
-    
-    # Parse correct answer option
-    correct_q = row.get('correctQ', '').strip()
-    
-    # Parse response options
-    options, option_frequencies, correct_option_index = parse_options(row, correct_q)
-    
-    # Validate we have options
-    if not options:
-        print(f"Skipping row {fast_id} with no valid options")
-        return None
-    
-    # Clamp option frequencies
-    clamped_frequencies = [str(float(clamp_decimal(str_to_float(freq)))) for freq in option_frequencies]
-    
+    parts = question_id.split("-")
     return {
-        'serial_number': fast_id,
-        'content': question_content,
-        'explanation': solution,
-        'discrimination': discrimination,
-        'difficulty': difficulty,
-        'guessing': guessing,
-        'selection_frequency': selection_frequency,
-        'options': options,
-        'option_selection_frequencies': clamped_frequencies,
-        'answer': correct_option_index,
-        'comments': '',  # CSV doesn't have comments
-        'images': [],  # CSV doesn't have embedded images
-        'unit': 'Chemical Kinetics',  # Default from mock data for CHEM 1AA3
-        'subtopic': 'Rate laws',      # Default from mock data for CHEM 1AA3 / Chemical Kinetics
-        'unit_number': 2,             # Default number from mock data for CHEM 1AA3 / Chemical Kinetics
+        "unit_tag": parts[1] if len(parts) > 1 else "",
+        "subtopic_tag": parts[2] if len(parts) > 2 else "",
+        "difficulty": str_to_float(parts[6], default=0.0) if len(parts) > 6 else 0.0
     }
 
 
-def parse_options(row: Dict[str, str], correct_q: str) -> tuple:
+def finalize_question(block: Dict[str, Any]) -> Dict[str, Any] | None:
     """
-    Parse response options from CSV row.
-    
-    :param row: Dictionary representing a CSV row.
-    :param correct_q: Indicator of which option is correct (e.g., "2" for option 2).
-    :return: Tuple of (options_list, frequencies_list, correct_index).
+    Convert an accumulated Brightspace MC question block into our internal dict format.
     """
-    options = []
-    frequencies = []
-    correct_option_index = 0
+    content = (block.get("content") or "").strip()
+    if not content:
+        return None
+
+    options = block.get("options", [])
+    if not options:
+        return None
+
+    percents = block.get("option_percents") or [0.0] * len(options)
     
-    # Try to parse correct_q as an integer
-    try:
-        correct_option_num = int(correct_q) if correct_q else 1
-    except ValueError:
-        correct_option_num = 1
-    
-    # Parse up to 5 possible response options (can extend if needed)
-    for i in range(1, 6):
-        label_key = f'responseLabel{i}'
-        score_key = f'responseScore{i}'
-        n_key = f'responseN{i}'
-        
-        label = row.get(label_key, '').strip()
-        
-        if not label:
-            # No more options
-            break
-        
-        options.append(label)
-        
-        # Get selection frequency for this option
-        n_value = str_to_float(row.get(n_key, ''), default=0.0)
-        frequencies.append(str(n_value))
-        
-        # Determine if this is the correct answer
-        # Check both responseScore (1 = correct) and correctQ indicator
-        score = str_to_float(row.get(score_key, ''), default=0.0)
-        if score == 1.0 or i == correct_option_num:
-            correct_option_index = len(options) - 1
-    
-    # Convert correct_option_index to letter (A, B, C, etc.)
-    correct_answer_letter = chr(ord('A') + correct_option_index) if options else 'A'
-    
-    return options, frequencies, correct_answer_letter
+    # make sure we have the same number of option explanations as options
+    option_explanations = list(block.get("option_explanations") or [])
+    while len(option_explanations) < len(options):
+        option_explanations.append("")
+    option_explanations = option_explanations[: len(options)]
+
+    # Determine correct option: highest percentage gets treated as correct
+    max_percent = max(percents)
+    correct_index = percents.index(max_percent)
+    correct_answer_letter = chr(ord("A") + correct_index)
+
+    raw_id = (block.get("id") or "").strip()
+    serial_number = raw_id or (block.get("title") or "").strip() or f"MC_{content[:50]}"
+
+    parsed_id = parse_question_id(raw_id) if raw_id else {"unit_tag": "", "subtopic_tag": "", "difficulty": 0.0}
+    unit_tag = parsed_id["unit_tag"]
+    subtopic_tag = parsed_id["subtopic_tag"]
+    difficulty = parsed_id["difficulty"]
+
+    # Build images list from image path if present
+    images = []
+    image_path = (block.get("image_path") or "").strip()
+    if image_path:
+        images.append({"src": image_path, "alt": "", "ref": "image_0"})
+
+    return {
+        "serial_number": serial_number,
+        "content": content,
+        "explanation": block.get("explanation", ""),
+        "option_explanations": option_explanations,
+        "options": options,
+        "answer": correct_answer_letter,
+        "comments": block.get("hint", ""),
+        "images": images,
+        "unit_tag": unit_tag,
+        "subtopic_tag": subtopic_tag,
+        "difficulty": difficulty,
+    }

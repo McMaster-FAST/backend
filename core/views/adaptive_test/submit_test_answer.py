@@ -24,7 +24,10 @@ class SubmitTestAnswerView(APIView):
 
         add_response(request.user, question, selected_option)
 
-        explanation = question.answer_explanation
+        # If the selected option has an explanation, use it. Otherwise, use the question's answer explanation.
+        explanation = (selected_option.explanation or "").strip()
+        if not explanation:
+            explanation = question.answer_explanation
         # TODO: What if the explanation has images?
         response = AnswerSerializer(
             {"correct_option_id": correct_option_id, "explanation": explanation}

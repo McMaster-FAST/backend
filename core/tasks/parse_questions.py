@@ -1,3 +1,4 @@
+import os
 from zipfile import ZipFile
 from celery import shared_task
 from io import BytesIO
@@ -100,10 +101,13 @@ def parse_file(
     upload_result_id: str,
 ) -> None:
     """
-    Celery task to parse uploaded question bank files. Determines file type and processes accordingly.
+    Celery task to parse uploaded question bank files.
 
-    :param file_name: Name of the uploaded file.
+    :param file_name: Name of the uploaded file (extension selects the parser).
     :param file_data: Byte content of the uploaded file.
+    :param course_data: Dictionary containing course identifiers (code, year, and semester).
+    :param uploading_user_id: ID of the user uploading the file; used for auto-verify.
+    :param create_required: Create all required units and subtopics if they don't exist.
     :param course_data: Dictionary containing course identifiers (code, year, semester).
     :param uploading_user_id: The ID of the user who is uploading the file.
     :param create_required: Create all required related entities if they do not exist, with the exception of Course.
@@ -231,6 +235,7 @@ def parse_file(
 
 
 def can_auto_verify(user_id: int, course: dict) -> bool:
+    """Check if the user has instructor privileges for the given course."""
     return Enrolment.objects.filter(
         user__id=user_id,
         course__code=course.get("code"),
@@ -239,18 +244,18 @@ def can_auto_verify(user_id: int, course: dict) -> bool:
         is_instructor=True,
     ).exists()
 
-
-def parse_select_frequency(value: str) -> float:
+def parse_select_frequency(value) -> float:
+    if value is None:
+        return 0.0
     try:
-        match = decimal_pattern.search(value)
+        match = decimal_pattern.search(str(value))
         if match:
             return float(match.group())
     except (ValueError, TypeError):
         pass
     return 0.0
 
-
-def insert_data(
+def insert_docx_data(
     question_data: dict,
     course: Course,
     create_required: bool,
@@ -258,24 +263,20 @@ def insert_data(
     auto_verify: bool,
 ) -> None:
     """
-    Inserts parsed question data into the database.
-
-    :param question_data: Dictionary containing question details.
-    :param course: Course instance that will be referenced in the unit the question belongs to.
-    :param create_required: If True, creates Unit and UnitSubtopic if they do not exist. Otherwise, it expects them to exist.
-    :param auto_verify: Whether the question will be set to verified.
+    Inserts parsed question data from a DOCX upload.
     """
     try:
         answer_index = ord(question_data.get("answer").upper().rstrip("() .")) - ord(
             "A"
         )
     except Exception:
-        raise DocxParsingError(f"Invalid answer format: {question_data.get('answer')}")
+        raise QuestionImportError(
+            f"Invalid answer format: {question_data.get('answer')}"
+        )
 
     raw_selection_frequencies = question_data.get("option_selection_frequencies", [])
     if len(raw_selection_frequencies) <= answer_index:
-        raise DocxParsingError(f"Invalid answer index {answer_index}")
-    # Match a single digit (0, 1) or a decimal number. Only match at most 5 digits since we round to 4
+        raise QuestionImportError(f"Invalid answer index {answer_index}")
 
     selection_frequencies = [
         parse_select_frequency(freq) for freq in raw_selection_frequencies
@@ -477,9 +478,13 @@ def update_question_explanation(question_data: dict) -> None:
 
 
 def create_question(
-    question_data, selection_frequency: float, subtopic, is_verified: bool
+    question_data,
+    selection_frequency: float,
+    subtopic,
+    is_verified: bool,
+    difficulty: float = None,
 ):
-    serial_number = question_data.get("serial_number", "N/A").strip()
+    serial_number = (question_data.get("serial_number") or "N/A").strip()
     content = question_data.get("content")
     if not content or content.strip() == "":
         raise ValueError(
@@ -492,10 +497,10 @@ def create_question(
     question = Question.objects.create(
         subtopic=subtopic,
         serial_number=question_data.get("serial_number"),
-        content=content.strip(),
-        answer_explanation=answer_explanation.strip(),
+        content=str(content).strip(),
+        answer_explanation=str(answer_explanation).strip(),
         selection_frequency=selection_frequency,
-        difficulty=calculate_difficulty_for_test(selection_frequency),
+        difficulty= difficulty if difficulty is not None else calculate_difficulty_for_test(selection_frequency),
         is_verified=is_verified,
     )
     return question
@@ -503,19 +508,31 @@ def create_question(
 
 def create_question_comments(question_data, question):
     comment_text = question_data.get("comments")
-    if comment_text is not None and comment_text.strip() != "":
+    if comment_text is not None and str(comment_text).strip() != "":
         QuestionComment.objects.create(question=question, comment_text=comment_text)
 
 
 def create_question_options(question_data, answer_index, question):
-    for idx, option_content in enumerate(question_data.get("options", [])):
+    """
+    Create options for a question. Works for DOCX (with per-option frequencies) and CSV
+    (omit or shorten option_selection_frequencies to use model default 0).
+    """
+    options = question_data.get("options", [])
+    freqs = question_data.get("option_selection_frequencies")
+    option_explanations = question_data.get("option_explanations") or []
+    for idx, option_content in enumerate(options):
         is_answer = idx == answer_index
-        option_selection_frequency = parse_select_frequency(
-            question_data.get("option_selection_frequencies", [])[idx]
-        )
+        if freqs is not None and idx < len(freqs):
+            option_selection_frequency = parse_select_frequency(freqs[idx])
+        else:
+            option_selection_frequency = 0.0
+        opt_explanation = ""
+        if idx < len(option_explanations) and option_explanations[idx] is not None:
+            opt_explanation = str(option_explanations[idx]).strip()
         QuestionOption.objects.create(
             question=question,
             content=option_content,
+            explanation=opt_explanation,
             selection_frequency=option_selection_frequency,
             is_answer=is_answer,
         )
@@ -544,6 +561,11 @@ def save_images(question_data, question_public_id, file_name):
 
 def calculate_difficulty_for_test(selection_frequency: float) -> float:
     if selection_frequency <= 0 or selection_frequency >= 1:
+        return 0.0
+    try:
+        difficulty = -log((1 / selection_frequency) - 1)
+        return round(difficulty, 4)
+    except ValueError:
         return 0.0
     try:
         difficulty = -log((1 / selection_frequency) - 1)
