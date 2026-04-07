@@ -8,7 +8,7 @@ from courses.models import Course
 class QuestionAttempt(models.Model):
     question = models.ForeignKey("core.Question", on_delete=models.CASCADE)
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
     timestamp = models.DateTimeField(auto_now_add=True)
     answered_correctly = models.BooleanField()
