@@ -21,6 +21,7 @@ from .docx.formats import docx_table_format_a
 from .csv.parser import parse_questions_from_csv
 from core.tasks.docx.parser1AA3Q import parse
 from core.tasks.docx.parser1AA3exp import parse_explanation_updates
+from core.tasks.upload_result_util import finish_upload_result, get_upload_result
 
 logger = getLogger(__name__)
 decimal_pattern = re.compile(r"\d?\.\d{0,5}")
@@ -34,7 +35,7 @@ class QuestionImportError(Exception):
 
 def _insert_question_with_logging(
     question_data: dict, source_label: str, insert_callable
-) -> None:
+) -> bool:
     serial = question_data.get("serial_number")
     try:
         insert_callable()
@@ -43,6 +44,7 @@ def _insert_question_with_logging(
             serial,
             source_label,
         )
+        return True
     except Exception as e:
         summary = None
         if isinstance(e, IntegrityError):
@@ -70,6 +72,7 @@ def _insert_question_with_logging(
             summary = traceback.extract_tb(e.__traceback__)
         if summary:
             logger.error("Error info: %s %s", summary[-1], e)
+        return False
 
 
 def is_question_only_docx(docx_path: str) -> bool:
@@ -122,7 +125,9 @@ def _run_docx_import(
     course: Course,
     create_required: bool,
     auto_verify: bool,
-) -> None:
+) -> tuple[int, int]:
+    success_count = 0
+    failure_count = 0
     with tempfile.NamedTemporaryFile(delete=False, suffix=".docx") as temp_file:
         temp_file.write(file_data)
         path = temp_file.name
@@ -130,35 +135,42 @@ def _run_docx_import(
         if is_explanation_update_format(path):
             parsed_updates = parse_explanation_updates(path, file_name)
             for question_data in parsed_updates:
-                _insert_question_with_logging(
+                inserted = _insert_question_with_logging(
                     question_data,
                     "docx-explanation-update",
                     lambda qd=question_data: update_question_explanation(qd),
                 )
+                success_count += int(inserted)
+                failure_count += int(not inserted)
         elif is_question_only_docx(path):
             parsed_questions = parse(path)
             for question_data in parsed_questions:
-                _insert_question_with_logging(
+                inserted = _insert_question_with_logging(
                     question_data,
                     "docx-v3",
                     lambda qd=question_data: insert_docx_data_v3(
                         qd, course, create_required
                     ),
                 )
+                success_count += int(inserted)
+                failure_count += int(not inserted)
         else:
             for question_data in parse_questions_from_docx(path, docx_table_format_a):
-                _insert_question_with_logging(
+                inserted = _insert_question_with_logging(
                     question_data,
                     "docx",
                     lambda qd=question_data: insert_docx_data(
                         qd, course, create_required, path, auto_verify
                     ),
                 )
+                success_count += int(inserted)
+                failure_count += int(not inserted)
     finally:
         try:
             os.unlink(path)
         except OSError as e:
             logger.warning("Failed to delete temporary docx file %s: %s", path, e)
+    return success_count, failure_count
 
 
 def _run_csv_import(
@@ -167,25 +179,30 @@ def _run_csv_import(
     course: Course,
     create_required: bool,
     auto_verify: bool,
-) -> None:
+) -> tuple[int, int]:
+    success_count = 0
+    failure_count = 0
     with tempfile.NamedTemporaryFile(delete=False, suffix=".csv", mode="wb") as temp_file:
         temp_file.write(file_data)
         temp_file.flush()
         path = temp_file.name
     try:
         for question_data in parse_questions_from_csv(path):
-            _insert_question_with_logging(
+            inserted = _insert_question_with_logging(
                 question_data,
                 "csv",
                 lambda qd=question_data: insert_csv_data(
                     qd, course, create_required, auto_verify
                 ),
             )
+            success_count += int(inserted)
+            failure_count += int(not inserted)
     finally:
         try:
             os.unlink(path)
         except OSError as e:
             logger.warning("Failed to delete temporary csv file %s: %s", path, e)
+    return success_count, failure_count
 
 
 _IMPORT_RUNNERS = (
@@ -221,10 +238,14 @@ def parse_file(
     :param create_required: Create all required units and subtopics if they don't exist.
     :param upload_result_id: ID of the QuestionUploadResult record to update.
     """
+    upload_result = get_upload_result(upload_result_id)
     auto_verify = can_auto_verify(uploading_user_id, course_data)
     try:
         course = Course.objects.get(**course_data)
     except Course.DoesNotExist:
+        upload_result.result = upload_result.QuestionUploadResultChoices.FAILURE
+        upload_result.progress = 1.0
+        upload_result.save(update_fields=["result", "progress"])
         raise ValueError(
             f"Course with code {course_data.get('code')}, year {course_data.get('year')}, "
             f"semester {course_data.get('semester')} does not exist."
@@ -232,14 +253,26 @@ def parse_file(
 
     suffix = _suffix_for_file_name(file_name)
     if suffix is None:
+        upload_result.result = upload_result.QuestionUploadResultChoices.FAILURE
+        upload_result.progress = 1.0
+        upload_result.save(update_fields=["result", "progress"])
         raise ValueError(
             "Unsupported file format. Only .docx and .csv files are supported."
         )
 
-    for registered_suffix, runner in _IMPORT_RUNNERS:
-        if suffix == registered_suffix:
-            runner(file_name, file_data, course, create_required, auto_verify)
-            return
+    try:
+        for registered_suffix, runner in _IMPORT_RUNNERS:
+            if suffix == registered_suffix:
+                success_count, failure_count = runner(
+                    file_name, file_data, course, create_required, auto_verify
+                )
+                finish_upload_result(upload_result, success_count, failure_count)
+                return
+    except Exception:
+        upload_result.result = upload_result.QuestionUploadResultChoices.FAILURE
+        upload_result.progress = 1.0
+        upload_result.save(update_fields=["result", "progress"])
+        raise
 
 
 def can_auto_verify(user_id: int, course: dict) -> bool:
@@ -379,7 +412,11 @@ def resolve_question_by_base_serial(base_serial: str) -> Question:
 def insert_docx_data_v3(
     question_data: dict, course: Course, create_required: bool
 ) -> None:
-    unit_number = question_data.get("unit_number")
+    raw_unit_number = question_data.get("unit_number")
+    try:
+        unit_number = int(raw_unit_number)
+    except (TypeError, ValueError):
+        unit_number = -1
     unit_name = question_data.get("unit_name") or "Imported Unit"
     subtopic_name = question_data.get("subtopic_name") or "Imported Subtopic"
 
