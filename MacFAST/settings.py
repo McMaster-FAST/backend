@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "analytics",
     "sso_auth",
     "rest_framework",
+    "drf_spectacular",
     "django_filters",
     "django_celery_beat",
     "django_celery_results",
@@ -121,6 +122,15 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "MacFAST API",
+    "DESCRIPTION": "API for MacFAST question bank platform",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SERVE_PERMISSIONS": ["rest_framework.permissions.AllowAny"],
 }
 
 # OIDC environment configuration
