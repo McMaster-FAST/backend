@@ -35,10 +35,6 @@ prod = [
     "gunicorn>=23.0.0",
 ]
 
-[tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "MacFAST.settings_test"
-pythonpath = ["."]
-
 [tool.ruff]
 line-length = 88
 
