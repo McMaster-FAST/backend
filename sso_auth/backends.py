@@ -1,5 +1,4 @@
-import json
-from celery import uuid
+import uuid
 import jwt
 from jwt import PyJWKClient
 from mozilla_django_oidc.auth import OIDCAuthenticationBackend
@@ -26,6 +25,14 @@ class MyOIDCBackend(OIDCAuthenticationBackend):
         return super().get_token(payload)
 
     def verify_token(self, token, **kwargs):
+        if settings.OIDC_USE_MOCK:
+            # In load-testing/mock mode, skip signature validation and return
+            # minimal claims expected by downstream auth logic.
+            return {
+                "sub": "mock_sub",
+                "email": "student_mock@mcmaster.ca",
+                "preferred_username": "student_mock",
+            }
         try:
             signing_key = jwks_client.get_signing_key_from_jwt(token)
 
