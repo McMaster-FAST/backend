@@ -6,7 +6,11 @@ Pytest auto-runs these fixtures before each test function.
 File name is a keyword to help pytest auto-discover the fixtures.
 """
 
+import shutil
+from pathlib import Path
+
 import pytest
+from django.conf import settings
 
 from core.models import Question
 from core.models import QuestionOption
@@ -14,6 +18,24 @@ from core.models import TestingParameters
 from courses.models import Course, Unit, UnitSubtopic
 from sso_auth.models import MacFastUser
 from core.tasks.parse_questions import parse_file
+
+
+@pytest.fixture(scope="session", autouse=True)
+def _isolate_and_cleanup_test_media():
+    """
+    Prevent tests from writing into the repo `media/` folder and clean up any
+    artifacts from previous runs.
+    """
+    media_root = getattr(settings, "MEDIA_ROOT", None)
+    if media_root:
+        media_root_path = Path(media_root)
+        shutil.rmtree(media_root_path, ignore_errors=True)
+        media_root_path.mkdir(parents=True, exist_ok=True)
+
+    yield
+
+    if media_root:
+        shutil.rmtree(Path(media_root), ignore_errors=True)
 
 
 @pytest.fixture
