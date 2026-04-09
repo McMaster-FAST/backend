@@ -1,0 +1,5 @@
+# Host venv: Windows junctions (e.g. lib64) break Docker context transfer; image builds its own via Dockerfile.
+.venv
+__pycache__/
+*.py[cod]
+.git/
