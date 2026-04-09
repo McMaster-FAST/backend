@@ -1,15 +1,20 @@
+from decimal import Decimal
 from unittest.mock import MagicMock
 
 import pytest
 
 from analytics.models import CourseXP
 from analytics.models import QuestionAttempt
+from analytics.models import UserTopicAbilityScore
 from core.models import AdaptiveTestQuestionMetric
 from core.models import Question
 from core.models import QuestionOption
 from core.models import TestingParameters
 from core.queries.question_queries import TooManySkipsException
 from core.queries.question_queries import add_response
+from courses.models import Course
+from courses.models import Unit
+from courses.models import UnitSubtopic
 from sso_auth.models import MacFastUser
 
 
@@ -210,3 +215,137 @@ class TestAddResponseTooManySkips:
             user=user, question=question
         ).count()
         assert final_count == initial_count
+
+
+def _create_question_for_subtopic(
+    subtopic: UnitSubtopic,
+    serial: str,
+    difficulty: float,
+) -> tuple[Question, QuestionOption, QuestionOption]:
+    question = Question.objects.create(
+        subtopic=subtopic,
+        serial_number=serial,
+        content=f'Question {serial}',
+        difficulty=Decimal(str(difficulty)),
+    )
+    correct = QuestionOption.objects.create(
+        question=question,
+        content='Correct',
+        is_answer=True,
+    )
+    wrong = QuestionOption.objects.create(
+        question=question,
+        content='Wrong',
+        is_answer=False,
+    )
+    return question, correct, wrong
+
+
+@pytest.mark.django_db
+class TestAddResponseCumulativeAbilityScore:
+    @pytest.fixture
+    def cumulative_setup(self, db: None) -> dict:
+        course = Course.objects.create(
+            name='Cumulative Course',
+            code='CUM101',
+            year=2025,
+            semester=Course.SemesterChoices.FALL,
+        )
+        TestingParameters.objects.create(
+            course=course,
+            warmpup_length=3,
+            max_skips=3,
+            skip_readmit_delay=5,
+            max_question_repetitions=3,
+        )
+        unit = Unit.objects.create(course=course, name='Cumulative Unit', number=1)
+        subtopic = UnitSubtopic.objects.create(unit=unit, name='Cumulative Subtopic')
+        user = MacFastUser.objects.create_user(
+            username='cumulative_user',
+            password='testpass',
+        )
+        return {
+            'user': user,
+            'subtopic': subtopic,
+        }
+
+    def test_consecutive_correct_answers_increase_score(
+        self,
+        cumulative_setup: dict,
+    ) -> None:
+        user = cumulative_setup['user']
+        subtopic = cumulative_setup['subtopic']
+
+        for i in range(5):
+            q, correct, _ = _create_question_for_subtopic(
+                subtopic, f'CUM-CORRECT-{i}', 0.0
+            )
+            add_response(user, q, correct)
+
+        ability = UserTopicAbilityScore.objects.get(user=user, unit_sub_topic=subtopic)
+        assert float(ability.score) > 0.0
+
+    def test_consecutive_wrong_answers_decrease_score(
+        self,
+        cumulative_setup: dict,
+    ) -> None:
+        user = cumulative_setup['user']
+        subtopic = cumulative_setup['subtopic']
+
+        for i in range(5):
+            q, _, wrong = _create_question_for_subtopic(subtopic, f'CUM-WRONG-{i}', 0.0)
+            add_response(user, q, wrong)
+
+        ability = UserTopicAbilityScore.objects.get(user=user, unit_sub_topic=subtopic)
+        assert float(ability.score) < 0.0
+
+    def test_score_updates_with_each_attempt(
+        self,
+        cumulative_setup: dict,
+    ) -> None:
+        user = cumulative_setup['user']
+        subtopic = cumulative_setup['subtopic']
+
+        scores: list[float] = []
+        for i in range(4):
+            q, correct, _ = _create_question_for_subtopic(
+                subtopic, f'CUM-TRACK-{i}', 0.0
+            )
+            add_response(user, q, correct)
+            ability = UserTopicAbilityScore.objects.get(
+                user=user, unit_sub_topic=subtopic
+            )
+            scores.append(float(ability.score))
+
+        # Score should be updated after each attempt (not stuck at initial value)
+        unique_scores = set(scores)
+        assert len(unique_scores) > 1
+
+        # After all correct answers, the final score should be positive
+        assert scores[-1] > 0.0
+
+    def test_attempt_records_reflect_cumulative_score(
+        self,
+        cumulative_setup: dict,
+    ) -> None:
+        user = cumulative_setup['user']
+        subtopic = cumulative_setup['subtopic']
+
+        for i in range(4):
+            q, correct, _ = _create_question_for_subtopic(
+                subtopic, f'CUM-RECORD-{i}', 0.0
+            )
+            add_response(user, q, correct)
+
+        attempts = QuestionAttempt.objects.filter(
+            user=user,
+            question__subtopic=subtopic,
+        ).order_by('timestamp')
+
+        ability_scores = [float(a.updated_ability_score) for a in attempts]
+
+        # The stored ability scores should reflect the running total
+        final_ability = UserTopicAbilityScore.objects.get(
+            user=user, unit_sub_topic=subtopic
+        )
+        assert ability_scores[-1] == float(final_ability.score)
