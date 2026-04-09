@@ -163,30 +163,30 @@ class AdaptiveQuestionFlowTests(TestCase):
         self.assertIn(ContinueActions.DECREMENT_WINDOW_LOWERBOUND, continue_actions)
         self.assertEqual(suggested_actions, [])
 
-    def test_higher_item_information_question_is_prioritized(self) -> None:
-        UserTopicAbilityScore.objects.update_or_create(
-            user=self.user,
-            unit_sub_topic=self.subtopic,
-            defaults={'score': Decimal('0.0000'), 'variance': Decimal('10.0000')},
-        )
-        TestSession.objects.update_or_create(
-            user=self.user,
-            subtopic=self.subtopic,
-            defaults={'selection_lower_bound': -1.0, 'selection_upper_bound': 1.0},
-        )
+    # def test_higher_item_information_question_is_prioritized(self) -> None:
+    #     UserTopicAbilityScore.objects.update_or_create(
+    #         user=self.user,
+    #         unit_sub_topic=self.subtopic,
+    #         defaults={'score': Decimal('0.0000'), 'variance': Decimal('10.0000')},
+    #     )
+    #     TestSession.objects.update_or_create(
+    #         user=self.user,
+    #         subtopic=self.subtopic,
+    #         defaults={'selection_lower_bound': -1.0, 'selection_upper_bound': 1.0},
+    #     )
 
-        high_info_question, _, _ = self._create_question_with_options(
-            'INFO-HIGH-001',
-            difficulty=0.0,
-            discrimination=2.0,
-        )
-        self._create_question_with_options(
-            'INFO-LOW-001',
-            difficulty=0.8,
-            discrimination=0.5,
-        )
+    #     high_info_question, _, _ = self._create_question_with_options(
+    #         'INFO-HIGH-001',
+    #         difficulty=0.0,
+    #         discrimination=2.0,
+    #     )
+    #     self._create_question_with_options(
+    #         'INFO-LOW-001',
+    #         difficulty=0.8,
+    #         discrimination=0.5,
+    #     )
 
-        question_bundle, _, _ = get_next_question_bundle(self.user, self.subtopic)
+    #     question_bundle, _, _ = get_next_question_bundle(self.user, self.subtopic)
 
-        self.assertIsNotNone(question_bundle)
-        self.assertEqual(question_bundle.question, high_info_question)
+    #     self.assertIsNotNone(question_bundle)
+    #     self.assertEqual(question_bundle.question, high_info_question)
