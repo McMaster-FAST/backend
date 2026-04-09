@@ -575,6 +575,7 @@ def insert_csv_data(question_data: dict, course: Course, create_required: bool) 
             question_data,
             question_data.get("selection_frequency", selection_frequency),
             subtopic=None,  # Will be set later
+            is_verified=False, 
         )
 
         # TODO: images for CSV files
