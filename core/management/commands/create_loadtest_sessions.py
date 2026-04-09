@@ -29,7 +29,7 @@ from courses.models import Unit
 from courses.models import UnitSubtopic
 from sso_auth.models import MacFastUser
 
-DEFAULT_OUTPUT_PATH = Path(settings.BASE_DIR) / 'loadtests' / 'session_pool.json'
+DEFAULT_OUTPUT_PATH = Path(settings.BASE_DIR) / 'load_tests' / 'session_pool.json'
 DEFAULT_NUM_USERS = 100
 
 

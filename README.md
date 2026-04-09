@@ -146,5 +146,5 @@ uv run manage.py create_loadtest_sessions
 6. Run Locust:
 
 ```
-uv run locust -f loadtests/submit_answer_locustfile.py --host=http://localhost:8000
+uv run locust -f load_tests/submit_answer_locustfile.py --host=http://localhost:8000
 ```

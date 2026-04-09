@@ -17,6 +17,7 @@ x-django-service: &django-service
     - OIDC_RP_CLIENT_ID=${OIDC_RP_CLIENT_ID}
     - OIDC_RP_CLIENT_SECRET=${OIDC_RP_CLIENT_SECRET}
     - ENTRA_TENANT_ID=${ENTRA_TENANT_ID}
+    - OIDC_USE_MOCK=${OIDC_USE_MOCK}
   restart: unless-stopped
   depends_on:
     db:
@@ -66,11 +67,7 @@ services:
 
   web:
     <<: *django-service
-    command: >
-      sh -c "
-      uv run python manage.py migrate &&
-      uv run python manage.py runserver 0.0.0.0:8000
-      "
+    command: sh -c "uv run python manage.py migrate && uv run gunicorn MacFAST.wsgi:application --bind 0.0.0.0:8000 --workers 4 --threads 8 --timeout 120 --limit-request-field_size 16384 --limit-request-fields 100"
     volumes:
       - .:/app
       - /app/.venv
