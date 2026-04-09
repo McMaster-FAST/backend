@@ -71,7 +71,6 @@ def is_explanation_update_format(docx_path: str) -> bool:
     except Exception:
         return False
 
-    i = 0
     for i, table in enumerate(doc.tables):
         # print(f"Table {i}: rows={len(table.rows)}, cols={len(table.columns)}")
 
