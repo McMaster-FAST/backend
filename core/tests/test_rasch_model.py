@@ -1,4 +1,5 @@
 from decimal import Decimal
+import time
 from unittest.mock import patch
 
 import pytest
@@ -28,6 +29,7 @@ def _create_attempts(
             updated_ability_score=0,
             time_spent=1.0,
         )
+        time.sleep(0.002)
 
 
 @pytest.mark.django_db
@@ -92,6 +94,7 @@ class TestRaschModelSkippedExclusion:
                 updated_ability_score=0,
                 time_spent=0.0,
             )
+            time.sleep(0.002)
 
         # With only 1 non-skipped attempt (< warmpup_length=3), max_apost
         # should be called, not mle
