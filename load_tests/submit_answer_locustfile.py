@@ -12,7 +12,7 @@ Prerequisites:
        python manage.py create_loadtest_sessions
 
 Usage:
-    locust -f loadtests/submit_answer_locustfile.py --host=http://localhost:8000
+    locust -f load_tests/submit_answer_locustfile.py --host=http://localhost:8000
 
     Then open http://localhost:8089 and configure:
     - Number of users: 100
@@ -30,10 +30,10 @@ Docker mode:
        docker compose exec web uv run python manage.py create_loadtest_sessions
 
     4. Run Locust from host:
-       locust -f loadtests/submit_answer_locustfile.py --host=http://localhost:8000
+       locust -f load_tests/submit_answer_locustfile.py --host=http://localhost:8000
 
 Headless mode:
-    locust -f loadtests/submit_answer_locustfile.py \
+    locust -f load_tests/submit_answer_locustfile.py \
         --host=http://localhost:8000 \
         --users=100 \
         --spawn-rate=10 \
