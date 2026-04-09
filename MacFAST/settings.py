@@ -39,7 +39,7 @@ python_logging_level = logging.getLevelNamesMapping()[LOG_LEVEL]
 # Configure python logging
 logging.basicConfig(level=python_logging_level)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 # --- CORS Settings ---
 
@@ -125,6 +125,8 @@ REST_FRAMEWORK = {
 
 # OIDC environment configuration
 # https://mozilla-django-oidc.readthedocs.io/en/stable/installation.html
+OIDC_USE_MOCK = os.getenv("OIDC_USE_MOCK", "False") == "True"
+
 ENTRA_TENANT_ID = os.environ["ENTRA_TENANT_ID"]
 
 ENTRA_BASE_URL = f"https://login.microsoftonline.com/{ENTRA_TENANT_ID}"
