@@ -19,3 +19,8 @@ DATABASES = {
         'NAME': ':memory:',
     }
 }
+
+# Keep test uploads out of the repo `media/` folder.
+# This path gets cleaned up by a pytest session fixture.
+BASE_DIR = _base_settings.BASE_DIR
+MEDIA_ROOT = BASE_DIR / ".test_media"

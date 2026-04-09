@@ -6,15 +6,36 @@ Pytest auto-runs these fixtures before each test function.
 File name is a keyword to help pytest auto-discover the fixtures.
 """
 
+import shutil
+from pathlib import Path
+
 import pytest
+from django.conf import settings
 
 from core.models import Question
 from core.models import QuestionOption
 from core.models import TestingParameters
-from courses.models import Course
-from courses.models import Unit
-from courses.models import UnitSubtopic
+from courses.models import Course, Unit, UnitSubtopic
 from sso_auth.models import MacFastUser
+from core.tasks.parse_questions import parse_file
+
+
+@pytest.fixture(scope="session", autouse=True)
+def _isolate_and_cleanup_test_media():
+    """
+    Prevent tests from writing into the repo `media/` folder and clean up any
+    artifacts from previous runs.
+    """
+    media_root = getattr(settings, "MEDIA_ROOT", None)
+    if media_root:
+        media_root_path = Path(media_root)
+        shutil.rmtree(media_root_path, ignore_errors=True)
+        media_root_path.mkdir(parents=True, exist_ok=True)
+
+    yield
+
+    if media_root:
+        shutil.rmtree(Path(media_root), ignore_errors=True)
 
 
 @pytest.fixture
@@ -79,7 +100,6 @@ def wrong_option(question: Question) -> QuestionOption:
         is_answer=False,
     )
 
-
 @pytest.fixture
 def testing_parameters(course: Course) -> TestingParameters:
     return TestingParameters.objects.create(
@@ -89,3 +109,37 @@ def testing_parameters(course: Course) -> TestingParameters:
         skip_readmit_delay=5,
         max_question_repetitions=3,
     )
+
+
+@pytest.fixture(scope="module")
+def sample_docx_file_bytes():
+    with open("core/tests/fixtures/1AA3_questions_archive_to2024_organic.docx", "rb") as f:
+        return f.read()
+
+
+@pytest.fixture(scope="module")
+def parsed_docx(django_db_setup, django_db_blocker, sample_docx_file_bytes):
+    with django_db_blocker.unblock():
+        course, _ = Course.objects.get_or_create(
+            code="TESTCHEM1AA3",
+            year=2024,
+            semester="FALL",
+            defaults={"name": "Test Course"},
+        )
+
+        Question.objects.all().delete()
+        Unit.objects.all().delete()
+
+        parse_file.run(
+            "1AA3_questions_archive_to2024_organic.docx",
+            sample_docx_file_bytes,
+            {
+                "code": course.code,
+                "year": course.year,
+                "semester": course.semester,
+            },
+            1, 
+            True,
+        )
+
+        return course
