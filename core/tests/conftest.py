@@ -1,3 +1,11 @@
+"""
+Fixtures for the core app tests. 
+These are used to create test data for the tests.
+Pytest auto-runs these fixtures before each test function.
+
+File name is a keyword to help pytest auto-discover the fixtures.
+"""
+
 import pytest
 
 from core.models import Question
