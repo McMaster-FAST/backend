@@ -12,7 +12,9 @@ class QuestionOptionSerializer(serializers.ModelSerializer):
             'public_id',
             'content',
             'is_answer',
+            'selection_frequency',
         ]
+        read_only_fields = ['public_id', 'selection_frequency']
 
 
 class QuestionOptionCRUDSerializer(serializers.ModelSerializer):
@@ -28,3 +30,13 @@ class QuestionOptionCRUDSerializer(serializers.ModelSerializer):
             'images',
         ]
         read_only_fields = ['public_id', 'selection_frequency']
+        extra_kwargs = {
+            'content': {
+                'required': True,
+                'allow_blank': False,
+                'error_messages': {
+                    'required': 'Option content is required.',
+                    'blank': 'Option content is required.',
+                },
+            }
+        }
