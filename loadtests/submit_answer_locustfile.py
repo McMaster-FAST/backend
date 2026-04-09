@@ -19,6 +19,19 @@ Usage:
     - Spawn rate: 10
     - Host: http://localhost:8000
 
+Docker mode:
+    1. Start services:
+       docker compose up -d
+
+    2. Run migrations (first time only):
+       docker compose exec web uv run python manage.py migrate
+
+    3. Generate session pool:
+       docker compose exec web uv run python manage.py create_loadtest_sessions
+
+    4. Run Locust from host:
+       locust -f loadtests/submit_answer_locustfile.py --host=http://localhost:8000
+
 Headless mode:
     locust -f loadtests/submit_answer_locustfile.py \
         --host=http://localhost:8000 \
