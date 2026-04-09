@@ -8,11 +8,22 @@ from core.models import Question, QuestionComment, QuestionOption, QuestionImage
 from courses.models import Course, Enrolment, Unit, UnitSubtopic
 from .docx.parser import parse_questions_from_docx
 from .docx.formats import docx_table_format_a
+from core.tasks.docx.parser1AA3Q import parse
+from core.tasks.docx.parser1AA3exp import parse_explanation_updates
+from django.db.models import Q
+import os
 
 import tempfile
+import hashlib
+import re
 import traceback
 
 from math import log
+from docx import Document
+
+from django.core.files.images import ImageFile
+from io import BytesIO
+
 import re
 from logging import getLogger
 
@@ -22,6 +33,55 @@ decimal_pattern = re.compile(r"\d?\.\d{0,5}")
 
 class DocxParsingError(Exception):
     pass
+
+
+def is_question_only_docx(docx_path: str) -> bool:
+    try:
+        doc = Document(docx_path)
+    except Exception:
+        return False
+
+    for tbl in doc.tables:
+        if not tbl.rows:
+            continue
+
+        labels = set()
+
+        for row in tbl.rows:
+            if not row.cells:
+                continue
+            label = " ".join((row.cells[0].text or "").strip().split())
+            if label:
+                labels.add(label)
+
+        if (
+            "Q#:" in labels
+            and "Serial #:" in labels
+            and "Stem" in labels
+            and "Ans:" in labels
+        ):
+            return True
+
+    return False
+
+
+def is_explanation_update_format(docx_path: str) -> bool:
+    try:
+        doc = Document(docx_path)
+    except Exception:
+        return False
+
+    for i, table in enumerate(doc.tables):
+        # print(f"Table {i}: rows={len(table.rows)}, cols={len(table.columns)}")
+
+        if len(table.rows) == 5 and len(table.columns) in (2, 3):
+            qnum_text = (table.cell(0, 0).text or "").strip()
+            # print(f"Checking qnum: '{qnum_text}'")
+
+            if re.match(r"^\D*(\d+)\D*$", qnum_text):
+                return True
+
+    return False
 
 
 @shared_task
@@ -45,43 +105,86 @@ def parse_file(
     try:
         course = Course.objects.get(**course_data)
     except Course.DoesNotExist:
-        raise ValueError(
-            f"Course with code {course_data.get('code')}, year {course_data.get('year')}, semester {course_data.get('semester')} does not exist."
-        )
+        raise ValueError(f"No course found with identifiers: {course}")
+
     if file_name.endswith(".docx"):
         with tempfile.NamedTemporaryFile(delete=False, suffix=".docx") as temp_file:
             temp_file.write(file_data)
-            for question_data in parse_questions_from_docx(
-                temp_file.name, docx_table_format_a
-            ):
-                try:
-                    insert_data(
-                        question_data,
-                        course,
-                        create_required,
-                        temp_file.name,
-                        auto_verify,
+            temp_file.flush()
+
+            try:
+                if is_explanation_update_format(temp_file.name):
+                    print("USING EXPLANATION UPDATE PARSER")
+                    parsed_updates = parse_explanation_updates(
+                        temp_file.name, file_name
                     )
-                except Exception as e:
-                    summary = None
-                    if isinstance(e, IntegrityError):
-                        logger.error(
-                            f"Insertion failed for question with serial number {question_data.get('serial_number')}. Integrity error: {e}"
-                        )
-                    elif isinstance(e, DocxParsingError):
-                        logger.error(
-                            f"Explicit parsing error for question with serial number {question_data.get('serial_number')}: {e}"
-                        )
-                        summary = traceback.extract_tb(e.__traceback__)
-                    else:
-                        logger.error(
-                            f"Unexpected error for question with serial number {question_data.get('serial_number')}: {e}"
-                        )
-                        summary = traceback.extract_tb(e.__traceback__)
-                    if summary:
-                        logger.error(f"Error info: {summary[-1]} {e}")
+                    print("PARSED UPDATES:", len(parsed_updates))
+
+                    for question_data in parsed_updates:
+                        try:
+                            update_question_explanation(question_data)
+                        except Question.DoesNotExist:
+                            print(
+                                f"Question not found for serial {question_data.get('serial_number')}"
+                            )
+                        except IntegrityError as e:
+                            print(
+                                f"Failed updating {question_data.get('serial_number')} with: {e}"
+                            )
+                elif is_question_only_docx(temp_file.name):
+                    parsed_questions = parse(temp_file.name)
+
+                    for question_data in parsed_questions:
+                        try:
+                            insert_docx_data_v3(question_data, course, create_required)
+                        except IntegrityError as e:
+                            print(
+                                f"Failed inserting exam-bank question "
+                                f"{question_data.get('serial_number', question_data.get('number'))} with: {e}"
+                            )
+                else:
+                    parsed_questions = list(
+                        parse_questions_from_docx(temp_file.name, docx_table_format_a)
+                    )
+
+                    for question_data in parsed_questions:
+                        try:
+                            insert_data(
+                                question_data,
+                                course,
+                                create_required,
+                                temp_file.name,
+                                auto_verify,
+                            )
+                        except Exception as e:
+                            summary = None
+                            if isinstance(e, IntegrityError):
+                                logger.error(
+                                    f"Insertion failed for question with serial number {question_data.get('serial_number')}. Integrity error: {e}"
+                                )
+                            elif isinstance(e, DocxParsingError):
+                                logger.error(
+                                    f"Explicit parsing error for question with serial number {question_data.get('serial_number')}: {e}"
+                                )
+                                summary = traceback.extract_tb(e.__traceback__)
+                            else:
+                                logger.error(
+                                    f"Unexpected error for question with serial number {question_data.get('serial_number')}: {e}"
+                                )
+                                summary = traceback.extract_tb(e.__traceback__)
+                            if summary:
+                                logger.error(f"Error info: {summary[-1]} {e}")
+            finally:
+                try:
+                    os.unlink(temp_file.name)
+                except OSError as e:
+                    logger.warning(
+                        f"Failed to delete temporary file '{temp_file.name}': {e}"
+                    )
     else:
-        raise ValueError("Unsupported file format. Only .docx files are supported.")
+        raise ValueError(
+            "Unsupported file format. Only .docx and .csv files are supported."
+        )
 
 
 def can_auto_verify(user_id: int, course: dict) -> bool:
@@ -163,14 +266,183 @@ def insert_data(
         create_question_comments(question_data, question)
 
 
+def save_v3_images(image_dicts, question_public_id):
+    saved_by_digest = {}
+    saved_by_ref = {}
+
+    for image in image_dicts:
+        image_name = image.get("name", "image.bin")
+        image_bytes = image.get("bytes")
+        image_ref = image.get("ref")
+        if not image_bytes or not image_ref:
+            continue
+
+        digest = hashlib.sha256(image_bytes).hexdigest()
+
+        if digest not in saved_by_digest:
+            extension = os.path.splitext(image_name)[1].lower() or ".bin"
+            filename = f"{question_public_id}_{digest}{extension}"
+            saved_by_digest[digest] = QuestionImage.objects.create(
+                image_file=ImageFile(BytesIO(image_bytes), name=filename),
+                alt_text="",
+            )
+
+        saved_by_ref[image_ref] = saved_by_digest[digest]
+
+    return saved_by_ref
+
+
+def replace_image_placeholders(html, saved_by_ref):
+    def repl(match):
+        ref = match.group(0)
+        img = saved_by_ref.get(ref)
+
+        if not img:
+            print("NO IMAGE FOR PLACEHOLDER:", ref)
+            return f"<p>[Missing image: {ref}]</p>"
+
+        return f'<img src="/media/{img.image_file.name}">'
+
+    return re.sub(r"\[\[IMG:[^\]]+\]\]", repl, html)
+
+
+def resolve_question_by_base_serial(base_serial: str) -> Question:
+    matches = Question.objects.filter(
+        Q(serial_number=base_serial) | Q(serial_number__startswith=base_serial + "_")
+    )
+
+    count = matches.count()
+    if count == 0:
+        raise Question.DoesNotExist(f"No question found for base serial {base_serial}")
+    if count > 1:
+        raise Question.MultipleObjectsReturned(
+            f"Multiple questions found for base serial {base_serial}"
+        )
+
+    return matches.get()
+
+
+def insert_docx_data_v3(
+    question_data: dict, course: Course, create_required: bool
+) -> None:
+    unit_number = question_data.get("unit_number")
+    unit_name = question_data.get("unit_name") or "Imported Unit"
+    subtopic_name = question_data.get("subtopic_name") or "Imported Subtopic"
+
+    with transaction.atomic():
+        if create_required:
+            unit, _ = Unit.objects.get_or_create(
+                course=course,
+                number=unit_number,
+                defaults={"name": unit_name},
+            )
+            subtopic, _ = UnitSubtopic.objects.get_or_create(
+                unit=unit,
+                name=subtopic_name,
+            )
+        else:
+            unit = Unit.objects.get(course=course, name=unit_name)
+            subtopic = UnitSubtopic.objects.get(unit=unit, name=subtopic_name)
+
+        question = Question.objects.create(
+            subtopic=subtopic,
+            serial_number=question_data.get("serial_number")
+            or f"{course.code}-DOCX-{question_data['number']}",
+            content="",
+            answer_explanation="",
+            selection_frequency=0,
+            difficulty=question_data.get("difficulty", 0),
+        )
+
+        content_images_by_ref = save_v3_images(
+            question_data.get("content_images", []),
+            question.public_id,
+        )
+        explanation_images_by_ref = save_v3_images(
+            question_data.get("explanation_images", []),
+            question.public_id,
+        )
+
+        # M2M needs QuestionImage instances, not dicts
+        question_image_objs = list(content_images_by_ref.values()) + list(
+            explanation_images_by_ref.values()
+        )
+
+        # optional dedupe in case same image instance appears in both
+        seen_ids = set()
+        unique_question_images = []
+        for img in question_image_objs:
+            if img.id not in seen_ids:
+                seen_ids.add(img.id)
+                unique_question_images.append(img)
+
+        question.images.set(unique_question_images)
+
+        content_html = question_data.get("content", "")
+        explanation_html = question_data.get("answer_explanation", "")
+
+        content_html = replace_image_placeholders(content_html, content_images_by_ref)
+        explanation_html = replace_image_placeholders(
+            explanation_html, explanation_images_by_ref
+        )
+
+        question.content = content_html
+        question.answer_explanation = explanation_html
+        question.save(update_fields=["content", "answer_explanation"])
+
+        for opt in question_data.get("options", []):
+            option = QuestionOption.objects.create(
+                question=question,
+                content="",
+                is_answer=opt.get("is_answer", False),
+                selection_frequency=opt.get("selection_frequency", 0),
+            )
+
+            option_images_by_ref = save_v3_images(
+                opt.get("images", []),
+                question.public_id,
+            )
+
+            option.images.set(list(option_images_by_ref.values()))
+
+            option_html = replace_image_placeholders(
+                opt.get("content", ""),
+                option_images_by_ref,
+            )
+            option.content = option_html
+            option.save(update_fields=["content"])
+
+
+def update_question_explanation(question_data: dict) -> None:
+    question = resolve_question_by_base_serial(question_data["serial_number"])
+
+    explanation_images_by_ref = save_v3_images(
+        question_data.get("explanation_images", []),
+        question.public_id,
+    )
+
+    if explanation_images_by_ref:
+        question.images.add(*list(explanation_images_by_ref.values()))
+
+    explanation_html = replace_image_placeholders(
+        question_data.get("answer_explanation", ""),
+        explanation_images_by_ref,
+    )
+
+    question.answer_explanation = explanation_html
+    question.save(update_fields=["answer_explanation"])
+
+
 def create_question(
     question_data, selection_frequency: float, subtopic, is_verified: bool
 ):
     serial_number = question_data.get("serial_number", "N/A").strip()
     content = question_data.get("content")
     if not content or content.strip() == "":
-        raise ValueError(f"Question content is empty for question with serial number {serial_number}")
-    
+        raise ValueError(
+            f"Question content is empty for question with serial number {serial_number}"
+        )
+
     answer_explanation = question_data.get("explanation")
     if not answer_explanation:
         answer_explanation = ""
@@ -230,6 +502,8 @@ def save_images(question_data, question_public_id, file_name):
 def calculate_difficulty_for_test(selection_frequency: float) -> float:
     if selection_frequency <= 0 or selection_frequency >= 1:
         return 0.0
-
-    difficulty = -log((1 / selection_frequency) - 1)
-    return round(difficulty, 4)
+    try:
+        difficulty = -log((1 / selection_frequency) - 1)
+        return round(difficulty, 4)
+    except ValueError:
+        return 0.0

@@ -6,6 +6,7 @@ Django session. Outputs session_pool.json for Locust to consume.
 
 Usage:
     python manage.py create_loadtest_sessions
+    OR with custom number of users and output path:
     python manage.py create_loadtest_sessions --users 50 --output /tmp/pool.json
 """
 
