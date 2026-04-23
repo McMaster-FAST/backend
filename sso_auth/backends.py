@@ -1,4 +1,4 @@
-import json
+import uuid
 import jwt
 from jwt import PyJWKClient
 from mozilla_django_oidc.auth import OIDCAuthenticationBackend
@@ -14,8 +14,25 @@ jwks_client = PyJWKClient(
 
 
 class MyOIDCBackend(OIDCAuthenticationBackend):
+    def get_token(self, payload):
+        if settings.OIDC_USE_MOCK:
+            return {
+                "access_token": "mock_access_token",
+                "token_type": "Bearer",
+                "expires_in": 3600,
+                "id_token": "mock_id_token",
+            }
+        return super().get_token(payload)
 
     def verify_token(self, token, **kwargs):
+        if settings.OIDC_USE_MOCK:
+            # In load-testing/mock mode, skip signature validation and return
+            # minimal claims expected by downstream auth logic.
+            return {
+                "sub": "mock_sub",
+                "email": "student_mock@mcmaster.ca",
+                "preferred_username": "student_mock",
+            }
         try:
             signing_key = jwks_client.get_signing_key_from_jwt(token)
 
@@ -41,6 +58,14 @@ class MyOIDCBackend(OIDCAuthenticationBackend):
             return None
 
     def get_userinfo(self, access_token, id_token, payload):
+        if settings.OIDC_USE_MOCK:
+            uid = uuid.uuid4().hex[:8]
+            return {
+                "sub": f"mock_sub_{uid}",
+                "email": f"student_{uid}@mcmaster.ca",
+                "given_name": "Test",
+                "family_name": "Student",
+            }
         if payload is None:
             payload = self.verify_token(access_token)
         return payload or {}
