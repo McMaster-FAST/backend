@@ -121,9 +121,8 @@ class MyOIDCBackend(OIDCAuthenticationBackend):
         return user
 
     def _set_user_flags(self, user, claims):
-        if settings.DEBUG:
-            print(f"debug print - giving all perms to {user.email}")
-
+        # if settings.DEBUG:
+        #     print(f"debug print - giving all perms to {user.email}")
         user.is_staff = True
         user.is_superuser = True
         user.save()

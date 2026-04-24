@@ -15,8 +15,9 @@ from django.db.models import Q
 from docx import Document
 
 from core.models import Question, QuestionComment, QuestionOption, QuestionImage
+from core.tasks.upload_result_util import finish_upload_result, get_upload_result, update_upload_result
 from courses.models import Course, Enrolment, Unit, UnitSubtopic
-from .docx.parser import parse_questions_from_docx
+from .docx.parser import get_question_table_count, parse_questions_from_docx
 from .docx.formats import docx_table_format_a
 from core.tasks.docx.parser1AA3Q import parse
 from core.tasks.docx.parser1AA3exp import parse_explanation_updates
@@ -39,6 +40,7 @@ from logging import getLogger
 
 logger = getLogger(__name__)
 decimal_pattern = re.compile(r"\d?\.\d{0,5}")
+PROGRESS_UPDATE_INTERVAL = 0.1
 
 
 class DocxParsingError(Exception):
@@ -113,6 +115,8 @@ def parse_file(
     :param create_required: Create all required units and subtopics if they don't exist.
     :param upload_result_id: ID of the QuestionUploadResult record to update.
     """
+    success_count = 0
+    failure_count = 0
     upload_result = get_upload_result(upload_result_id)
     auto_verify = can_auto_verify(uploading_user_id, course_data)
     try:
@@ -156,11 +160,19 @@ def parse_file(
                                 f"{question_data.get('serial_number', question_data.get('number'))} with: {e}"
                             )
                 else:
-                    parsed_questions = list(
-                        parse_questions_from_docx(temp_file.name, docx_table_format_a)
-                    )
+                    total_question_count = get_question_table_count(temp_file.name)
+                    interval = int(total_question_count * PROGRESS_UPDATE_INTERVAL)
 
-                    for question_data in parsed_questions:
+                    for i, question_data in enumerate(
+                        parse_questions_from_docx(temp_file.name, docx_table_format_a)
+                    ):
+                        if interval >= 1 and i % interval == 0:
+                            update_upload_result(
+                                upload_result,
+                                total_question_count,
+                                success_count,
+                                failure_count,
+                            )
                         try:
                             insert_data(
                                 question_data,
@@ -169,6 +181,7 @@ def parse_file(
                                 temp_file.name,
                                 auto_verify,
                             )
+                            success_count += 1
                         except Exception as e:
                             summary = None
                             if isinstance(e, IntegrityError):
@@ -187,6 +200,7 @@ def parse_file(
                                 summary = traceback.extract_tb(e.__traceback__)
                             if summary:
                                 logger.error(f"Error info: {summary[-1]} {e}")
+                            failure_count += 1
             finally:
                 try:
                     os.unlink(temp_file.name)
@@ -199,6 +213,8 @@ def parse_file(
             "Unsupported file format. Only .docx and .csv files are supported."
         )
 
+    finish_upload_result(upload_result, success_count, failure_count)
+    return {"success_count": success_count, "failure_count": failure_count}
 
 def can_auto_verify(user_id: int, course: dict) -> bool:
     """Check if the user has instructor privileges for the given course."""
@@ -223,6 +239,25 @@ def parse_select_frequency(value) -> float:
     return 0.0
 
 
+def insert_data(
+    question_data: dict,
+    course: Course,
+    create_required: bool,
+    temp_file_name: str,
+    auto_verify: bool,
+) -> None:
+    """
+    Compatibility wrapper to keep existing call sites stable.
+    """
+    insert_docx_data(
+        question_data=question_data,
+        course=course,
+        create_required=create_required,
+        temp_file_name=temp_file_name,
+        auto_verify=auto_verify,
+    )
+
+
 def insert_docx_data(
     question_data: dict,
     course: Course,
@@ -238,13 +273,13 @@ def insert_docx_data(
             "A"
         )
     except Exception:
-        raise QuestionImportError(
+        raise DocxParsingError(
             f"Invalid answer format: {question_data.get('answer')}"
         )
 
     raw_selection_frequencies = question_data.get("option_selection_frequencies", [])
     if len(raw_selection_frequencies) <= answer_index:
-        raise QuestionImportError(f"Invalid answer index {answer_index}")
+        raise DocxParsingError(f"Invalid answer index {answer_index}")
 
     selection_frequencies = [
         parse_select_frequency(freq) for freq in raw_selection_frequencies
