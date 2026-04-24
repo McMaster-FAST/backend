@@ -3,8 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from analytics.models import UserTopicAbilityScore
 from courses.models import Course, UnitSubtopic
 from courses.serializers import CourseSerializer, CourseDetailSerializer
-
-from django.db.models import Prefetch
+from django.db.models import Count, Prefetch, Q
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -31,7 +30,13 @@ class CourseViewSet(viewsets.ModelViewSet):
             return queryset.prefetch_related(
                 Prefetch(
                     "unit_set__unitsubtopic_set",
-                    queryset=UnitSubtopic.objects.prefetch_related(
+                    queryset=UnitSubtopic.objects.annotate(
+                        question_count=Count(
+                            "question",
+                            filter=Q(question__is_active=True),
+                            distinct=True,
+                        )
+                    ).prefetch_related(
                         Prefetch(
                             "usertopicabilityscore_set",
                             queryset=user_scores_qs,
