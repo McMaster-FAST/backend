@@ -1,4 +1,3 @@
-from MacFAST import settings
 from courses.models import Course, QuestionUploadResult
 from sso_auth.models import MacFastUser
 
