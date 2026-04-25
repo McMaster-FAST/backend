@@ -21,10 +21,19 @@ class SubmitTestAnswerView(APIView):
             public_id=selected_option_id, question=question
         )
         correct_option_id = get_correct_answer_id(question)
+        time_spent = serializer.validated_data.get("time_spent", 0.0)
 
-        add_response(request.user, question, selected_option)
+        add_response(
+            request.user,
+            question,
+            selected_option,
+            time_spent=time_spent,
+        )
 
-        explanation = question.answer_explanation
+        # If the selected option has an explanation, use it. Otherwise, use the question's answer explanation.
+        explanation = (selected_option.explanation or "").strip()
+        if not explanation:
+            explanation = question.answer_explanation
         # TODO: What if the explanation has images?
         response = AnswerSerializer(
             {"correct_option_id": correct_option_id, "explanation": explanation}

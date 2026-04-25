@@ -1,0 +1,1347 @@
+[
+  {
+    "model": "courses.course",
+    "pk": 4,
+    "fields": {
+      "public_id": "57e273cb-b281-4305-bc59-716702fd6dfc",
+      "name": "Human Anatomy & Physiology I",
+      "code": "KINESIOL 1A03",
+      "description": "Introductory human anatomy and physiology covering terminology, homeostasis, embryology, tissues, nervous system, special senses, bone, axial and appendicular skeleton, joints, and skeletal muscle.",
+      "year": 2026,
+      "semester": "WINTER",
+      "is_archived": false
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 52,
+    "fields": {
+      "public_id": "44444444-0001-4000-8000-000000000000",
+      "course": 4,
+      "name": "Anatomical Terminology and the Body Plan",
+      "tag": "TermBodyPlan",
+      "description": "",
+      "number": 1
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 154,
+    "fields": {
+      "public_id": "55555555-0001-4000-8000-000000000000",
+      "unit": 52,
+      "name": "Directional Terminology and Body Planes",
+      "tag": "DirTerms",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 155,
+    "fields": {
+      "public_id": "55555555-0002-4000-8000-000000000000",
+      "unit": 52,
+      "name": "Body Cavities and Serous Membranes",
+      "tag": "BodyCavMembr",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 53,
+    "fields": {
+      "public_id": "44444444-0002-4000-8000-000000000000",
+      "course": 4,
+      "name": "Homeostasis",
+      "tag": "Homeo",
+      "description": "",
+      "number": 2
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 156,
+    "fields": {
+      "public_id": "55555555-0003-4000-8000-000000000000",
+      "unit": 53,
+      "name": "Feedback Systems (Negative and Positive)",
+      "tag": "FeedbackSys",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 157,
+    "fields": {
+      "public_id": "55555555-0004-4000-8000-000000000000",
+      "unit": 53,
+      "name": "Homeostatic Set Points and Disruption",
+      "tag": "HomeoDisrupt",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 54,
+    "fields": {
+      "public_id": "44444444-0003-4000-8000-000000000000",
+      "course": 4,
+      "name": "Embryology & Development I: Fertilization and the Germinal Period",
+      "tag": "EmbryoDevI",
+      "description": "",
+      "number": 3
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 158,
+    "fields": {
+      "public_id": "55555555-0005-4000-8000-000000000000",
+      "unit": 54,
+      "name": "Fertilization (Acrosomal Reaction to Zygote)",
+      "tag": "Fertiliz",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 159,
+    "fields": {
+      "public_id": "55555555-0006-4000-8000-000000000000",
+      "unit": 54,
+      "name": "Cleavage, Morula, and Blastocyst Formation",
+      "tag": "CleavBlast",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 160,
+    "fields": {
+      "public_id": "55555555-0007-4000-8000-000000000000",
+      "unit": 54,
+      "name": "Implantation and Placenta Development",
+      "tag": "ImplPlacenta",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 55,
+    "fields": {
+      "public_id": "44444444-0004-4000-8000-000000000000",
+      "course": 4,
+      "name": "Embryology & Development II: Gastrulation and the Germ Layers",
+      "tag": "EmbryoDevII",
+      "description": "",
+      "number": 4
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 161,
+    "fields": {
+      "public_id": "55555555-0008-4000-8000-000000000000",
+      "unit": 55,
+      "name": "Bilaminar Disk and Extraembryonic Membranes",
+      "tag": "BilamDisk",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 162,
+    "fields": {
+      "public_id": "55555555-0009-4000-8000-000000000000",
+      "unit": 55,
+      "name": "Gastrulation and the Trilaminar Disk",
+      "tag": "Gastrul",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 163,
+    "fields": {
+      "public_id": "55555555-000a-4000-8000-000000000000",
+      "unit": 55,
+      "name": "Neural Tube and Neural Crest Cell Development",
+      "tag": "NeuralTube",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 164,
+    "fields": {
+      "public_id": "55555555-000b-4000-8000-000000000000",
+      "unit": 55,
+      "name": "Somite Formation",
+      "tag": "Somites",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 56,
+    "fields": {
+      "public_id": "44444444-0005-4000-8000-000000000000",
+      "course": 4,
+      "name": "Embryology & Development III: Embryonic Folding and the Gut Tube",
+      "tag": "EmbryoDevIII",
+      "description": "",
+      "number": 5
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 165,
+    "fields": {
+      "public_id": "55555555-000c-4000-8000-000000000000",
+      "unit": 56,
+      "name": "Embryonic Folding",
+      "tag": "EmbryoFold",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 166,
+    "fields": {
+      "public_id": "55555555-000d-4000-8000-000000000000",
+      "unit": 56,
+      "name": "Gut Tube and Evaginations",
+      "tag": "GutTube",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 167,
+    "fields": {
+      "public_id": "55555555-000e-4000-8000-000000000000",
+      "unit": 56,
+      "name": "Limb Bud Development",
+      "tag": "LimbBudDev",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 57,
+    "fields": {
+      "public_id": "44444444-0006-4000-8000-000000000000",
+      "course": 4,
+      "name": "Embryology & Development IV: Cardiovascular and Respiratory Development",
+      "tag": "EmbryoDevIV",
+      "description": "",
+      "number": 6
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 168,
+    "fields": {
+      "public_id": "55555555-000f-4000-8000-000000000000",
+      "unit": 57,
+      "name": "Blood Vessel and Heart Development",
+      "tag": "CardiovascDev",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 169,
+    "fields": {
+      "public_id": "55555555-0010-4000-8000-000000000000",
+      "unit": 57,
+      "name": "Fetal Circulation and Changes at Birth",
+      "tag": "FetalCirc",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 170,
+    "fields": {
+      "public_id": "55555555-0011-4000-8000-000000000000",
+      "unit": 57,
+      "name": "Respiratory System Development",
+      "tag": "RespDev",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 58,
+    "fields": {
+      "public_id": "44444444-0007-4000-8000-000000000000",
+      "course": 4,
+      "name": "Tissues I: Epithelial Tissue",
+      "tag": "TissueI",
+      "description": "",
+      "number": 7
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 171,
+    "fields": {
+      "public_id": "55555555-0012-4000-8000-000000000000",
+      "unit": 58,
+      "name": "Epithelial Tissue Classification and Types",
+      "tag": "EpiClass",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 172,
+    "fields": {
+      "public_id": "55555555-0013-4000-8000-000000000000",
+      "unit": 58,
+      "name": "Glandular Epithelium",
+      "tag": "GlandEpi",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 59,
+    "fields": {
+      "public_id": "44444444-0008-4000-8000-000000000000",
+      "course": 4,
+      "name": "Tissues II: Connective Tissue",
+      "tag": "TissueII",
+      "description": "",
+      "number": 8
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 173,
+    "fields": {
+      "public_id": "55555555-0014-4000-8000-000000000000",
+      "unit": 59,
+      "name": "Connective Tissue Components (ECM and Cells)",
+      "tag": "CTComponents",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 174,
+    "fields": {
+      "public_id": "55555555-0015-4000-8000-000000000000",
+      "unit": 59,
+      "name": "Connective Tissue Types (Loose and Dense)",
+      "tag": "CTTypes",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 60,
+    "fields": {
+      "public_id": "44444444-0009-4000-8000-000000000000",
+      "course": 4,
+      "name": "Nervous System: Functional Organization",
+      "tag": "NervSysOrg",
+      "description": "",
+      "number": 9
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 175,
+    "fields": {
+      "public_id": "55555555-0016-4000-8000-000000000000",
+      "unit": 60,
+      "name": "Central and Peripheral Nervous System Overview",
+      "tag": "CNSvsPNS",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 176,
+    "fields": {
+      "public_id": "55555555-0017-4000-8000-000000000000",
+      "unit": 60,
+      "name": "Sensory and Motor Divisions",
+      "tag": "SensMotorDiv",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 61,
+    "fields": {
+      "public_id": "44444444-000a-4000-8000-000000000000",
+      "course": 4,
+      "name": "Nervous Tissue: Neurons and Neuroglia",
+      "tag": "NervTissue",
+      "description": "",
+      "number": 10
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 177,
+    "fields": {
+      "public_id": "55555555-0018-4000-8000-000000000000",
+      "unit": 61,
+      "name": "Neuron Structure and Classification",
+      "tag": "NeuronStruct",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 178,
+    "fields": {
+      "public_id": "55555555-0019-4000-8000-000000000000",
+      "unit": 61,
+      "name": "Neuroglia and Myelination",
+      "tag": "Neuroglia",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 179,
+    "fields": {
+      "public_id": "55555555-001a-4000-8000-000000000000",
+      "unit": 61,
+      "name": "White Matter, Gray Matter, and Neural Organization",
+      "tag": "WGMatter",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 62,
+    "fields": {
+      "public_id": "44444444-000b-4000-8000-000000000000",
+      "course": 4,
+      "name": "The Brain I: Overview, Meninges, and Cerebrospinal Fluid",
+      "tag": "BrainI",
+      "description": "",
+      "number": 11
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 180,
+    "fields": {
+      "public_id": "55555555-001b-4000-8000-000000000000",
+      "unit": 62,
+      "name": "Meninges and Brain Surface Features",
+      "tag": "Meninges",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 181,
+    "fields": {
+      "public_id": "55555555-001c-4000-8000-000000000000",
+      "unit": 62,
+      "name": "Ventricles and Cerebrospinal Fluid",
+      "tag": "CSFVent",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 63,
+    "fields": {
+      "public_id": "44444444-000c-4000-8000-000000000000",
+      "course": 4,
+      "name": "The Brain II: Brainstem and Cerebellum",
+      "tag": "BrainII",
+      "description": "",
+      "number": 12
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 182,
+    "fields": {
+      "public_id": "55555555-001d-4000-8000-000000000000",
+      "unit": 63,
+      "name": "Brainstem",
+      "tag": "Brainstem",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 183,
+    "fields": {
+      "public_id": "55555555-001e-4000-8000-000000000000",
+      "unit": 63,
+      "name": "Reticular Formation",
+      "tag": "ReticForm",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 184,
+    "fields": {
+      "public_id": "55555555-001f-4000-8000-000000000000",
+      "unit": 63,
+      "name": "Cerebellum",
+      "tag": "Cerebellum",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 64,
+    "fields": {
+      "public_id": "44444444-000d-4000-8000-000000000000",
+      "course": 4,
+      "name": "The Brain III: Diencephalon and Cerebrum",
+      "tag": "BrainIII",
+      "description": "",
+      "number": 13
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 185,
+    "fields": {
+      "public_id": "55555555-0020-4000-8000-000000000000",
+      "unit": 64,
+      "name": "Diencephalon (Thalamus, Hypothalamus, Epithalamus)",
+      "tag": "Dienceph",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 186,
+    "fields": {
+      "public_id": "55555555-0021-4000-8000-000000000000",
+      "unit": 64,
+      "name": "Cerebral Lobes and Functional Areas",
+      "tag": "CerebLobes",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 187,
+    "fields": {
+      "public_id": "55555555-0022-4000-8000-000000000000",
+      "unit": 64,
+      "name": "Basal Nuclei",
+      "tag": "BasalNuclei",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 65,
+    "fields": {
+      "public_id": "44444444-000e-4000-8000-000000000000",
+      "course": 4,
+      "name": "Cranial Nerves",
+      "tag": "CranNerves",
+      "description": "",
+      "number": 14
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 188,
+    "fields": {
+      "public_id": "55555555-0023-4000-8000-000000000000",
+      "unit": 65,
+      "name": "Cranial Nerves: Nerves I–XII",
+      "tag": "CranNerves",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 66,
+    "fields": {
+      "public_id": "44444444-000f-4000-8000-000000000000",
+      "course": 4,
+      "name": "Membrane Potential I: Resting Membrane Potential",
+      "tag": "MembPotI",
+      "description": "",
+      "number": 15
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 189,
+    "fields": {
+      "public_id": "55555555-0024-4000-8000-000000000000",
+      "unit": 66,
+      "name": "Ion Distribution and Membrane Properties",
+      "tag": "IonDistrib",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 190,
+    "fields": {
+      "public_id": "55555555-0025-4000-8000-000000000000",
+      "unit": 66,
+      "name": "Establishing Resting Membrane Potential",
+      "tag": "RMP",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 67,
+    "fields": {
+      "public_id": "44444444-0010-4000-8000-000000000000",
+      "course": 4,
+      "name": "Membrane Potential II: Graded and Action Potentials",
+      "tag": "MembPotII",
+      "description": "",
+      "number": 16
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 191,
+    "fields": {
+      "public_id": "55555555-0026-4000-8000-000000000000",
+      "unit": 67,
+      "name": "Graded Potentials",
+      "tag": "GradPot",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 192,
+    "fields": {
+      "public_id": "55555555-0027-4000-8000-000000000000",
+      "unit": 67,
+      "name": "Action Potentials and Refractory Periods",
+      "tag": "ActPot",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 68,
+    "fields": {
+      "public_id": "44444444-0011-4000-8000-000000000000",
+      "course": 4,
+      "name": "Neurotransmission: Propagation and the Synapse",
+      "tag": "NeuroTrans",
+      "description": "",
+      "number": 17
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 193,
+    "fields": {
+      "public_id": "55555555-0028-4000-8000-000000000000",
+      "unit": 68,
+      "name": "Action Potential Propagation",
+      "tag": "Propagation",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 194,
+    "fields": {
+      "public_id": "55555555-0029-4000-8000-000000000000",
+      "unit": 68,
+      "name": "Synaptic Transmission (Chemical Synapse)",
+      "tag": "Synapse",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 69,
+    "fields": {
+      "public_id": "44444444-0012-4000-8000-000000000000",
+      "course": 4,
+      "name": "Spinal Cord and Spinal Nerves",
+      "tag": "SpinalCordNerv",
+      "description": "",
+      "number": 18
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 195,
+    "fields": {
+      "public_id": "55555555-002a-4000-8000-000000000000",
+      "unit": 69,
+      "name": "Spinal Cord Structure and Cross-Section",
+      "tag": "SpinalCord",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 196,
+    "fields": {
+      "public_id": "55555555-002b-4000-8000-000000000000",
+      "unit": 69,
+      "name": "Spinal Nerves and Rami",
+      "tag": "SpinalNerves",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 197,
+    "fields": {
+      "public_id": "55555555-002c-4000-8000-000000000000",
+      "unit": 69,
+      "name": "Nerve Plexuses and Dermatomes",
+      "tag": "Plexuses",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 70,
+    "fields": {
+      "public_id": "44444444-0013-4000-8000-000000000000",
+      "course": 4,
+      "name": "Autonomic Nervous System",
+      "tag": "ANS",
+      "description": "",
+      "number": 19
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 198,
+    "fields": {
+      "public_id": "55555555-002d-4000-8000-000000000000",
+      "unit": 70,
+      "name": "Sympathetic and Parasympathetic Pathways",
+      "tag": "ANSPathways",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 199,
+    "fields": {
+      "public_id": "55555555-002e-4000-8000-000000000000",
+      "unit": 70,
+      "name": "ANS Neurotransmitters and Receptors",
+      "tag": "ANSNTRecep",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 71,
+    "fields": {
+      "public_id": "44444444-0014-4000-8000-000000000000",
+      "course": 4,
+      "name": "Special Senses I: Olfaction and Gustation",
+      "tag": "SpecSenseI",
+      "description": "",
+      "number": 20
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 200,
+    "fields": {
+      "public_id": "55555555-002f-4000-8000-000000000000",
+      "unit": 71,
+      "name": "Sensory Receptor Classification",
+      "tag": "SensRecepClass",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 201,
+    "fields": {
+      "public_id": "55555555-0030-4000-8000-000000000000",
+      "unit": 71,
+      "name": "Olfaction",
+      "tag": "Olfaction",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 202,
+    "fields": {
+      "public_id": "55555555-0031-4000-8000-000000000000",
+      "unit": 71,
+      "name": "Gustation (Taste)",
+      "tag": "Taste",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 72,
+    "fields": {
+      "public_id": "44444444-0015-4000-8000-000000000000",
+      "course": 4,
+      "name": "Special Senses II: Vision",
+      "tag": "SpecSenseII",
+      "description": "",
+      "number": 21
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 203,
+    "fields": {
+      "public_id": "55555555-0032-4000-8000-000000000000",
+      "unit": 72,
+      "name": "Eye Anatomy (Accessory Structures and Tunics)",
+      "tag": "EyeAnat",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 204,
+    "fields": {
+      "public_id": "55555555-0033-4000-8000-000000000000",
+      "unit": 72,
+      "name": "Refraction and Accommodation",
+      "tag": "Refraction",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 205,
+    "fields": {
+      "public_id": "55555555-0034-4000-8000-000000000000",
+      "unit": 72,
+      "name": "Rods, Cones, and Phototransduction",
+      "tag": "Photoreceptors",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 73,
+    "fields": {
+      "public_id": "44444444-0016-4000-8000-000000000000",
+      "course": 4,
+      "name": "Special Senses III: Hearing and Equilibrium",
+      "tag": "SpecSenseIII",
+      "description": "",
+      "number": 22
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 206,
+    "fields": {
+      "public_id": "55555555-0035-4000-8000-000000000000",
+      "unit": 73,
+      "name": "Ear Anatomy",
+      "tag": "EarAnat",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 207,
+    "fields": {
+      "public_id": "55555555-0036-4000-8000-000000000000",
+      "unit": 73,
+      "name": "Hearing",
+      "tag": "Hearing",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 208,
+    "fields": {
+      "public_id": "55555555-0037-4000-8000-000000000000",
+      "unit": 73,
+      "name": "Equilibrium",
+      "tag": "Equilib",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 74,
+    "fields": {
+      "public_id": "44444444-0017-4000-8000-000000000000",
+      "course": 4,
+      "name": "Bone Tissue I: Cartilage, Bone Cells, and Matrix",
+      "tag": "BoneTissueI",
+      "description": "",
+      "number": 23
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 209,
+    "fields": {
+      "public_id": "55555555-0038-4000-8000-000000000000",
+      "unit": 74,
+      "name": "Cartilage",
+      "tag": "Cartilage",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 210,
+    "fields": {
+      "public_id": "55555555-0039-4000-8000-000000000000",
+      "unit": 74,
+      "name": "Bone Cells and Matrix",
+      "tag": "BoneCellsMatrix",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 75,
+    "fields": {
+      "public_id": "44444444-0018-4000-8000-000000000000",
+      "course": 4,
+      "name": "Bone Tissue II: Compact and Spongy Bone, Long Bone Anatomy, and Development",
+      "tag": "BoneTissueII",
+      "description": "",
+      "number": 24
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 211,
+    "fields": {
+      "public_id": "55555555-003a-4000-8000-000000000000",
+      "unit": 75,
+      "name": "Compact and Spongy Bone Histology",
+      "tag": "BoneHisto",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 212,
+    "fields": {
+      "public_id": "55555555-003b-4000-8000-000000000000",
+      "unit": 75,
+      "name": "Long Bone Anatomy",
+      "tag": "LongBoneAnat",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 213,
+    "fields": {
+      "public_id": "55555555-003c-4000-8000-000000000000",
+      "unit": 75,
+      "name": "Bone Development, Growth, and Remodeling",
+      "tag": "BoneDevRemodel",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 76,
+    "fields": {
+      "public_id": "44444444-0019-4000-8000-000000000000",
+      "course": 4,
+      "name": "Axial Skeleton I: Skull and Hyoid Bone",
+      "tag": "AxialSkelI",
+      "description": "",
+      "number": 25
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 214,
+    "fields": {
+      "public_id": "55555555-003d-4000-8000-000000000000",
+      "unit": 76,
+      "name": "Skull Bones (Cranial and Facial)",
+      "tag": "SkullBones",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 215,
+    "fields": {
+      "public_id": "55555555-003e-4000-8000-000000000000",
+      "unit": 76,
+      "name": "Hyoid Bone",
+      "tag": "HyoidBone",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 77,
+    "fields": {
+      "public_id": "44444444-001a-4000-8000-000000000000",
+      "course": 4,
+      "name": "Axial Skeleton II: Vertebral Column, Ribs, and Sternum",
+      "tag": "AxialSkelII",
+      "description": "",
+      "number": 26
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 216,
+    "fields": {
+      "public_id": "55555555-003f-4000-8000-000000000000",
+      "unit": 77,
+      "name": "Vertebral Column and Regional Vertebrae",
+      "tag": "VertColumn",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 217,
+    "fields": {
+      "public_id": "55555555-0040-4000-8000-000000000000",
+      "unit": 77,
+      "name": "Ribs, Sternum, and Thoracic Cage",
+      "tag": "ThoracicCage",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 218,
+    "fields": {
+      "public_id": "55555555-0041-4000-8000-000000000000",
+      "unit": 77,
+      "name": "Intervertebral Discs",
+      "tag": "IVDiscs",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 78,
+    "fields": {
+      "public_id": "44444444-001b-4000-8000-000000000000",
+      "course": 4,
+      "name": "Appendicular Skeleton: Girdles and Limb Bones",
+      "tag": "AppendSkel",
+      "description": "",
+      "number": 27
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 219,
+    "fields": {
+      "public_id": "55555555-0042-4000-8000-000000000000",
+      "unit": 78,
+      "name": "Pectoral Girdle and Upper Limb Bones",
+      "tag": "PectGirdleUL",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 220,
+    "fields": {
+      "public_id": "55555555-0043-4000-8000-000000000000",
+      "unit": 78,
+      "name": "Pelvic Girdle and Lower Limb Bones",
+      "tag": "PelvGirdleLL",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 79,
+    "fields": {
+      "public_id": "44444444-001c-4000-8000-000000000000",
+      "course": 4,
+      "name": "Joints I: Structural and Functional Classification",
+      "tag": "JointsI",
+      "description": "",
+      "number": 28
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 221,
+    "fields": {
+      "public_id": "55555555-0044-4000-8000-000000000000",
+      "unit": 79,
+      "name": "Fibrous and Cartilaginous Joints",
+      "tag": "FibCartJoints",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 222,
+    "fields": {
+      "public_id": "55555555-0045-4000-8000-000000000000",
+      "unit": 79,
+      "name": "Synovial Joint Structure and Types",
+      "tag": "SynovJoints",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 80,
+    "fields": {
+      "public_id": "44444444-001d-4000-8000-000000000000",
+      "course": 4,
+      "name": "Joints II: Synovial Joint Movements",
+      "tag": "JointsII",
+      "description": "",
+      "number": 29
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 223,
+    "fields": {
+      "public_id": "55555555-0046-4000-8000-000000000000",
+      "unit": 80,
+      "name": "Joint Movements",
+      "tag": "JointMove",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 81,
+    "fields": {
+      "public_id": "44444444-001e-4000-8000-000000000000",
+      "course": 4,
+      "name": "Skeletal Muscle I: Histology and the Sarcomere",
+      "tag": "SkelMuscI",
+      "description": "",
+      "number": 30
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 224,
+    "fields": {
+      "public_id": "55555555-0047-4000-8000-000000000000",
+      "unit": 81,
+      "name": "Muscle Connective Tissue Coverings",
+      "tag": "MuscCTCover",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 225,
+    "fields": {
+      "public_id": "55555555-0048-4000-8000-000000000000",
+      "unit": 81,
+      "name": "Muscle Fiber Structure",
+      "tag": "MuscFiberStruct",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 226,
+    "fields": {
+      "public_id": "55555555-0049-4000-8000-000000000000",
+      "unit": 81,
+      "name": "Sarcomere and Myofilament Proteins",
+      "tag": "Sarcomere",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 82,
+    "fields": {
+      "public_id": "44444444-001f-4000-8000-000000000000",
+      "course": 4,
+      "name": "Skeletal Muscle II: Contraction Physiology",
+      "tag": "SkelMuscII",
+      "description": "",
+      "number": 31
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 227,
+    "fields": {
+      "public_id": "55555555-004a-4000-8000-000000000000",
+      "unit": 82,
+      "name": "Sliding Filament Model",
+      "tag": "SlidFilament",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 228,
+    "fields": {
+      "public_id": "55555555-004b-4000-8000-000000000000",
+      "unit": 82,
+      "name": "Neuromuscular Junction",
+      "tag": "NMJ",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 229,
+    "fields": {
+      "public_id": "55555555-004c-4000-8000-000000000000",
+      "unit": 82,
+      "name": "Excitation-Contraction Coupling",
+      "tag": "ECC",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 230,
+    "fields": {
+      "public_id": "55555555-004d-4000-8000-000000000000",
+      "unit": 82,
+      "name": "Crossbridge Cycling",
+      "tag": "CrossBridge",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 83,
+    "fields": {
+      "public_id": "44444444-0020-4000-8000-000000000000",
+      "course": 4,
+      "name": "Skeletal Muscle III: Motor Units, Force Production, and Fiber Types",
+      "tag": "SkelMuscIII",
+      "description": "",
+      "number": 32
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 231,
+    "fields": {
+      "public_id": "55555555-004e-4000-8000-000000000000",
+      "unit": 83,
+      "name": "Motor Units, Recruitment, and Summation",
+      "tag": "MotorUnits",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 232,
+    "fields": {
+      "public_id": "55555555-004f-4000-8000-000000000000",
+      "unit": 83,
+      "name": "Contraction Types (Isotonic vs Isometric)",
+      "tag": "ContractTypes",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 233,
+    "fields": {
+      "public_id": "55555555-0050-4000-8000-000000000000",
+      "unit": 83,
+      "name": "Muscle Fiber Types",
+      "tag": "FiberTypes",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 84,
+    "fields": {
+      "public_id": "44444444-0021-4000-8000-000000000000",
+      "course": 4,
+      "name": "Skeletal Muscle IV: Gross Anatomy — Head, Neck, Trunk, and Scapula",
+      "tag": "SkelMuscIV",
+      "description": "",
+      "number": 33
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 234,
+    "fields": {
+      "public_id": "55555555-0051-4000-8000-000000000000",
+      "unit": 84,
+      "name": "Muscle Principles, Naming, and Terminology",
+      "tag": "MuscPrincNomen",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 235,
+    "fields": {
+      "public_id": "55555555-0052-4000-8000-000000000000",
+      "unit": 84,
+      "name": "Head, Neck, Trunk, and Scapular Muscles",
+      "tag": "HNTScapMusc",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unit",
+    "pk": 85,
+    "fields": {
+      "public_id": "44444444-0022-4000-8000-000000000000",
+      "course": 4,
+      "name": "Skeletal Muscle V: Gross Anatomy — Upper and Lower Limb",
+      "tag": "SkelMuscV",
+      "description": "",
+      "number": 34
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 236,
+    "fields": {
+      "public_id": "55555555-0053-4000-8000-000000000000",
+      "unit": 85,
+      "name": "Upper Limb Muscles (Arm, Forearm, Hand)",
+      "tag": "ULMuscles",
+      "description": ""
+    }
+  },
+  {
+    "model": "courses.unitsubtopic",
+    "pk": 237,
+    "fields": {
+      "public_id": "55555555-0054-4000-8000-000000000000",
+      "unit": 85,
+      "name": "Lower Limb Muscles (Thigh, Leg, Foot)",
+      "tag": "LLMuscles",
+      "description": ""
+    }
+  }
+]

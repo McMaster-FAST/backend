@@ -12,8 +12,9 @@ class QuestionSerializer(serializers.ModelSerializer):
         many=True, read_only=True, source="questionoption_set"
     )
 
-    subtopic = serializers.PrimaryKeyRelatedField(
+    subtopic = serializers.SlugRelatedField(
         queryset=UnitSubtopic.objects.all(),
+        slug_field="public_id",
         required=False,
         write_only=True,  # Don't show the ID in the output (redundant)
     )
@@ -22,8 +23,8 @@ class QuestionSerializer(serializers.ModelSerializer):
     saved_for_later = serializers.SerializerMethodField()
 
     def get_saved_for_later(self, obj):
-        user = self.context.get("request").user
-        print(f"Checking if question {obj.public_id} is saved for later by user {user}")
+        request = self.context.get("request")
+        user = request.user if request else None
         if user:
             return SavedForLater.objects.filter(user=user, question__public_id=obj.public_id).exists()
         return False
@@ -35,12 +36,42 @@ class QuestionSerializer(serializers.ModelSerializer):
             "serial_number",
             "content",
             "difficulty",
+            "selection_frequency",
             "is_flagged",
             "is_active",
             "is_verified",
+            "answer_explanation",
             "images",  # The images attached to the question
             "options",  # The multiple choice answers
             "subtopic",  # For assigning question to subtopic on creation
             "subtopic_name",
-            "saved_for_later", 
+            "saved_for_later",
         ]
+        read_only_fields = ["public_id", "selection_frequency"]
+        extra_kwargs = {
+            "content": {
+                "required": True,
+                "allow_blank": False,
+                "error_messages": {
+                    "required": "Question content is required.",
+                    "blank": "Question content is required.",
+                },
+            },
+            "serial_number": {
+                "required": True,
+                "allow_blank": False,
+                "error_messages": {
+                    "required": "Serial number is required.",
+                    "blank": "Serial number is required.",
+                },
+            },
+            "difficulty": {
+                "required": False,
+                "min_value": -3,
+                "max_value": 3,
+                "error_messages": {
+                    "min_value": "Difficulty must be at least -3.0000.",
+                    "max_value": "Difficulty must be at most 3.0000.",
+                },
+            },
+        }

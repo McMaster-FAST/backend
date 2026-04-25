@@ -26,9 +26,11 @@ class QuestionOptionInline(admin.TabularInline):
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
     list_display = (
+        "pk",
         "public_id",
         "serial_number",
         "get_course",
+        "get_unit",
         "get_subtopic",
         "short_content",
         "difficulty",
@@ -50,6 +52,12 @@ class QuestionAdmin(admin.ModelAdmin):
 
     def short_content(self, obj):
         return obj.content[:50] + "..." if len(obj.content) > 50 else obj.content
+
+    @admin.display(ordering="subtopic__unit__name", description="Unit")
+    def get_unit(self, obj):
+        if obj.subtopic and obj.subtopic.unit:
+            return obj.subtopic.unit.name
+        return "-"
 
     # Displays the Subtopic Name, sorted by the subtopic name field
     @admin.display(ordering="subtopic__name", description="Subtopic")

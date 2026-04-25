@@ -7,19 +7,46 @@ from django.urls import path, include, reverse_lazy
 from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include
+from django.urls import path
+from django.urls import reverse_lazy
+from django.views.generic import RedirectView
+from drf_spectacular.views import SpectacularAPIView
+from drf_spectacular.views import SpectacularRedocView
+from drf_spectacular.views import SpectacularSwaggerView
 
 urlpatterns = [
     path(
-        "admin/login/",
+        'admin/login/',
         RedirectView.as_view(
-            url=reverse_lazy("oidc_authentication_init"), permanent=False
+            url=reverse_lazy('oidc_authentication_init'), permanent=False
         ),
     ),
-    path("admin/", admin.site.urls),
-    path("oidc/", include("mozilla_django_oidc.urls")),
-    path("auth/", include("sso_auth.urls")),
-    path("api/core/", include("core.urls")),
-    path("api/", include("courses.urls")),
+    path('admin/', admin.site.urls),
+    path('oidc/', include('mozilla_django_oidc.urls')),
+    path('auth/', include('sso_auth.urls')),
+    path('api/core/', include('core.urls')),
+    path('api/analytics/', include('analytics.urls')),
+]
+
+if settings.DEBUG:
+    urlpatterns += [
+        path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+        path(
+            'api/docs/',
+            SpectacularSwaggerView.as_view(url_name='schema'),
+            name='swagger-ui',
+        ),
+        path(
+            'api/redoc/',
+            SpectacularRedocView.as_view(url_name='schema'),
+            name='redoc',
+        ),
+    ]
+
+urlpatterns += [
+    path('api/', include('courses.urls')),
 ]
 
 if settings.DEBUG:

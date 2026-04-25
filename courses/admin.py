@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Course, Unit, UnitSubtopic, Enrolment, StudyAid, AidType
+from .models import Course, QuestionUploadResult, Unit, UnitSubtopic, Enrolment, StudyAid, AidType
 from core.models import Question
 
 
@@ -111,3 +111,9 @@ class StudyAidAdmin(admin.ModelAdmin):
 class AidTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
     search_fields = ("name",)
+
+@admin.register(QuestionUploadResult)
+class QuestionUploadResultAdmin(admin.ModelAdmin):
+    list_display = ("public_id", "course", "result", "success_count", "failure_count")
+    search_fields = ("course__code",)
+    list_filter = ("result",)

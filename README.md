@@ -55,6 +55,23 @@ The project uses a `.env` file for managing secrets and environment-specific set
     ```
     The server will start on `http://localhost:8000/`.
 
+### Migration History Repair (one-off)
+
+If you hit an error like:
+`InconsistentMigrationHistory: analytics.0007 ... applied before analytics.0006 ...`,
+run:
+
+```bash
+uv run manage.py repair_analytics_migration_history
+uv run manage.py migrate
+```
+
+To preview without changing anything:
+
+```bash
+uv run manage.py repair_analytics_migration_history --dry-run
+```
+
 ## Loading Mock Data
 
 **If you are doing development and need mock data to test with you can run**
