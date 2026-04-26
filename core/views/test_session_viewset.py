@@ -1,4 +1,4 @@
-from core.queries.question_queries import lower_window_floor, raise_window_ceiling
+from core.queries.question_queries import lower_window_floor, raise_window_ceiling, repeat_questions, restart_session
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -32,6 +32,7 @@ class TestSessionViewSet(viewsets.ModelViewSet):
     def update_selection_upper_bound(self, request, *args, **kwargs):
         test_session = self.get_object()
         raise_window_ceiling(test_session)
+        test_session.refresh_from_db()
         response_serializer = self.get_serializer(test_session)
         return Response(response_serializer.data, status=status.HTTP_200_OK)
         
@@ -45,8 +46,33 @@ class TestSessionViewSet(viewsets.ModelViewSet):
     def update_selection_lower_bound(self, request, *args, **kwargs):
         test_session = self.get_object()
         lower_window_floor(test_session)
+        test_session.refresh_from_db()
         response_serializer = self.get_serializer(test_session)
         return Response(response_serializer.data, status=status.HTTP_200_OK)
+
+    @action(
+        detail=True,
+        methods=["post"],
+        url_path="repeat-questions",
+        url_name="repeat-questions",
+    )
+    def repeat_questions_action(self, request, *args, **kwargs):
+        test_session = self.get_object()
+        repeat_questions(test_session)
+        test_session.refresh_from_db()
+        return Response(self.get_serializer(test_session).data, status=status.HTTP_200_OK)
+
+    @action(
+        detail=True,
+        methods=["post"],
+        url_path="restart-session",
+        url_name="restart-session",
+    )
+    def restart_session_action(self, request, *args, **kwargs):
+        test_session = self.get_object()
+        restart_session(test_session)
+        test_session.refresh_from_db()
+        return Response(self.get_serializer(test_session).data, status=status.HTTP_200_OK)
 
     def _get_test_parameters(self, test_session: TestSession):
         return TestingParameters.objects.get(course=test_session.subtopic.unit.course)
