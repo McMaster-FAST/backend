@@ -16,35 +16,72 @@ from docx import Document
 
 from core.models import Question, QuestionComment, QuestionOption, QuestionImage
 from core.tasks.upload_result_util import finish_upload_result, get_upload_result, update_upload_result
-from courses.models import Course, Enrolment, Unit, UnitSubtopic
+from courses.models import Course, Enrolment, QuestionUploadFailures, Unit, UnitSubtopic
 from .docx.parser import get_question_table_count, parse_questions_from_docx
 from .docx.formats import docx_table_format_a
 from core.tasks.docx.parser1AA3Q import parse
 from core.tasks.docx.parser1AA3exp import parse_explanation_updates
-from django.db.models import Q
-import os
-
-import tempfile
-import hashlib
-import re
-import traceback
-
-from math import log
-from docx import Document
-
-from django.core.files.images import ImageFile
-from io import BytesIO
-
-import re
-from logging import getLogger
+from .csv.parser import parse_questions_from_csv
 
 logger = getLogger(__name__)
 decimal_pattern = re.compile(r"\d?\.\d{0,5}")
 PROGRESS_UPDATE_INTERVAL = 0.1
 
 
-class DocxParsingError(Exception):
-    pass
+class QuestionImportError(Exception):
+    """Raised when uploaded question data cannot be interpreted (any source format)."""
+
+
+def _insert_question_with_logging(
+    question_data: dict,
+    source_label: str,
+    insert_callable,
+    upload_result=None,
+) -> bool:
+    """Helper to log insertion errors; returns True on success, False on failure."""
+    serial = question_data.get("serial_number")
+    try:
+        insert_callable()
+        logger.info(
+            "Successfully inserted question serial=%s from %s",
+            serial,
+            source_label,
+        )
+        return True
+    except Exception as e:
+        summary = None
+        if isinstance(e, IntegrityError):
+            logger.error(
+                "Insertion failed serial=%s (%s): integrity: %s",
+                serial,
+                source_label,
+                e,
+            )
+        elif isinstance(e, QuestionImportError):
+            logger.error(
+                "Import parse error serial=%s (%s): %s",
+                serial,
+                source_label,
+                e,
+            )
+            summary = traceback.extract_tb(e.__traceback__)
+        else:
+            logger.error(
+                "Unexpected error serial=%s (%s): %s",
+                serial,
+                source_label,
+                e,
+            )
+            summary = traceback.extract_tb(e.__traceback__)
+        if summary:
+            logger.error("Error info: %s %s", summary[-1], e)
+        if upload_result is not None:
+            QuestionUploadFailures.objects.create(
+                upload_result=upload_result,
+                question_identifier=str(serial or "unknown")[:50],
+                error_message=str(e),
+            )
+        return False
 
 
 def is_question_only_docx(docx_path: str) -> bool:
@@ -84,16 +121,148 @@ def is_explanation_update_format(docx_path: str) -> bool:
         return False
 
     for i, table in enumerate(doc.tables):
-        # print(f"Table {i}: rows={len(table.rows)}, cols={len(table.columns)}")
-
         if len(table.rows) == 5 and len(table.columns) in (2, 3):
             qnum_text = (table.cell(0, 0).text or "").strip()
-            # print(f"Checking qnum: '{qnum_text}'")
-
             if re.match(r"^\D*(\d+)\D*$", qnum_text):
                 return True
 
     return False
+
+
+def _run_docx_import(
+    file_data: bytes,
+    file_name: str,
+    course: Course,
+    create_required: bool,
+    auto_verify: bool,
+    upload_result=None,
+) -> tuple[int, int]:
+    success_count = 0
+    failure_count = 0
+
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".docx") as temp_file:
+        temp_file.write(file_data)
+        temp_file.flush()
+        path = temp_file.name
+
+    try:
+        if is_explanation_update_format(path):
+            logger.info("Using explanation update parser for %s", file_name)
+            for question_data in parse_explanation_updates(path, file_name):
+                ok = _insert_question_with_logging(
+                    question_data,
+                    "docx:explanation_update",
+                    lambda qd=question_data: update_question_explanation(qd),
+                    upload_result=upload_result,
+                )
+                if ok:
+                    success_count += 1
+                else:
+                    failure_count += 1
+
+        elif is_question_only_docx(path):
+            logger.info("Using v3 question-only parser for %s", path)
+            for question_data in parse(path):
+                ok = _insert_question_with_logging(
+                    question_data,
+                    "docx:v3",
+                    lambda qd=question_data: insert_docx_data_v3(
+                        qd, course, create_required
+                    ),
+                    upload_result=upload_result,
+                )
+                if ok:
+                    success_count += 1
+                else:
+                    failure_count += 1
+
+        else:
+            total_question_count = get_question_table_count(path)
+            interval = int(total_question_count * PROGRESS_UPDATE_INTERVAL)
+
+            for i, question_data in enumerate(
+                parse_questions_from_docx(path, docx_table_format_a)
+            ):
+                if upload_result and interval >= 1 and i % interval == 0:
+                    update_upload_result(
+                        upload_result,
+                        total_question_count,
+                        success_count,
+                        failure_count,
+                    )
+                ok = _insert_question_with_logging(
+                    question_data,
+                    "docx",
+                    lambda qd=question_data: insert_docx_data(
+                        qd, course, create_required, path, auto_verify
+                    ),
+                    upload_result=upload_result,
+                )
+                if ok:
+                    success_count += 1
+                else:
+                    failure_count += 1
+    finally:
+        try:
+            os.unlink(path)
+        except OSError as e:
+            logger.warning("Failed to delete temporary docx file %s: %s", path, e)
+
+    return success_count, failure_count
+
+
+def _run_csv_import(
+    file_data: bytes,
+    file_name: str,
+    course: Course,
+    create_required: bool,
+    auto_verify: bool,
+    upload_result=None,
+) -> tuple[int, int]:
+    success_count = 0
+    failure_count = 0
+
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".csv", mode="wb") as temp_file:
+        temp_file.write(file_data)
+        temp_file.flush()
+        path = temp_file.name
+
+    try:
+        for question_data in parse_questions_from_csv(path):
+            ok = _insert_question_with_logging(
+                question_data,
+                "csv",
+                lambda qd=question_data: insert_csv_data(
+                    qd, course, create_required, auto_verify
+                ),
+                upload_result=upload_result,
+            )
+            if ok:
+                success_count += 1
+            else:
+                failure_count += 1
+    finally:
+        try:
+            os.unlink(path)
+        except OSError as e:
+            logger.warning("Failed to delete temporary csv file %s: %s", path, e)
+
+    return success_count, failure_count
+
+
+# (suffix, runner) — add new formats here
+_IMPORT_RUNNERS = (
+    (".docx", _run_docx_import),
+    (".csv", _run_csv_import),
+)
+
+
+def _suffix_for_file_name(file_name: str) -> str | None:
+    lower = file_name.lower()
+    for suffix, _ in _IMPORT_RUNNERS:
+        if lower.endswith(suffix):
+            return suffix
+    return None
 
 
 @shared_task
@@ -119,102 +288,31 @@ def parse_file(
     failure_count = 0
     upload_result = get_upload_result(upload_result_id)
     auto_verify = can_auto_verify(uploading_user_id, course_data)
+
     try:
         course = Course.objects.get(**course_data)
     except Course.DoesNotExist:
-        raise ValueError(f"No course found with identifiers: {course}")
+        raise ValueError(
+            f"Course with code {course_data.get('code')}, year {course_data.get('year')}, "
+            f"semester {course_data.get('semester')} does not exist."
+        )
 
-    if file_name.endswith(".docx"):
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".docx") as temp_file:
-            temp_file.write(file_data)
-            temp_file.flush()
-
-            try:
-                if is_explanation_update_format(temp_file.name):
-                    print("USING EXPLANATION UPDATE PARSER")
-                    parsed_updates = parse_explanation_updates(
-                        temp_file.name, file_name
-                    )
-                    print("PARSED UPDATES:", len(parsed_updates))
-
-                    for question_data in parsed_updates:
-                        try:
-                            update_question_explanation(question_data)
-                        except Question.DoesNotExist:
-                            print(
-                                f"Question not found for serial {question_data.get('serial_number')}"
-                            )
-                        except IntegrityError as e:
-                            print(
-                                f"Failed updating {question_data.get('serial_number')} with: {e}"
-                            )
-                elif is_question_only_docx(temp_file.name):
-                    parsed_questions = parse(temp_file.name)
-
-                    for question_data in parsed_questions:
-                        try:
-                            insert_docx_data_v3(question_data, course, create_required)
-                        except IntegrityError as e:
-                            print(
-                                f"Failed inserting exam-bank question "
-                                f"{question_data.get('serial_number', question_data.get('number'))} with: {e}"
-                            )
-                else:
-                    total_question_count = get_question_table_count(temp_file.name)
-                    interval = int(total_question_count * PROGRESS_UPDATE_INTERVAL)
-
-                    for i, question_data in enumerate(
-                        parse_questions_from_docx(temp_file.name, docx_table_format_a)
-                    ):
-                        if interval >= 1 and i % interval == 0:
-                            update_upload_result(
-                                upload_result,
-                                total_question_count,
-                                success_count,
-                                failure_count,
-                            )
-                        try:
-                            insert_data(
-                                question_data,
-                                course,
-                                create_required,
-                                temp_file.name,
-                                auto_verify,
-                            )
-                            success_count += 1
-                        except Exception as e:
-                            summary = None
-                            if isinstance(e, IntegrityError):
-                                logger.error(
-                                    f"Insertion failed for question with serial number {question_data.get('serial_number')}. Integrity error: {e}"
-                                )
-                            elif isinstance(e, DocxParsingError):
-                                logger.error(
-                                    f"Explicit parsing error for question with serial number {question_data.get('serial_number')}: {e}"
-                                )
-                                summary = traceback.extract_tb(e.__traceback__)
-                            else:
-                                logger.error(
-                                    f"Unexpected error for question with serial number {question_data.get('serial_number')}: {e}"
-                                )
-                                summary = traceback.extract_tb(e.__traceback__)
-                            if summary:
-                                logger.error(f"Error info: {summary[-1]} {e}")
-                            failure_count += 1
-            finally:
-                try:
-                    os.unlink(temp_file.name)
-                except OSError as e:
-                    logger.warning(
-                        f"Failed to delete temporary file '{temp_file.name}': {e}"
-                    )
-    else:
+    suffix = _suffix_for_file_name(file_name)
+    if suffix is None:
         raise ValueError(
             "Unsupported file format. Only .docx and .csv files are supported."
         )
 
+    for registered_suffix, runner in _IMPORT_RUNNERS:
+        if suffix == registered_suffix:
+            success_count, failure_count = runner(
+                file_data, file_name, course, create_required, auto_verify, upload_result
+            )
+            break
+
     finish_upload_result(upload_result, success_count, failure_count)
     return {"success_count": success_count, "failure_count": failure_count}
+
 
 def can_auto_verify(user_id: int, course: dict) -> bool:
     """Check if the user has instructor privileges for the given course."""
@@ -239,25 +337,6 @@ def parse_select_frequency(value) -> float:
     return 0.0
 
 
-def insert_data(
-    question_data: dict,
-    course: Course,
-    create_required: bool,
-    temp_file_name: str,
-    auto_verify: bool,
-) -> None:
-    """
-    Compatibility wrapper to keep existing call sites stable.
-    """
-    insert_docx_data(
-        question_data=question_data,
-        course=course,
-        create_required=create_required,
-        temp_file_name=temp_file_name,
-        auto_verify=auto_verify,
-    )
-
-
 def insert_docx_data(
     question_data: dict,
     course: Course,
@@ -269,17 +348,15 @@ def insert_docx_data(
     Inserts parsed question data from a DOCX upload.
     """
     try:
-        answer_index = ord(question_data.get("answer").upper().rstrip("() .")) - ord(
-            "A"
-        )
+        answer_index = ord(question_data.get("answer").upper().rstrip("() .")) - ord("A")
     except Exception:
-        raise DocxParsingError(
+        raise QuestionImportError(
             f"Invalid answer format: {question_data.get('answer')}"
         )
 
     raw_selection_frequencies = question_data.get("option_selection_frequencies", [])
     if len(raw_selection_frequencies) <= answer_index:
-        raise DocxParsingError(f"Invalid answer index {answer_index}")
+        raise QuestionImportError(f"Invalid answer index {answer_index}")
 
     selection_frequencies = [
         parse_select_frequency(freq) for freq in raw_selection_frequencies
@@ -308,6 +385,121 @@ def insert_docx_data(
         )
         created_images = save_images(question_data, question.public_id, temp_file_name)
         question.images.set(created_images)
+
+        create_question_options(question_data, answer_index, question)
+        create_question_comments(question_data, question)
+
+
+# TODO: verify with Josh if mismatches should be fixed in the CSV file instead of handling them here
+def _resolve_csv_subtopic(
+    course: Course,
+    unit_tag: str,
+    subtopic_tag: str,
+    create_required: bool,
+    unit_number: int | None,
+) -> UnitSubtopic | None:
+    """
+    Resolve UnitSubtopic from CSV tags; prefer matching subtopic over unit when they disagree.
+    If create_required and both tags are set but nothing matches, create unit + subtopic.
+    """
+    subtopic = None
+    if subtopic_tag:
+        subtopic_qs = UnitSubtopic.objects.filter(
+            unit__course=course, tag=subtopic_tag
+        )
+        if unit_tag:
+            exact = subtopic_qs.filter(unit__tag=unit_tag).first()
+            if exact:
+                subtopic = exact
+            else:
+                fallback = subtopic_qs.first()
+                if fallback:
+                    logger.warning(
+                        "subtopic %r not found in unit %r; using unit %r instead",
+                        subtopic_tag,
+                        unit_tag,
+                        fallback.unit.tag,
+                    )
+                    subtopic = fallback
+                elif not create_required:
+                    logger.warning(
+                        "no subtopic with tag %r for course %s; skipping subtopic",
+                        subtopic_tag,
+                        course,
+                    )
+        else:
+            subtopic = subtopic_qs.first()
+            if not subtopic and not create_required:
+                logger.warning(
+                    "no subtopic with tag %r for course %s; skipping subtopic",
+                    subtopic_tag,
+                    course,
+                )
+
+    if subtopic is None and create_required and unit_tag and subtopic_tag:
+        unum = unit_number if isinstance(unit_number, int) else -1
+        unit = Unit.objects.filter(course=course, tag=unit_tag).first()
+        if unit is None:
+            unit, _ = Unit.objects.get_or_create(
+                course=course,
+                name=unit_tag,
+                defaults={"number": unum, "tag": unit_tag, "description": ""},
+            )
+        subtopic = UnitSubtopic.objects.filter(unit=unit, tag=subtopic_tag).first()
+        if subtopic is None:
+            subtopic, _ = UnitSubtopic.objects.get_or_create(
+                unit=unit,
+                name=subtopic_tag,
+                defaults={"tag": subtopic_tag, "description": ""},
+            )
+
+    return subtopic
+
+
+def insert_csv_data(
+    question_data: dict,
+    course: Course,
+    create_required: bool,
+    auto_verify: bool,
+) -> None:
+    """
+    Inserts parsed question data from a Brightspace CSV upload.
+    """
+    answer_letter = (question_data.get("answer") or "").upper()
+    if not answer_letter or not ("A" <= answer_letter[0] <= "Z"):
+        raise QuestionImportError(f"Invalid answer: {question_data.get('answer')}")
+    answer_index = ord(answer_letter[0]) - ord("A")
+
+    options = question_data.get("options") or []
+    if answer_index < 0 or answer_index >= len(options):
+        raise QuestionImportError(
+            f"Answer index {answer_index} out of range for {len(options)} options"
+        )
+
+    unit_tag = question_data.get("unit_tag", "").strip()
+    subtopic_tag = question_data.get("subtopic_tag", "").strip()
+    difficulty = question_data.get("difficulty")
+    unit_number = question_data.get("unit_number")
+    if unit_number is not None and not isinstance(unit_number, int):
+        try:
+            unit_number = int(unit_number)
+        except (TypeError, ValueError):
+            unit_number = None
+
+    with transaction.atomic():
+        subtopic = _resolve_csv_subtopic(
+            course, unit_tag, subtopic_tag, create_required, unit_number
+        )
+
+        question = create_question(
+            question_data,
+            selection_frequency=0.0,
+            subtopic=subtopic,
+            is_verified=auto_verify,
+            difficulty=difficulty,
+        )
+
+        # TODO: image handling (no question images in csv so for now we'll skip implementing it)
 
         create_question_options(question_data, answer_index, question)
         create_question_comments(question_data, question)
@@ -345,7 +537,7 @@ def replace_image_placeholders(html, saved_by_ref):
         img = saved_by_ref.get(ref)
 
         if not img:
-            print("NO IMAGE FOR PLACEHOLDER:", ref)
+            logger.warning("No image found for placeholder: %s", ref)
             return f"<p>[Missing image: {ref}]</p>"
 
         return f'<img src="/media/{img.image_file.name}">'
@@ -410,12 +602,10 @@ def insert_docx_data_v3(
             question.public_id,
         )
 
-        # M2M needs QuestionImage instances, not dicts
         question_image_objs = list(content_images_by_ref.values()) + list(
             explanation_images_by_ref.values()
         )
 
-        # optional dedupe in case same image instance appears in both
         seen_ids = set()
         unique_question_images = []
         for img in question_image_objs:
@@ -425,12 +615,11 @@ def insert_docx_data_v3(
 
         question.images.set(unique_question_images)
 
-        content_html = question_data.get("content", "")
-        explanation_html = question_data.get("answer_explanation", "")
-
-        content_html = replace_image_placeholders(content_html, content_images_by_ref)
+        content_html = replace_image_placeholders(
+            question_data.get("content", ""), content_images_by_ref
+        )
         explanation_html = replace_image_placeholders(
-            explanation_html, explanation_images_by_ref
+            question_data.get("answer_explanation", ""), explanation_images_by_ref
         )
 
         question.content = content_html
@@ -489,7 +678,7 @@ def create_question(
 ):
     serial_number = (question_data.get("serial_number") or "N/A").strip()
     content = question_data.get("content")
-    if not content or content.strip() == "":
+    if not content or str(content).strip() == "":
         raise ValueError(
             f"Question content is empty for question with serial number {serial_number}"
         )
@@ -551,7 +740,7 @@ def save_images(question_data, question_public_id, file_name):
         with ZipFile(file_name) as docx_zip:
             image_data = docx_zip.read(f"word/{image_src}")
             image_filename = f"{question_public_id}_{image_ref}"
-            print(f"Saving image {image_filename}...")
+            logger.info("Saving image %s", image_filename)
             question_image = QuestionImage.objects.create(
                 image_file=ImageFile(BytesIO(image_data), name=image_filename),
                 alt_text=image_alt,
