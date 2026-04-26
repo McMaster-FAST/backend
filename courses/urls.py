@@ -3,6 +3,7 @@ from django.urls import path, include
 from core.views.adaptive_test.question_metrics_viewset import (
     AdaptiveTestQuestionMetricViewSet,
 )
+from courses.views.course_upload_result_viewset import CourseTaskResultViewSet
 from rest_framework_nested.routers import DefaultRouter, NestedDefaultRouter
 
 from analytics.views import QuestionReportAggregateViewSet
@@ -18,6 +19,8 @@ from courses.views import (
 )
 
 from core.views import OptionViewSet, QuestionViewSet, TestSessionViewSet
+
+from analytics.views import CourseXPViewSet
 
 from analytics.views import CourseXPViewSet
 
@@ -42,6 +45,9 @@ courses_router.register(r"enrolments", EnrolmentViewSet, basename="course-enrolm
 courses_router.register(r"questions", QuestionViewSet, basename="course-questions")
 courses_router.register(r"aggregate-reports", QuestionReportAggregateViewSet, basename="course-reports")
 courses_router.register(r"xp", CourseXPViewSet, basename="course-xp")
+courses_router.register(
+    r"upload-result", CourseTaskResultViewSet, basename="course-task-result"
+)
 
 units_router = NestedDefaultRouter(router, r"units", lookup="unit")
 units_router.register(r"subtopics", SubtopicViewSet, basename="unit-subtopics")

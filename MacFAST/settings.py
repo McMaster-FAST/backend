@@ -39,7 +39,7 @@ python_logging_level = logging.getLevelNamesMapping()[LOG_LEVEL]
 # Configure python logging
 logging.basicConfig(level=python_logging_level)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 # --- CORS Settings ---
 
@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "analytics",
     "sso_auth",
     "rest_framework",
+    "drf_spectacular",
     "django_filters",
     "django_celery_beat",
     "django_celery_results",
@@ -72,6 +73,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -121,10 +123,21 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "MacFAST API",
+    "DESCRIPTION": "API for MacFAST question bank platform",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SERVE_PERMISSIONS": ["rest_framework.permissions.AllowAny"],
 }
 
 # OIDC environment configuration
 # https://mozilla-django-oidc.readthedocs.io/en/stable/installation.html
+OIDC_USE_MOCK = os.getenv("OIDC_USE_MOCK", "False") == "True"
+
 ENTRA_TENANT_ID = os.environ["ENTRA_TENANT_ID"]
 
 ENTRA_BASE_URL = f"https://login.microsoftonline.com/{ENTRA_TENANT_ID}"
@@ -191,7 +204,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"

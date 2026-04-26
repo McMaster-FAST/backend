@@ -1,5 +1,4 @@
 from core.models import Question
-from core.serializers.instructor_question_serializer import QuestionSerializer
 from rest_framework import serializers
 
 

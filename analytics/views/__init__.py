@@ -1,3 +1,6 @@
 from .question_report_aggregate_viewset import QuestionReportAggregateViewSet
 from .question_report_viewset import QuestionReportViewSet
+from .class_average import ClassAverageView
+from .time_per_question import TimePerQuestionView
+from .unit_distribution import UnitDistributionView
 from .course_xp_viewset import CourseXPViewSet

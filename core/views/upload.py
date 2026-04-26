@@ -1,11 +1,11 @@
-from courses.models import Enrolment
+from courses.models import Course, Enrolment
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
 from rest_framework import status
 
 from ..serializers import FileUploadSerializer
 from ..tasks import parse_file
+from core.tasks.upload_result_util import init_upload_result
 from logging import getLogger
 
 logger = getLogger(__name__)
@@ -35,23 +35,24 @@ class UploadView(APIView):
             )
 
         uploaded_file = serializer.validated_data.get("file")
-        course = {
+        course_data = {
             "code": serializer.validated_data.get("course_code"),
             "year": serializer.validated_data.get("course_year"),
             "semester": serializer.validated_data.get("course_semester"),
         }
         create_required = serializer.validated_data.get("create_required")
-
+        upload_result = init_upload_result(Course.objects.get(**course_data), request.user)
         parse_file.delay(
             file_name=uploaded_file.name,
             file_data=uploaded_file.read(),
-            course_data=course,
+            course_data=course_data,
             uploading_user_id=request.user.id,
             create_required=create_required,
+            upload_result_id=upload_result.public_id,
         )
 
         return Response(
-            {"message": "File uploaded successfully."}, status=status.HTTP_201_CREATED
+            {"upload_result_id": upload_result.public_id}, status=status.HTTP_201_CREATED
         )
 
     def _user_has_permission(self, user, serializer):
