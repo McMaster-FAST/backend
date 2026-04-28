@@ -6,6 +6,7 @@ from core.serializers.adaptive_test.next_question_serializer import (
     NextQuestionSerializer,
 )
 from ..cat_methods.adaptive_test_model import AdaptiveTestModel
+from ..cat_methods.adaptive_test_utils import probability_of_success
 from ..cat_methods.rasch_model import RaschModel
 from ..models import (
     AdaptiveTestQuestionMetric,
@@ -127,7 +128,7 @@ def get_next_question_bundle(
     is_single_question_subtopic = Question.objects.filter(subtopic=subtopic).count() == 1
     if is_single_question_subtopic:
         next_question = select_next_question(
-            user, subtopic, DIFFICULTY_LOWERBOUND, DIFFICULTY_UPPERBOUND
+            user, subtopic, DIFFICULTY_LOWERBOUND, DIFFICULTY_UPPERBOUND, current_ability
         )
         suggested_actions = determine_suggested_actions(user, subtopic)
         if next_question is None:
@@ -152,7 +153,11 @@ def get_next_question_bundle(
     item_difficulty_lower_bound = current_ability + test_session.selection_lower_bound
 
     next_question = select_next_question(
-        user, subtopic, item_difficulty_lower_bound, item_difficulty_upper_bound
+        user,
+        subtopic,
+        item_difficulty_lower_bound,
+        item_difficulty_upper_bound,
+        current_ability,
     )
 
     if next_question is None:
@@ -165,7 +170,11 @@ def get_next_question_bundle(
             item_difficulty_upper_bound = current_ability + test_session.selection_upper_bound
             item_difficulty_lower_bound = current_ability + test_session.selection_lower_bound
             next_question = select_next_question(
-                user, subtopic, item_difficulty_lower_bound, item_difficulty_upper_bound
+                user,
+                subtopic,
+                item_difficulty_lower_bound,
+                item_difficulty_upper_bound,
+                current_ability,
             )
 
     suggested_actions = determine_suggested_actions(user, subtopic)
@@ -308,13 +317,20 @@ def select_next_question(
     subtopic: UnitSubtopic,
     item_difficulty_lower_bound: float,
     item_difficulty_upper_bound: float,
+    current_ability: float,
 ):
     potential_questions = get_potential_questions(
         user, subtopic, item_difficulty_lower_bound, item_difficulty_upper_bound
     )
     if not potential_questions.exists():
         return None
-    return random.choice(potential_questions)
+    questions = list(potential_questions.order_by("id"))
+    weights = [
+        probability_of_success(current_ability, float(question.difficulty))
+        * (1 - probability_of_success(current_ability, float(question.difficulty)))
+        for question in questions
+    ]
+    return random.choices(questions, weights=weights, k=1)[0]
 
 
 def raise_window_ceiling(test_session: TestSession):
@@ -420,25 +436,26 @@ def add_response(
         question_info.skips_since_last_answer = 0
         test_session.questions_answered_count += 1
         test_session.save()
-    question_info.save()
-
-    new_ability_score, new_variance = model.compute_ability(user, question.subtopic)
-    clamped_ability_score = max(-3, min(3, new_ability_score))
     if selected_option is not None:
         answered_correctly = selected_option.is_answer
         skipped = False
     else:
         skipped = True
         answered_correctly = False
+    question_info.save()
 
-    QuestionAttempt.objects.create(
+    attempt = QuestionAttempt.objects.create(
         question=question,
         user=user,
         answered_correctly=answered_correctly,
         skipped=skipped,
-        updated_ability_score=clamped_ability_score,
         time_spent=time_spent,
     )
+
+    new_ability_score, new_variance = model.compute_ability(user, question.subtopic)
+    clamped_ability_score = max(-3, min(3, new_ability_score))
+    attempt.updated_ability_score = clamped_ability_score
+    attempt.save(update_fields=["updated_ability_score"])
 
     UserTopicAbilityScore.objects.update_or_create(
         user=user,

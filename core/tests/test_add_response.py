@@ -133,6 +133,23 @@ class TestAddResponseXP:
 class TestAddResponseAbilityClamp:
     """Tests for ability score clamping in add_response()."""
 
+    def test_first_answer_immediately_updates_ability_score(
+        self,
+        user: MacFastUser,
+        question: Question,
+        correct_option: QuestionOption,
+        testing_parameters: TestingParameters,
+    ) -> None:
+        add_response(user, question, correct_option)
+
+        ability = UserTopicAbilityScore.objects.get(
+            user=user, unit_sub_topic=question.subtopic
+        )
+        attempt = QuestionAttempt.objects.get(user=user, question=question)
+
+        assert float(ability.score) > 0.0
+        assert float(attempt.updated_ability_score) == float(ability.score)
+
     def test_ability_score_clamped_to_upper_bound(
         self,
         user: MacFastUser,
