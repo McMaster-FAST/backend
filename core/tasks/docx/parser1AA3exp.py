@@ -174,11 +174,9 @@ def get_cell_text(cell) -> str:
     return "\n".join(parts).strip()
 
 
-def _convert_emf_wmf_bytes_to_png(data: bytes, ext: str) -> tuple[bytes, str]:
-    from core.tasks.docx.parser1AA3 import _convert_emf_wmf_bytes_to_png as convert_fn
-    return convert_fn(data, ext)
-
-
+def _normalize_extracted_image(data: bytes, ext: str) -> tuple[bytes, str]:
+    from core.tasks.docx.parser1AA3 import normalize_embedded_docx_image_bytes as norm_fn
+    return norm_fn(data, ext)
 
 def extract_cell_html_and_images(doc: Document, cell, prefix: str) -> tuple[str, list[dict]]:
     parts = []
@@ -212,6 +210,7 @@ def extract_cell_html_and_images(doc: Document, cell, prefix: str) -> tuple[str,
                 "image/gif": ".gif",
                 "image/bmp": ".bmp",
                 "image/tiff": ".tif",
+                "image/x-tiff": ".tif",
                 "image/x-emf": ".emf",
                 "image/emf": ".emf",
                 "image/x-wmf": ".wmf",
@@ -223,7 +222,7 @@ def extract_cell_html_and_images(doc: Document, cell, prefix: str) -> tuple[str,
             return ""
 
         data = part.blob
-        data, ext = _convert_emf_wmf_bytes_to_png(data, ext)
+        data, ext = _normalize_extracted_image(data, ext)
 
         digest = hashlib.sha256(data).hexdigest()
         key = (rid, digest)

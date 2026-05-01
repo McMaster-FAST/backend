@@ -23,6 +23,4 @@ class CourseUploadResultSerializer(serializers.ModelSerializer):
         ]
 
     def get_failures(self, obj):
-        if obj.result == QuestionUploadResult.QuestionUploadResultChoices.RUNNING:
-            return None
         return QuestionUploadFailureSerializer(obj.failures.all(), many=True).data

@@ -17,7 +17,11 @@ ENV PYTHONDONTWRITEBYTECODE=1
 
 WORKDIR ${APP_ROOT}
 
-RUN apt-get update && apt-get install -y pandoc
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        pandoc \
+        libreoffice \
+    && rm -rf /var/lib/apt/lists/*
 # Copy virtual environment from builder
 COPY --from=builder ${APP_ROOT}/.venv ${APP_ROOT}/.venv
 

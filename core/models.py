@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from django.db.models.signals import pre_delete
+from django.db.models.signals import post_delete, pre_delete
 from django.dispatch.dispatcher import receiver
 from MacFAST.models import UUIDModel
 
@@ -111,6 +111,48 @@ class QuestionImage(UUIDModel):
 @receiver(pre_delete, sender=QuestionImage)
 def question_image_delete(sender, instance, **kwargs):
     instance.image_file.delete(False)
+
+
+def _store_question_image_ids(instance):
+    instance._question_image_ids_to_cleanup = list(
+        instance.images.values_list("id", flat=True)
+    )
+
+
+def _delete_orphaned_question_images(image_ids):
+    if not image_ids:
+        return
+
+    for image in QuestionImage.objects.filter(id__in=image_ids):
+        if (
+            not image.question_set.exists()
+            and not image.questionoption_set.exists()
+        ):
+            image.delete()
+
+
+@receiver(pre_delete, sender=Question)
+def question_store_image_ids(sender, instance, **kwargs):
+    _store_question_image_ids(instance)
+
+
+@receiver(post_delete, sender=Question)
+def question_delete_orphaned_images(sender, instance, **kwargs):
+    _delete_orphaned_question_images(
+        getattr(instance, "_question_image_ids_to_cleanup", [])
+    )
+
+
+@receiver(pre_delete, sender=QuestionOption)
+def question_option_store_image_ids(sender, instance, **kwargs):
+    _store_question_image_ids(instance)
+
+
+@receiver(post_delete, sender=QuestionOption)
+def question_option_delete_orphaned_images(sender, instance, **kwargs):
+    _delete_orphaned_question_images(
+        getattr(instance, "_question_image_ids_to_cleanup", [])
+    )
 
 
 class TestSession(UUIDModel):

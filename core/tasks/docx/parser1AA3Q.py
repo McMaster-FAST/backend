@@ -6,9 +6,10 @@ import html
 import os
 import re
 from pathlib import Path
+from typing import Iterator
 from lxml import etree
 from docx.table import Table
-
+from core.tasks.docx.parser1AA3 import normalize_embedded_docx_image_bytes
 
 def normalize_label(text: str) -> str:
     return " ".join(text.strip().split())
@@ -188,12 +189,6 @@ def run_element_to_html(run_element) -> str:
 
     return "".join(parts)
 
-def _convert_emf_wmf_bytes_to_png(data: bytes, ext: str) -> tuple[bytes, str]:
-    from core.tasks.docx.parser1AA3 import _convert_emf_wmf_bytes_to_png as convert_fn
-    return convert_fn(data, ext)
-
-
-
 def collapse_single_paragraph(cell_html: str) -> str:
     m = re.fullmatch(r"<p>(.*?)</p>", cell_html.strip(), flags=re.DOTALL)
     return m.group(1) if m else cell_html
@@ -273,6 +268,7 @@ def extract_cell_html_and_images(doc: Document, cell, prefix: str) -> tuple[str,
                 "image/gif": ".gif",
                 "image/bmp": ".bmp",
                 "image/tiff": ".tif",
+                "image/x-tiff": ".tif",
                 "image/x-emf": ".emf",
                 "image/emf": ".emf",
                 "image/x-wmf": ".wmf",
@@ -284,7 +280,7 @@ def extract_cell_html_and_images(doc: Document, cell, prefix: str) -> tuple[str,
             return ""
 
         data = part.blob
-        data, ext = _convert_emf_wmf_bytes_to_png(data, ext)
+        data, ext = normalize_embedded_docx_image_bytes(data, ext)
 
         digest = hashlib.sha256(data).hexdigest()
         key = (rid, digest)
@@ -356,18 +352,34 @@ def extract_cell_html_and_images(doc: Document, cell, prefix: str) -> tuple[str,
 
 
 
-def parse(docx_path: str) -> list[dict]:
+def get_question_tables(doc: Document) -> list[Table]:
+    return [
+        tbl
+        for tbl in doc.tables
+        if tbl.rows
+        and len(tbl.rows[0].cells) >= 2
+        and normalize_label(tbl.cell(0, 0).text) == "Q#:"
+    ]
+
+
+def get_question_count(docx_path: str) -> int:
+    return len(get_question_tables(Document(docx_path)))
+
+
+def parse(docx_path: str) -> Iterator[dict]:
     doc = Document(docx_path)
-    questions = []
 
-    for tbl in doc.tables:
-        if not tbl.rows or len(tbl.rows[0].cells) < 2:
-            continue
+    yield from parse_tables(doc, get_question_tables(doc))
 
-        first_label = normalize_label(tbl.cell(0, 0).text)
-        if first_label != "Q#:":
-            continue
 
+def parse_with_count(docx_path: str) -> tuple[int, Iterator[dict]]:
+    doc = Document(docx_path)
+    question_tables = get_question_tables(doc)
+    return len(question_tables), parse_tables(doc, question_tables)
+
+
+def parse_tables(doc: Document, tables: list[Table]) -> Iterator[dict]:
+    for tbl in tables:
         qnum_text = get_cell_text(tbl.cell(0, 1))
         qnum_match = re.search(r"\d+", qnum_text)
         if not qnum_match:
@@ -426,7 +438,7 @@ def parse(docx_path: str) -> list[dict]:
                 "selection_frequency": parse_selection_frequency(freq_text),
             })
 
-        questions.append({
+        yield {
             "number": qnum,
             "serial_number": serial_text.strip(),
             "content": stem_html,
@@ -438,6 +450,4 @@ def parse(docx_path: str) -> list[dict]:
             "unit_name": unit_name,
             "subtopic_name": subtopic_name,
             "difficulty": extract_difficulty(serial_text),
-        })
-
-    return questions
+        }

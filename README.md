@@ -29,7 +29,6 @@ REST API for the MacFAST project built with the Django REST framework, deployed 
 ## Configuration
 
 The project uses a `.env` file for managing secrets and environment-specific settings. System environment variables take precedence over values loaded from `.env`.
-The project uses a `.env` file for managing secrets and environment-specific settings. System environment variables take precedence over values loaded from `.env`.
 
 1.  **Create your Environment File:**
     Copy the sample file to create your local environment file. This `.env` file is in `.gitignore` and should never be committed to source control.

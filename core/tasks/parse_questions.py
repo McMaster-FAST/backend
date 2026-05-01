@@ -19,7 +19,7 @@ from core.tasks.upload_result_util import finish_upload_result, get_upload_resul
 from courses.models import Course, Enrolment, QuestionUploadFailures, Unit, UnitSubtopic
 from .docx.parser import get_question_table_count, parse_questions_from_docx
 from .docx.formats import docx_table_format_a
-from core.tasks.docx.parser1AA3Q import parse
+from core.tasks.docx.parser1AA3Q import parse_with_count
 from core.tasks.docx.parser1AA3exp import parse_explanation_updates
 from .csv.parser import parse_questions_from_csv
 
@@ -162,7 +162,10 @@ def _run_docx_import(
 
         elif is_question_only_docx(path):
             logger.info("Using v3 question-only parser for %s", path)
-            for question_data in parse(path):
+            total_question_count, questions = parse_with_count(path)
+            interval = max(1, int(total_question_count * PROGRESS_UPDATE_INTERVAL))
+
+            for i, question_data in enumerate(questions, start=1):
                 ok = _insert_question_with_logging(
                     question_data,
                     "docx:v3",
@@ -175,21 +178,23 @@ def _run_docx_import(
                     success_count += 1
                 else:
                     failure_count += 1
-
-        else:
-            total_question_count = get_question_table_count(path)
-            interval = int(total_question_count * PROGRESS_UPDATE_INTERVAL)
-
-            for i, question_data in enumerate(
-                parse_questions_from_docx(path, docx_table_format_a)
-            ):
-                if upload_result and interval >= 1 and i % interval == 0:
+                if upload_result and (
+                    i == 1 or i % interval == 0 or i == total_question_count
+                ):
                     update_upload_result(
                         upload_result,
                         total_question_count,
                         success_count,
                         failure_count,
                     )
+
+        else:
+            total_question_count = get_question_table_count(path)
+            interval = max(1, int(total_question_count * PROGRESS_UPDATE_INTERVAL))
+
+            for i, question_data in enumerate(
+                parse_questions_from_docx(path, docx_table_format_a), start=1
+            ):
                 ok = _insert_question_with_logging(
                     question_data,
                     "docx",
@@ -202,6 +207,15 @@ def _run_docx_import(
                     success_count += 1
                 else:
                     failure_count += 1
+                if upload_result and (
+                    i == 1 or i % interval == 0 or i == total_question_count
+                ):
+                    update_upload_result(
+                        upload_result,
+                        total_question_count,
+                        success_count,
+                        failure_count,
+                    )
     finally:
         try:
             os.unlink(path)
