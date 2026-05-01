@@ -20,6 +20,9 @@ class QuestionSerializer(serializers.ModelSerializer):
     )
 
     subtopic_name = serializers.CharField(source="subtopic.name", read_only=True)
+    subtopic_public_id = serializers.UUIDField(source="subtopic.public_id", read_only=True)
+    unit_public_id = serializers.UUIDField(source="subtopic.unit.public_id", read_only=True)
+    unit_name = serializers.CharField(source="subtopic.unit.name", read_only=True)
     saved_for_later = serializers.SerializerMethodField()
 
     def get_saved_for_later(self, obj):
@@ -44,7 +47,10 @@ class QuestionSerializer(serializers.ModelSerializer):
             "images",  # The images attached to the question
             "options",  # The multiple choice answers
             "subtopic",  # For assigning question to subtopic on creation
+            "subtopic_public_id",
             "subtopic_name",
+            "unit_public_id",
+            "unit_name",
             "saved_for_later",
         ]
         read_only_fields = ["public_id", "selection_frequency"]

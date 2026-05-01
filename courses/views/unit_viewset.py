@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404
 class UnitViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]  # Add IsInstructor logic if needed
     serializer_class = UnitSerializer
+    lookup_field = "public_id"
 
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["course"]
