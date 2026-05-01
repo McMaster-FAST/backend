@@ -308,10 +308,19 @@ def add_response(
         question_info.total_times_seen += 1
     question_info.save()
 
-    pre_answer_ability, _ = UserTopicAbilityScore.objects.get_or_create(
-        user=user, unit_sub_topic=question.subtopic
+    raw_score = (
+        UserTopicAbilityScore.objects.filter(
+            user=user,
+            unit_sub_topic=question.subtopic,
+        )
+        .values_list('score', flat=True)
+        .first()
     )
-    pre_answer_ability_score = float(pre_answer_ability.score)
+
+    if raw_score is None:
+        pre_answer_ability_score = 0.0
+    else:
+        pre_answer_ability_score = float(raw_score)
 
     if selected_option is not None:
         answered_correctly = selected_option.is_answer
