@@ -349,3 +349,133 @@ class TestAddResponseCumulativeAbilityScore:
             user=user, unit_sub_topic=subtopic
         )
         assert ability_scores[-1] == float(final_ability.score)
+
+
+@pytest.mark.django_db
+class TestAddResponseAbilityComputationOrder:
+    """Regression tests for the ordering of QuestionAttempt persistence
+    relative to compute_ability(). Without this ordering the ability
+    estimate lags one response behind."""
+
+    def test_compute_ability_sees_current_attempt(
+        self,
+        user: MacFastUser,
+        question: Question,
+        correct_option: QuestionOption,
+        testing_parameters: TestingParameters,
+    ) -> None:
+        observed: dict = {'attempt_visible': None}
+
+        def capture_attempt_state(
+            user_arg: MacFastUser,
+            subtopic_arg: UnitSubtopic,
+        ) -> tuple[float, float]:
+            observed['attempt_visible'] = QuestionAttempt.objects.filter(
+                user=user_arg,
+                question=question,
+            ).exists()
+            return (0.5, 1.0)
+
+        mock_model = MagicMock()
+        mock_model.compute_ability.side_effect = capture_attempt_state
+
+        add_response(user, question, correct_option, model=mock_model)
+
+        mock_model.compute_ability.assert_called_once()
+        assert observed['attempt_visible'] is True
+
+    def test_skipped_attempt_is_persisted_before_compute_ability(
+        self,
+        user: MacFastUser,
+        question: Question,
+        testing_parameters: TestingParameters,
+    ) -> None:
+        observed: dict = {'attempt_visible': None}
+
+        def capture_attempt_state(
+            user_arg: MacFastUser,
+            subtopic_arg: UnitSubtopic,
+        ) -> tuple[float, float]:
+            observed['attempt_visible'] = QuestionAttempt.objects.filter(
+                user=user_arg,
+                question=question,
+                skipped=True,
+            ).exists()
+            return (0.0, 10.0)
+
+        mock_model = MagicMock()
+        mock_model.compute_ability.side_effect = capture_attempt_state
+
+        add_response(user, question, None, model=mock_model)
+
+        assert observed['attempt_visible'] is True
+
+
+@pytest.mark.django_db
+class TestAddResponseXPUsesPreAnswerAbility:
+    """XP must be computed against the pre-answer ability so a correct
+    answer's ability bump does not shrink its own reward."""
+
+    def test_xp_uses_pre_answer_ability_not_post_answer(
+        self,
+        user: MacFastUser,
+        subtopic: UnitSubtopic,
+        testing_parameters: TestingParameters,
+    ) -> None:
+        hard_question = Question.objects.create(
+            subtopic=subtopic,
+            serial_number='XP-HARD-1',
+            content='Hard question',
+            difficulty=Decimal('2.0'),
+        )
+        correct = QuestionOption.objects.create(
+            question=hard_question,
+            content='Correct',
+            is_answer=True,
+        )
+
+        mock_model = MagicMock()
+        mock_model.compute_ability.return_value = (1.5, 1.0)
+
+        add_response(user, hard_question, correct, model=mock_model)
+
+        # pre-answer ability 0.0, difficulty 2.0, delta 2.0 → 14.
+        # post-answer (1.5) would give delta 0.5 → 11.
+        xp_record = CourseXP.objects.get(
+            user=user, course=hard_question.subtopic.unit.course
+        )
+        assert xp_record.total_xp == 14
+
+    def test_xp_uses_pre_answer_ability_for_easy_question(
+        self,
+        user: MacFastUser,
+        subtopic: UnitSubtopic,
+        testing_parameters: TestingParameters,
+    ) -> None:
+        UserTopicAbilityScore.objects.update_or_create(
+            user=user,
+            unit_sub_topic=subtopic,
+            defaults={'score': Decimal('1.0'), 'variance': Decimal('1.0')},
+        )
+        easy_question = Question.objects.create(
+            subtopic=subtopic,
+            serial_number='XP-EASY-1',
+            content='Easy question',
+            difficulty=Decimal('-2.0'),
+        )
+        correct = QuestionOption.objects.create(
+            question=easy_question,
+            content='Correct',
+            is_answer=True,
+        )
+
+        mock_model = MagicMock()
+        mock_model.compute_ability.return_value = (0.5, 1.0)
+
+        add_response(user, easy_question, correct, model=mock_model)
+
+        # delta -3.0 → raw_xp 4, clamped to min_xp 5.
+        xp_record = CourseXP.objects.get(
+            user=user, course=easy_question.subtopic.unit.course
+        )
+        assert xp_record.total_xp == 5

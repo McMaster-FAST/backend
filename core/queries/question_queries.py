@@ -1,30 +1,31 @@
 import enum
 import random
+from logging import getLogger
 
-from analytics.models import CourseXP, QuestionAttempt, UserTopicAbilityScore
+from django.db import transaction
+from django.db.models import Q
+from rest_framework import status
+from rest_framework.response import Response
+
+from analytics.models import CourseXP
+from analytics.models import QuestionAttempt
+from analytics.models import UserTopicAbilityScore
 from core.serializers.adaptive_test.next_question_serializer import (
     NextQuestionSerializer,
 )
-from ..cat_methods.adaptive_test_model import AdaptiveTestModel
-from ..cat_methods.rasch_model import RaschModel
-from ..models import (
-    AdaptiveTestQuestionMetric,
-    Question,
-    QuestionOption,
-    SavedForLater,
-    TestSession,
-    TestingParameters,
-)
-from ..serializers.question_bundle import QuestionBundle
 from courses.models import UnitSubtopic
 from sso_auth.models import MacFastUser
 
+from ..cat_methods.adaptive_test_model import AdaptiveTestModel
+from ..cat_methods.rasch_model import RaschModel
+from ..models import AdaptiveTestQuestionMetric
+from ..models import Question
+from ..models import QuestionOption
+from ..models import SavedForLater
+from ..models import TestingParameters
+from ..models import TestSession
+from ..serializers.question_bundle import QuestionBundle
 from .resume_queries import update_course_resume_state
-from django.db import transaction
-from django.db.models import Q
-from rest_framework.response import Response
-from rest_framework import status
-from logging import getLogger
 
 logger = getLogger(__name__)
 
@@ -37,9 +38,9 @@ class ContinueActions(enum.Enum):
     Anything the user should be suggested to do after answering a question
     """
 
-    INCREMENT_WINDOW_UPPERBOUND = "INCREMENT_WINDOW_UPPERBOUND"
-    DECREMENT_WINDOW_LOWERBOUND = "DECREMENT_WINDOW_LOWERBOUND"
-    USE_SKIPPED_QUESTIONS = "USE_SKIPPED_QUESTIONS"
+    INCREMENT_WINDOW_UPPERBOUND = 'INCREMENT_WINDOW_UPPERBOUND'
+    DECREMENT_WINDOW_LOWERBOUND = 'DECREMENT_WINDOW_LOWERBOUND'
+    USE_SKIPPED_QUESTIONS = 'USE_SKIPPED_QUESTIONS'
 
 
 class UserSuggestedAction(enum.Enum):
@@ -47,11 +48,10 @@ class UserSuggestedAction(enum.Enum):
     The action the user should take after finishing a question, based on their current ability and the test parameters.
     """
 
-    STOP_STUDYING = "STOP_STUDYING"
+    STOP_STUDYING = 'STOP_STUDYING'
 
 
 def get_user_unavailable_questions(user: MacFastUser, subtopic: UnitSubtopic):
-
     testing_parameters, _ = TestingParameters.objects.get_or_create(
         course=subtopic.unit.course
     )
@@ -68,10 +68,10 @@ def get_user_unavailable_questions(user: MacFastUser, subtopic: UnitSubtopic):
             )
             | Q(total_times_seen__gt=testing_parameters.max_question_repetitions)
         )
-        .values_list("question__id", flat=True)
+        .values_list('question__id', flat=True)
     )
     logger.debug(
-        f"Excluding questions with IDs: {list(excluded)} for user {user.id} in subtopic {subtopic.name}"
+        f'Excluding questions with IDs: {list(excluded)} for user {user.id} in subtopic {subtopic.name}'
     )
     return excluded
 
@@ -106,9 +106,13 @@ def get_next_question_bundle(
     options = list(QuestionOption.objects.filter(question=next_question))
     random.shuffle(options)
     increment_view_count(user, next_question)
-    saved_for_later = SavedForLater.objects.filter(user=user, question=next_question).exists()
+    saved_for_later = SavedForLater.objects.filter(
+        user=user, question=next_question
+    ).exists()
     return (
-        QuestionBundle(question=next_question, options=options, saved_for_later=saved_for_later),
+        QuestionBundle(
+            question=next_question, options=options, saved_for_later=saved_for_later
+        ),
         [],
         determine_suggested_actions(user, subtopic),
         build_gamification_data(user, subtopic, next_question),
@@ -304,8 +308,11 @@ def add_response(
         question_info.total_times_seen += 1
     question_info.save()
 
-    new_ability_score, new_variance = model.compute_ability(user, question.subtopic)
-    clamped_ability_score = max(-3, min(3, new_ability_score))
+    pre_answer_ability, _ = UserTopicAbilityScore.objects.get_or_create(
+        user=user, unit_sub_topic=question.subtopic
+    )
+    pre_answer_ability_score = float(pre_answer_ability.score)
+
     if selected_option is not None:
         answered_correctly = selected_option.is_answer
         skipped = False
@@ -313,25 +320,32 @@ def add_response(
         skipped = True
         answered_correctly = False
 
-    QuestionAttempt.objects.create(
+    # compute_ability() reads QuestionAttempt rows, so the current attempt must be persisted before it is called.
+    attempt = QuestionAttempt.objects.create(
         question=question,
         user=user,
         answered_correctly=answered_correctly,
         skipped=skipped,
-        updated_ability_score=clamped_ability_score,
+        updated_ability_score=0,
         time_spent=time_spent,
     )
+
+    new_ability_score, new_variance = model.compute_ability(user, question.subtopic)
+    clamped_ability_score = max(-3, min(3, new_ability_score))
+
+    attempt.updated_ability_score = clamped_ability_score
+    attempt.save(update_fields=['updated_ability_score'])
 
     UserTopicAbilityScore.objects.update_or_create(
         user=user,
         unit_sub_topic=question.subtopic,
-        defaults={"score": clamped_ability_score, "variance": new_variance},
+        defaults={'score': clamped_ability_score, 'variance': new_variance},
     )
 
     if answered_correctly:
         course = question.subtopic.unit.course
         xp_record, _ = CourseXP.objects.get_or_create(
-            user=user, course=course, defaults={"total_xp": 0}
+            user=user, course=course, defaults={'total_xp': 0}
         )
 
         # Your new balanced economy
@@ -340,7 +354,7 @@ def add_response(
         min_xp = 5
         max_xp = 15
 
-        difficulty_delta = float(question.difficulty) - clamped_ability_score
+        difficulty_delta = float(question.difficulty) - pre_answer_ability_score
 
         # Calculate raw XP
         raw_xp = round(base_xp + (scaling_factor * difficulty_delta))
@@ -364,14 +378,14 @@ def increment_view_count(user, question):
 
 def _get_ability_label(difficulty_delta: float) -> str:
     if difficulty_delta > 1.0:
-        return "MUCH_HARDER"
+        return 'MUCH_HARDER'
     elif difficulty_delta > 0.25:
-        return "HARDER"
+        return 'HARDER'
     elif difficulty_delta >= -0.25:
-        return "ON_TARGET"
+        return 'ON_TARGET'
     elif difficulty_delta >= -1.0:
-        return "EASIER"
-    return "MUCH_EASIER"
+        return 'EASIER'
+    return 'MUCH_EASIER'
 
 
 def build_gamification_data(
@@ -391,8 +405,10 @@ def build_gamification_data(
             question__subtopic=subtopic,
             skipped=False,
         )
-        .order_by("-timestamp")
-        .values_list("answered_correctly", flat=True)[:20] # only check the last 20 questions
+        .order_by('-timestamp')
+        .values_list('answered_correctly', flat=True)[
+            :20
+        ]  # only check the last 20 questions
     )
     streak = 0
     for correct in recent_correct:
@@ -402,10 +418,10 @@ def build_gamification_data(
             break
 
     gamification: dict = {
-        "user_ability": round(ability_score, 4),
-        "ability_variance": round(ability_variance, 4),
-        "questions_answered": test_session.questions_answered_count,
-        "current_streak": streak,
+        'user_ability': round(ability_score, 4),
+        'ability_variance': round(ability_variance, 4),
+        'questions_answered': test_session.questions_answered_count,
+        'current_streak': streak,
     }
 
     if question is not None:
@@ -413,26 +429,28 @@ def build_gamification_data(
         difficulty_delta = round(question_difficulty - ability_score, 4)
         gamification.update(
             {
-                "question_difficulty": question_difficulty,
-                "difficulty_delta": difficulty_delta,
-                "difficulty_label": _get_ability_label(difficulty_delta),
+                'question_difficulty': question_difficulty,
+                'difficulty_delta': difficulty_delta,
+                'difficulty_label': _get_ability_label(difficulty_delta),
             }
         )
 
     return gamification
 
 
-def getQuestionResponse(question_bundle, continue_actions, suggested_actions, gamification=None):
+def getQuestionResponse(
+    question_bundle, continue_actions, suggested_actions, gamification=None
+):
     return Response(
         {
-            "question": (
+            'question': (
                 NextQuestionSerializer(question_bundle).data
                 if question_bundle
                 else None
             ),
-            "continue_actions": [action.value for action in continue_actions],
-            "suggested_actions": [action.value for action in suggested_actions],
-            "gamification": gamification or {},
+            'continue_actions': [action.value for action in continue_actions],
+            'suggested_actions': [action.value for action in suggested_actions],
+            'gamification': gamification or {},
         },
         status=status.HTTP_200_OK,
     )
