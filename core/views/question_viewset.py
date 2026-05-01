@@ -35,7 +35,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
     pagination_class.page_size = 20
 
     def get_queryset(self):
-        queryset = Question.objects.all()
+        queryset = Question.objects.all().order_by("id")
 
         subtopic_pk = self.kwargs.get("subtopic_pk")
         if subtopic_pk:
