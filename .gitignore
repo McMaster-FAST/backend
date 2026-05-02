@@ -24,3 +24,6 @@ load_tests/session_pool.json
 
 # Ignore the locust test results
 auth_performance_report.html
+*.wmf
+*.emf
+*.png

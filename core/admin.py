@@ -108,6 +108,7 @@ class SavedForLaterAdmin(admin.ModelAdmin):
 @admin.register(QuestionImage)
 class QuestionImageAdmin(admin.ModelAdmin):
     list_display = ("id", "alt_text", "image_file")
+    search_fields = ("alt_text", "image_file")
 
 
 @admin.register(TestSession)
