@@ -1,5 +1,6 @@
 from decimal import Decimal
 from unittest.mock import MagicMock
+from unittest.mock import patch
 
 from django.test import TestCase
 
@@ -127,7 +128,7 @@ class AdaptiveQuestionFlowTests(TestCase):
         self._create_question_with_options('RANGE-LOW-001', difficulty=0.2)
         self._create_question_with_options('RANGE-HIGH-001', difficulty=1.9)
 
-        question_bundle, _, _ = get_next_question_bundle(self.user, self.subtopic)
+        question_bundle, _, _, _ = get_next_question_bundle(self.user, self.subtopic)
 
         self.assertIsNotNone(question_bundle)
         selected_question = question_bundle.question
@@ -153,7 +154,19 @@ class AdaptiveQuestionFlowTests(TestCase):
         )
 
     def test_no_questions_available_returns_continue_actions(self) -> None:
-        question_bundle, continue_actions, suggested_actions = get_next_question_bundle(
+        TestSession.objects.update_or_create(
+            user=self.user,
+            subtopic=self.subtopic,
+            defaults={
+                'questions_answered_count': 1,
+                'selection_lower_bound': -0.5,
+                'selection_upper_bound': 0.5,
+            },
+        )
+        self._create_question_with_options('OUT-LOW-001', difficulty=-2.0)
+        self._create_question_with_options('OUT-HIGH-001', difficulty=2.0)
+
+        question_bundle, continue_actions, suggested_actions, _ = get_next_question_bundle(
             self.user,
             self.subtopic,
         )
@@ -162,6 +175,43 @@ class AdaptiveQuestionFlowTests(TestCase):
         self.assertIn(ContinueActions.INCREMENT_WINDOW_UPPERBOUND, continue_actions)
         self.assertIn(ContinueActions.DECREMENT_WINDOW_LOWERBOUND, continue_actions)
         self.assertEqual(suggested_actions, [])
+
+    def test_question_selection_weights_items_by_rasch_information(self) -> None:
+        UserTopicAbilityScore.objects.update_or_create(
+            user=self.user,
+            unit_sub_topic=self.subtopic,
+            defaults={'score': Decimal('0.0000'), 'variance': Decimal('10.0000')},
+        )
+        TestSession.objects.update_or_create(
+            user=self.user,
+            subtopic=self.subtopic,
+            defaults={'selection_lower_bound': -1.0, 'selection_upper_bound': 1.0},
+        )
+
+        on_target_question, _, _ = self._create_question_with_options(
+            'INFO-ON-TARGET-001',
+            difficulty=0.0,
+        )
+        off_target_question, _, _ = self._create_question_with_options(
+            'INFO-OFF-TARGET-001',
+            difficulty=0.9,
+        )
+
+        with patch('core.queries.question_queries.random.choices') as choices_mock:
+            choices_mock.return_value = [on_target_question]
+
+            question_bundle, _, _, _ = get_next_question_bundle(
+                self.user,
+                self.subtopic,
+            )
+
+        self.assertIsNotNone(question_bundle)
+        self.assertEqual(question_bundle.question, on_target_question)
+        args, kwargs = choices_mock.call_args
+        self.assertEqual(kwargs['k'], 1)
+        self.assertGreater(kwargs['weights'][0], kwargs['weights'][1])
+        self.assertEqual(args[0][0], on_target_question)
+        self.assertEqual(args[0][1], off_target_question)
 
     # def test_higher_item_information_question_is_prioritized(self) -> None:
     #     UserTopicAbilityScore.objects.update_or_create(
