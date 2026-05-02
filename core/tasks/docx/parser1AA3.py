@@ -50,12 +50,14 @@ def _trim_png_canvas(png_bytes: bytes) -> bytes:
     cropped.save(out, format="PNG", optimize=True)
     return out.getvalue()
 
+
 def normalize_embedded_docx_image_bytes(image_bytes: bytes, extension: str) -> tuple[bytes, str]:
     """Normalize DOCX embeddings that browsers mishandle (.tif, .emf, .wmf) → PNG."""
     ext = extension.lower()
     if ext in {".tif", ".tiff"}:
         return _convert_tiff_bytes_to_png(image_bytes, extension)
     return _convert_emf_wmf_bytes_to_png(image_bytes, extension)
+
 
 def _convert_tiff_bytes_to_png(image_bytes: bytes, extension: str) -> tuple[bytes, str]:
     """
@@ -77,6 +79,7 @@ def _convert_tiff_bytes_to_png(image_bytes: bytes, extension: str) -> tuple[byte
             return out.getvalue(), ".png"
     except OSError:
         return image_bytes, extension
+
 
 def _convert_emf_wmf_bytes_to_png(image_bytes: bytes, extension: str) -> tuple[bytes, str]:
     """
