@@ -11,6 +11,7 @@ class QuestionOptionSerializer(serializers.ModelSerializer):
         fields = [
             'public_id',
             'content',
+            'explanation',
             'is_answer',
             'selection_frequency',
         ]
@@ -25,6 +26,7 @@ class QuestionOptionCRUDSerializer(serializers.ModelSerializer):
         fields = [
             'public_id',
             'content',
+            'explanation',
             'is_answer',
             'selection_frequency',
             'images',

@@ -61,11 +61,16 @@ class TestCreateOption:
         api_client: APIClient,
         question: Question,
     ) -> None:
-        data = {'content': 'Option A', 'is_answer': False}
+        data = {
+            'content': 'Option A',
+            'explanation': 'Option A explanation',
+            'is_answer': False,
+        }
         response = api_client.post(_options_url(question), data)
 
         assert response.status_code == status.HTTP_201_CREATED
         assert response.data['content'] == 'Option A'
+        assert response.data['explanation'] == 'Option A explanation'
         assert response.data['is_answer'] is False
         assert 'public_id' in response.data
 
@@ -152,6 +157,7 @@ class TestRetrieveOption:
         assert response.status_code == status.HTTP_200_OK
         assert response.data['public_id'] == str(question_option.public_id)
         assert response.data['content'] == '4'
+        assert 'explanation' in response.data
         assert response.data['is_answer'] is True
         assert 'selection_frequency' in response.data
         assert 'images' in response.data
@@ -176,7 +182,11 @@ class TestUpdateOption:
         question: Question,
         question_option: QuestionOption,
     ) -> None:
-        data = {'content': 'Updated content', 'is_answer': False}
+        data = {
+            'content': 'Updated content',
+            'explanation': 'Updated explanation',
+            'is_answer': False,
+        }
         response = api_client.put(
             _option_detail_url(question, question_option),
             data,
@@ -184,6 +194,7 @@ class TestUpdateOption:
 
         assert response.status_code == status.HTTP_200_OK
         assert response.data['content'] == 'Updated content'
+        assert response.data['explanation'] == 'Updated explanation'
         assert response.data['is_answer'] is False
 
     def test_partial_update_returns_200(
@@ -201,6 +212,21 @@ class TestUpdateOption:
         assert response.status_code == status.HTTP_200_OK
         assert response.data['content'] == 'Partially updated'
         assert response.data['is_answer'] is True
+
+    def test_partial_update_explanation_returns_200(
+        self,
+        api_client: APIClient,
+        question: Question,
+        question_option: QuestionOption,
+    ) -> None:
+        data = {'explanation': 'Partially updated explanation'}
+        response = api_client.patch(
+            _option_detail_url(question, question_option),
+            data,
+        )
+
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data['explanation'] == 'Partially updated explanation'
 
 
 class TestDeleteOption:
