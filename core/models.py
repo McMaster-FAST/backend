@@ -137,6 +137,8 @@ class AdaptiveTestQuestionMetric(UUIDModel):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     # Corresponds to the number of questions asked in TestSession. Used to determine if we can show this skipped question yet.
     skipped_at_index = models.IntegerField(null=True, blank=True)
+    # questions_answered_count value when this question was last presented to the user.
+    last_seen_at_index = models.IntegerField(null=True, blank=True)
     skips_since_last_answer = models.IntegerField(default=0)
     total_times_seen = models.IntegerField(default=0)
 
