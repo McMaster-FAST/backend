@@ -1,7 +1,5 @@
 from rest_framework import serializers
-
 from core.models import QuestionOption
-
 from .question_image_serializer import QuestionImageSerializer
 
 
@@ -11,11 +9,11 @@ class QuestionOptionSerializer(serializers.ModelSerializer):
         fields = [
             'public_id',
             'content',
+            'explanation',
             'is_answer',
             'selection_frequency',
         ]
         read_only_fields = ['public_id', 'selection_frequency']
-
 
 class QuestionOptionCRUDSerializer(serializers.ModelSerializer):
     images = QuestionImageSerializer(many=True, read_only=True)
@@ -25,6 +23,7 @@ class QuestionOptionCRUDSerializer(serializers.ModelSerializer):
         fields = [
             'public_id',
             'content',
+            'explanation',
             'is_answer',
             'selection_frequency',
             'images',

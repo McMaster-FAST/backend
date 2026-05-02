@@ -147,6 +147,8 @@ SPECTACULAR_SETTINGS = {
 
 # OIDC environment configuration
 # https://mozilla-django-oidc.readthedocs.io/en/stable/installation.html
+OIDC_USE_MOCK = os.getenv("OIDC_USE_MOCK", "False") == "True"
+
 ENTRA_TENANT_ID = os.environ["ENTRA_TENANT_ID"]
 
 ENTRA_BASE_URL = f"https://login.microsoftonline.com/{ENTRA_TENANT_ID}"

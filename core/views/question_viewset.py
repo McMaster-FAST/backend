@@ -3,6 +3,7 @@ from rest_framework import viewsets, filters
 from rest_framework.permissions import IsAuthenticated
 
 from django_filters.rest_framework import DjangoFilterBackend
+from django.shortcuts import get_object_or_404
 
 from ..models import Question
 from ..serializers import QuestionSerializer
@@ -34,12 +35,15 @@ class QuestionViewSet(viewsets.ModelViewSet):
     # 20 is a good size
     pagination_class.page_size = 20
 
-    def get_queryset(self):
-        queryset = Question.objects.all()
+    def _get_subtopic_public_id(self):
+        return self.kwargs.get("subtopic_public_id") or self.kwargs.get("subtopic_pk")
 
-        subtopic_pk = self.kwargs.get("subtopic_pk")
-        if subtopic_pk:
-            queryset = queryset.filter(subtopic_id=subtopic_pk)
+    def get_queryset(self):
+        queryset = Question.objects.all().order_by("id")
+
+        subtopic_public_id = self._get_subtopic_public_id()
+        if subtopic_public_id:
+            queryset = queryset.filter(subtopic__public_id=subtopic_public_id)
 
         course_code = self.kwargs.get("course_code")
         if course_code:
@@ -48,10 +52,10 @@ class QuestionViewSet(viewsets.ModelViewSet):
         return queryset
 
     def perform_create(self, serializer):
-        subtopic_pk = self.kwargs.get("subtopic_pk")
+        subtopic_public_id = self._get_subtopic_public_id()
 
-        if subtopic_pk:
-            subtopic = UnitSubtopic.objects.get(pk=subtopic_pk)
+        if subtopic_public_id:
+            subtopic = get_object_or_404(UnitSubtopic, public_id=subtopic_public_id)
             serializer.save(subtopic=subtopic)
         else:
             serializer.save()

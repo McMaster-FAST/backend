@@ -1,5 +1,7 @@
 # MacFAST Django backend
 
+REST API for the MacFAST project built with the Django REST framework, deployed on the university's network at https://macfast.ca.
+
 ## Getting Started
 
 1.  **Clone the Repository:**
@@ -26,7 +28,7 @@
 
 ## Configuration
 
-The project uses a `.env` file for managing secrets and environment-specific settings, system environment variables will take precendence over .env variables.
+The project uses a `.env` file for managing secrets and environment-specific settings. System environment variables take precedence over values loaded from `.env`.
 
 1.  **Create your Environment File:**
     Copy the sample file to create your local environment file. This `.env` file is in `.gitignore` and should never be committed to source control.
@@ -52,6 +54,23 @@ The project uses a `.env` file for managing secrets and environment-specific set
     ```
     The server will start on `http://localhost:8000/`.
 
+### Migration History Repair (one-off)
+
+If you hit an error like:
+`InconsistentMigrationHistory: analytics.0007 ... applied before analytics.0006 ...`,
+run:
+
+```bash
+uv run manage.py repair_analytics_migration_history
+uv run manage.py migrate
+```
+
+To preview without changing anything:
+
+```bash
+uv run manage.py repair_analytics_migration_history --dry-run
+```
+
 ## Loading Mock Data
 
 **If you are doing development and need mock data to test with you can run**
@@ -74,7 +93,7 @@ To unload mock data:
 uv run manage.py unload_fixtures
 ```
 
-## Testing the API
+## Health Check
 
 You can test that the server is running correctly by hitting the API's health check "ping" endpoint.
 
@@ -90,4 +109,18 @@ With the server running, visit the following URL in your browser:
 {
   "message": "pong"
 }
+```
+
+## Running Tests
+
+You can run the unit tests for the project by running the following command:
+
+```
+uv run pytest
+```
+
+or run tests for a specific test file (e.g. the OIDC backend tests):
+
+```
+uv run pytest core/tests/test_oidc_backend.py
 ```
