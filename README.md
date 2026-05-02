@@ -114,54 +114,14 @@ With the server running, visit the following URL in your browser:
 
 ## Running Tests
 
-### Unit Tests
-
 You can run the unit tests for the project by running the following command:
 
 ```
 uv run pytest
 ```
 
-### Load Testing
-
-Use a separate Postgres database for load testing instead of the Django test DB.
-
-1. Change the DATABASE_URL to use the loadtest DB:
-
-```bash
-source .env
-export DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/mc-fast-load-test
-```
-
-2. Create the loadtest DB in the running Postgres Docker container (run once per machine):
-
-```bash
-docker compose exec db psql -U "${POSTGRES_USER}" -d postgres -c 'DROP DATABASE IF EXISTS "mc-fast-load-test";'
-docker compose exec db psql -U "${POSTGRES_USER}" -d postgres -c 'CREATE DATABASE "mc-fast-load-test";'
-```
-
-3. Apply migrations to the loadtest DB:
-
-```bash
-uv run manage.py migrate
-```
-
-4. Restart the Django server with the new DATABASE_URL in a new terminal (if running):
-
-```bash
-source .env
-export DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/mc-fast-load-test
-uv run manage.py runserver
-```
-
-5. Create session pool for Locust:
+or run tests for a specific test file (e.g. the OIDC backend tests):
 
 ```
-uv run manage.py create_loadtest_sessions
-```
-
-6. Run Locust:
-
-```
-uv run locust -f load_tests/submit_answer_locustfile.py --host=http://localhost:8000
+uv run pytest core/tests/test_oidc_backend.py
 ```

@@ -108,21 +108,11 @@ class MyOIDCBackend(OIDCAuthenticationBackend):
             username_clean = username.replace(" ", "_") if username else "user"
             email = f"{username_clean}@mcmaster.ca"
 
-        user = self.UserModel.objects.create_user(username=username, email=email)
-        self._set_user_flags(user, claims)
-        return user
+        return self.UserModel.objects.create_user(username=username, email=email)
 
     def update_user(self, user, claims):
         name = claims.get("name")
         if name and user.username != name:
             user.username = name
             user.save()
-        self._set_user_flags(user, claims)
         return user
-
-    def _set_user_flags(self, user, claims):
-        # if settings.DEBUG:
-        #     print(f"debug print - giving all perms to {user.email}")
-        user.is_staff = True
-        user.is_superuser = True
-        user.save()
