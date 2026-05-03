@@ -306,19 +306,6 @@ def parse_file(
     try:
         course = Course.objects.get(**course_data)
     except Course.DoesNotExist:
-        upload_result.result = upload_result.QuestionUploadResultChoices.FAILURE
-        upload_result.progress = 1.0
-        upload_result.save(update_fields=["result", "progress"])
-        raise ValueError(
-            f"Course with code {course_data.get('code')}, year {course_data.get('year')}, "
-            f"semester {course_data.get('semester')} does not exist."
-        )
-
-    suffix = _suffix_for_file_name(file_name)
-    if suffix is None:
-        upload_result.result = upload_result.QuestionUploadResultChoices.FAILURE
-        upload_result.progress = 1.0
-        upload_result.save(update_fields=["result", "progress"])
         raise ValueError(
             f"Course with code {course_data.get('code')}, year {course_data.get('year')}, "
             f"semester {course_data.get('semester')} does not exist."
