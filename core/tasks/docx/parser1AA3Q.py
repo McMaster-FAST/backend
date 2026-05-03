@@ -35,7 +35,7 @@ def parse_unit_and_subtopic(unit_text: str):
     if not unit_text:
         return None, None, None
 
-    m = re.match(r"(\d+)\.(\d+)\s+(.+?)\s*-\s*(.+)", unit_text.strip())
+    m = re.match(r"(\d+)\.(\d+)\s+(.+?)\s*[-\u2013\u2014]\s*(.+)", unit_text.strip())
 
     if not m:
         return None, None, None
