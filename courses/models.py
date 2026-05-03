@@ -38,7 +38,7 @@ class Unit(UUIDModel):
 
     class Meta:
         ordering = ["number"]
-        unique_together = ("course", "name")
+        unique_together = ("course", "number")
         verbose_name = "Unit"
         verbose_name_plural = "Units"
 

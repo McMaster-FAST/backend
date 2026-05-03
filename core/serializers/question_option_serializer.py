@@ -1,7 +1,5 @@
 from rest_framework import serializers
-
 from core.models import QuestionOption
-
 from .question_image_serializer import QuestionImageSerializer
 
 
