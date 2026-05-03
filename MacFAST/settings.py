@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
+import re
 from pathlib import Path
 import dj_database_url
 import logging
@@ -39,12 +40,21 @@ python_logging_level = logging.getLevelNamesMapping()[LOG_LEVEL]
 # Configure python logging
 logging.basicConfig(level=python_logging_level)
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+# Parse comma-separated string from env var into list
+ALLOWED_HOSTS = [host.strip() for host in os.getenv("ALLOWED_HOSTS").split(",") if host.strip()]
+
+# Tell Django to trust nginx's X-Forwarded-Proto header so request.is_secure()
+# returns True and OIDC callback URLs are built with https://.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+# Required in Django 4.0+ for CSRF checks on HTTPS origins behind a proxy.
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip() for origin in os.getenv("CSRF_TRUSTED_ORIGINS", "https://macfast.ca").split(",") if origin.strip()
+]
 
 # --- CORS Settings ---
-
-# Set to frontend's local server
-CORS_ALLOWED_ORIGINS = [os.getenv("ALLOWED_ORIGIN")]
+# Parse comma-separated string from env var into list
+CORS_ALLOWED_ORIGINS = [origin.strip() for origin in os.getenv("CORS_ALLOWED_ORIGINS").split(",") if origin.strip()]
 
 # DB URL for PostgreSQL
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -79,7 +89,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "mozilla_django_oidc.middleware.SessionRefresh",
+    # "mozilla_django_oidc.middleware.SessionRefresh",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -116,9 +126,10 @@ DATABASES = {
 }
 
 REST_FRAMEWORK = {
+    # keep OIDC first: SPA sends Bearer and SessionAuthentication enforces CSRF on unsafe methods and would 403 same-origin POSTs without X-CSRFToken if it ran first.
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.SessionAuthentication",  # For Browser
         "mozilla_django_oidc.contrib.drf.OIDCAuthentication",
+        "rest_framework.authentication.SessionAuthentication",  # For Browser
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
@@ -162,6 +173,10 @@ OIDC_RP_SIGN_ALGO = "RS256"
 
 OIDC_OP_JWKS_ENDPOINT = f"{ENTRA_BASE_URL}/discovery/v2.0/keys"
 
+# Do not run SessionRefresh on DRF routes: it 302s to Microsoft's authorize URL,
+# which fetch() cannot follow (CORS). API auth is Bearer + DRF, not browser OIDC redirect.
+OIDC_EXEMPT_URLS = [re.compile(r"^/api/")]
+
 # --- Routing ---
 LOGIN_URL = "oidc_authentication_init"
 LOGIN_REDIRECT_URL = "/admin"
@@ -204,9 +219,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = "/static/"
+STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"

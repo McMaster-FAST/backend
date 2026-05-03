@@ -385,13 +385,15 @@ def insert_docx_data(
     with transaction.atomic():
         if create_required:
             unit, _ = Unit.objects.get_or_create(
-                defaults={"number": unit_number}, course=course, name=unit_name
+                course=course,
+                number=unit_number,
+                defaults={"name": unit_name},
             )
             subtopic, _ = UnitSubtopic.objects.get_or_create(
                 unit=unit, name=subtopic_name
             )
         else:
-            unit = Unit.objects.get(course=course, name=unit_name)
+            unit = Unit.objects.get(course=course, number=unit_number)
             subtopic = UnitSubtopic.objects.get(unit=unit, name=subtopic_name)
 
         question = create_question(

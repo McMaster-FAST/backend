@@ -15,7 +15,6 @@ class QuestionOptionSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['public_id', 'selection_frequency']
 
-
 class QuestionOptionCRUDSerializer(serializers.ModelSerializer):
     images = QuestionImageSerializer(many=True, read_only=True)
 
