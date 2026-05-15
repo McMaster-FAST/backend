@@ -3,47 +3,48 @@ from typing import Generator, Dict, Any
 from ..utils import str_to_float
 
 
-def parse_questions_from_csv(file_path: str) -> Generator[Dict[str, Any], None, None]:
-    # Parse MCQs from Brightspace's import template CSV file.
-    # utf-8-sig strips UTF-8 BOM (\ufeff) so the first cell is "NewQuestion", not "\ufeffNewQuestion"
-    with open(file_path, "r", encoding="utf-8-sig") as csvfile:
-        reader = csv.reader(csvfile)
+# -----------------------------------------------------------------------------
+# CSV Parser
+# -----------------------------------------------------------------------------
 
-        current_question: Dict[str, Any] | None = None
+def parse_questions_from_csv(file_path: str) -> Generator[Dict[str, Any], None, None]:
+
+    def get(row, i: int, default: str = "") -> str:
+        return row[i].strip() if len(row) > i and row[i] else default
+
+    with open(file_path, "r", encoding="utf-8-sig") as f:
+        reader = csv.reader(f)
+
+        q = None  # current question block
 
         for row in reader:
-            # Skip empty rows
-            if not row or not any((cell or "").strip() for cell in row):
+            if not row:
                 continue
 
-            # Skip comment lines starting with //
-            first_cell = (row[0] or "").strip()
-            if first_cell.startswith("//"):
+            label = get(row, 0)
+
+            if label.startswith("//"):
                 continue
 
-            label = first_cell
-
-            # Start of a new question block
+            # -----------------------------------------------------------------
+            # Start new question
+            # -----------------------------------------------------------------
             if label == "NewQuestion":
-                # Flush previous question
-                if current_question is not None:
-                    parsed = finalize_question(current_question)
-                    if parsed:
-                        yield parsed
+                if q:
+                    out = finalize_question(q)
+                    if out:
+                        yield out
 
-                q_type = (row[1] or "").strip() if len(row) > 1 else ""
-
-                # Only handle Multiple Choice questions for now
-                if q_type != "MC":
-                    current_question = None
+                if get(row, 1) != "MC":
+                    q = None
                     continue
 
-                current_question = {
+                q = {
                     "id": "",
                     "title": "",
                     "content": "",
-                    "points": None,
-                    "difficulty": None,
+                    "points": 1.0,
+                    "difficulty": 0.0,
                     "options": [],
                     "option_percents": [],
                     "option_explanations": [],
@@ -52,112 +53,126 @@ def parse_questions_from_csv(file_path: str) -> Generator[Dict[str, Any], None, 
                 }
                 continue
 
-            # If we don't have an active MC question, ignore subsequent rows
-            if current_question is None:
+            if q is None:
                 continue
 
-            # Question metadata rows
-            if label == "ID" and len(row) > 1:
-                current_question["id"] = (row[1] or "").strip()
-            elif label == "Title" and len(row) > 1:
-                current_question["title"] = (row[1] or "").strip()
-            elif label == "QuestionText" and len(row) > 1:
-                current_question["content"] = (row[1] or "").strip()
-            elif label == "Points" and len(row) > 1:
-                current_question["points"] = str_to_float(row[1], default=1.0)
-            elif label == "Difficulty" and len(row) > 1:
-                current_question["difficulty"] = str_to_float(row[1], default=0.0)
-            elif label == "Image" and len(row) > 1:
-                current_question["image_path"] = (row[1] or "").strip()
-            elif label == "Feedback" and len(row) > 1:
-                current_question["explanation"] = (row[1] or "").strip()
-            elif label == "Option":
-                # Brightspace MC Option row format:
-                # [ "Option", percent, text, HTML-flag, feedback, feedback-HTML-flag ]
-                percent = str_to_float(row[1], default=0.0) if len(row) > 1 else 0.0
-                option_text = (row[2] or "").strip() if len(row) > 2 else ""
+            # -----------------------------------------------------------------
+            # Option row
+            # -----------------------------------------------------------------
+            if label == "Option":
+                if len(row) >= 3:
+                    q["options"].append(get(row, 2))
+                    q["option_percents"].append(str_to_float(row[1], 0.0))
+                    q["option_explanations"].append(get(row, 4))
+                continue
 
-                if not option_text:
-                    continue
+            # -----------------------------------------------------------------
+            # Metadata rows 
+            # -----------------------------------------------------------------
+            if label == "ID":
+                q["id"] = get(row, 1)
 
-                option_feedback = (row[4] or "").strip() if len(row) > 4 else ""
-                current_question["options"].append(option_text)
-                current_question["option_percents"].append(percent)
-                current_question["option_explanations"].append(option_feedback)
+            elif label == "Title":
+                q["title"] = get(row, 1)
 
+            elif label == "QuestionText":
+                q["content"] = get(row, 1)
+
+            elif label == "Image":
+                q["image_path"] = get(row, 1)
+
+            elif label == "Feedback":
+                q["explanation"] = get(row, 1)
+
+            elif label == "Points":
+                q["points"] = str_to_float(row[1], 1.0) if len(row) > 1 else 1.0
+
+            elif label == "Difficulty":
+                q["difficulty"] = str_to_float(row[1], 0.0) if len(row) > 1 else 0.0
+
+        # ---------------------------------------------------------------------
         # Flush last question
-        if current_question is not None:
-            parsed = finalize_question(current_question)
-            if parsed:
-                yield parsed
+        # ---------------------------------------------------------------------
+        if q:
+            out = finalize_question(q)
+            if out:
+                yield out
 
 
-def parse_question_id(question_id: str) -> Dict[str, str]:
-    """
-    Parse a structured question ID into its components.
+# -----------------------------------------------------------------------------
+# Question ID parsing
+# -----------------------------------------------------------------------------
 
-    Expected format: [Source]-[BroadTopic]-[Subtopic]-[BriefDescriptor]-[Q#]-[Blooms]-[Difficulty]
-    Example: WeeklyTest-CVHeart-HeartExtAnat-PropagFactors-Q1-Und-2
-
-    Returns a dict with 'unit_tag' and 'subtopic_tag' when present, empty strings otherwise.
-    """
+def parse_question_id(question_id: str) -> Dict[str, Any]:
     parts = question_id.split("-")
+
+    def safe_float(x: str) -> float:
+        try:
+            return float(x)
+        except Exception:
+            return 0.0
+
     return {
+        "source": parts[0] if len(parts) > 0 else "",
         "unit_tag": parts[1] if len(parts) > 1 else "",
         "subtopic_tag": parts[2] if len(parts) > 2 else "",
-        "difficulty": str_to_float(parts[6], default=0.0) if len(parts) > 6 else 0.0
+        "descriptor": parts[3] if len(parts) > 3 else "",
+        "q_num": safe_float(parts[4][1:]) if len(parts) > 4 and parts[4].startswith("Q") else 0.0,
+        "blooms": parts[5] if len(parts) > 5 else "",
+        "difficulty": safe_float(parts[6]) if len(parts) > 6 else 0.0,
     }
 
 
+# -----------------------------------------------------------------------------
+# Finalizer
+# -----------------------------------------------------------------------------
+
 def finalize_question(block: Dict[str, Any]) -> Dict[str, Any] | None:
-    """
-    Convert an accumulated Brightspace MC question block into our internal dict format.
-    """
-    content = (block.get("content") or "").strip()
+    get = block.get
+
+    content = (get("content") or "").strip()
     if not content:
         return None
 
-    options = block.get("options", [])
+    options = get("options") or []
     if not options:
         return None
 
-    percents = block.get("option_percents") or [0.0] * len(options)
-    
-    # make sure we have the same number of option explanations as options
-    option_explanations = list(block.get("option_explanations") or [])
-    while len(option_explanations) < len(options):
-        option_explanations.append("")
-    option_explanations = option_explanations[: len(options)]
+    percents = get("option_percents") or [0.0] * len(options)
 
-    # Determine correct option: highest percentage gets treated as correct
+    explanations = get("option_explanations") or []
+    if len(explanations) < len(options):
+        explanations += [""] * (len(options) - len(explanations))
+    explanations = explanations[:len(options)]
+
     max_percent = max(percents)
     correct_index = percents.index(max_percent)
-    correct_answer_letter = chr(ord("A") + correct_index)
+    answer = chr(ord("A") + correct_index)
 
-    raw_id = (block.get("id") or "").strip()
-    serial_number = raw_id or (block.get("title") or "").strip() or f"MC_{content[:50]}"
+    raw_id = (get("id") or "").strip()
+    title = (get("title") or "").strip()
 
-    parsed_id = parse_question_id(raw_id) if raw_id else {"unit_tag": "", "subtopic_tag": "", "difficulty": 0.0}
-    unit_tag = parsed_id["unit_tag"]
-    subtopic_tag = parsed_id["subtopic_tag"]
-    difficulty = parsed_id["difficulty"]
+    serial_number = raw_id or title or f"MC_{content[:50]}"
 
-    # Build images list from image path if present
-    images = []
-    image_path = (block.get("image_path") or "").strip()
-    if image_path:
-        images.append({"src": image_path, "alt": "", "ref": "image_0"})
+    parsed = parse_question_id(raw_id) if raw_id else {}
+
+    image_path = (get("image_path") or "").strip()
+    images = [{"src": image_path, "alt": "", "ref": "image_0"}] if image_path else []
 
     return {
         "serial_number": serial_number,
         "content": content,
-        "explanation": block.get("explanation", ""),
-        "option_explanations": option_explanations,
+        "explanation": get("explanation", ""),
+        "option_explanations": explanations,
         "options": options,
-        "answer": correct_answer_letter,
-        "comments": block.get("hint", ""),
+        "answer": answer,
+        "comments": get("hint", ""),
         "images": images,
-        "unit_tag": unit_tag,
-        "subtopic_tag": subtopic_tag,
-        "difficulty": difficulty,
+        "unit_tag": parsed.get("unit_tag", ""),
+        "subtopic_tag": parsed.get("subtopic_tag", ""),
+        "source_tag": parsed.get("source", ""),
+        "descriptor_tag": parsed.get("descriptor", ""),
+        "q_num_tag": parsed.get("q_num", 0.0),
+        "blooms_tag": parsed.get("blooms", ""),
+        "difficulty": parsed.get("difficulty", 0.0),
     }
